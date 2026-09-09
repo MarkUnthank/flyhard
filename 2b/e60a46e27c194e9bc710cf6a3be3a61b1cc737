@@ -1,0 +1,25 @@
+scripts/wheel_experiment.py
+  s_4cf9d98cda6aae::t_ba35b0f18285c1 37-39
+  s_4cf9d98cda6aae::t_8a9375c6a74fd6 1-36,40-73
+src/flyhard/cockpit.py
+  s_4cf9d98cda6aae::t_8a9375c6a74fd6 1-29,31-47,49-61,63-72,74-76,78-81,87-140
+  s_4cf9d98cda6aae::t_caf57e9a07c63e 62,82-86
+  s_4cf9d98cda6aae::t_ba35b0f18285c1 30
+  s_4cf9d98cda6aae::t_9888a2be7e47d5 48,73,77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2be60a46e27c194e9bc710cf6a3be3a61b1cc737",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
