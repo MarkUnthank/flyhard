@@ -1,0 +1,27 @@
+docker/Dockerfile
+  s_4cf9d98cda6aae::t_1be5d0ef84e0ed 55
+docker/activate.sh
+  s_4cf9d98cda6aae::t_1be5d0ef84e0ed 1-5
+tests/test_runtime_health.py
+  s_4cf9d98cda6aae::t_1be5d0ef84e0ed 1-31
+docker/start.py
+  s_4cf9d98cda6aae::t_1be5d0ef84e0ed 56-57
+scripts/runtime_health.py
+  s_4cf9d98cda6aae::t_1be5d0ef84e0ed 8-22,26-27,36-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "9a9a2e7ea2125ec7375d0280782102668f03f8bb",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
