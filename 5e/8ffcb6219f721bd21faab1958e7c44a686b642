@@ -1,0 +1,21 @@
+tests/test_connectome.py
+  s_4cf9d98cda6aae::t_76b44a7a31e62c 3,47-73
+src/flyhard/connectome.py
+  s_4cf9d98cda6aae::t_76b44a7a31e62c 11-43,52,75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5e8ffcb6219f721bd21faab1958e7c44a686b642",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
