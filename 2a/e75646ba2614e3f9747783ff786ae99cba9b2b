@@ -1,0 +1,25 @@
+docs/indicators-fallback.md
+  s_4cf9d98cda6aae::t_1579d21e04472f 1-41
+README.md
+  s_4cf9d98cda6aae::t_1579d21e04472f 39-40
+docs/experiment-plan.md
+  s_4cf9d98cda6aae::t_1579d21e04472f 11-14
+docs/flyat-design.md
+  s_4cf9d98cda6aae::t_1579d21e04472f 22-23,34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2ae75646ba2614e3f9747783ff786ae99cba9b2b",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
