@@ -31,7 +31,8 @@ class WheelRig:
     command_period = 0.005
     max_joint_target_rate = 3.0  # rad/s; generic joint servo limit, no wheel knowledge
 
-    def __init__(self):
+    def __init__(self, support_hand=False):
+        self.support_hand = support_hand
         probe_fly = make_fly()
         probe_world = TetheredWorld()
         probe_world.add_fly(probe_fly, [0,0,0.7], Rotation3D('quat',[1,0,0,0]))
@@ -72,6 +73,10 @@ class WheelRig:
         root.add_equality(name='left_foreleg_grip', type=mj.mjtEq.mjEQ_CONNECT,
                           objtype=mj.mjtObj.mjOBJ_BODY, name1='nmf/lf_tarsus5', name2='wheel',
                           data=[0]*11, solref=[0.01,1],solimp=[0.99,0.999,0.001,0.5,2])
+        if support_hand:
+            root.add_equality(name='right_foreleg_grip', type=mj.mjtEq.mjEQ_CONNECT,
+                              objtype=mj.mjtObj.mjOBJ_BODY, name1='nmf/rf_tarsus5', name2='wheel',
+                              data=[0]*11, solref=[0.01,1],solimp=[0.99,0.999,0.001,0.5,2])
         self.world.add_fly(self.fly,[0,0,0.7],Rotation3D('quat',[1,0,0,0]))
         self.sim = Simulation(self.world,timestep=self.timestep)
         self.model,self.data = self.sim.mj_model,self.sim.mj_data
@@ -85,6 +90,17 @@ class WheelRig:
         # points explicitly for that posture before any physics step.
         self.model.eq_data[self.grip_id,:3] = [0,0,0]
         self.model.eq_data[self.grip_id,3:6] = [0,self.radius,0]
+        self.support_grip_id = None
+        if support_hand:
+            self.support_grip_id = mj.mj_name2id(self.model,mj.mjtObj.mjOBJ_EQUALITY,'right_foreleg_grip')
+            self.model.eq_data[self.support_grip_id,:3] = [0,0,0]
+            self.model.eq_data[self.support_grip_id,3:6] = [0,-self.radius,0]
+            # The second foreleg follows the rim mechanically. Its position
+            # servos are disabled; this is not an additional learned policy.
+            right_actuators = [i for i in range(self.model.nu)
+                              if 'rf_' in mj.mj_id2name(self.model,mj.mjtObj.mjOBJ_ACTUATOR,i)]
+            self.model.actuator_gainprm[right_actuators,0] = 0
+            self.model.actuator_biasprm[right_actuators,1] = 0
         self.foot_id = self.model.body('nmf/lf_tarsus5').id
         self.actuators = [i for i in range(self.model.nu)
                           if 'lf_' in mj.mj_id2name(self.model,mj.mjtObj.mjOBJ_ACTUATOR,i)]
@@ -102,6 +118,8 @@ class WheelRig:
     def reset(self, grip=True):
         self.sim.reset()
         self.data.eq_active[self.grip_id] = grip
+        if self.support_grip_id is not None:
+            self.data.eq_active[self.support_grip_id] = grip
         mj.mj_forward(self.model,self.data)
 
     @property

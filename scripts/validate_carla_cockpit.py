@@ -14,7 +14,7 @@ def validate(path):
     frames = json.loads((path / 'frames.json').read_text())
     body = np.load(path / 'body-trace.npz')
     neural = np.load(path / 'neural-trace.npz')
-    rig = WheelRig()
+    rig = WheelRig(support_hand=config['support_hand'])
     assert frames and len(body['time']) == 8 * len(frames)
     assert np.isfinite(body['qpos']).all() and np.isfinite(neural['activity']).all()
     assert np.allclose(np.diff(body['time']), 0.005, rtol=0, atol=1e-10)
@@ -65,13 +65,23 @@ def validate(path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--run', default='runs/carla-cockpit-v1')
-    parser.add_argument('--control', default='runs/carla-cockpit-grip-disabled-v1')
+    parser.add_argument('--control')
     args = parser.parse_args()
-    primary, control = Path(args.run), Path(args.control)
-    a, b = validate(primary), validate(control)
+    primary = Path(args.run)
+    a = validate(primary)
+    if args.control is None:
+        a.pop('capture_config')
+        result = {'status': 'passed', 'primary': a,
+            'validator_script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            'claim': 'The recorded neural actions reproduce the body exactly and the physical wheel produces every CARLA steering command.'}
+        (primary/'validation.json').write_text(json.dumps(result,indent=2))
+        print(json.dumps(result,indent=2))
+        return
+    control = Path(args.control)
+    b = validate(control)
     ca, cb = a.pop('capture_config'), b.pop('capture_config')
     assert not ca['disable_grip'] and cb['disable_grip']
-    for key in ['checkpoint_sha256','graph_sha256','spawn_index','seconds','speed','turn_schedule','steer_gain']:
+    for key in ['checkpoint_sha256','graph_sha256','spawn_index','seconds','speed','turn_schedule','steer_gain','mode','support_hand','map','camera_size']:
         assert ca[key] == cb[key]
     assert a['frames_verified'] == b['frames_verified']
     assert a['max_abs_wheel_rad'] > 0.18 and a['max_grip_force'] > 0

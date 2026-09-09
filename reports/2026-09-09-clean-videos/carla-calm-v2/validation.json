@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "primary": {
+    "frames_verified": 600,
+    "body_samples_verified": 4800,
+    "neural_decisions_verified": 480,
+    "max_applied_steer_error_from_recorded_qpos": 1.8502364917960534e-09,
+    "physics_replay_max_qpos_error_from_neural_actions": 0.0,
+    "physics_replay_max_ctrl_error_from_neural_actions": 0.0,
+    "max_abs_wheel_rad": 0.2309051210160207,
+    "max_abs_steer": 0.03545159846544266,
+    "max_grip_force": 4.0886418746003415,
+    "final_lateral_m": 0.6065553248653043,
+    "collisions": 0
+  },
+  "grip_disabled": {
+    "frames_verified": 600,
+    "body_samples_verified": 4800,
+    "neural_decisions_verified": 480,
+    "max_applied_steer_error_from_recorded_qpos": 2.2723745136948989e-13,
+    "physics_replay_max_qpos_error_from_neural_actions": 0.0,
+    "physics_replay_max_ctrl_error_from_neural_actions": 0.0,
+    "max_abs_wheel_rad": 4.73150697691951e-05,
+    "max_abs_steer": 7.278773409780115e-06,
+    "max_grip_force": 0.0,
+    "final_lateral_m": 0.012125221426242729,
+    "collisions": 0
+  },
+  "max_lateral_difference_m": 0.9495911803162631,
+  "validator_script_sha256": "9b0e026df7297a9223c2064da73f485c9adb70ccd5ee05da52aac61c8080dfd3",
+  "claim": "For this instructed sequence, learned leg actuation through the grip causes physical wheel motion and CARLA steering. Speed/turn requests are scripted."
+}

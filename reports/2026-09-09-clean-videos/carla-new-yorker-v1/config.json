@@ -1,0 +1,43 @@
+{
+  "out": "runs/carla-new-yorker-v1",
+  "graph": "data/graph-traced-v1",
+  "checkpoint": "runs/e03-wheel-pilot/checkpoint.pt",
+  "seconds": 24.0,
+  "disable_grip": false,
+  "speed": 18.0,
+  "mode": "new-yorker",
+  "support_hand": true,
+  "steer_gain": 0.1,
+  "experiment": "Instructed learned steering coupled to CARLA",
+  "claim": "Learned foreleg controls a passive wheel; requested turns and vehicle speed are scripted.",
+  "camera_input_to_policy": false,
+  "vehicle_autopilot": false,
+  "neural_decision_hz": 20,
+  "joint_command_hz": 200,
+  "physics_dt_s": 5e-05,
+  "carla_dt_s": 0.04,
+  "camera_fps": 25,
+  "camera_size": [
+    1248,
+    960
+  ],
+  "wheel_full_scale_rad": 0.65,
+  "coupling": "Read wheel at interval start; hold derived steer through one CARLA tick. Record both simulators at interval end.",
+  "inertial_feedback": "Thorax supported; vehicle acceleration is not fed into the stationary cockpit dynamics.",
+  "checkpoint_sha256": "d09953b336df742c00450489c26c3b0ba10de069b4de7e39f656a49a623a4df7",
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "turn_schedule": "0.1 sin(pi*t/3) until 3 s; then 0.42 sin(2pi(t-3)/3.2).",
+  "speed_schedule": "2.5 m/s until 3 s, then configured target",
+  "support_hand_control": "Passive right foreleg attached to opposite rim; right position servos disabled; learned left foreleg supplies steering",
+  "code_sha256": {
+    "scripts/capture_carla_cockpit.py": "c5cf29d10940f96ebfe0e1b98673a27cb4e06590c2ef001a387c08a59830158f",
+    "src/flyhard/cockpit.py": "4dbdeb186c39d59125c8b5d08c0790d222ca7a8f2b276209711d189f96f928c9",
+    "src/flyhard/motor_policy.py": "c3a6f436ee1fcd8ec730f7680b073a24cc2082741c199ec19740bb3ef5af9c29",
+    "src/flyhard/connectome.py": "34c2f69386c1f56791724337ac4ee2e1dda168d20c4a46a94d6bc67641335d63"
+  },
+  "pass_checks": "Matching camera/world frames; clock error <0.0001 s; applied steer matches physical wheel mapping within 1e-7; finite body states.",
+  "map": "Carla/Maps/Town10HD_Opt",
+  "spawn_index": 69,
+  "straight_road_length_m": 94,
+  "carla_version": "0.9.16"
+}

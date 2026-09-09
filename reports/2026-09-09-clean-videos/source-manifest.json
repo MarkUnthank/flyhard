@@ -1,0 +1,48 @@
+{
+  "files": {
+    "scripts/capture_carla_cockpit.py": {
+      "sha256": "c5cf29d10940f96ebfe0e1b98673a27cb4e06590c2ef001a387c08a59830158f",
+      "bytes": 16151
+    },
+    "scripts/render_carla_cockpit.py": {
+      "sha256": "c960d900daf19bf7110b46d36fb368d93027cb6f17cee0131d252ea39d482219",
+      "bytes": 7101
+    },
+    "scripts/render_cns.py": {
+      "sha256": "c1470691162aa97e191969a43b4c65ca466f00e35e63cb2850a66a8db2cfae6d",
+      "bytes": 3198
+    },
+    "scripts/export_carla_video.py": {
+      "sha256": "8a4b746741497b71dc837df6a5eb3970e9ccd3b0bdc1a4629c174b543eb61102",
+      "bytes": 2029
+    },
+    "scripts/qc_carla_video.py": {
+      "sha256": "0c0caf78da6a43971a803b5d87615009a6fc9bb9c6d62ab2a6456c4425b534ac",
+      "bytes": 2635
+    },
+    "scripts/acquire_cns_geometry.py": {
+      "sha256": "0ca722bd6c43cea950bb61e05068f76bcb190c05f6e40a10be6794e364ee0bde",
+      "bytes": 6472
+    },
+    "scripts/validate_carla_cockpit.py": {
+      "sha256": "9b0e026df7297a9223c2064da73f485c9adb70ccd5ee05da52aac61c8080dfd3",
+      "bytes": 5511
+    },
+    "src/flyhard/cockpit.py": {
+      "sha256": "4dbdeb186c39d59125c8b5d08c0790d222ca7a8f2b276209711d189f96f928c9",
+      "bytes": 8979
+    },
+    "src/flyhard/cns_view.py": {
+      "sha256": "3c34398eb1da20094c820bab9bb930a4ea4f76e20a2698520c16c5621d4e7924",
+      "bytes": 3755
+    },
+    "assets/fonts/Geist.ttf": {
+      "sha256": "73894e0448cae90a92b6c2f8732b7bb9acb7b94c418bff559dad4a18e1de9659",
+      "bytes": 169056
+    },
+    "assets/fonts/Geist-OFL.txt": {
+      "sha256": "fb64c1011862d97fe49c633ad9180ffd80a61aab6ff220a2935704e8a0c3a7c4",
+      "bytes": 4386
+    }
+  }
+}

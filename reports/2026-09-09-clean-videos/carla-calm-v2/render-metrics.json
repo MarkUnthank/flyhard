@@ -1,0 +1,27 @@
+{
+  "status": "rendered",
+  "width": 1920,
+  "height": 1080,
+  "fps": 25,
+  "frames": 600,
+  "duration_s": 24.0,
+  "playback_speed": 1.0,
+  "same_episode": true,
+  "max_camera_body_clock_error_s": 5.366767545922357e-07,
+  "replay_max_qpos_error": 0.0,
+  "model_rate_color_scale": {
+    "method": "Fixed per-neuron 95th percentile absolute state over the episode",
+    "floor": 1e-05,
+    "minimum": 9.999999747378752e-06,
+    "maximum": 0.6140929460525513,
+    "comparable_between_neurons": false
+  },
+  "vtk_window": "vtkEGLRenderWindow",
+  "gpu_capabilities": "OpenGL vendor string:  NVIDIA Corporation\nOpenGL renderer string:  NVIDIA A40/PCIe/SSE2\nOpenGL version string:  3.2.0 NVIDIA 580.159.04",
+  "neural_display": "Actual MaleCNS skeletons and neuropil meshes. Fixed 512-neuron subset, colored by its recorded signed model states; no invented activation.",
+  "geometry_sha256": "49d69883966a8bc2d7b587123456c854a2b229913a2dc4ff0d2340013784fc27",
+  "renderer_script_sha256": "c960d900daf19bf7110b46d36fb368d93027cb6f17cee0131d252ea39d482219",
+  "cns_renderer_sha256": "3c34398eb1da20094c820bab9bb930a4ea4f76e20a2698520c16c5621d4e7924",
+  "render_wall_seconds": 44.99304741155356,
+  "video_sha256": "80e6888cf42a5740f852c6c43c7a336ea93a97896d135a22c03b462023c47b03"
+}

@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "primary": {
+    "frames_verified": 600,
+    "body_samples_verified": 4800,
+    "neural_decisions_verified": 480,
+    "max_applied_steer_error_from_recorded_qpos": 1.8616862287879066e-09,
+    "physics_replay_max_qpos_error_from_neural_actions": 0.0,
+    "physics_replay_max_ctrl_error_from_neural_actions": 0.0,
+    "max_abs_wheel_rad": 0.2906121188122985,
+    "max_abs_steer": 0.04431633651256561,
+    "max_grip_force": 12.620073459933792,
+    "final_lateral_m": 5.126912915146009,
+    "collisions": 524
+  },
+  "validator_script_sha256": "9b0e026df7297a9223c2064da73f485c9adb70ccd5ee05da52aac61c8080dfd3",
+  "claim": "The recorded neural actions reproduce the body exactly and the physical wheel produces every CARLA steering command."
+}

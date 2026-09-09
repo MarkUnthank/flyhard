@@ -1,0 +1,19 @@
+{
+  "status": "exported",
+  "source_video_sha256": "d3b4c9ff6c9fc4094f6709720f59cf74c61e8b7e1a2b6dcab1e556db973d76ac",
+  "video_sha256": "0d0e330f3f33e0cae70deeb0cba80465d395e160adcd21cf6a4f64ebf16d85ca",
+  "source_frame_range": [
+    0,
+    350
+  ],
+  "frame_range_convention": "Start inclusive, end exclusive",
+  "width": 1920,
+  "height": 1080,
+  "fps": 25,
+  "frames": 350,
+  "duration_s": 14.0,
+  "playback_speed": 1.0,
+  "edit": "Continuous prefix of the complete composite; stationary tail removed after the crash. No panels retimed or replaced.",
+  "source_render_metrics_sha256": "d4bd2f71c3d2ee5b771b07ebcca5ef8ff698f0227371c44db621a0a91a3d5ff6",
+  "export_script_sha256": "8a4b746741497b71dc837df6a5eb3970e9ccd3b0bdc1a4629c174b543eb61102"
+}

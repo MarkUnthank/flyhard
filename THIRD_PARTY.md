@@ -8,7 +8,7 @@ The measured connectivity, annotations, and soma locations come from the MaleCNS
 
 Changes: retain annotations with `status == "Traced"`; retain edges between those IDs; aggregate neuron-pair counts; store a postsynaptic-row sparse matrix; normalize incoming counts; add trained gains and rate dynamics. The explicit filter produces 165,122 neurons and is not the published 166,691-neuron census. IDs and exclusions are saved. The model is an engineering interpretation, not supplied biological dynamics.
 
-The neural replay projects measured soma coordinates and colors them with computed model states. It displays a fixed sample of 12,000 of 140,024 retained neurons with soma annotations. It does not synthesize axons or represent rate states as observed spikes. Graph-derived artifacts and checkpoints containing connectivity must retain this attribution and the data license.
+The first pilot neural replay projected measured soma coordinates. The current video renderer instead uses actual MaleCNS neuron skeletons and neuropil meshes from the public data sources linked above. It displays a fixed, class-stratified subset of 512 neurons within 114 measured neuropil compartments. Skeleton coordinates are converted from nanometres to micrometres and downsampled with branch endpoints preserved. Surface meshes are simplified for display. Recorded signed model states color the selected neurons; they are not observed biological spikes. Each neuron has a fixed color range derived from its sampled absolute states over that episode, with a floor of 1e-5. Orange denotes positive states and blue denotes negative states; brightness is relative within a neuron and cannot be compared between neurons or videos. Zero states remain gray. Download URLs, selection rules, and source hashes are retained in the geometry manifest. Graph-derived artifacts and checkpoints containing connectivity must retain this attribution and the data license.
 
 Sources and SHA-256 hashes are stored in `reports/2026-09-09/graph-manifest.json`. Transmitter predictions were acquired but do not set excitation/inhibition in the present unsigned connection model.
 
@@ -18,11 +18,17 @@ Sources and SHA-256 hashes are stored in `reports/2026-09-09/graph-manifest.json
 
 The upstream package is installed unchanged. Flyhard constructs a supported seat, joint servos, a passive steering wheel, a disclosed forefoot grip constraint, and a passive spring pedal with an engineered contact sole. E00 replays upstream motion targets. E02 uses diagnostic inverse kinematics. E03 instead applies the trained connectome policy's joint commands. These stages must not be mislabeled.
 
+The two-foreleg video rig adds a passive right forefoot grip on the opposite rim. Its position servos are disabled; the second foreleg follows the wheel mechanically. The learned policy still controls the left foreleg only. This is an engineered supporting grip, not a second newly learned skill.
+
+## Geist typeface
+
+The minimal video overlay uses Geist, sourced from the [Google Fonts repository](https://github.com/google/fonts/tree/main/ofl/geist). The font is distributed under the SIL Open Font License; the original license and copyright notices are retained in `assets/fonts/Geist-OFL.txt`.
+
 ## MuJoCo, PyTorch, CARLA
 
 MuJoCo 3.9.0 provides body/contact physics; PyTorch 2.8.0+cu128 provides the trained graph. They are installed dependencies, not vendored source. Preserve their distributed licenses if bundling them.
 
-CARLA 0.9.16 is downloaded from its official release server. [CARLA source](https://github.com/carla-simulator/carla/blob/0.9.16/LICENSE) is MIT licensed; Unreal Engine and distributed content have their own terms. The simulator and stock vehicle assets are not included in this repository or relicensed as Flyhard code. The smoke clip uses a stock green Mini Cooper proxy, not the eventual Flyat.
+CARLA 0.9.16 is downloaded from its official release server. [CARLA source](https://github.com/carla-simulator/carla/blob/0.9.16/LICENSE) is MIT licensed; Unreal Engine and distributed content have their own terms. The simulator and stock vehicle assets are not included in this repository or relicensed as Flyhard code. The current clips use a stock green Mini Cooper proxy, not the eventual Flyat.
 
 ## Flyat
 

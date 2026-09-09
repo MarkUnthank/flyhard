@@ -1,5 +1,7 @@
 # Flyhard: connected steering video
 
+This report describes the first recording at commit `f5e469f`. The current renderer and two-foreleg recordings are documented in [the calm and faster video report](carla-clean-videos-2026-09-09.md); use that report for current reproduction commands.
+
 The requested 16:9 video places CARLA on the left, computed CNS activity at the top right, and the simulated fly operating its wheel below. This experiment also connects the previously stationary learned steering skill to a moving CARLA vehicle. It is a 24-second instructed steering demonstration, not visual autonomous driving.
 
 ## What runs

@@ -1,0 +1,264 @@
+{
+  "files": {
+    "data/cns-geometry-v1/geometry.npz": {
+      "bytes": 112701537,
+      "sha256": "49d69883966a8bc2d7b587123456c854a2b229913a2dc4ff0d2340013784fc27"
+    },
+    "data/cns-geometry-v1/manifest.json": {
+      "bytes": 167594,
+      "sha256": "aeabef60269f8ce896a16b268065b0c8ab71e9d65d070d97f2e04d1d50412be1"
+    },
+    "data/cns-geometry-v1/roi-display-49d69883966a8bc2-90.vtp": {
+      "bytes": 17045933,
+      "sha256": "a9dc8a21085606a413dd6d4802496b6ef9c348b1673a8d478fb655ce688db50b"
+    },
+    "data/graph-traced-v1/graph.npz": {
+      "bytes": 309401316,
+      "sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d"
+    },
+    "data/graph-traced-v1/manifest.json": {
+      "bytes": 2894,
+      "sha256": "c436f6afa7bc58b39ef6e935a73931ef97853c52f7c519bc35db244f72140a78"
+    },
+    "data/graph-traced-v1/nodes.feather": {
+      "bytes": 13460994,
+      "sha256": "6b5be53d4357b3c6bf704d3808e42567fcb6e63f87921443fa459780eef481fc"
+    },
+    "runs/carla-calm-grip-disabled-v2/body-trace.npz": {
+      "bytes": 2694897,
+      "sha256": "76b5954459d110a3eed4e60812c2acf3ab6f5054f8bcfb93382f3186c5529416"
+    },
+    "runs/carla-calm-grip-disabled-v2/carla-camera.mp4": {
+      "bytes": 37084429,
+      "sha256": "4efc47cc421cc72e6896961d2ad38cc587cfa25a769cd1c5142f0311467b1fef"
+    },
+    "runs/carla-calm-grip-disabled-v2/collisions.json": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "runs/carla-calm-grip-disabled-v2/config.json": {
+      "bytes": 2120,
+      "sha256": "17eda871ff35febc1991397afa5a2d3a6b284218fb4600a2840e5c423086202c"
+    },
+    "runs/carla-calm-grip-disabled-v2/frames.json": {
+      "bytes": 516135,
+      "sha256": "368da21f3970baeef3ae4335262feed8f5cca9a0ef79c8618db166ebd9f08ac1"
+    },
+    "runs/carla-calm-grip-disabled-v2/metrics.json": {
+      "bytes": 547,
+      "sha256": "b95c8d0cbd73c35778740c5f911e5344c51fd86d5de2c40605151b10ee65dec8"
+    },
+    "runs/carla-calm-grip-disabled-v2/neural-trace.npz": {
+      "bytes": 297228270,
+      "sha256": "cce5b15d637f3946b1fbbc709d925354656c2a132fd6f713edd5a9e7a11882c5"
+    },
+    "runs/carla-calm-grip-disabled-v2/somata.npz": {
+      "bytes": 1665551,
+      "sha256": "dda9d902c1c097217d61a455854c139eb9ceba875c32b12c0b1ff4db22461550"
+    },
+    "runs/carla-calm-v2/body-trace.npz": {
+      "bytes": 3204610,
+      "sha256": "4dcf4b9c20b86f02de34769063752aabd87a59911abb308168e05e3c48e1106b"
+    },
+    "runs/carla-calm-v2/carla-camera.mp4": {
+      "bytes": 36186126,
+      "sha256": "cb0a106e5eb233c97855d82b9d5d0deef1f26cd38a35f579b01c733a42a9e86d"
+    },
+    "runs/carla-calm-v2/cns-layer.mp4": {
+      "bytes": 1087887,
+      "sha256": "57492080f27b1dc8ed9b6a70b3133b2e1fea8e9af62aec5e1f76ab2ec49f1187"
+    },
+    "runs/carla-calm-v2/cns-preview-0000.png": {
+      "bytes": 32081,
+      "sha256": "6e35fdd1ed3b212bec67cc6f3ff4af26b0c8b46f41716b129907f29ff74913b3"
+    },
+    "runs/carla-calm-v2/cns-preview-0100.png": {
+      "bytes": 88157,
+      "sha256": "10efa41845cdece57c33a42a8a2c12b00560415323a6ee873e30401e7ab300a0"
+    },
+    "runs/carla-calm-v2/cns-preview-0200.png": {
+      "bytes": 86012,
+      "sha256": "085cf5b1c24ece8a7fb6855006b05d4ed5bae4e356ebe81b87ed57e350f0759b"
+    },
+    "runs/carla-calm-v2/cns-preview-0400.png": {
+      "bytes": 86532,
+      "sha256": "b51c0df97bbd0870d4d86a0119f350ca355aee880f0a18459acf700300af91e5"
+    },
+    "runs/carla-calm-v2/cns-preview-0599.png": {
+      "bytes": 46190,
+      "sha256": "69026749852834eb539ddb4be9bd52d54e63bd00b1e2e82527f1793aab51626f"
+    },
+    "runs/carla-calm-v2/cns-preview-metrics.json": {
+      "bytes": 1810,
+      "sha256": "67df3d676fa15b4ed414d97a5b13b07b2e1be059a94fab9b3d9aa9af31f4bfc2"
+    },
+    "runs/carla-calm-v2/cns-render-metrics.json": {
+      "bytes": 83793,
+      "sha256": "5c8c974122c962adbd6628011152ddc93dc6de595080fc2b3273882d3cd3ed9c"
+    },
+    "runs/carla-calm-v2/collisions.json": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "runs/carla-calm-v2/config.json": {
+      "bytes": 2107,
+      "sha256": "5523fff22fd8416fda51f190d4f1ff2a0bffc7aabb0dfa81dc65368354a87844"
+    },
+    "runs/carla-calm-v2/flyhard-16x9.mp4": {
+      "bytes": 30227696,
+      "sha256": "80e6888cf42a5740f852c6c43c7a336ea93a97896d135a22c03b462023c47b03"
+    },
+    "runs/carla-calm-v2/frames.json": {
+      "bytes": 508469,
+      "sha256": "1f217aa4e46ecf3bb63709c31070a3f6ad0835e3131b57ac19a02536a91befdc"
+    },
+    "runs/carla-calm-v2/metrics.json": {
+      "bytes": 538,
+      "sha256": "3fc3ef13262c785af836c0bb12860701735d70b39cf8885a4ecadc0164b7847a"
+    },
+    "runs/carla-calm-v2/neural-trace.npz": {
+      "bytes": 297163365,
+      "sha256": "ae6a99feb7bad13c7b86223ee25a5f403bd1f376519b085249fc058663a233e1"
+    },
+    "runs/carla-calm-v2/preview-0000.png": {
+      "bytes": 1597585,
+      "sha256": "1da2d81695e1a18cef3a1aa2dfbd53a04679164d0a8f3460aaa427399a059d6b"
+    },
+    "runs/carla-calm-v2/preview-0100.png": {
+      "bytes": 1532366,
+      "sha256": "b3eaa2b8e4eb283800cf202663ecfc6fbed958917fced8de02cf77447d911f4e"
+    },
+    "runs/carla-calm-v2/preview-0200.png": {
+      "bytes": 1558347,
+      "sha256": "669fd0f35299b7c6ae1a8ddc4d18cd3f3f0f7c82f3ac510658d076f6ad5e12ec"
+    },
+    "runs/carla-calm-v2/preview-0400.png": {
+      "bytes": 1536551,
+      "sha256": "7e457a92457a5a2d76a9faffcad89655feeeb5c36f9ab047f38e223f6883f236"
+    },
+    "runs/carla-calm-v2/preview-0599.png": {
+      "bytes": 1425470,
+      "sha256": "3a80800b2e1024da56a5674b824ab57ce109ca9169beec43e0fa5f4fcd9db103"
+    },
+    "runs/carla-calm-v2/preview-metrics.json": {
+      "bytes": 1186,
+      "sha256": "18a900d7533d7e424b01bd5eda82127abc1998c15f61e36bd6c300ccffbe8dde"
+    },
+    "runs/carla-calm-v2/render-metrics.json": {
+      "bytes": 1274,
+      "sha256": "5ab4e11e98075c1fa3ecd1fdd3011a480700cc25bed963972c1973f64a823385"
+    },
+    "runs/carla-calm-v2/somata.npz": {
+      "bytes": 1665551,
+      "sha256": "dda9d902c1c097217d61a455854c139eb9ceba875c32b12c0b1ff4db22461550"
+    },
+    "runs/carla-calm-v2/validation.json": {
+      "bytes": 1356,
+      "sha256": "4b85fbac721a5c8ccb81322a22f7b9b11b6ea5d419f4e73ad10882c35811917a"
+    },
+    "runs/carla-new-yorker-v1/body-trace.npz": {
+      "bytes": 3253673,
+      "sha256": "e14f45e12bbbbcb78ae3787419f29e64c630f56c05d8829ed3a0b7285efe37ae"
+    },
+    "runs/carla-new-yorker-v1/carla-camera.mp4": {
+      "bytes": 29586203,
+      "sha256": "ae7b923e52faecd141f991f62f1c9e10714cf7f5dcc678c5aa80efd85eb900dd"
+    },
+    "runs/carla-new-yorker-v1/cns-layer.mp4": {
+      "bytes": 2215050,
+      "sha256": "478833ea659a9523a65e4711d24b8ecd3cac4fc31d0946b6175fe14ef39f5eb4"
+    },
+    "runs/carla-new-yorker-v1/cns-preview-0000.png": {
+      "bytes": 32081,
+      "sha256": "6e35fdd1ed3b212bec67cc6f3ff4af26b0c8b46f41716b129907f29ff74913b3"
+    },
+    "runs/carla-new-yorker-v1/cns-preview-0100.png": {
+      "bytes": 88570,
+      "sha256": "3f1f69471440d0bec0b02f37aee932b68a968bc8e912b24225726ee50b5c0b48"
+    },
+    "runs/carla-new-yorker-v1/cns-preview-0200.png": {
+      "bytes": 84783,
+      "sha256": "972e25c2edc4956c211996318e3f6e8cdd056f0e055cdc6edcdd515c7954a202"
+    },
+    "runs/carla-new-yorker-v1/cns-preview-0400.png": {
+      "bytes": 84820,
+      "sha256": "db29d826caeb1ca8d303245a4179fc3015f51a73673b6cbc3ce045da337a73d3"
+    },
+    "runs/carla-new-yorker-v1/cns-preview-0599.png": {
+      "bytes": 83283,
+      "sha256": "440b97233336b0b869e807df0d63a0936aa8cc982a071800da644affd4d1d401"
+    },
+    "runs/carla-new-yorker-v1/cns-render-metrics.json": {
+      "bytes": 83792,
+      "sha256": "ee0793e5cccac1a78e5489e85eb0ade45860d086eeac86511b94ec54c6f6bdd4"
+    },
+    "runs/carla-new-yorker-v1/collisions.json": {
+      "bytes": 83965,
+      "sha256": "4ae37ea55a8505fcffe1198402047663ccdfc2c5efc4c7cf4716b8687f5c1754"
+    },
+    "runs/carla-new-yorker-v1/config.json": {
+      "bytes": 2101,
+      "sha256": "b58c9822d96767ad6109e7f0ce5f21dc393ba16315842c960e4b042dd3ac25dd"
+    },
+    "runs/carla-new-yorker-v1/flyhard-16x9.mp4": {
+      "bytes": 27587879,
+      "sha256": "d3b4c9ff6c9fc4094f6709720f59cf74c61e8b7e1a2b6dcab1e556db973d76ac"
+    },
+    "runs/carla-new-yorker-v1/frames.json": {
+      "bytes": 505604,
+      "sha256": "3061e6df713bb89302e42599b778fc20c36287e5df6c9665d9792e15c458365c"
+    },
+    "runs/carla-new-yorker-v1/metrics.json": {
+      "bytes": 536,
+      "sha256": "6ec3338789a4747c2fc4b9a04ba09656c1142be94a0b63eb96479ac642446335"
+    },
+    "runs/carla-new-yorker-v1/neural-trace.npz": {
+      "bytes": 297184727,
+      "sha256": "5757d84525559a569d54ce5ec5f395543acc1f99a575ba64a18e179823f0aa5b"
+    },
+    "runs/carla-new-yorker-v1/preview-0000.png": {
+      "bytes": 1730675,
+      "sha256": "9c29cd90064d64b8e560f2b2cc6f3fc835ff4669f090ce5a993b5c704c419e67"
+    },
+    "runs/carla-new-yorker-v1/preview-0100.png": {
+      "bytes": 1461696,
+      "sha256": "528fc6eef694bda55968a982cc02e7e0ef8adf244f54725dd12699768d2c385a"
+    },
+    "runs/carla-new-yorker-v1/preview-0200.png": {
+      "bytes": 1482062,
+      "sha256": "60f3a360df75d73ad3d2ba5a863bc809de43f5e12dde486fe3ffc0501a9f9238"
+    },
+    "runs/carla-new-yorker-v1/preview-0400.png": {
+      "bytes": 1764218,
+      "sha256": "b820f7a9c0e99bd878cf2cb89f1d2bb4fabf9f5e58a98326e99841c0ac86dca7"
+    },
+    "runs/carla-new-yorker-v1/preview-0599.png": {
+      "bytes": 1739989,
+      "sha256": "1f139dda62c5b3d1a8a1e8a2891074c40d199ca8565617de93db07a48c45b68d"
+    },
+    "runs/carla-new-yorker-v1/render-metrics.json": {
+      "bytes": 1274,
+      "sha256": "d4bd2f71c3d2ee5b771b07ebcca5ef8ff698f0227371c44db621a0a91a3d5ff6"
+    },
+    "runs/carla-new-yorker-v1/social-16x9.mp4": {
+      "bytes": 21112392,
+      "sha256": "0d0e330f3f33e0cae70deeb0cba80465d395e160adcd21cf6a4f64ebf16d85ca"
+    },
+    "runs/carla-new-yorker-v1/social-export.json": {
+      "bytes": 751,
+      "sha256": "418f2c6fd3c2b5736b34aee4e8d8a8c226acb2ac88a6766acb27e10e78a6654f"
+    },
+    "runs/carla-new-yorker-v1/somata.npz": {
+      "bytes": 1665551,
+      "sha256": "dda9d902c1c097217d61a455854c139eb9ceba875c32b12c0b1ff4db22461550"
+    },
+    "runs/carla-new-yorker-v1/validation.json": {
+      "bytes": 764,
+      "sha256": "6ed636cab564684f325776d7603fdf47d0ec284c639cc313bfaef963cb822486"
+    },
+    "runs/e03-wheel-pilot/checkpoint.pt": {
+      "bytes": 821485045,
+      "sha256": "d09953b336df742c00450489c26c3b0ba10de069b4de7e39f656a49a623a4df7"
+    }
+  }
+}

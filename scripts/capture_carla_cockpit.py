@@ -34,8 +34,12 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def requested_angle(t):
+def requested_angle(t, mode='calm'):
     """Two smooth, opposing steering cycles; this is a disclosed instruction."""
+    if mode == 'new-yorker':
+        if t < 3:
+            return float(0.10*np.sin(np.pi*t/3))
+        return float(0.42*np.sin(2*np.pi*(t-3)/3.2))
     if t < 2 or t >= 22:
         return 0.0
     phase = t - 2
@@ -101,23 +105,31 @@ def main():
     parser.add_argument('--seconds', type=float, default=24)
     parser.add_argument('--disable-grip', action='store_true')
     parser.add_argument('--speed', type=float, default=2.5)
+    parser.add_argument('--mode', choices=['calm','new-yorker'], default='calm')
+    parser.add_argument('--support-hand', action='store_true')
+    parser.add_argument('--steer-gain', type=float, default=STEER_GAIN)
     args = parser.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=False)
     assert torch.cuda.is_available(), 'This capture must run on the remote GPU'
     assert 0 < args.seconds <= 30
+    assert 0 < args.speed <= 35 and 0 < args.steer_gain <= 0.5
     torch.set_num_threads(4)
     config = {
         **vars(args), 'experiment': 'Instructed learned steering coupled to CARLA',
         'claim': 'Learned foreleg controls a passive wheel; requested turns and vehicle speed are scripted.',
         'camera_input_to_policy': False, 'vehicle_autopilot': False,
         'neural_decision_hz': 20, 'joint_command_hz': 200, 'physics_dt_s': WheelRig.timestep,
-        'carla_dt_s': FRAME_DT, 'camera_fps': 25, 'camera_size': [1200, 868],
-        'steer_gain': STEER_GAIN, 'wheel_full_scale_rad': 0.65,
+        'carla_dt_s': FRAME_DT, 'camera_fps': 25, 'camera_size': [1248, 960],
+        'steer_gain': args.steer_gain, 'wheel_full_scale_rad': 0.65,
         'coupling': 'Read wheel at interval start; hold derived steer through one CARLA tick. Record both simulators at interval end.',
         'inertial_feedback': 'Thorax supported; vehicle acceleration is not fed into the stationary cockpit dynamics.',
         'checkpoint_sha256': CHECKPOINT_SHA, 'graph_sha256': GRAPH_SHA,
-        'turn_schedule': '0 until 2 s; +0.3 sin(2pi(t-2)/10) until 12 s; -0.3 sin(2pi(t-12)/10) until 22 s; then 0.',
+        'turn_schedule': ('0.1 sin(pi*t/3) until 3 s; then 0.42 sin(2pi(t-3)/3.2).'
+                          if args.mode == 'new-yorker' else
+                          '0 until 2 s; +0.3 sin(2pi(t-2)/10) until 12 s; -0.3 sin(2pi(t-12)/10) until 22 s; then 0.'),
+        'speed_schedule': '2.5 m/s until 3 s, then configured target' if args.mode == 'new-yorker' else 'Configured target throughout',
+        'support_hand_control': 'Passive right foreleg attached to opposite rim; right position servos disabled; learned left foreleg supplies steering' if args.support_hand else 'None',
         'code_sha256': {name: sha(name) for name in ['scripts/capture_carla_cockpit.py',
             'src/flyhard/cockpit.py', 'src/flyhard/motor_policy.py', 'src/flyhard/connectome.py']},
         'pass_checks': 'Matching camera/world frames; clock error <0.0001 s; applied steer matches physical wheel mapping within 1e-7; finite body states.',
@@ -125,7 +137,7 @@ def main():
     (out / 'config.json').write_text(json.dumps(config, indent=2))
     start = time.perf_counter()
     policy = load_policy(Path(args.graph), Path(args.checkpoint))
-    rig = WheelRig()
+    rig = WheelRig(support_hand=args.support_hand)
     rig.reset(grip=not args.disable_grip)
     client, world = connect_client()
     original_settings = world.get_settings()
@@ -170,7 +182,7 @@ def main():
         for _ in range(50):
             world.tick()
         camera_bp = library.find('sensor.camera.rgb')
-        for name, value in [('image_size_x', '1200'), ('image_size_y', '868'), ('fov', '80'), ('sensor_tick', '0')]:
+        for name, value in [('image_size_x', '1248'), ('image_size_y', '960'), ('fov', '80'), ('sensor_tick', '0')]:
             camera_bp.set_attribute(name, value)
         camera = world.spawn_actor(camera_bp,
             carla.Transform(carla.Location(x=-6, z=3.2), carla.Rotation(pitch=-18)), attach_to=vehicle)
@@ -191,18 +203,19 @@ def main():
         for index in range(round(args.seconds / FRAME_DT)):
             source_time = rig.data.time
             source_angle = rig.angle
-            steer = float(np.clip(STEER_GAIN * source_angle / 0.65, -1, 1))
+            steer = float(np.clip(args.steer_gain * source_angle / 0.65, -1, 1))
             velocity = vehicle.get_velocity()
             speed = float(np.linalg.norm([velocity.x, velocity.y, velocity.z]))
-            speed_error = args.speed - speed
-            throttle = float(np.clip(0.18 + 0.30 * speed_error, 0, 0.65))
+            requested_speed = 2.5 if args.mode == 'new-yorker' and source_time < 3 else args.speed
+            speed_error = requested_speed - speed
+            throttle = float(np.clip(0.18 + 0.30 * speed_error, 0, 1.0))
             brake = float(np.clip(-0.25 * speed_error, 0, 0.25)) if speed_error < -0.25 else 0.0
             if brake > 0:
                 throttle = 0.0
             vehicle.apply_control(carla.VehicleControl(steer=steer, throttle=throttle, brake=brake))
             for _ in range(8):
                 if body_step % 10 == 0:
-                    target = requested_angle(rig.data.time)
+                    target = requested_angle(rig.data.time, args.mode)
                     observation = np.r_[target, rig.angle, rig.data.qpos[rig.active_qpos]].astype(np.float32)
                     with torch.no_grad():
                         command, state = policy(torch.as_tensor(observation[None], device='cuda'), return_state=True)
@@ -230,7 +243,7 @@ def main():
             assert snapshot.frame == tick
             frame_time = image.timestamp - base_time
             assert abs(frame_time - rig.data.time) < 1e-4
-            array = np.frombuffer(image.raw_data, dtype=np.uint8).reshape(868, 1200, 4)[:, :, :3][:, :, ::-1].copy()
+            array = np.frombuffer(image.raw_data, dtype=np.uint8).reshape(960, 1248, 4)[:, :, :3][:, :, ::-1].copy()
             assert array.std() > 1, 'Blank CARLA render'
             source_video.append_data(array)
             applied = vehicle.get_control()
@@ -246,7 +259,8 @@ def main():
                 'applied_steer': applied.steer, 'expected_steer': steer,
                 'throttle': applied.throttle, 'brake': applied.brake, 'speed_m_s': end_speed,
                 'speed_control_read_m_s': speed,
-                'requested_angle': requested_angle(rig.data.time), 'wheel_angle': rig.angle,
+                'requested_angle': requested_angle(rig.data.time, args.mode), 'wheel_angle': rig.angle,
+                'requested_speed_m_s': requested_speed,
                 'position': [position.x, position.y, position.z],
                 'yaw_degrees': vehicle.get_transform().rotation.yaw,
                 'longitudinal_m': float(displacement @ forward), 'lateral_m': float(displacement @ side)})
@@ -277,6 +291,7 @@ def main():
             'lateral_range_m': [min((x['lateral_m'] for x in records), default=0), max((x['lateral_m'] for x in records), default=0)],
             'wheel_range_rad': [min(body['wheel'], default=0), max(body['wheel'], default=0)],
             'distance_forward_m': records[-1]['longitudinal_m'] if records else 0,
+            'peak_speed_km_h': max((r['speed_m_s']*3.6 for r in records), default=0),
             'gpu': torch.cuda.get_device_name(0)}
         (out / 'metrics.json').write_text(json.dumps(metrics, indent=2))
         print(json.dumps(metrics, indent=2), flush=True)

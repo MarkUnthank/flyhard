@@ -30,7 +30,7 @@ python3 scripts/runpod_control.py launch configs/runpod-a6000.example.json
 python3 scripts/runpod_control.py status
 ```
 
-Record the returned direct SSH host/port in a private SSH configuration. Transfer tracked code and the experiment scripts, never `.env`, credentials, local caches, or the whole home directory. Runpod's persistent volume is NFS: use `rsync -rltz`, because `-a` attempts unsupported ownership changes.
+Record the returned direct SSH host/port in a private SSH configuration. Transfer tracked code and the experiment scripts, never `.env`, credentials, local caches, or the whole home directory. Runpod's persistent volume is NFS: use `rsync -rlt`, because `-a` attempts unsupported ownership changes. Avoid compression for already compressed videos and NumPy archives; download public anatomy directly on the Pod.
 
 ## Environment inside the Pod
 
@@ -79,6 +79,6 @@ The startup helper runs Unreal as the image's `ubuntu` user because Unreal refus
 
 ## Export and shut down
 
-Run `python3 scripts/verify_artifacts.py create` on the Pod, copy its manifest and result directories, then run `python3 scripts/verify_artifacts.py verify` locally. It compares SHA-256 hashes and file sizes for the graph, checkpoints, and recorded states. The replay's locally extended rendering metadata is explicitly excluded; its underlying trace remains verified.
+Run `python3 scripts/verify_artifacts.py create` on the Pod, copy its manifest and result directories, then run `python3 scripts/verify_artifacts.py verify` locally. It compares SHA-256 hashes and file sizes for the graph, checkpoints, recorded states, videos, and assembled CNS geometry including its derived display mesh. Raw public anatomy downloads are reproducible from their URLs and hashes and are not included in this export. The original pilot replay's locally extended rendering metadata is explicitly excluded; its underlying trace remains verified.
 
 After successful verification, record `exports_verified: true` in the private `work/runpod-session.json`, terminate through `runpod_control.py`, and verify that the Pod is absent from the API and spending is zero. Preserve a lifecycle receipt with the final balance. Large artifacts stay outside Git; compact configurations, all evaluation scores, provenance, and the report belong in Git.

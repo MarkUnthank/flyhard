@@ -1,0 +1,22 @@
+{
+  "status": "capture_complete",
+  "error": null,
+  "frames": 600,
+  "neural_decisions": 480,
+  "body_samples": 4800,
+  "wall_seconds": 94.16447467450052,
+  "collisions": 524,
+  "max_clock_error_s": 5.366767545922357e-07,
+  "max_control_mapping_error": 1.8616862287879066e-09,
+  "lateral_range_m": [
+    -0.02383145746282207,
+    5.127798752208332
+  ],
+  "wheel_range_rad": [
+    -0.2375277594966559,
+    0.2906121188122985
+  ],
+  "distance_forward_m": 134.3618650108566,
+  "peak_speed_km_h": 60.76097061522284,
+  "gpu": "NVIDIA A40"
+}

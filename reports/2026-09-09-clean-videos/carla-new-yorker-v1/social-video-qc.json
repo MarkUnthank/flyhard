@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "video_sha256": "0d0e330f3f33e0cae70deeb0cba80465d395e160adcd21cf6a4f64ebf16d85ca",
+  "bytes": 21112392,
+  "frames_decoded": 350,
+  "width": 1920,
+  "height": 1080,
+  "fps": 25,
+  "duration_s": 14.0,
+  "playback_speed": 1.0,
+  "changed_frame_pairs": {
+    "carla": 349,
+    "cns": 326,
+    "fly": 337
+  },
+  "largest_mean_pixel_change": {
+    "carla": 26.506218839031337,
+    "cns": 2.119919191919192,
+    "fly": 1.6642828282828284
+  },
+  "scope": "Full decode, dimensions, frame count, video hash, nonblank moving panels. Causal checks are in validation.json."
+}

@@ -1,0 +1,8 @@
+........                                                                 [100%]
+=============================== warnings summary ===============================
+tests/test_connectome.py::test_edge_orientation_and_no_direct_bypass
+  /workspace/flyhard/src/flyhard/connectome.py:22: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+    matrix = torch.sparse_csr_tensor(crow, col, values, size=(n,n), check_invariants=False)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+8 passed, 1 warning in 7.61s

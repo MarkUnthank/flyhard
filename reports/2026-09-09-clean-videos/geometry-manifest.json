@@ -1,0 +1,2998 @@
+{
+  "dataset": "MaleCNS v1.0",
+  "source": "https://male-cns.janelia.org/download/",
+  "license": "CC BY 4.0",
+  "coordinate_units": "micrometres; public physical nanometres divided by 1000",
+  "neuron_selection": "Fixed class-stratified subset; half strongest states from prior calm run, half seeded random per class. Full model remains unchanged.",
+  "selection_trace": "runs/carla-cockpit-v1/neural-trace.npz",
+  "selection_trace_sha256": "a04ca5f9f8197da97bfb908fbdc675f54ba0f62167928c58206161f11c097790",
+  "allocations": {
+    "ol_intrinsic": 112,
+    "cb_intrinsic": 112,
+    "vnc_intrinsic": 80,
+    "vnc_sensory": 48,
+    "vnc_motor": 48,
+    "ascending_neuron": 32,
+    "descending_neuron": 32,
+    "visual_projection": 32,
+    "cb_sensory": 16
+  },
+  "neuron_count": 512,
+  "region_count": 114,
+  "skeleton_downsampling": "Stride 4 using CloudVolume; branch endpoints preserved.",
+  "geometry_sha256": "49d69883966a8bc2d7b587123456c854a2b229913a2dc4ff0d2340013784fc27",
+  "sources": {
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/info": {
+      "sha256": "7a09a33463d511086f4592cabd3eb68737ed56ae7f74dfd99b9f41393bfe0c77",
+      "bytes": 36
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/11183": {
+      "sha256": "644cb72338334313dc7f8d42cef432691e2ecbd38a79ae8a8fc33745b9101c24",
+      "bytes": 70480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/11427": {
+      "sha256": "83850b4ae83a65909f4be452c933c7c89d86e833151bfb8d3a5e5f97e469748f",
+      "bytes": 106400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/12223": {
+      "sha256": "8ccc7d0a96fa315f90e9be8c36c3395d3d41080246d39fa7807cf1724425af48",
+      "bytes": 138840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/10264": {
+      "sha256": "c0e5bf1d0d826730d00569a1c6b0bc117abfbc807987d6c54eaba3503c815e52",
+      "bytes": 182680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/10711": {
+      "sha256": "f22a20b18ccd2ef825a1004ad90a1947e1dcbfdf0658bc1005c05e7f64ff4fa4",
+      "bytes": 146320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/10967": {
+      "sha256": "0dfc1333bde2a7f1c9a49fbbc4fe90e3a5e2243468a75516abcf342175df7322",
+      "bytes": 376880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/10713": {
+      "sha256": "ac3deff36f307a33fe4905449075d2f5b1deb610f2632744c99d5279be1b2d1e",
+      "bytes": 297000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/11693": {
+      "sha256": "a9ed3f94871bebe6e05ec9919888462ee87b714df5b64671daa604e7575171a2",
+      "bytes": 768600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/12287": {
+      "sha256": "ab97eb6ea10341117ae4f19c721a162447fab26feec8b17331f706d386259e8a",
+      "bytes": 74240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/12878": {
+      "sha256": "532ce5e9fa7ac6323690ebd78321913b093d49c89e540993390c919be4835dc0",
+      "bytes": 196380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/12913": {
+      "sha256": "d15d33492fe7bd2a9180b6b0f3671823f966ece724f6c4b7b20109469a17f518",
+      "bytes": 83380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/12924": {
+      "sha256": "569d2d2b0347a18db9493935a38fb4a51ddeea560a80f089b12de336cd528252",
+      "bytes": 111640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13185": {
+      "sha256": "f523f6d41fea68acc65d566e729f64acbbd771f0472026bcd23923ba404ab259",
+      "bytes": 75740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/12781": {
+      "sha256": "08c105a6645ece55702f687c4b7264075c8930b8889d7636228ee51202e2b3f8",
+      "bytes": 318884
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13348": {
+      "sha256": "f5c903c9ec53d4124ac1e7acac7d357c4dade30acf17457398678c676b1ce721",
+      "bytes": 91080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13233": {
+      "sha256": "54a155a738dc1e5307bce67e395de0adc80dd3ee4e257862f430a39a943f4683",
+      "bytes": 121460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13507": {
+      "sha256": "0290a17e3255839c35b8a8f59c66aaf3f13c9959af3fe59b73235f9aba142213",
+      "bytes": 88320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/14501": {
+      "sha256": "d49a34f52180b887da4724351be0bd5956635831944e82de6a785cf8ff3d0e4b",
+      "bytes": 22380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13994": {
+      "sha256": "feec3ba5084ae4643a5442728558e7803d7bb3882fe09f85e1cdbb1eedb71b12",
+      "bytes": 131280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13878": {
+      "sha256": "b00f146dde6cd0ed32a6b9047a7bb74abbb1c6faa9393478b14b6ab81eb01d9e",
+      "bytes": 181900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13442": {
+      "sha256": "ffafceca37dd4c1d0bbf9b47ff1517d8afa6f439c8d65913629744658c2b0623",
+      "bytes": 200752
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/13432": {
+      "sha256": "a535b3bf0fa46644abdeaf196a8f2da3239f6902ade68da68ef11834b78256b0",
+      "bytes": 316920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/15972": {
+      "sha256": "b5b2ed4de865cdc4b05d0517751ece269e79c663e4a5f4e0b44e0cb64310fa33",
+      "bytes": 69120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/14503": {
+      "sha256": "a2d317f18c585dc73a3510c3757c397c8d5cc9637c2766098d679c2aa9c67ff7",
+      "bytes": 114120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/15388": {
+      "sha256": "4848b79464e542b9c831fdfda04e68ef31821ef8dcf42a62c363d83ea01a5735",
+      "bytes": 54200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/18175": {
+      "sha256": "9bcec8b49b0c01ae9ea638ac92ef4b99ae42c905b86400fe2d6c2335f187f072",
+      "bytes": 19000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/16452": {
+      "sha256": "ceeb70d9d6a8299ee29df52924f1f24df00bf9e1a5f48acfe990e290176da03f",
+      "bytes": 83780
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/18551": {
+      "sha256": "911172d43e686b93740abf06d034ad2482d6595c9b67eb62678723c3cd32b519",
+      "bytes": 33260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/18513": {
+      "sha256": "0cf9e5d604056f6c516d037a74bb50e11df911f964f5655a1433c2a27d9230e1",
+      "bytes": 67720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/17584": {
+      "sha256": "47638dd91ef2983c1c0155065e621bd86475e328857b4626189b20b5c66b8a84",
+      "bytes": 78724
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/18589": {
+      "sha256": "21ba06f75de64332e705d2bc5ae1a6bce4ba322b03fae8d163ecd9f4f034b41b",
+      "bytes": 83200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/18848": {
+      "sha256": "47e7a70eca19e9bf138754aa8710a4b1072815fc32e2ab2e359793161e6a3b31",
+      "bytes": 37840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/19468": {
+      "sha256": "4124a22cc34e774030c34c0aeb12e3d92037c397bf401b0216045107079d931a",
+      "bytes": 85300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/19581": {
+      "sha256": "954bec339f7d1ad4aa0df1f5633b8d8a17b05d4890b766c746502ca1ebae481f",
+      "bytes": 106932
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/19631": {
+      "sha256": "5ea4066dbe0e1e9d454afdd13f718d0e3bc76fbf3fbaa8a418a0e465de617a66",
+      "bytes": 66760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/19217": {
+      "sha256": "75d0c2bc2b75cf43f26dd4ed387c5a9b30b041cd43749c196a909d30fc3f5c22",
+      "bytes": 236400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/20891": {
+      "sha256": "61de2f5cbbbaf3c46e50103237c18a9f127bd1666def11b19708268c53912b74",
+      "bytes": 131540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/20959": {
+      "sha256": "de5988ea319bb4b2b02944fb38f45bbbed8c54eb69a28a61854890a0a8d8a117",
+      "bytes": 27960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/21477": {
+      "sha256": "fd957cc51e78ba4d792d2fe7a7068bd43e488e6cb6ee5c01b91399f28fbeaea0",
+      "bytes": 88300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/21842": {
+      "sha256": "a302c8efa3db36e6047b9145c877c563f3d64e2696482cdf99bb50863aec0435",
+      "bytes": 61896
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/22673": {
+      "sha256": "501fa2d36a66e370c3e9aa80c8e65a9b0291c8fb36d2df4be1b680949789b05f",
+      "bytes": 30280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/22524": {
+      "sha256": "0127011b2e7ccb8714b121e64f797e5b833c4ab04e43e15cd1d119a252c59557",
+      "bytes": 50860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/22832": {
+      "sha256": "47934949d2646fc8a7ee6204e43b64b34a43b7755948688c1f6e82b421bae73b",
+      "bytes": 38520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/23702": {
+      "sha256": "e5160eef2b45ebee0b347efa1aead87df37b38c5f9ddcaa901054c4c0a893c1c",
+      "bytes": 36280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/24805": {
+      "sha256": "85f0a8ffb39c114dbee9a1412d847ae31aea32e1dffff186d574dd2d620e7830",
+      "bytes": 48700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/24923": {
+      "sha256": "8b101dd518fbe8cbf633f0e5bf957bffefc29c4ca27efacbb9ac2e8522de93ae",
+      "bytes": 33100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/25766": {
+      "sha256": "40f06930f1f61628ed26efc535d49aeaec64d30d8f1de3358dbbb62e7b5b59ec",
+      "bytes": 27960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/23425": {
+      "sha256": "58fae018b19a7d99ffea247b117603d2aacd2c98a812879598bc095f55fbd11d",
+      "bytes": 150172
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/26065": {
+      "sha256": "df1c1a8d15d828afc0602f3079972468e0f7688de97d325e5efde4f5616c162a",
+      "bytes": 39220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/25985": {
+      "sha256": "1f3544db9f9c43ee48fdd90ac7a4bc1e2856a33c23ffb9726b1ad16c8eebe607",
+      "bytes": 177580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/26187": {
+      "sha256": "d31c5ab66b6e9204420db89c093ad1e7f99495656b41c5191ad08077604ff270",
+      "bytes": 59940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/26663": {
+      "sha256": "aedb1a9d404cd348dbd552dad01cf386cfefbb86791d51dc5d9bb9f48a390650",
+      "bytes": 35060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/26793": {
+      "sha256": "59b213c34d1a6aa6eadb06c838af5d3792fec7b6fe66b3b7ee49694d1be77df7",
+      "bytes": 42300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/26842": {
+      "sha256": "b68b1471bfc03f4ac90ae02013e53e6545a4b7c94943916ae6b438a8d0765802",
+      "bytes": 63820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/27006": {
+      "sha256": "aa98a8aa14f29ab288ae491588af154a0f19b1dd30deab22b10ebf8707e9e96e",
+      "bytes": 26900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/27002": {
+      "sha256": "2be200aa207186e7b79cd35aa300980abba39cdf59c25e67b974edec1c23995f",
+      "bytes": 42052
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28210": {
+      "sha256": "b0004f3ffbdc8d757003a66c7f77e4b78b11aa5e2a6b71657f89ddfef8ff4a52",
+      "bytes": 49220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28215": {
+      "sha256": "0c49cd9a9751a31eeceea0ec8b10b3a0cd31299bb812adf42306a85378ab7624",
+      "bytes": 27340
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28374": {
+      "sha256": "3e2f352a1ee056193b9b92ff5ac63902b00b3c57472c4c74de9886c09afdee4b",
+      "bytes": 35460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28696": {
+      "sha256": "10a6dffa2ab5f76dc126633ff2a7a91891a80c298350225770f8aac5441a67e9",
+      "bytes": 27100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28506": {
+      "sha256": "0f3044c64bec8d532af0a0054422b0b9df1b0e7544b2d634691253b2651f124c",
+      "bytes": 30120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28700": {
+      "sha256": "b7465f18b187d9644cdd3e63e567b2820ca1d8ec8e974f90823a2522587b6ee0",
+      "bytes": 34272
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28450": {
+      "sha256": "576681d4a4dc0ea5e5d3e157e315cb871493fb8012cc76876d57545af4884089",
+      "bytes": 163560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/28924": {
+      "sha256": "aa3a223cd5ee7a6f7433cdb9886eb3c8d6df6a013687c10440bcfebab3690f06",
+      "bytes": 27060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/29242": {
+      "sha256": "ad6bd114a7262c0e3631453be801c0f3994d3659d79a85bfe5141d99d832fab3",
+      "bytes": 157520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/29553": {
+      "sha256": "159b1236e2483a43b653b652bdecbdd06472426d01cd3a2d8ff9ddae6250a145",
+      "bytes": 137500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/29948": {
+      "sha256": "418dcf3ffd5c5fd95b713e98b3df36d24491fc6702a962abba5e5f6ff1772836",
+      "bytes": 17260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/30025": {
+      "sha256": "8bd7a3cc087f23dd03d35993925d4f5b65edee1757d21919fe04ef39f66ade1f",
+      "bytes": 17840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/29759": {
+      "sha256": "3fb2de5000c03f6930348670dd2e64f4b2b744e64be3b7cd308b29cc185bd1db",
+      "bytes": 54300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/30343": {
+      "sha256": "39c588caf36f81f78667c99b8a61e95793db51f8470f8335d752f4688d264b56",
+      "bytes": 42640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/30177": {
+      "sha256": "2c5fb72f30445459ddffc6a2c0cd06d764bc971e4b9d1a32d5c41299fe4e6741",
+      "bytes": 45520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/30479": {
+      "sha256": "72f11ad41b9e0dde86292ed8391faa54f82dc5549a0c5c792042839dd5a342ff",
+      "bytes": 38340
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/31034": {
+      "sha256": "ded9d3df5a6fd019a7c92c58958d99b9fa4874fd4625f4adee50610b97270c2b",
+      "bytes": 39140
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/31375": {
+      "sha256": "e0b2b767a3407bb8922d96bf9ce893a43a938b8ee21839fa610ba40e33350096",
+      "bytes": 25620
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/31828": {
+      "sha256": "4b5bb1325e0a093561cf3f4c2d78bc6db997f3333e02803c288a55ce190dab19",
+      "bytes": 22640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/30593": {
+      "sha256": "6f7fad17f3a77af71e2e1d103177d337ad7b0b65e4d3555df70663d08b024576",
+      "bytes": 161460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/32617": {
+      "sha256": "c082d7a5f57f8cb6e44c355ca602a1d193a9a0fa93bf52bce75db9db4e6bdeb7",
+      "bytes": 30400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/32395": {
+      "sha256": "942ff7240db12cebaef83720f23ad9a1840fcbb60daf1d6d9d13582832f7587c",
+      "bytes": 33492
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/32812": {
+      "sha256": "8329c86aefd464e86cd7ccee5c29bb3d7afded6cac43a373368ae51c33ec3bd3",
+      "bytes": 27760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/32094": {
+      "sha256": "f79fc3904c8e59ac0cb35e35bbbb66a8b6286e11336be9aa5d6115bc3e606399",
+      "bytes": 173812
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33309": {
+      "sha256": "5131faa52ae839ff97e5539fd26c69116d11bbed1f7967de065f2a58a69cf456",
+      "bytes": 20080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33075": {
+      "sha256": "cfc8596a92c19ffd00af9b22d08f53920555078576325f28604a9dfe940924a3",
+      "bytes": 95040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33372": {
+      "sha256": "f8d83f04f1b4ddeb5c6c19ea7e57d23899c027cf64f63820c08078536ceab625",
+      "bytes": 33560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33402": {
+      "sha256": "5ef4ae5d0daf24c827a821b6369654173a8294242af5c3bcb3a82ab71c450aee",
+      "bytes": 42100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33808": {
+      "sha256": "1e7502033f2cd4ba1e8fcefeded8611e9486d3d6f0a2e27d891abc8a9e87d784",
+      "bytes": 20940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33794": {
+      "sha256": "9279ab97f500a2c05e3bbe3b73373a20669de0e4ebeb6b305c8a09d9b95662d7",
+      "bytes": 37880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33755": {
+      "sha256": "d54e8d33739ed802961b238e5ff754cf367f94ff8078cd15b1eebbd01eaf10c5",
+      "bytes": 40400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/34231": {
+      "sha256": "0a4b7d2c4c18919514ccf5a68968c71b12869cf1e466c10387c0d4a7d0fc2c0f",
+      "bytes": 29660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/33829": {
+      "sha256": "237db9834bb49f17e560e130802c11fcd2bfcbba9c5adf40a865f1465777d757",
+      "bytes": 58920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/34345": {
+      "sha256": "d69a7d8c184a8e0defc4de28e6f07154947e3d522d025cfc89de311e1a48ceb3",
+      "bytes": 29380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/34423": {
+      "sha256": "e39d85de932eee9917c765100070cf0630a5ab2f0ffac1a2cb947fcb69b5af7c",
+      "bytes": 78880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/35114": {
+      "sha256": "c6ab468ed030cc952bee2173a9913c317ebb339779a937207047e1068ad887d0",
+      "bytes": 28560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/34772": {
+      "sha256": "1948d8ba49a4e175f0b7637be5fa3459f79bd44ed4e3d989aeefc5ab475bf051",
+      "bytes": 43280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/35334": {
+      "sha256": "b64a5d2c4244617ecef63af6326d046fb4700e730e298c4efb96e4ede43b2bfb",
+      "bytes": 29420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/35310": {
+      "sha256": "570ab2cb2e4bd223a248f499a872e6a6d5c9cb3601d95e5109207bd9107c1ec8",
+      "bytes": 19640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/36173": {
+      "sha256": "2340b30ed2fbcb926d2d814940ddff3a44b0ed7f826652e027cd95589ad08637",
+      "bytes": 36540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/35918": {
+      "sha256": "52ef084402bf754c432b1481c13a3daa849e0ba50c1f8bdaba04780f792055b9",
+      "bytes": 36460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/36408": {
+      "sha256": "8c4f04692410b16cb755e302080759bad680e57b3baf8b0e99f63f7f73f88fe9",
+      "bytes": 47420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/36263": {
+      "sha256": "3f22a7e90b4be97a946537f40f8821e2899f62bb0bccba6af80a3f9f59081aef",
+      "bytes": 60760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/37711": {
+      "sha256": "033780f1e6e2ce3777d3910648f3597f9eed855ac5bd037a6bcbcc894d8598a5",
+      "bytes": 17920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/38781": {
+      "sha256": "56fe472064d34e3a091d786d87e12a339985c7d23415020e3bfc7324f9d0a423",
+      "bytes": 87472
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/38942": {
+      "sha256": "820218171f8f5699b78aeb8048f2bb2257474440bac26d06fd6e2a0b69b182b7",
+      "bytes": 26560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/39198": {
+      "sha256": "bc6f63e21b1a7c81ffcec621ba1dff2fba29e0111be49df71c2bb0a3f00f7d0d",
+      "bytes": 27720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/38071": {
+      "sha256": "d167ac3c8f46267d36dccdac6bdd9fea22d2df00b8000e9aaae587c9d7571be9",
+      "bytes": 70500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/39537": {
+      "sha256": "365d770c7647871d2766ab8519365e5853acf0739bf81e01e850f58fa9f83335",
+      "bytes": 95160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/39597": {
+      "sha256": "1837f0e37c4c8e533ddbb0b3e1c6cdcc90d3f9f3581d53152f095540c754f1d7",
+      "bytes": 30580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/39565": {
+      "sha256": "de5a6509f5a9e02f77ae56814cc8f3586f91e37a71dc59047348b36d4d242890",
+      "bytes": 81240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/40117": {
+      "sha256": "ef17dab88108af6d189b48dab1834a7e41e9b757acde52a2c66781cb30ac6a0d",
+      "bytes": 27720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/40675": {
+      "sha256": "aedecc5129854892cace3ee138b0f5b4ad929662823029f6dd4aa727449805a1",
+      "bytes": 18840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/40202": {
+      "sha256": "4f1e9ecb154262db4e6d5fda91a744f0f8a94e25c59969f0c408acb090071134",
+      "bytes": 117380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/40232": {
+      "sha256": "a0c8a35c00dfcbe65ef14661add77817954d0013ad60565a2a85559fa7a49f6c",
+      "bytes": 121960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/40837": {
+      "sha256": "13b4f78be251997c34fd50bcd01226119779cda13a9ef7a256d7e5b181df83f2",
+      "bytes": 23040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41178": {
+      "sha256": "d960c15d4505b5ac37cafcf8781063b69c207db0d5ea35a48f0f0a4491aa1c00",
+      "bytes": 16920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41019": {
+      "sha256": "aeaf538eaf2ace1d65ffd16b7ebfb07c4c0f152f42c6be44cdf7e151db14f295",
+      "bytes": 23672
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41210": {
+      "sha256": "6c96d763043e132190724d21a93747c997f51142598041ecb58188f0c0a53a3a",
+      "bytes": 19360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41366": {
+      "sha256": "32fe64f4cba81498a5dfa5471d1a8d0013d63d96589ed65b6d405445f4cd0dc5",
+      "bytes": 30840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41513": {
+      "sha256": "3b8810fe0bcb5904957c1367eb9045e26522448c020ecec5303b244495932563",
+      "bytes": 24580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41860": {
+      "sha256": "17db6ba02d3f9ea2483609cc0f1440d9d62d31795e771132ad1d7f92cc220b18",
+      "bytes": 18020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/41783": {
+      "sha256": "6716ab6d81aa9da32d3eb663cf55005ca21c5fe9453ace863ef33a1775b334f9",
+      "bytes": 27920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/42514": {
+      "sha256": "7e7d0b3aeb4c615b4b6283a99717d730e9f98893fa274b0a112ec11c84670a28",
+      "bytes": 20000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/42202": {
+      "sha256": "c363c1e7a3e4a4033c989762d3b2aa1f05b6b28ad8071cd3d37ec5d75b71552c",
+      "bytes": 32560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/42371": {
+      "sha256": "68091d0fa38bc7d0bea0faae7ca05b0ba4b7768e70374c7d0b548dde15cd0560",
+      "bytes": 30660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/42920": {
+      "sha256": "4cf4203fc4749a1f66c65aeeba464b053e9f7e3ca6eaf7917c44a4099a56e5dd",
+      "bytes": 29840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/43058": {
+      "sha256": "6c241e764cbf9bbefd1b207ec76775b193eab788b495ece9ca0b8fa3030b2f52",
+      "bytes": 40060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/43677": {
+      "sha256": "cf7da7d3df91ff3b4e49c108a962e0fc9f21b308e70c04ad5efdd00ca7f24b43",
+      "bytes": 8040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/43122": {
+      "sha256": "b2c156b055b9c2f617fae9cedf266f75c3c39f4e9dd653dc2e15cebbb168a8e1",
+      "bytes": 36420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/43279": {
+      "sha256": "bed6263fc84ff2ab926a98e9e8832c9fc4edb27e29d19ef8a013246e883820c2",
+      "bytes": 25980
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/44006": {
+      "sha256": "214929abe010c4389713efe8bfd1ba10c8bab108bf533d13e499ce7544b6b9ad",
+      "bytes": 25480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/45481": {
+      "sha256": "03f2f84359105d79cd11cd77c1177986a59035bffccb4585955c18ca2d6d70e4",
+      "bytes": 41240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/46347": {
+      "sha256": "24a07c4a2e207b418cf8febabba7bee330c9fb5edf550d7312c0893aae516c4d",
+      "bytes": 17100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/46490": {
+      "sha256": "79a1e4bf2cb50517e8e95a352f489a7354cb7a1a3c7d9fbc715044fb1d4d7ec7",
+      "bytes": 16120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/47282": {
+      "sha256": "0afaae20791fcc9a30f8a76a2e86949aa7ec4abea9a3a61f44416cd56bcd1298",
+      "bytes": 10220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/46515": {
+      "sha256": "8563e0455d37f933855894f7af32bb37d8b0c60f476f4c43d589f8019ae8a609",
+      "bytes": 77592
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/47448": {
+      "sha256": "6b6da0beed72b76666e850364870afd10290cfdf74f92d94f57ac2dfd89bb526",
+      "bytes": 35600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/47467": {
+      "sha256": "9e8f07971eb0c4194d356cdd48eba9bc1570cfd9e5f9a5cd9941dcf282899edc",
+      "bytes": 16880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/47689": {
+      "sha256": "3d069277da67db66c48ea2215151ce911e7008bde7e0845b3c98d62731eb0237",
+      "bytes": 22640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/48762": {
+      "sha256": "4960dc87ca4a948f49fb34b5ede58c778bb4a3f9b9d0e0d33dbb52e6d3727c95",
+      "bytes": 23260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50110": {
+      "sha256": "35b45cdfb0927f8afd5e11d22e191ea4d9d99cfd3e66e86e07dda86104ce4d4c",
+      "bytes": 43540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50026": {
+      "sha256": "66f76d90297fea735631b7095ece48be14807ec635b903757ed1ea3659340dfa",
+      "bytes": 26060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50122": {
+      "sha256": "37189a1f458c01810ed5a81b99ca79c5b870abb8ad98c82d82c2767b8eccd540",
+      "bytes": 18760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50579": {
+      "sha256": "12249398aab4e02d8939bbd0feb2f50b21ecd9d02025e74f5e46cd4a667c02d5",
+      "bytes": 7960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/51230": {
+      "sha256": "a391760eb3ab776111ce679dbe45e14676e264080b629ba80ec1d8285bcbf3b6",
+      "bytes": 22240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50720": {
+      "sha256": "427114df30f5f1299fa07a3047183d5c7ffb2fa482c098943ad2ca749f84b3ca",
+      "bytes": 57040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50881": {
+      "sha256": "3684eb9d0b643ce5ca9c3bc00e5c95d879b51b95d36c3645cd5b4920df189865",
+      "bytes": 116640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/50972": {
+      "sha256": "919c771926d5069b959757efe474e0761a165f4979ae53096e1ff95027ab63fc",
+      "bytes": 27920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/51586": {
+      "sha256": "aae2abdbf9b445c2f6333b90c94a2dd60ef62bcbd13726580b2526baa7ee933b",
+      "bytes": 17740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/52131": {
+      "sha256": "3e65cbfe8cdfbd31ec884ed439ebc056126a19cc8b7e5f2b0bf85c549c3159b8",
+      "bytes": 18100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/51660": {
+      "sha256": "2d2a7984504893679be95e50d4d175d4a005944b54481c9cd7c19a06485a51e7",
+      "bytes": 17452
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/51341": {
+      "sha256": "9f968263b2f008973bff18aae4cb73f4f7fc7f37ca9af5c3ac4c32da9bb6414c",
+      "bytes": 90840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/52691": {
+      "sha256": "5608ec133f006074df8a45163db272ecc9249f85e86e8106970162d8dc1ebcd0",
+      "bytes": 51092
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/53172": {
+      "sha256": "71c675ff113774bfd8e651dfc6f1dab3dc630556965101ea65ae19df2494565a",
+      "bytes": 7640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/56159": {
+      "sha256": "d593eec464261a854080671bebd8e29817545f7e57412b941d2a2ab08feab2a2",
+      "bytes": 21140
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/56835": {
+      "sha256": "32c9c2a81e1e192195dbdc9c00df9b0abe2f8a598fb9d150d89e577829459f09",
+      "bytes": 19060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/55143": {
+      "sha256": "efe55b9fa40783c4114e34f91172a7cc37f919407a82e8d0710443a2da44130e",
+      "bytes": 31580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/57232": {
+      "sha256": "beb610735857780811e62290191817cc8b58ba6c6d7c68203c73af15a9cd31af",
+      "bytes": 22532
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/57599": {
+      "sha256": "1730724c210ed657b53e6396769d5cee14f92f173104d7c5be223ce641fe056a",
+      "bytes": 19620
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/59255": {
+      "sha256": "7ff10f7c918e56a6b611fe7e1d62ae73ce6fa42b83671131506e3bc7f8976af0",
+      "bytes": 6920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/60047": {
+      "sha256": "9067d368ea285a28635401807787e012e24f03f892238c0707739a63099081c7",
+      "bytes": 6540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/59806": {
+      "sha256": "1dc2627492f9c1e1203e417402996f27988e81b362333c6e0000efb503333a8a",
+      "bytes": 23500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/60170": {
+      "sha256": "07d33fe2bc599b963b969c7d96140735409e07c91f008c02403a67add0085556",
+      "bytes": 55360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/61734": {
+      "sha256": "cf7809dbaffff1726cc732d6f1d93473aaa2c643d274e5397a5d5bf96b48d553",
+      "bytes": 15940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/64666": {
+      "sha256": "65146a85b64f53007a2a96382c15940c4197651f782cd51a29b14262d0b3496a",
+      "bytes": 14840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/61982": {
+      "sha256": "186acf1d0fc78fe99563f09864202f8c4e90033191438c6892cc9848a60f3707",
+      "bytes": 20500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/63601": {
+      "sha256": "7094e1d8e046c95c69e94051e7c0f21cd538c5c2f6488907e25366d3707835f7",
+      "bytes": 38060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/66228": {
+      "sha256": "2860e3af34803b0b0335b2387ab4c09375fac24acb82f1ced616f73b89b7e45b",
+      "bytes": 33960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/66389": {
+      "sha256": "adbd24036619af23a802e2f4ebcf9fdefdadd602334c53d4c15a12f1ef5f0bc3",
+      "bytes": 38924
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/66284": {
+      "sha256": "feacca238bbd5f3d2887765a41bf7592489b507f3e12f893f9dd9581254a9382",
+      "bytes": 83700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/68657": {
+      "sha256": "247184647634dc08e66c87a2a1901a37fccf3ea52df939a6b10862abfbedd2ee",
+      "bytes": 24940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/66950": {
+      "sha256": "7d541ea912a4021423aa7e1268289b4c9a1242b1614ca9a358c8eac8168f8ae5",
+      "bytes": 56712
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/70198": {
+      "sha256": "3aa5d001f967128f04ee2d4298a8ec91514fb7e544e479e9789df15afb60879c",
+      "bytes": 43940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/72758": {
+      "sha256": "ab42c20ffd069853cbae98b60161f5cafbb60d314f2b16028709e2ed3abbcef9",
+      "bytes": 5920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/71757": {
+      "sha256": "831456ef3ed8a7f793caebe4e891ea2196e7a343f90138e140e837a1bcae539e",
+      "bytes": 22760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/73456": {
+      "sha256": "ed7136e818161630b3c4816e23d308076821db67d8184686ecab3c21068c47a3",
+      "bytes": 12380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/71048": {
+      "sha256": "d0a5d13643f65eedaa8e0df80588dcffb6419a9a01aa29cf36e94670be88dac3",
+      "bytes": 75060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/75473": {
+      "sha256": "15b2e44f3be955af91038526b6ed31fa57677442315643a0c0c821a63aceafc0",
+      "bytes": 11780
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/74372": {
+      "sha256": "27972c3ef39241406d9e3b02788ef854eb1c96ae1e28a4263754ea5c7eb2ff8a",
+      "bytes": 22572
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/75014": {
+      "sha256": "9e79e5bd02f283240c35c9d76df2609e7ca20add44ad93d59eda157314985c3d",
+      "bytes": 20960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/75194": {
+      "sha256": "92914617fa20ffcc8b2f42fdc5c2a609050aa7b3e762890b3eb82daea4a09244",
+      "bytes": 43860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/75895": {
+      "sha256": "c1ed25a20abca017046eeffce751bacef999ffbdadfed1832049de86c4bae790",
+      "bytes": 14320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/75958": {
+      "sha256": "e1bb70c37b8d84d91e69ee799304960b5c4b7a320fa06762f17a2768d1c127a0",
+      "bytes": 18000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/77541": {
+      "sha256": "386e952ae735c9f714e9e6542fd662aeae24f2f1404d7ae341c16eb13c5472de",
+      "bytes": 17060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/77869": {
+      "sha256": "2c30d1cc40ee28b17b578c79436a89dc5bbed6ba09ab99d2f742d36b1c26e650",
+      "bytes": 33800
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/79488": {
+      "sha256": "b263eac633da85d41b5f78e6eaaf0ce1055a014ae8192bb567caadec2720f392",
+      "bytes": 28580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/81066": {
+      "sha256": "dcfb0f4da8e46a42499db5f826ac285213b14b58193f64f3facb7503c9797dfd",
+      "bytes": 35268
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/80482": {
+      "sha256": "a7df14ae8a5b77e40e237675a719dd8ec60eab61492535f9e7e37233a72b69cf",
+      "bytes": 6160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/81718": {
+      "sha256": "8410d59e31700ddea397c853f8dbb50468045deb34354af47a05be70019b53d1",
+      "bytes": 47312
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/79897": {
+      "sha256": "45014db2334337e68b2113fc3616c9d8fb0a6b8b7a5274f4e55ae3078e5d2edd",
+      "bytes": 89700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/82104": {
+      "sha256": "d1eb0aed8bdfcb4a07753d5bb873e4e401d4c6f07c43a6f61cb6d52487524996",
+      "bytes": 17940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/82880": {
+      "sha256": "5aa7265311d76754fa68a4d2af72c21d3b245fc837b934673b56906ba4ae8e38",
+      "bytes": 137340
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/84738": {
+      "sha256": "e2edd104d03837cc4f8ce501f0d07009633a18fc1fee5dc5c0bc1bc411b24db7",
+      "bytes": 28980
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/83735": {
+      "sha256": "5c8f071a7ed5697525439acb57e3a472d16e493e34deb37ed8317303a4506f9e",
+      "bytes": 22920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/85741": {
+      "sha256": "e26b52b2cb3563ee685830d753e6c097a8231a0033e73b99ad4373ff17e53e9d",
+      "bytes": 11500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/87511": {
+      "sha256": "32d71d01bc11568c9511b26a40cccb583b33ace6f22546c0ca9c26e63d1cd545",
+      "bytes": 14080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/87873": {
+      "sha256": "89f81cacb399cbcc400b4fbc61eea37f6492649c9bb8760e60edd0a11cf1ea4a",
+      "bytes": 9760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/88461": {
+      "sha256": "d9334f714a4548ad6d5094ff3f770e3f9b1db78bcb0818132d356a8a8683d21c",
+      "bytes": 49840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/89892": {
+      "sha256": "13b87dc0dc16b166d5a80cda3602d044ef2b644eeb2e8d8c7ed3e29f18092080",
+      "bytes": 10100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/90124": {
+      "sha256": "1e7e27b8cbfccc44f1f69383b022d86f8810791054a752bc48d9c949a866f3c5",
+      "bytes": 11540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/90893": {
+      "sha256": "c8d93d60e881f782d256f5e3db014d46f1b3d1a5ac31ffcfa1dcf03bf65871f2",
+      "bytes": 10300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/92067": {
+      "sha256": "f4086d4e71e95eaeaa856fc96588f8f173e2813617f808efdf2228111304da7a",
+      "bytes": 13940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/92699": {
+      "sha256": "3f2c36514cd9da448a03c8b28ed65dbea0a16f71ef329ace3f09b1aaf40e09c7",
+      "bytes": 28780
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/91437": {
+      "sha256": "4859ae25426a495a6b47f94ef6a8baf9d1df30723dbb183dad70f750f38b36c2",
+      "bytes": 66120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/93140": {
+      "sha256": "636c776d8b5511ad2c9553d009ed34c3f2ae0e716c551394f1ec9bb1776c7399",
+      "bytes": 32500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/93595": {
+      "sha256": "241e5f1b8ec3b8b934020f7afac51fcc37d03de0a7aa30e72e3e72b9bc2064d2",
+      "bytes": 13820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/95394": {
+      "sha256": "2446cd822702ecdf2d535d401113cfb64915727b9861df8546cb0547fb58add3",
+      "bytes": 9840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/94056": {
+      "sha256": "2e80a1ad48b957ba44d2cc150b2c62e15ae71f80065c3ae3d8ae85f8e623e5ee",
+      "bytes": 10940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/96181": {
+      "sha256": "a1abbcde6c2d4c9c1f7e364dd27003e6ea74eead82e555594d171ce98db1da03",
+      "bytes": 26400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/95533": {
+      "sha256": "7751eeed801694f4023e016608c63ce4e10caf8001b9710a2c5f4aefd0dc47a5",
+      "bytes": 23740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/98773": {
+      "sha256": "b9a482abf504b39825f42ff9eb7e830644c6d2ddc1d861727add3e892b8c79ca",
+      "bytes": 6680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/97985": {
+      "sha256": "f5d241fd26bd13ba65750193c9a09ed0a30e5613d487e71afc196e030e2b1509",
+      "bytes": 49300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/97980": {
+      "sha256": "9b68783827b4a1b14f9ed50cc3d624424b9e969789c56dcf6788181ee352e305",
+      "bytes": 82300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/101167": {
+      "sha256": "aa21e0d8af5082e4b79dc472719c968779ad96929321ddbe0b3eae894c5d5187",
+      "bytes": 33440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/104517": {
+      "sha256": "82753a1cc9c92636022c1f91eece38427f33e3d4e60cee92a8a11557adf395b1",
+      "bytes": 12300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/107432": {
+      "sha256": "5db5ece5342b9b8a83cf2506b1f5137f1d3b31947691dedfa5981eb500d575cb",
+      "bytes": 20680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/105998": {
+      "sha256": "af283e5537783f7ef2cff5e241f6919491c08ffb7ddc042578f9aecc0fdd7cc0",
+      "bytes": 34480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/109764": {
+      "sha256": "c818df22ab8107f8f0a2f46afc68e0e2571fcce83d8ce39c9fcb9d6b7aa141d1",
+      "bytes": 29100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/109328": {
+      "sha256": "cae7ec88184b713a958eb021b61f8218c221db23c508bae1c306e8a8b0925369",
+      "bytes": 79220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/111531": {
+      "sha256": "30c838d006cac58035acbf6759395b4397cb46040fea0875bcd4e92ac3ff000d",
+      "bytes": 33736
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/111545": {
+      "sha256": "a89d4b2ac29d93537ec825aa8fb7025188eec5b916d758e199328f57b704285e",
+      "bytes": 42580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/112284": {
+      "sha256": "94becfe4a4e4f088d27c33eba86cb051570531aeccd5033d408dae445903727d",
+      "bytes": 39740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/114517": {
+      "sha256": "ad1d6997aea009b0a00b18253a7df8466c1d9e12ace23f9283933f8ca523913a",
+      "bytes": 7720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/112925": {
+      "sha256": "10facc42544a09f754a8700f10d2f521e5cdaa83db3ace913f868b82807211e1",
+      "bytes": 40360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/114393": {
+      "sha256": "c3ec55ae9ee23df6cef4003edd5ace599ba5cc8590a2a85f6c6744349f059430",
+      "bytes": 10420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/115720": {
+      "sha256": "53f0fb06ac0fede3e64048fcfffc8c533cba619d43f8e752512a0526ac9251b1",
+      "bytes": 39880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/115851": {
+      "sha256": "d1c1646a038b397ad776ed5b3a91060625e9c627d4ba8bbf88f1c88ef4cf0384",
+      "bytes": 39420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/118673": {
+      "sha256": "8cdd34187fe5ecfe6b8705144ca90fc7c13b3ff2bee70f91b390b6dc95231b41",
+      "bytes": 28140
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/123139": {
+      "sha256": "ca37e4761d612db5887c69a16642bc934c4824544970dfa0804b868157f45674",
+      "bytes": 8240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/117568": {
+      "sha256": "b6ed8d5f110c22403f6e4450c4047ae3b7f0f38a484d03fff28c51d7041277ab",
+      "bytes": 32420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/119630": {
+      "sha256": "406eed7b96179ce3849bb07aa6fda598b70327086f3c1fc2d706c2cc88bab95e",
+      "bytes": 11420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/123730": {
+      "sha256": "0424f653843736712b4303876b4c103d93368b2701ebd35bb09ab57866d7062c",
+      "bytes": 8380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/123685": {
+      "sha256": "fba359a0fd94f98bc174ab7956198b33943a3037101c7909c662a707e36a88b2",
+      "bytes": 71300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/126803": {
+      "sha256": "5f5e99d4eacc72546df4d5c0ff4c8d6ec635875f87e4b9fc6151cd5575254460",
+      "bytes": 9080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/129062": {
+      "sha256": "961f8b0a3aa186ed42bd224f5744aa57e02015234c54d8a36f7e832188184f6f",
+      "bytes": 14460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/131443": {
+      "sha256": "c23a771d81960cacd99a15f02a4a5ec8b42253ad76971f532a8f3d80ffea20b6",
+      "bytes": 12852
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/132968": {
+      "sha256": "9cad45a782fe088785c9b09014b6161b0fa27bd9a8df238b3ee9011a5b1eecae",
+      "bytes": 9540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/133471": {
+      "sha256": "9b0658438139df8ce5ad3591e3e78f8ac2e2f774da81e11bfeee4d8ecefe646c",
+      "bytes": 10060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/130287": {
+      "sha256": "c7d50487458fb555643c8f731c4110d9cd7a51fced79797c549ef6caec0dd55d",
+      "bytes": 28280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/130140": {
+      "sha256": "4187806f52870d6c64236b6805f8925d35790bd85c0348be66c4ecd1667f45f7",
+      "bytes": 117840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/133873": {
+      "sha256": "e1b4012aaccfd1b0c0b2f3f46d70ef2411a9bf6aa938a69c8e58700b273cf353",
+      "bytes": 20320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/136898": {
+      "sha256": "032fa175ce5abe3a3ef18d644b3770b22d7d139c47da50bdbda96c577125a092",
+      "bytes": 13940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/145868": {
+      "sha256": "0624eed80b729c8288371824c5752e35428a431903865f6791c08901436e107e",
+      "bytes": 9760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/139273": {
+      "sha256": "4f048fb0dff50a01ba6083e24133b9822830d1211e302ad044190497ec3e77d2",
+      "bytes": 33500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/140895": {
+      "sha256": "fca273353937eb6d4821fe5e74b62fcb200bcd02037dbadaa1126470e31f0378",
+      "bytes": 46880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/137304": {
+      "sha256": "5ea0d2f92a5981f64c600e0e5029109d38e08e230bfcfa068815e397c60b1c2b",
+      "bytes": 36920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/150913": {
+      "sha256": "de2870e98d71161d24ddf70b6c0bf9dd35b1bccdc9a1e1d15d278f3a7c5e160c",
+      "bytes": 21200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/149348": {
+      "sha256": "adc46c18f48c3f06de00abbc77477a2d713c976c8083a87eab1a96dfb166d1fa",
+      "bytes": 11060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/155224": {
+      "sha256": "04ea79dc1927a5b409d1a41e01f8c005148f3aadf144e5bf762df2ba700befaa",
+      "bytes": 11960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/155912": {
+      "sha256": "2466c5f54e3adb28b1a5fabda37ba571b4c1e73369c5366d7f45c79d961c1474",
+      "bytes": 3720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/157012": {
+      "sha256": "9174272234e59ab5d8f5961a69fb8b6cf71aa061a3904e6b909145a9fbc97a93",
+      "bytes": 21044
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/157107": {
+      "sha256": "39fdba94617e4ca504439f6023c8a0b5b3e8079a08afdb4543e832a0b19ceff8",
+      "bytes": 12280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/159069": {
+      "sha256": "f6f14c873a39c0a0b017a84546c4e3c22f061d1c9a3d67e68cbd7a96b68239b2",
+      "bytes": 34700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/160938": {
+      "sha256": "1eec9ada8a1fc12ae967dd079a97be67fc12ece4d49b5f1d46ca6f42a980a055",
+      "bytes": 13560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/160018": {
+      "sha256": "979b4ac62ae80a750449ca427bdef5979fa7ca2b6720a2a22d9a811fd4d07458",
+      "bytes": 5360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/164457": {
+      "sha256": "25785a04b8d3bd48ae7d3fd68934d3f8bee0069c777609be385ff772ef9bc00e",
+      "bytes": 28940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/160376": {
+      "sha256": "b781fb2d781472a4016a47df96045c843bce43f834610ae055fde34189ac9d2b",
+      "bytes": 9960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/165856": {
+      "sha256": "200baf4af9aacce1259b09a580634b42c6a1f487855356ee654761632c05ceca",
+      "bytes": 13300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/167280": {
+      "sha256": "26e4fe8307ba99e9b082a20f8af754c1456a5ab1f282904c0b42636c92a3f024",
+      "bytes": 15520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/167614": {
+      "sha256": "b33d8a0d3207fb9c15ae42c56dc8d66c6a579c25598474f2c1f54de655e6865e",
+      "bytes": 30992
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/173094": {
+      "sha256": "bad18965d6b201dcc115b593fbd223e005f351a9a3363df2e45ec4436bad272b",
+      "bytes": 23440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/176252": {
+      "sha256": "e1c11bf30b76f1d75f0e1faa510681576d86d798f7f07efb9c476bc18a477520",
+      "bytes": 14200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/178307": {
+      "sha256": "bb4d168bcdb1d2dde36aff23108303608a4a573f343225872caf73033c3f920a",
+      "bytes": 17560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/179737": {
+      "sha256": "4dfe649ee082011f474300ef3497ac7059be6a3f5c6321b66249f40d234628ec",
+      "bytes": 13660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/181095": {
+      "sha256": "c6a4e2ffac08c863742039d6d0cb94117135ddd6d74425162f8c6676bb96afae",
+      "bytes": 22420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/180267": {
+      "sha256": "c43a87a95c62fdbe54d88f7719143659602b134e93e389eecae3cbfee2dda4d5",
+      "bytes": 28040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/178516": {
+      "sha256": "ade35967250f473f96012a9177120495fde58a898b43ac50e8d93f60f2d5fa68",
+      "bytes": 81320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/183346": {
+      "sha256": "9ed2b032d0b91cd77155e5744b3823d0d0a149bb5d659db23814aca230f766cf",
+      "bytes": 8580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/191319": {
+      "sha256": "5cb55878fccb1c57efffdba5a5ff33c00b0d43b6c3148505cfa52fa7b868a62a",
+      "bytes": 17600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/195280": {
+      "sha256": "669cc0086a9c370d032e19a7e8f97611834481976304f933476e88d47b9ef184",
+      "bytes": 11784
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/181823": {
+      "sha256": "9a0648824d99c607a3bb9df045ab57c71185741a395a81a13fb89bbf9184e338",
+      "bytes": 57660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/204726": {
+      "sha256": "0aa83c28f5f20103167db62e0ef74230249bce737234047fc60f9e73b480afa5",
+      "bytes": 7440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/200771": {
+      "sha256": "52a0783bff3e18e6a7cbf48598982ec41e3532c7d1ceeb4fe658eb9c06eedb41",
+      "bytes": 26960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/199999": {
+      "sha256": "937613f00d079cab773092d58f6a64cb8febb7904316e3a8495cec50f62cd48d",
+      "bytes": 28560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/268363": {
+      "sha256": "2a7475ce67f1cd4f8a9cf4988fdb3e5fa115396bfe81eed263b0f03d7cdc7f96",
+      "bytes": 55680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/215209": {
+      "sha256": "1545aef513ef15af45bb5cce3cdb8e87a7c504576e7c99b5967eea3a6d8b8071",
+      "bytes": 120668
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/272440": {
+      "sha256": "a606783c9fe94a764107a0ebb275e69ee91c48a3ac7499c6d5c021a5448bcb4e",
+      "bytes": 1120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/303431": {
+      "sha256": "e585ee1285542929ecef191ee24180e0a644286861d75c3dbd4ffe3235babf46",
+      "bytes": 16140
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/353164": {
+      "sha256": "744944cd76c0798238760a6ae9b08b5801e6663a76eb6e73299cbe3cec8b32f4",
+      "bytes": 46240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/289020": {
+      "sha256": "3915b15dd3c51e1399f1a3198eeba0e6840ea4df92fdb95f6d62ad4b0a2aaede",
+      "bytes": 44660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/475289": {
+      "sha256": "1759716b79352dc52d555709b48cf990161ba7e3f2e1e558028feb2f4d8a4546",
+      "bytes": 2700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/512707": {
+      "sha256": "d74a0904628b9fc1ef03e5385d8617f179fe3803debbc1a4b14aa2c4df3bb2e1",
+      "bytes": 17300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/382580": {
+      "sha256": "26b09f87a16fdd845e9b859b58bf3c5d541f451f838316129b88bd488b5dc6b2",
+      "bytes": 120020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/512824": {
+      "sha256": "226037b692f8029452db86e68579c15cd0a025afe1406d63f424b3543ba8e4af",
+      "bytes": 85040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/513405": {
+      "sha256": "0042e8498fc0c13b714b11b6b4da62e941b490781ad99c04a0cf02e2f6e485f3",
+      "bytes": 194660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/514410": {
+      "sha256": "cecc305f8c402a3bb42d311f66353b15dcdb69f542ba97b28e416ccb85013858",
+      "bytes": 80920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/515067": {
+      "sha256": "c50f2bf6bdb9d7138bc01d760ad8a57e2e22269731fea1542026b10b4eb9e5e8",
+      "bytes": 35260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/516452": {
+      "sha256": "2b902528735b1e10cccd506d0fa3e415151eac65d3a73f29dbef961715f9de9d",
+      "bytes": 8900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/516756": {
+      "sha256": "def5ed3a81344487c8cd8ca41abad5a246f03959da3f2d085129148259c94076",
+      "bytes": 25840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/515861": {
+      "sha256": "b851cbf6bc6050ff4acef7e0607523d0debe57edb0e063b98c0c3bedc25ba6c9",
+      "bytes": 30380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/516758": {
+      "sha256": "1d923d9991ebd8a397b0ac6a1a67512d34f5071f2614171726434f38dfa9cdb3",
+      "bytes": 33720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/516956": {
+      "sha256": "5f9dee2948354794c99ffcda6b634cbbdb32260346ac682a6a99fe36089b6e62",
+      "bytes": 37920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/517198": {
+      "sha256": "cf3f03759333a29558147a5ea01af461436e8321bc52ff47a92b6b490df44db9",
+      "bytes": 28820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/517600": {
+      "sha256": "768c77aa0b92d3b96fbd356648916de0fbb4c45c31eb66033bb832ff27f35102",
+      "bytes": 47200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/518930": {
+      "sha256": "72416f6256d6a06c9c7edfaccbd633b8009ce25758a67c4d4275c0c7b4a1fc74",
+      "bytes": 4640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/517881": {
+      "sha256": "56ff8515a62c842cd5de37d4cfdaad453078553ee758c84568ab8497c4f89b8c",
+      "bytes": 56980
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/517970": {
+      "sha256": "5fd10a53a1463bd97069ed9b79fdc45a701a100243e7e5b833379e14f8696955",
+      "bytes": 102780
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/520571": {
+      "sha256": "879e4d62760afb382de2d86ce5b7f9c5536a9e4c7a3e5f0c2bef988753847cdb",
+      "bytes": 29020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/519406": {
+      "sha256": "14a79eece890508f9aad587ac9e8013e5dfbff3568b8c06bd070781c171dd443",
+      "bytes": 28500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/519960": {
+      "sha256": "a2e701b1819fd2c768b5fdb03c5a56d3988dfd3fd155d00c955fa72048247785",
+      "bytes": 139100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/521506": {
+      "sha256": "b768ea891548fea4dece394add73a5ca522f6377459a1df649d91062f28cfbe1",
+      "bytes": 11120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/522933": {
+      "sha256": "4137d28abff60e4fb9982f75d3787b9348be3e9e08ca307c32464aa35b5c7afb",
+      "bytes": 7000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/524112": {
+      "sha256": "42c40aa7165940cc89f9aadd6680fc6840df10f72a58955b361a948e40a6bea8",
+      "bytes": 9040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/521650": {
+      "sha256": "4f41f6a238f4aabcc4573448b16ce0b3d6f7bc89647ccf63f38616f4d17cb76e",
+      "bytes": 184900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/524402": {
+      "sha256": "26f13cd62b80285d1a61b82f12f9bd039eef7de1593e0c28868bcc593622bdbc",
+      "bytes": 23060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/524225": {
+      "sha256": "d563128dc592e13303be22589a2508d820b905167573f72c73feb2cda38e3210",
+      "bytes": 101752
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/524744": {
+      "sha256": "281cdbffe7c672d9bc099c66d24538713c4e421f48a25cad6eeb17726f7b4e6c",
+      "bytes": 74464
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/529008": {
+      "sha256": "d6bba49abbb79ada012487e508381bf3cafa0914adad67363e770a30033eede6",
+      "bytes": 24272
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/526288": {
+      "sha256": "c8abe359910daae5db0fe73dba111dd6857ea4cfb56f3de8cb6adbe51c61507a",
+      "bytes": 57712
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/529069": {
+      "sha256": "0dd0e59215cdea4b15a34baa4e0dc9e25444a5aed802681ec1f7ed9e70a1053c",
+      "bytes": 150000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/529488": {
+      "sha256": "70f6fe188e1dade651031308d62e2861b4eabae13fc633d64fba433d2d5d9585",
+      "bytes": 108040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/529718": {
+      "sha256": "6eb419215f50dacd41675ea0f4e15300bfd65f3d8731084f6178a23a97d4ac3b",
+      "bytes": 43712
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/529857": {
+      "sha256": "5f09a86d335db6e19179643cf21227b2947d561694a34f898090874e8ca90da5",
+      "bytes": 30860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/530212": {
+      "sha256": "ae7209aa92013eadcd6206f54e9b66f9234ec5d537504e6e600e9f4d109446b3",
+      "bytes": 17452
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/533983": {
+      "sha256": "e15b07a3c47f6ffd37b2a27ca6bd4d885d644367778d1ac25dc8f1d351031fc8",
+      "bytes": 20120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/529875": {
+      "sha256": "40b3420fea28f7d562f30fca81ca25e25e1b9465d0831774d82175eee5f25fe6",
+      "bytes": 58240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/536500": {
+      "sha256": "382c02c6f1a9d05b64fad2398c9b511fecf3ec2d6892e8ebb942a6cc6a480317",
+      "bytes": 6600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/537102": {
+      "sha256": "bbd37d475ea27df65fbe98daedb1066dd9fe4b33fec4138b650654a22deea946",
+      "bytes": 33660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/541782": {
+      "sha256": "57af1a3e0bc78a52afcf678b4b407dda1d69f98afbde24e39f45f66d5256eb00",
+      "bytes": 15080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/544698": {
+      "sha256": "44bad780f7861a9da37ef46464f675778216fcd87d6765f31e3604bac6a0eb13",
+      "bytes": 19260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/543062": {
+      "sha256": "2197e509facabfa5204f488f18bef28557a278550fe692ef719022aae0d660a0",
+      "bytes": 17600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/550813": {
+      "sha256": "c75735c1d5578848b95f053b694e1b94a213061077139c2b8cb48ac37135a854",
+      "bytes": 47340
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/549711": {
+      "sha256": "5840c8d23355babcaa394c08b2d4805301751ed46b2aceefa8c59fae2daaac8c",
+      "bytes": 37820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/555795": {
+      "sha256": "0de64e998040763da233aab16a00945422828692639fc2ce6d1276ff77ef11d1",
+      "bytes": 128020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/570588": {
+      "sha256": "9b9139b936614ce5c65dfcb7a00c803bbea54d1ca9de6d06c4409d2fd2a951d8",
+      "bytes": 42940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/575586": {
+      "sha256": "48e3138ae28bcec5e793515e4139d9a03ff584f4c98f762cf6c552d11ce3817a",
+      "bytes": 29320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/581089": {
+      "sha256": "08bb6fd8b75f3c7e5b045bec746490fcf1036951389d86cff39035bb64cbdfe0",
+      "bytes": 25860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/580386": {
+      "sha256": "bec7d06698c30585a9a11830e3ab54177062d5aca44e398a6047e9d010f6d482",
+      "bytes": 17940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/556329": {
+      "sha256": "f1718295c63f093ffb94935edd71643b7a0d92459c10d7bc7030dc9ffc6ffdcd",
+      "bytes": 345944
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/800174": {
+      "sha256": "0b838f8553ccaec1b204679a014e7c3ea75168115bd7d6a148609d52aadc2953",
+      "bytes": 162940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/800997": {
+      "sha256": "06360297c683021f622e9d1d263e394f38eb96ee34ec045797311788041e2046",
+      "bytes": 73400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/800175": {
+      "sha256": "b3ee88e35e556e6e7d076733647e4714aa433660d2069a68b0090cdbc2da6631",
+      "bytes": 194840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/800577": {
+      "sha256": "e115cb8e3002d071b10590e640b792bb1b75acbbc166b5aca99a763369c84fa0",
+      "bytes": 158500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/800676": {
+      "sha256": "cf65bf812da941b18cce22b171a5854f03251723bc8187f56bcff52a9ab717df",
+      "bytes": 175800
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801148": {
+      "sha256": "aa70ca375e9daa637f85e492d466c5688d831cb9cc33604d4ab43b85bba2e4c4",
+      "bytes": 224480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801158": {
+      "sha256": "ee3d8273e103e41dbe30fa1452b2679b3922208c93c6a97056fd20f300443571",
+      "bytes": 204920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801645": {
+      "sha256": "4fc6ada0eef2defa8cff27f9f3528e2e1dc01061321f8a0532695b54765aa394",
+      "bytes": 25560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801173": {
+      "sha256": "f106a6d340b5385b1996b8025a8a51b0ce851d21754e19d272e753d69ced5f1d",
+      "bytes": 242420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801516": {
+      "sha256": "604dd6d882a7a2d2da981fa6d0feb10f37ddcb4940b52f357d6a39ba5944ce54",
+      "bytes": 92280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801234": {
+      "sha256": "8195512d5c98988157e2a28ad3ffe69e8cc786042747be1c6375bbd1f6db8a43",
+      "bytes": 140740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801828": {
+      "sha256": "c6617669778cf2c1bc0ed0996ba63ca53d28649dbbb06fef4765f1ea1b39cdf4",
+      "bytes": 125100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/802482": {
+      "sha256": "97a097fccd6158abf6cbca0ab68a48bb0027d3a6ca1e31766d375ed5068a62cc",
+      "bytes": 10520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/802055": {
+      "sha256": "e053f7a4c65ca2a7f5173ea52de4247b330c854efdd17a4934ee1e0615d0da52",
+      "bytes": 56440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/801824": {
+      "sha256": "48bf1d2fc8ef0e39e75521f2824d12a9b4a467bec1bd1a71108c8be9818dd431",
+      "bytes": 232600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/802252": {
+      "sha256": "54f6694e6d52089a0f85303682a18129a48e60336a57f43ad5cc354ad76b0a46",
+      "bytes": 138840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/802806": {
+      "sha256": "32327be6ab6ce38fdeb54fc10aed20fc2621083beb1ffeeb17e3a3decba5c39c",
+      "bytes": 141180
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/802579": {
+      "sha256": "a585020e20d592b3af834f6b368f52294c016ddfc909bed09d0488aa31a8f787",
+      "bytes": 177100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/802844": {
+      "sha256": "239f7c98f07fceb58e1dae36f7cbeec6f4a70a12d1a0e846a726db349e93d696",
+      "bytes": 52760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/803089": {
+      "sha256": "059f50de861cfba0e9fe4ca0b10531936481d0a59de6edc8dd6f9711f6d9df96",
+      "bytes": 95500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/803109": {
+      "sha256": "61294c9d6f226bb7dbca18a3bdaa508a9a53d2c99ed361f8d6ca752ac7bc516c",
+      "bytes": 30680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/803309": {
+      "sha256": "1da27f8a4e49170d628d99aec038b201c3f12f12c217eaa163a0371c935b0fb7",
+      "bytes": 121980
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/803585": {
+      "sha256": "cc836dc791a34f9c9fd151c05d2d6c6bdf70817ccbfab02ce9a7f34ff82bee0c",
+      "bytes": 77560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/803912": {
+      "sha256": "d1734c01d7739c27c03da07ff8592c8704e351ad02db56037783d87bc093a9a3",
+      "bytes": 71120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/804016": {
+      "sha256": "fb43d5b137f53fd0f032df68510325ceb0e8faa0799dcce8298dc51feb6a5e84",
+      "bytes": 82520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/804073": {
+      "sha256": "cdcabbcd4c8f06925a0da16f3de5dcf1b7ca8f3b622f15236c9244c88028a938",
+      "bytes": 79020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/804856": {
+      "sha256": "e2941cc1a293a33b9abbed097498069b97250fcedc749840b7dcf9c518dd5e3f",
+      "bytes": 88820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/805309": {
+      "sha256": "ec01538320d37796e531df4aeee72ff0b38dcd13bb35eba4b60f40ddaf9ff8f6",
+      "bytes": 24120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/805741": {
+      "sha256": "a01892ba39baaf61ff15fed5e658fd8ed4e8604c25c9467398ed1852aec9295a",
+      "bytes": 72280
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/805399": {
+      "sha256": "885302760573a06816da1a6219313477cc59e714fbeb093b704aecb011266475",
+      "bytes": 19920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/805797": {
+      "sha256": "72c94c799bc654199edc39b185efbb89ff8325e9bbdf824236e23e04213904b7",
+      "bytes": 80560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/806423": {
+      "sha256": "22b87b5d87b0e4f64474046ab0dcadef4e3faee2984767b18af0293ed25b5248",
+      "bytes": 63360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/806139": {
+      "sha256": "c87457a0e2fbc2af82f2f8dccedeec3fb1bc44a9282f77db178003df1b0c12be",
+      "bytes": 164640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/806578": {
+      "sha256": "e14bf454687008b784aa3418a962be3c7e8f1c2dcd9fff2448a827e93131c79d",
+      "bytes": 57520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/806493": {
+      "sha256": "e3360d0be63ace4032f3226d8d34358ff154be61a57335808b55fc99966a3805",
+      "bytes": 62600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/806536": {
+      "sha256": "e39771cb51945d9cd39c1b2a61b89de1c9fb6b1c5374309b7cf9df8ff987dbcb",
+      "bytes": 82232
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/806930": {
+      "sha256": "4f764f2e9ae8406931a132470fe0b15826e6bd432475c2f294c81acd9359ea8d",
+      "bytes": 21440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807156": {
+      "sha256": "02dd326d8a156f1c24fa35339dfabbc83a9f11a8848b02c7751294b53f380d95",
+      "bytes": 34240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807176": {
+      "sha256": "802c44618736295791358b45ba8c4a850d8597bb63839470deb9cb8686bccc71",
+      "bytes": 79760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807443": {
+      "sha256": "0060dde014e0b7e138699ea8ff159f18fb2ab0e943e75d0a9aec14d16c6e6684",
+      "bytes": 27220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807312": {
+      "sha256": "541888abcf269729a02e143bcadc9632c032b5bb1447028a571f3f76f1c39879",
+      "bytes": 81560
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807740": {
+      "sha256": "7313b006afec345ecb707ea39519dbbcbda77e6e6589f8ad931e6e8da76d5a17",
+      "bytes": 53760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807939": {
+      "sha256": "398af9d2fe65f03bf5dabbff51561e9fa1e36c1256fa98f26a680ae21b0fa93d",
+      "bytes": 50580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807813": {
+      "sha256": "c35bd5cf1c5870c2e625f875a4fa2a6e3ef06f92758a5d2255087cd47df76b46",
+      "bytes": 73940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/807324": {
+      "sha256": "8896a50792902d7e4f3f29d1c440c1ef73de66835001b87b6940934665ace125",
+      "bytes": 80960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808047": {
+      "sha256": "311a5ffdf710e043a4b6d607b654f9b01f57c540e0ad0b735f332cad9f192f5e",
+      "bytes": 27100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808176": {
+      "sha256": "df54dcd9d200979ae6aeb5f22b4d83f0a787deabb2ae0345eba260e23303082f",
+      "bytes": 30360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808207": {
+      "sha256": "9cb5ccda18af822834c68d72540d77318cffdaec9d20c46e5976f30e02b668ef",
+      "bytes": 34620
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808322": {
+      "sha256": "9695fb8d2741c24c3560774ab12a109f054893f0dec876e1eb1ddf1e4d9a3a44",
+      "bytes": 50220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808813": {
+      "sha256": "dade174c93d8e20e5f86f0f1c9e713eb24343891f53a6808ec0f2181511d4306",
+      "bytes": 49760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808858": {
+      "sha256": "0602652da994b8c2ade4221ad80e6f41623952c12e9137f7ebac84e727c0ab4a",
+      "bytes": 29840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/808867": {
+      "sha256": "8bf8d292d077773ded7f21062b55f515d9d609ba49a23b7b7e1a2bf3b691dff0",
+      "bytes": 48340
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809037": {
+      "sha256": "b0d21e73c9b654dd6d61685e0a8f075c14a6e558deac18a3e9d8078b1858f307",
+      "bytes": 40700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809140": {
+      "sha256": "7b36d463ddf8927ce234a85ed29f24d1a4bb72f038d3977fe793452a1983f6fc",
+      "bytes": 42180
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809401": {
+      "sha256": "d551fc725c01a5ffc74a0d2df91017984a468b33d1db4c6a46b9597f30af1fce",
+      "bytes": 49160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809236": {
+      "sha256": "1e01ec629f0df19daa45d1ce4a240f9ee549aea34b80818247f552444ee82d35",
+      "bytes": 50720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809663": {
+      "sha256": "a1ccf4bd78dd5131e26f7c677d0632001cb35d40228143aa78d7dc9f1e8e3150",
+      "bytes": 42820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809784": {
+      "sha256": "38281183908da17ea770777e7a6d3002bbb2a841bef4ccb554f7bdfa19ee0c1d",
+      "bytes": 75140
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/809985": {
+      "sha256": "8e344a65bb991b76eafd72ecc012f2847cfe83e3d76b21235aaeb2bb709faadd",
+      "bytes": 48740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810086": {
+      "sha256": "fe258b7a6c54c73d46f11861f4a84fdec97bfb9b9495fb8942c6f62b76c78275",
+      "bytes": 27660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810069": {
+      "sha256": "1697be7c661c7d869469ce80fbb6e48357dca29d28e2385c8657b568859fda7c",
+      "bytes": 55520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810253": {
+      "sha256": "1b35f0c85ccb84ab344837b5187e1745b454bdf85d39bd037c10c645ffea15c2",
+      "bytes": 48940
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810446": {
+      "sha256": "8f39a7b490e95f1b6ff1c367db3b72c6d11dd57ee515adf8a3b3dcccc02706dc",
+      "bytes": 26200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810308": {
+      "sha256": "4dc9958bf6036965c30b205a7403164a6473631b8727a48f80ac2d2489190431",
+      "bytes": 33260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810467": {
+      "sha256": "dd123a4b11e38aeb4bab9ceab67b418bda8963b7d03d743269b9807870417d49",
+      "bytes": 33272
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/810998": {
+      "sha256": "3d05e670f93f1bb345cbe33972f6af471f223c6bda47181e30d9fd9a5c25ace3",
+      "bytes": 19020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811104": {
+      "sha256": "b3a8f13b5611ac2b6b5a783760b0c9051b9b4bfb88ba668cc7df94c4f084dcd4",
+      "bytes": 24100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811315": {
+      "sha256": "c209bf695d7caf8411f6a15b6b420225c2e98247569f6e8a97fe7ac392e32c22",
+      "bytes": 39540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811541": {
+      "sha256": "ce8ec5a4850c0f5ad00d2e3c3afbcf2fc3aaa1e4916a4301c64b3af9b21edb6f",
+      "bytes": 9860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811675": {
+      "sha256": "7381f5c5d7bbe10181b5b7924aa025bff09bbe0f4403acf639e95c9f7ba4be90",
+      "bytes": 15860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811508": {
+      "sha256": "12d9a67c620cc8faf89f3a95279ab3133794ac848595825695a2ecaa81566115",
+      "bytes": 49740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811697": {
+      "sha256": "46dc5ed5f60682c0c9f2c172d160059312e1d2e02c2b72ba939aa36259ffd5d6",
+      "bytes": 54880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811890": {
+      "sha256": "b82695790689344776909829e2dd558653002a810de7e83efa2dff6817a0f0ee",
+      "bytes": 12700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/811861": {
+      "sha256": "2e77289bfc48683d247203f8f59a472d8061139f0b996633c65beaded274b644",
+      "bytes": 25060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/812144": {
+      "sha256": "0e19d2936a682e3f1465973af4bd327f65b83c4951529d4471fe20456f6e114d",
+      "bytes": 30140
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/812069": {
+      "sha256": "abf350a2989996dfb3fe05ec3d29bb8740ff43a4ad375d666ab4cbe9d3bd8421",
+      "bytes": 22732
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/812338": {
+      "sha256": "211bf7af02f53b07746704ff8762afc48c777b266be510dd95a417ce88d85b06",
+      "bytes": 21260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/812491": {
+      "sha256": "f6c17aad8e852dc49bb0640952b0ebbf2a5b0ec1d356a23893e96b4b1a9ee0ec",
+      "bytes": 4620
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/812934": {
+      "sha256": "b8d088342be6cc3f74d11a8913ff0c1d39a622b3cc4fc3913afa6bffcb635a70",
+      "bytes": 4660
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/812983": {
+      "sha256": "46f51632ca5de79d283416383e02dd0eeef279f81252f649bea8d0c957261394",
+      "bytes": 28760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/813092": {
+      "sha256": "93a20a3171242334da8e290743f87cb58acd68d51fe9dd3639b66515ff0f4659",
+      "bytes": 5740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/813270": {
+      "sha256": "de6200b59556138a3e96fac7b0b4c6eb9faf4dd44638cc8a7a7d6f621fec1b15",
+      "bytes": 6700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/813609": {
+      "sha256": "a6ea3c87e8c9acc682ff493e0fc78d46cce507fa99813e9096608e27c192a72f",
+      "bytes": 10320
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/813291": {
+      "sha256": "b2a87ef22c4893fff976e30458a5414c15b2cf2659317919a7623e985b253795",
+      "bytes": 49580
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/814328": {
+      "sha256": "752e44983009d152bee17a005f1eb0a4f486f5e3d04bf56f0cc70efe32bb17c9",
+      "bytes": 6760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/814163": {
+      "sha256": "7f3cfd4387f4c090676e7f0a569005924f9e681c0312e49b12a8ee8909694cb9",
+      "bytes": 45820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/813232": {
+      "sha256": "3a4b27b0ad5efa0c75b3d198e2e070a5bde286f34c40c7094e2853b4d063f3d6",
+      "bytes": 21480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/814891": {
+      "sha256": "87d0ac42b194d739a9dbad60bd0ffceaf31500a0a9576381813406364f0d5a00",
+      "bytes": 6740
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/814831": {
+      "sha256": "573110366d7c9622893aaaa729b56f023817acab36e7b86fc1dbb40e4f7a7c4d",
+      "bytes": 26880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/815205": {
+      "sha256": "251f998a8e4145821b3e4be89154ab65bd53fc2f06294f4bebe368a4c9440968",
+      "bytes": 31400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/815383": {
+      "sha256": "18a090cacc8742b1edee7c7f23044202d0ea0c6a1dd82ce1f8afebdb0dfc6bd9",
+      "bytes": 22880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/814989": {
+      "sha256": "8f43b5481521899f565344d8a2587c2d6cca6bd9217c6cc8e9d29d446a4cf68b",
+      "bytes": 36020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816283": {
+      "sha256": "5c8f51f0efe7030119b3988f43f327f2c1bc1ecd60404be7430425e5e82f960c",
+      "bytes": 7040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/815566": {
+      "sha256": "f7b7ed43cd4f488faa2a297d45e88a4b85b9715fed28f2dbd5cfe5638295305e",
+      "bytes": 6920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816403": {
+      "sha256": "8bd4815d87c7493767ee7e8e0ab703e4d83ff386ce2f11acbfde1f90d34f4e0d",
+      "bytes": 7420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816336": {
+      "sha256": "5e03b049fb38aff842499aebb82ef25ea0ba851fcd68d487edd1320d96e72660",
+      "bytes": 4900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816648": {
+      "sha256": "c1ed4972c76809fe206549199802f1136e5222df0fb823e56ec83eb3b07f2b32",
+      "bytes": 24664
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816720": {
+      "sha256": "3f3b7874461a69165e466c8764bfa5effc01536138bef08a063d95c91f8c5c5d",
+      "bytes": 12620
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816784": {
+      "sha256": "1af2c0665dcc2c552699c0148b5213a4355f2d7274da193bb6898ff0ba76f804",
+      "bytes": 10980
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/816810": {
+      "sha256": "103b0493d4e3541de7dbb7bfc27518d0a7744a75a3f2dbaa5c647a7c149a9d95",
+      "bytes": 28340
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/817026": {
+      "sha256": "81c0ccdf6011c17f7ae077286b4e8f0ffe6986c2c47d02d36372321d7b56c1a1",
+      "bytes": 53480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/817173": {
+      "sha256": "6481a9703fe8afaa5a61a4b7c7c98a7e5dd2001231039a8fd608ed87f8b37f2e",
+      "bytes": 3880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/817841": {
+      "sha256": "288c23a931aead9e689ad2698183a95f2da883e9a75ec8dcf82e3a33064c183f",
+      "bytes": 8160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/817651": {
+      "sha256": "27661a8aceb0fd3078aff7b8fbb05a37d3f8b448217ad0eeb502fcd70769371e",
+      "bytes": 7160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/817322": {
+      "sha256": "4a3283c3cd52289041531f37d0506b1e545683841dabbd7ecad4d25a5afb657e",
+      "bytes": 33160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818076": {
+      "sha256": "e167e9d2b93266499970282872bf22896884c9ccea44058e207ae45c70b915c9",
+      "bytes": 8540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/817999": {
+      "sha256": "e95be56b17a3de98bf3c646d27eedfe8ac81bd7c9270a79566ca1b078e1621b4",
+      "bytes": 19960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818080": {
+      "sha256": "27f0e195623d636182808942644cbadcd11755698ddfdfe338641dab55603b93",
+      "bytes": 4800
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818239": {
+      "sha256": "bbb34401b959bfeaf00359549b2d264920d12c0d394d89545ea42da3b036157a",
+      "bytes": 3840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818098": {
+      "sha256": "0f1d0fac04c3f87c1cd9bc9698ae7050348007eba0670bdd5d81651f7635dfe9",
+      "bytes": 55020
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818273": {
+      "sha256": "60ae9a5fa0e64c2b52e8f74a1d02db27b0ca9e4ccae07b0af3321bd48974e6ba",
+      "bytes": 19080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818428": {
+      "sha256": "23c9d86959afe78ddad6685a1bfefd69a78f9300f581301361ed693a4c7f3e16",
+      "bytes": 20500
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/818432": {
+      "sha256": "28a28d899824e068aff0b7fbf76c73746f8725ce7f6a578567d1402482f64d76",
+      "bytes": 6440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/819425": {
+      "sha256": "7abd0dedf1fe63e02cfa4be09800ce87729f0b34ca5b10a31c105d4f396ddf7b",
+      "bytes": 11680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/819443": {
+      "sha256": "bcb2bec199263fc165ea01fde6d6ffac0b8de1176572d98d02cf6af31681370d",
+      "bytes": 7880
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/819549": {
+      "sha256": "e6006d742f84efcb1e7e6cc2492f07d5338fcec5296fadaf57a6b49be04f0e9f",
+      "bytes": 24060
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/819203": {
+      "sha256": "5ebc6d518af02230026fc56ef9b362186c4f53cfc9ac50fd5cd0ca8bade1cf09",
+      "bytes": 35460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/819977": {
+      "sha256": "0ef44ce76c8408563b891ef2dc7d9ce7b5cd3e820f20bc6a1d70044b676cb944",
+      "bytes": 19360
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/820174": {
+      "sha256": "7940136ede4ac20e3dad012d7c95bcb6c74986725760767b05793caa9ecc99ab",
+      "bytes": 7840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/822812": {
+      "sha256": "f01d003db545d7e71109bdc4dbe495950f6fb8e9c11849a4e930e441efc0e48b",
+      "bytes": 3000
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/820276": {
+      "sha256": "5d642e52f81734654a13efae04533be26559f97925b336f534f1b8fd1a175c73",
+      "bytes": 18520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/823645": {
+      "sha256": "4884ca3ec454657ca20fc77082b01406c30f3f074035465fa821916c8f8438d1",
+      "bytes": 3932
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/821494": {
+      "sha256": "526c4cdfb25578a9c584f7cdefb1ce74908630d6148d56c651615035c9daca62",
+      "bytes": 31900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/824104": {
+      "sha256": "f52eccef1b5fc0148089a61bdb5ca2544ff16a84cbfb265cff2b0e5b9b9f1425",
+      "bytes": 15800
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/828483": {
+      "sha256": "d84889e6fab62d9e1ce04e257a3822a7484ac03929dcb8295b6426ed15cf9941",
+      "bytes": 5420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/829972": {
+      "sha256": "9aa56aeae1afd61efef3ed0e1c8c66a29bb3c79a855251639a3e914e6494a55a",
+      "bytes": 5300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/828795": {
+      "sha256": "bae7c8c0be529cb251163492135756de62192a3dcbf91ce7372576780aba50a3",
+      "bytes": 2344
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/830502": {
+      "sha256": "d97361bab19295647d179e74d6fc59b702b0db22c5395cc89819c12ae09c7132",
+      "bytes": 3460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/842364": {
+      "sha256": "e8f0e345705062519e5852721a8d6f82cc5fd266786213120a301c86c7f3445e",
+      "bytes": 3460
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/838362": {
+      "sha256": "f1de916717ea83da287cd342e440cc8e80c8b9c340ead65001ee2330d0762dc1",
+      "bytes": 4712
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/850091": {
+      "sha256": "a9c40f6f8376e078c9576efd755d120cc5c8e449d32ce66852d5ad851c6483c6",
+      "bytes": 1200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/860479": {
+      "sha256": "7df8c23ca1f6730209e3b55147e41cf0c580c30f73adc92a0855761d75cb059b",
+      "bytes": 8152
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/864928": {
+      "sha256": "6e29b0c60a8abfe7c02d8d031422646b354bd592a173061448a29cae1576468f",
+      "bytes": 8572
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/896037": {
+      "sha256": "1bd312bbe8936972a02edf97f3224e5c5f6661ed54c7952eca146705a03fa1ec",
+      "bytes": 5892
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/858248": {
+      "sha256": "ea2644e238902d02d803956d8faa41f736e8349d22b9e4487c766e8643fc9738",
+      "bytes": 18192
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/871963": {
+      "sha256": "58108c0794fab247c6ef801b565df19a4144282dcf8971a412c466a81d1cc6e3",
+      "bytes": 6600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/903469": {
+      "sha256": "b07f197cf24eb18fde9dcdd5ae14014d5c9be3e4f746901bde9baf7363773888",
+      "bytes": 21900
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/904709": {
+      "sha256": "947131aeee212e15ec5576153b2a46e5f8df9dd3baf437f1cdc375cfe11d74a2",
+      "bytes": 16952
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/907424": {
+      "sha256": "ca8ce1d7de0c240cf2fac76f03754ad62f83de12e3334abf013c80d966663834",
+      "bytes": 18480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/908287": {
+      "sha256": "4f1447543df1b73ab8352ea7d0dd7bf5a71bdb18240106877524bc884ce04004",
+      "bytes": 24300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/908351": {
+      "sha256": "dae88ef4cb041459a81dc29de7bc0e79c3bc4f213469918b9eadecaed3c83f4e",
+      "bytes": 29600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/903852": {
+      "sha256": "e803317edbe8b2b9b4b75b00513712eb954243eba31fba3b1a0d72abd70d8ec1",
+      "bytes": 201160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/908651": {
+      "sha256": "a38a048c38f018f17da0f843bbf0190816bcc7edbf9cd21af041eb4aaf8ebe58",
+      "bytes": 19300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/908889": {
+      "sha256": "dba23c49630ac6117d856fe5e6fe70a3a73129de5dfd7cb0ef2d2de33f9c6037",
+      "bytes": 29640
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/908724": {
+      "sha256": "ef6d630fa165fdd76ea4ee961a07ae714613d8b82054b668c4a1019de7d8dbe4",
+      "bytes": 57440
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/908993": {
+      "sha256": "82ba5e290ed258d0d102938ecd6623e5660e3fc8e4b77def8a43c4fe3b92834e",
+      "bytes": 33160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/909034": {
+      "sha256": "78dd0a68ba8f7477f4dd9af15004e253cc5a110f42e2a147238f2f77c141f1c0",
+      "bytes": 66300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/909558": {
+      "sha256": "e2393717fdeadbcc5b48b8e568dfd9cb888e439733a993e1afb5eb432b41195c",
+      "bytes": 48600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/909038": {
+      "sha256": "cdfa20cfb0240f7b5f82a98a872b228ca1c2f77ffb0c37cd81c562f9c37d3a47",
+      "bytes": 35884
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/909582": {
+      "sha256": "ed37362482daff38d99f1db74d21dc31eb146d2ddcf216a5c515c290de448faf",
+      "bytes": 51960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/909734": {
+      "sha256": "f85972f7fe4e9e37cdd73f55e77eb513ca86ed7c4380ec2aa9368531d1734ddd",
+      "bytes": 17100
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/910096": {
+      "sha256": "42066e25155dc22cac94cd29c6ca1106c4cb6853f4ff1d34c604ffd1817f91ec",
+      "bytes": 28600
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/910780": {
+      "sha256": "3936c29bed2166b7af29be37b056cc8526489fe1ec69ead85fb99415d0c1ffe1",
+      "bytes": 18692
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/913198": {
+      "sha256": "fe67611e4bffe3e827f1d6f68b13681084e32d49a0f824a4fe6a92db43ec21c9",
+      "bytes": 20220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/915827": {
+      "sha256": "662db2786733196a9f410b279c2e5bf637e8f57b37699267078cc62bb795edf7",
+      "bytes": 6380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/914632": {
+      "sha256": "56cd852bcba6c60519ae6845dbf5d80716106bb83c5c416aceb4038bc5fdda74",
+      "bytes": 24760
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/914852": {
+      "sha256": "d617dc988d964577eddd47dfda76984c08ede013ac68f5335d47a4aa5b70abea",
+      "bytes": 36820
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/934519": {
+      "sha256": "a47a1681f6039e8fd51c069d2875133669f25cf92fcc786997c059f5cfdfba72",
+      "bytes": 14408
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/934633": {
+      "sha256": "9ede5b76d3f1b5cae1c2698818ee17c48cef1baadc38200dab48f1598b528456",
+      "bytes": 17380
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/936702": {
+      "sha256": "585f5d0aa6ccde118d107ecce99f880f7ba8129cbea0845d434cfe68061a280d",
+      "bytes": 25220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/925696": {
+      "sha256": "cfaa995581617b49a284e0c0cf252f6fb46604145cb4416ecb401d7eb482b1ac",
+      "bytes": 8816
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/935467": {
+      "sha256": "356ef15749cc7d97aad61966c613a723330429e40cd1328c9e59014e90a16dca",
+      "bytes": 37860
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/956305": {
+      "sha256": "34061882bb2ed11662f10dd32f2bd4216404b14f2362b4bed7a439f4ea405338",
+      "bytes": 7180
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/140328989": {
+      "sha256": "667f5a972a2eb5ca3f51217be0b9a391fc0597f261a111e24bdbe188aab3631a",
+      "bytes": 2920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/351768533": {
+      "sha256": "caaee5b5b5e3aac47627cdc9b7b932ff2f442953330bdc477f1fc86784434998",
+      "bytes": 2876
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/834852932": {
+      "sha256": "982cf0f7bf5bd12062e58914b7c01d61915a03886a753ab877b8007a32fb63f2",
+      "bytes": 5292
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/984521165": {
+      "sha256": "93f11ad7aac04a239f1f41b8b99fd9adc6253fd111ec61d43bea42be8b0c3e5a",
+      "bytes": 2780
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050013851": {
+      "sha256": "2cf13838bae17b3933077daab7d10a250c320b187ab8048d1c8088c461667bc5",
+      "bytes": 10160
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/570538072": {
+      "sha256": "6f4a14e4176b58b2ca7240b9e05a392ee9b30f03fe0b5605fed577110b522c57",
+      "bytes": 5680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/628764882": {
+      "sha256": "53e58804b01ad7ae76ee14a65f944d3bb3f935f83eb8bc1b3a3486e45f519fdb",
+      "bytes": 3180
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050080384": {
+      "sha256": "234d25f4b631ec282b799d2f117c11cf3d14e4065843439bf7e730ca608cd39e",
+      "bytes": 12052
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050038433": {
+      "sha256": "6fd3bd8a2022fac3430bff839ae7ad0db2f679211a6f6bc6c86b59df02cb3776",
+      "bytes": 13040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050452666": {
+      "sha256": "65b60e0d1a4ff49edb36f86dec04eeaf32000f2892f9aeabd048aaade8540140",
+      "bytes": 9220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050460102": {
+      "sha256": "398c122774f734733bfb4301cf9951ada852bfa4a307476795d245aeecc5bd94",
+      "bytes": 22932
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050814137": {
+      "sha256": "ea669640cd4cd83428873e38407347af8b6d315148f67e6fe60167655c7e8ab9",
+      "bytes": 6352
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/176066484": {
+      "sha256": "08903030eb909dc0ebf29f63773c468253b9fefd1b590b7edd9bdc0ca4a07dc2",
+      "bytes": 4040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1050938258": {
+      "sha256": "62b21a5ec8ab9b7f0c5209348443a5ac6f7c1a830b648e1a79c2d0e26028b51e",
+      "bytes": 38040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1051333245": {
+      "sha256": "917fda70cc82763d7cf58f9b2a7db39369484a3729d5a142f645b5d4e2b1c31e",
+      "bytes": 21944
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1051367796": {
+      "sha256": "26301ce19ffaf6824e92b90b12b3b5f909f6e21c707c5b10abad9d19c1f6eeeb",
+      "bytes": 11720
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1053952804": {
+      "sha256": "624e5cccd52331fbbceb739689eb84eeb417994a3c6ff07b24df736eb098034e",
+      "bytes": 2692
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1052521030": {
+      "sha256": "7068a630f154f27a0a11789c47d60214c4ac0f846ee699103b07d657155f603c",
+      "bytes": 22420
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1067287820": {
+      "sha256": "5b8cd55a5fed547f0ec44b76a047d0504c072b1dc9eccfee8be2321b896378bd",
+      "bytes": 13920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1152491502": {
+      "sha256": "6ecfe84dc988aaa1298e532e1259f640235cff2b02392b3325406b5a8d0dd980",
+      "bytes": 2920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1108992347": {
+      "sha256": "765bcb29ec82400f930fce5ad71ce39c9bc5c2a6b2752414f7d7343900f944e2",
+      "bytes": 2840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1081421939": {
+      "sha256": "2aeccd4ae1f3a436f6b351743303cd775f75b0c721f3cca9aeecdf55f998498f",
+      "bytes": 920
+    },
+    "https://storage.googleapis.com/flyem-male-cns/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/1064803101": {
+      "sha256": "5eb4db39d46222b51940484ed11352f2f06c3b518b811ce41b8b1af155d996bd",
+      "bytes": 9700
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/segment_properties/info": {
+      "sha256": "9955cc05c4409366b65cabdc87482f8226b48ba78dd45b6824da758803ce2f7d",
+      "bytes": 3034
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/segment_properties/info": {
+      "sha256": "9cfc17752b5feb97c005dc352d339aa85b1646f43ec806084eacc06460321ca5",
+      "bytes": 1093
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/4:0": {
+      "sha256": "71b47a1fc69b6784b66eadc12b8a3a8d046b8c5e6cc80f13469cd0a61bd4b6f1",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/3:0": {
+      "sha256": "1f36ade3e73de2e177720eb4bde7ee8599b2a2a68ed58d53bf45fafba7ffe3a3",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/2:0": {
+      "sha256": "18f2e40f78e52757bc13404823e1e9efdc5fedaa721b752a59f751510bcbe875",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/1:0": {
+      "sha256": "62e22fb7ac5eb3f4af64c4a34cab783474f2188f093f54687603a8ef16749b75",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/6:0": {
+      "sha256": "853a375129a47417caf5c922aaf100b0ee9d24fcd980475221f45088dfe26d74",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/8:0": {
+      "sha256": "327fbde15ecdb2216556e1985714b8500338344a935c879d543a3b731f686062",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/5:0": {
+      "sha256": "c0221d587380224903e343eb7818465a0796ad5e91f8f157f421d4f08745286e",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/7:0": {
+      "sha256": "4b8ea23e9241a9aeb5e9b5fa3f8e809a7c6219ac30ae7a1b10ee6a2c99d8dede",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AME%28L%29.ngmesh": {
+      "sha256": "d92eaf1b5fbf590e67386e13be0874bc328d2fe9de97667b4c5f80f60c2ab7e0",
+      "bytes": 190636
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AME%28R%29.ngmesh": {
+      "sha256": "65fa91bb1cb18232f40c3968440e1c69461ee244af90c4b51b1ce2b757653059",
+      "bytes": 319540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AOTU%28R%29.ngmesh": {
+      "sha256": "8dba06050f59b5b4fc4d9fadeaa5d10b480abc4bfceefc12d41b0af9fb17f4cf",
+      "bytes": 606208
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AL%28L%29.ngmesh": {
+      "sha256": "02c3c529bc6cc4d4e0d120853319c3cd13f78189ddec622473b3b550748f80ce",
+      "bytes": 1440196
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AOTU%28L%29.ngmesh": {
+      "sha256": "b5ab7a1331074bbd22179e8a15f48256ed020c435bf40c4f259cfbc2482d4333",
+      "bytes": 472840
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AMMC%28R%29.ngmesh": {
+      "sha256": "97ffb59c97aa81354168adfb040d313846f8a6ab45ec645b3011b0a3b196d942",
+      "bytes": 1692328
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AMMC%28L%29.ngmesh": {
+      "sha256": "d671cb1878c3b697d563a290586abec84d78d8bf8474b7217393f904d1dcdd9e",
+      "bytes": 1566952
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/9:0": {
+      "sha256": "a81e68e731c448fe939b540f34062158550305e676e3d75e8665e25779990485",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AL%28R%29.ngmesh": {
+      "sha256": "eb847795903d6267517c19e8e75b4a6f98dc4d48afe539a144ae3865a819a83a",
+      "bytes": 1456168
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/12:0": {
+      "sha256": "91b183d96ce6a68d3bc851607191712d6327a35239701e24dd16aac92cee7090",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/11:0": {
+      "sha256": "76351d7fd564a16a87dd0b58a49a86dec23c3345b4e89b56d82266f96451ded7",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/14:0": {
+      "sha256": "d963de4fe337aee6ee505e3260680cb0cfc7e59ddecb089a66b15f0a8cb813f6",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/15:0": {
+      "sha256": "93bf74fe6e3c11d180e2d5e9c8621bf7e2820762fc5465440ec080d452e20125",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/10:0": {
+      "sha256": "23260c5794b15d96f75247e150696efe4885198fb2a03956094d070b6dc78a3e",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/13:0": {
+      "sha256": "b774a7ee675d17059149317303cc1bb7eacb87ab7e0a39ede4e83f2ab5b8aa4c",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/16:0": {
+      "sha256": "1989994238b0a43d02ab21e859725e615cf8a00d58f69a642235d1703ebd8ad6",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CA%28L%29.ngmesh": {
+      "sha256": "9def9fc7f81442da03b9b86a3bf0ab59ce3d8bbec0c00cd5708610943e24f6e6",
+      "bytes": 584236
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/BU%28R%29.ngmesh": {
+      "sha256": "964051de5d20c09ddbff39cb450d12563615ba974f8289073018b777b0393e61",
+      "bytes": 240772
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/BU%28L%29.ngmesh": {
+      "sha256": "f4e75d9f9a45d6d08685035b56ef282fd8a8f96dc6f2a4411d1edd23fd2f62f6",
+      "bytes": 263800
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ATL%28R%29.ngmesh": {
+      "sha256": "4fbb700d9c395ef863219d9284475bf6cc6cd48098fbe0c2ebc56b7b6825bf10",
+      "bytes": 320248
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AVLP%28L%29.ngmesh": {
+      "sha256": "569cb3b550a25b2a052d650e8839de19857633eb49d7387ee771d146b4a470bf",
+      "bytes": 2758300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ATL%28L%29.ngmesh": {
+      "sha256": "30c527cae8ed2ba8bcebea95e3318767de605fabdd53b75fae50540f3d7272c6",
+      "bytes": 329680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CA%28R%29.ngmesh": {
+      "sha256": "3a04c836830de9256f76a368bfd7347778fb5dec35a8ecd24551eae2237ef11a",
+      "bytes": 716692
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/17:0": {
+      "sha256": "eeb9f3959ecf2f1583430173a055554f7dcec02acf33b1db57da162d3a86cc94",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/18:0": {
+      "sha256": "52b99773bd90f4fc300dd2066a48b4d07ade9ea9dcc81c8172b546e396045ba8",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/19:0": {
+      "sha256": "0f55030e52482269d52063267dd7376f621618b21750ca27bc63442e940906e5",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/21:0": {
+      "sha256": "40379d5630b85b648698f08a2cf781d9cede694afe84e609f6548148128d2426",
+      "bytes": 40
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/23:0": {
+      "sha256": "6e823c5b054c9abfef08e7508a7d40c9cc1f752a60a7ced12931673bb9ffaec0",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/20:0": {
+      "sha256": "342fae5018f3bca28111a65b0d38a1ff057c04a1dc29d8e3db8360d58720a5a1",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AVLP%28R%29.ngmesh": {
+      "sha256": "2d9f5b52808aa3576301a424c5a36f71bed5c8ad60047fa2265dd74630409cec",
+      "bytes": 2492152
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/22:0": {
+      "sha256": "f7c270df5c20685c950cacfde4bd996d5b6ef63dd3508457546376cb5ba18bde",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CAN%28R%29.ngmesh": {
+      "sha256": "f5b7df03c005d51fdf056c156eb256c5cd5b85db1ef6b1e172ef49d8aff58436",
+      "bytes": 304432
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/24:0": {
+      "sha256": "2d447aa1994ad4ce13fae1d6ddbe3cf71ad1e64439b0223df13a27b2ce79471d",
+      "bytes": 40
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CRE%28L%29.ngmesh": {
+      "sha256": "c0cf2722cfb29782bd9a0269aec8b91c3cff2c8cfb9aaea90ddef0eb21cd2d6b",
+      "bytes": 1486108
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/EPA%28R%29.ngmesh": {
+      "sha256": "0ed98be4beb2f521bc8f5f2dc35773aebfa444168bee662ce5d518af2d3cec5d",
+      "bytes": 427084
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/EB.ngmesh": {
+      "sha256": "3f3f385ea6a92bbd84720b206e56c20eae6a987375c8f4381005846abb2f3582",
+      "bytes": 654736
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/EPA%28L%29.ngmesh": {
+      "sha256": "1afc1c4c77d62efb5bfe7c0de26ca0bc1d8aeca4d748aed64c3434bc407f25f3",
+      "bytes": 494260
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/25:0": {
+      "sha256": "4217e533205aff373040bb92ef3ee590098c381f88c753ea8ebcc1b559204a5f",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CAN%28L%29.ngmesh": {
+      "sha256": "843303d3f1c0e9e6b00bfc92bd1108387d7bd91bbfb3b19bd458a4796fd3d12d",
+      "bytes": 283036
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/28:0": {
+      "sha256": "5bc3081438c81e78b2a66dd8686844c8fd45bb5aadfdf5a004260c358d656481",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CRE%28R%29.ngmesh": {
+      "sha256": "5961dd525b39b840df8668a140dcf92e5a2ff632f5c1220f1b906ae20463ce20",
+      "bytes": 1501444
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/26:0": {
+      "sha256": "8d5ec3de97b13eb89e0bd9fb147e8cef23ecec80c61ef5f77f334fbde4addf33",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/29:0": {
+      "sha256": "3c256b3ffbf521e3e0b392b29aac04d96223ce2b4839a7ecff27ad993bfc9312",
+      "bytes": 41
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/30:0": {
+      "sha256": "064f04d3d1fed54b38f7da615ef915e26589321bed7260c9273740ef964a6b11",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/FLA%28L%29.ngmesh": {
+      "sha256": "982b9cbc6864a031db3cbed433fdf823266a7f349f7b9b1d6ad1f81cf691f50d",
+      "bytes": 797428
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/27:0": {
+      "sha256": "a4a79268ce278292ec645b641139bab8e1aff13c972edf9cddf6e61854ece5e7",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/31:0": {
+      "sha256": "c76c1b7bc3bb5662e56296e9d3a58a77307b08ce2764d106755189f407c350e7",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/FB.ngmesh": {
+      "sha256": "f14a159df5c41cf16e2121bfbdff2ca588b29a6c01ded1460993fa5ed2a01141",
+      "bytes": 1456072
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/GA%28R%29.ngmesh": {
+      "sha256": "479d5a184c3ac6dd2c5bb425f326d1091acce5e39c95fc8798875b214b86c75f",
+      "bytes": 77308
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/32:0": {
+      "sha256": "c8cc2ea1c3eb3c8402c75bd44dabcfe831ec8b4532772fa8dfc81856d452f9f0",
+      "bytes": 40
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/GOR%28L%29.ngmesh": {
+      "sha256": "6714619b2a1fcf29cc12fbe64e6907b3cd59a0b7b633a36819862edb671ea601",
+      "bytes": 583432
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/33:0": {
+      "sha256": "19b37bf6117f4e8a4315250d7583af94e4eb3252184686b4775f143f36df726d",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/FLA%28R%29.ngmesh": {
+      "sha256": "9249cdb402b989f6581b2dff1a99609e15ac2fb34ef2c98ea4b14d71e9992dba",
+      "bytes": 808624
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/34:0": {
+      "sha256": "6ede99abfc7c4c2da5ccf944ae87097791386e36624c3e4428acfe91c5d580b6",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/GA%28L%29.ngmesh": {
+      "sha256": "fc9007894ad261a7d10aa641c3e3a92dedeffb15a3152497ceffea7b073d7640",
+      "bytes": 62524
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/35:0": {
+      "sha256": "13c27c900a9912227a56132ab9b8348c4bfbdb89e2b838f2225067f35110ac7f",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/GOR%28R%29.ngmesh": {
+      "sha256": "26ca938d31c8d226c339185b997c367356c7c77bce89f3e6c94cb6abe4c62719",
+      "bytes": 517228
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/IB.ngmesh": {
+      "sha256": "599d01c93a71f7b0b05564d988401a52093e1938d101bd36e83d442efcbc3cdc",
+      "bytes": 1542436
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/36:0": {
+      "sha256": "584e8408e588905690ae07bf341c212334a1ba88e65367e39771ee2c6af068c0",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/37:0": {
+      "sha256": "5b3d14299e8bde9dd3d5e24efae27f8488deed3468716334767be23af8b4eeae",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/GNG.ngmesh": {
+      "sha256": "0ca33df0fe19b5d11c83c5e411e2fbcd93a4d62396ff1e3f54fc8a6b9a48e48c",
+      "bytes": 9529984
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ICL%28L%29.ngmesh": {
+      "sha256": "5c513853ef2659792ebaa8239dcf10e2412ab883372db83f54c2b165ee806d5f",
+      "bytes": 1524448
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/39:0": {
+      "sha256": "d91cd3ab7c60324a2c989ee6aaef159247ce1ce5467502ae7b2c29c0adf7450e",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/IPS%28L%29.ngmesh": {
+      "sha256": "36c04b698680deb81aec5bf9c99177035a3e246be831951d0fbfec06deb12aa4",
+      "bytes": 1301224
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ICL%28R%29.ngmesh": {
+      "sha256": "8d8c943b42a91eb4ba7d76db606dcef9fc30bdf76026b5a782de2ea488748d2f",
+      "bytes": 1469548
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/38:0": {
+      "sha256": "4dfa86fed124b01b59f744cce497a1131d294670218ee5a3c9b78dd37a5db83b",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/40:0": {
+      "sha256": "55395c94e1cab5c4f45636df46708680807a9c48033b2454e56cd8c041e0ad42",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/41:0": {
+      "sha256": "46e9575e97c465095cddc0affa01401cc1da0fbc5f1e71e06215c3cf10d48582",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/IPS%28R%29.ngmesh": {
+      "sha256": "e858f7064e55e9ef45ed07f46bdbb4ec4f6412ac38105f5255610d0bd6887bbe",
+      "bytes": 1400704
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/43:0": {
+      "sha256": "d64d4cc6ddf0366bd6219f6e17952e0c18ec1f9c2908ea53fa4fd2f347835582",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/42:0": {
+      "sha256": "2e1f2a6de46701f9ef602635be1368b48f036dc069ac238256440b4fc6f80618",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LA%28L%29.ngmesh": {
+      "sha256": "fc52a2a0274478232f383b00a0607c2c7534dd18390897a291804a8625218208",
+      "bytes": 3556612
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LAL%28L%29.ngmesh": {
+      "sha256": "590fef3345c3ad285b5fe93c10353a7cdba4db12f4fea20a279a6e1994788733",
+      "bytes": 1475368
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/44:0": {
+      "sha256": "d01674ad0d4244aa9e853cc3bf05759882426b78c2b492c78d1fd95d2da2bf07",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LAL%28R%29.ngmesh": {
+      "sha256": "66d4bf4b6d5836ea0974f49fc807b4cbc173e0bda0d55af17f5b59eecb7793bb",
+      "bytes": 1355200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/46:0": {
+      "sha256": "26b8beda6a00ed8e982e7afcd2c20437e91d3d8ef9b6b8b367a701a8553edf5e",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/45:0": {
+      "sha256": "8bbaee16ee57097312338d6ce8c421b90bf82c02a75e9d6c058c99fa5800888e",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LH%28R%29.ngmesh": {
+      "sha256": "85118c1c26f756b0dcad328a76c4d837c0c9efd2ec042d04d7db70494e08c9c8",
+      "bytes": 1406932
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LO%28L%29.ngmesh": {
+      "sha256": "6d48143de082841ff4c3ba2e8802f51d8622212d162fb6c27b2b43d6c9689424",
+      "bytes": 4054408
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LA%28R%29.ngmesh": {
+      "sha256": "483b9148217e0ff2990bf2aca62738a71f5fb0202fbcd3a1038a0bdfb99104f2",
+      "bytes": 2892052
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/47:0": {
+      "sha256": "eb27f9199467eb8ad10c18af104d6442a7d4a890b55a66fe4bac8d83fefdc33f",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LO%28R%29.ngmesh": {
+      "sha256": "554ff91f89fc81e444ff5f5a8ce5ebc43f80a6440b3701d4f439929a39880171",
+      "bytes": 3547480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LH%28L%29.ngmesh": {
+      "sha256": "f63dea1c7dfe97a6d2a2fd91888cd6b8e14ab8979a7c6bc0e9ddf06dccaa8158",
+      "bytes": 1440352
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/49:0": {
+      "sha256": "05c950fd40735267d26a3962817e03919b1d2b08a91e3972a871dbb0140d6024",
+      "bytes": 40
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/50:0": {
+      "sha256": "64ceb70daa54fb02b862858c9cc5e3d0f5697e3d6cbc7fd8f892d3f5e64e70dc",
+      "bytes": 40
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/48:0": {
+      "sha256": "7041b7bb91c217b9a9df76241b77809875d45daa0f762d77e0987ed57588140d",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/51:0": {
+      "sha256": "dbf1bea15b6c00657948292743a91d24554682fe676e39196c60b717b5034aa7",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/52:0": {
+      "sha256": "3e96272eb0a468ef2c82d18bb51b78aeafeb9e4e7042e6a2a8ea161b8bceabc4",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LOP%28R%29.ngmesh": {
+      "sha256": "dae3ba763760bbf1c4f7e1a23027c3b4463da5b6095a8dd0bb12218051ec8b1c",
+      "bytes": 1898116
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/LOP%28L%29.ngmesh": {
+      "sha256": "a2febfd508678d5b373b8b8275d6158c93c80583024b9ed44fb5096ee944047c",
+      "bytes": 3918856
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/NO.ngmesh": {
+      "sha256": "5b2d88300f5b217abf87dcbf4fcda06f90d8c22fb3ddf9007b1061552dd0b7d6",
+      "bytes": 215836
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PB.ngmesh": {
+      "sha256": "93314b04a52d498f7b60f2f2ea5e91ef9d5c36d9ad7c32a4f52d127299eba0ba",
+      "bytes": 574300
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PED%28L%29.ngmesh": {
+      "sha256": "fa6bd76349c8dbaed77c74539860c0d4ca435b47c3e941f4aa022bb55dbec18f",
+      "bytes": 461452
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/53:0": {
+      "sha256": "d6cf9390740a24d77b55db717863b3cacb9e47464e0514c8ebbae7eaca2ff70a",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/54:0": {
+      "sha256": "45691ee6255c7286d2fe9ef0db611e60e7d389d6a1e4660b55b2876dd4290a32",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ME%28L%29.ngmesh": {
+      "sha256": "c58dc35e34b52db11caf6a3bf328689acf2233bd2b3987e49d8a32ec5fd6c81a",
+      "bytes": 10264264
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PED%28R%29.ngmesh": {
+      "sha256": "16472d13861d828aa336538efdaf2816727d8439ca397de8a52997531834a107",
+      "bytes": 456040
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/55:0": {
+      "sha256": "ced34003709a57d6a64bb26e9673cae251c4a3187c06aa8545fccddb4843d342",
+      "bytes": 41
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/56:0": {
+      "sha256": "7b3bff3b63ec9c25567fb3c766c4884ddc15f3757f2e9fc3ff0afbac1ff05d7d",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ME%28R%29.ngmesh": {
+      "sha256": "f3996c42a7211915b64ef679e238c727e15792e60ef34917f17b19027f66ac94",
+      "bytes": 7520308
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/57:0": {
+      "sha256": "b79354d5a8fb9abdd34f7601fde9b5845b0a37d171ef96cce6db9e3454fb61e0",
+      "bytes": 45
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/58:0": {
+      "sha256": "e4fd84fdbe63021d5bf5d35de3b3675913179055a324d08b672bdbf97b358fe3",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/60:0": {
+      "sha256": "d77860653829a4c2c5d368fd118a41837cbc74e312c3fdb8fc630e7f610c7809",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/59:0": {
+      "sha256": "8943e0818014ce0aff18ae2b508f3aca2f3b3b883c1219a94521fb55ecb9e1ca",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PLP%28L%29.ngmesh": {
+      "sha256": "4963680bca23d3c7e54efba658831ed101609f61f965f39e795227d1fda58d69",
+      "bytes": 2112844
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PRW.ngmesh": {
+      "sha256": "ebad05f31b7e30a4284f9e9a1b9be45c193b411438e8309904d3e07348bcc72b",
+      "bytes": 1187404
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ROB%28L%29.ngmesh": {
+      "sha256": "d3b4b766a0f5b0292fd543113798a0a9077864cd4d2b727e3fd950761b830cf4",
+      "bytes": 44536
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PVLP%28L%29.ngmesh": {
+      "sha256": "e978a41d62dab72040685bd079e3794b129c0167eecab5daad3951b6f01ca899",
+      "bytes": 2315200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/RUB%28L%29.ngmesh": {
+      "sha256": "e592b09cc5c92f1bc7dde172266c5a0251e84e7d58b9792599c1030bc67934a9",
+      "bytes": 39448
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/ROB%28R%29.ngmesh": {
+      "sha256": "4181350a47ccf13f5fe1b9c35ce09b17e6c520cb33fa1f31fc3d93e2328d3fca",
+      "bytes": 38716
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/63:0": {
+      "sha256": "8b371f6d4bc66e6be25819b8f73cf4dbc89af79eea99761d58a5cd4df80cfb31",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/64:0": {
+      "sha256": "0f7ad65e663b46710ff7e0b77be37a529a9e569163f1d86c19c914b759a0aec9",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PVLP%28R%29.ngmesh": {
+      "sha256": "d445ebb1342a03d9d7da8c1bea0355c001fb36c9f2fdcbbe34a127cf6579996f",
+      "bytes": 2181784
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/PLP%28R%29.ngmesh": {
+      "sha256": "3a57e93e8058826b4cffb0d89517165c7915c907e39c4a6701e30ac693bf25b6",
+      "bytes": 2350264
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/62:0": {
+      "sha256": "90737dfe00ac3a0f4c24b325e7f8eeddd9791cd58b60712f8d0ed4e1a444d450",
+      "bytes": 41
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/61:0": {
+      "sha256": "3e6b8afabb6b31d46648eaa8da308c3272a9a3ee168123b4df454c6fb1e20aa1",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/66:0": {
+      "sha256": "4d39f4d66a759d58f33e0611b098b3e4318a9d3363d779b47b2120289482a480",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/65:0": {
+      "sha256": "b1873a072a57ec45a362d66afc737cc68e625e2559fb9f23ac9ef950bb781bcf",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/67:0": {
+      "sha256": "e2171870a0974200d664fe2d77f3fa454619be23265428bdf1121aa91ec63302",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/68:0": {
+      "sha256": "372efa587fd9b4d550e408153980d4d47d76391fb03cfe7eaec74741ec1b7e40",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SCL%28L%29.ngmesh": {
+      "sha256": "44dccaf21279e32dc6ac6c0f7bf26802823f84b3e697bfe27862adb329d662d3",
+      "bytes": 1534120
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SCL%28R%29.ngmesh": {
+      "sha256": "2b76e5fe1dc1f1f263d396e2d7de52116f0d095e9e4e7932c9c8e04cb30e2d27",
+      "bytes": 1586200
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SIP%28L%29.ngmesh": {
+      "sha256": "a1f5fe2534de80986c16259c9fc1be42d617f4598b4ccdab4b7a3e806cc30258",
+      "bytes": 1573960
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/RUB%28R%29.ngmesh": {
+      "sha256": "de049791cec5542729a9e99458b65a53d453eb6b3b0f51c2222795b1877aa8bf",
+      "bytes": 38620
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/70:0": {
+      "sha256": "f33c9e720e16794dbc8054964178e935c746f0774341a886d3ed3c2420e777be",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/69:0": {
+      "sha256": "5a341e597402abe3d25b0eec06f72483e6de9e761aecd1bf4ac9e35f928f2514",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SIP%28R%29.ngmesh": {
+      "sha256": "f6deb94b284a20072255f0fa76053a390ad5b7caedb1d9601168b45ac99ab357",
+      "bytes": 1892704
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SLP%28R%29.ngmesh": {
+      "sha256": "c39cd49d55a38c77933e6de547bd08d17523019bb2db599e45ac267a20eb1e1c",
+      "bytes": 2414680
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/71:0": {
+      "sha256": "00ed2b5f6e3d4b0bf12dbac19fe1d7793c61e98882d225d689de00e3ba014d9f",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/72:0": {
+      "sha256": "45ae23f0d17dc4216e11e0e0a7e377c7f3da0dc4f971258920924200c233b56f",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SLP%28L%29.ngmesh": {
+      "sha256": "788f764098f0ef6db9a0475c0614cfca56a5531eaa40afbaf23fa8f431591d27",
+      "bytes": 2200732
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/74:0": {
+      "sha256": "abf6797e991138434d795a0114b5e367df4d2d0d7b6c81345e26af1ba6f22333",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/73:0": {
+      "sha256": "be2b66a5259ad52591338808aa59173ef9e3a447852edc8b603b1673ee6784fb",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/75:0": {
+      "sha256": "94549e29d6c95052e00bb4518af29345d6198f436a3e86468b673d6ab092f537",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SMP%28R%29.ngmesh": {
+      "sha256": "c452ecee8d8933e6dc14f9428a2c094d6d996768e13b99ff29f5ca613e8da9fd",
+      "bytes": 2045284
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SPS%28L%29.ngmesh": {
+      "sha256": "1127c7ef9490525a25f586e3ce67d2022fb7f33df55c6a7626717459f28555d4",
+      "bytes": 1992208
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SMP%28L%29.ngmesh": {
+      "sha256": "a10680f5d6c9dbd4386019cac1f32c103eac287c80c1d8c51425ae38ba938b24",
+      "bytes": 2033572
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SAD.ngmesh": {
+      "sha256": "4a53174d2ea22eb296b6638e1073e5de4e79c173c93c8db4674de70aa1947108",
+      "bytes": 6746176
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/SPS%28R%29.ngmesh": {
+      "sha256": "46fa92fc6e9ce025fb8639cb65361e152d1ae978d585227714f177d1e97320d7",
+      "bytes": 2135644
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/VES%28R%29.ngmesh": {
+      "sha256": "278bbcf67f303c3e76354165ac7facbfab66c42b05637c7ea90342f7f757dee6",
+      "bytes": 1699588
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/77:0": {
+      "sha256": "d1a4135dd1174d428487544509763f4fe6dc067967a42dc23b384a4f08508a58",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/76:0": {
+      "sha256": "da0989cbb05c14235fb3ef9a5908e85f209dd7aea8414352f7c5c49bd24aa708",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/78:0": {
+      "sha256": "ae13a1f654cc8ade2a1bae68e26b226774300b91597086470ebdbdc34ae4ff82",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/79:0": {
+      "sha256": "e3d38eb6790a9b9531e565b2deb367037d9fe075fe0ad7a632f9b8c7d3516bfd",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/81:0": {
+      "sha256": "f0032cda086127c2eb171b42346a8374a1301db6f9e5bbef5a684359867fae38",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/80:0": {
+      "sha256": "0e6a3bf33b533f5282202fbb428875e47e15bcc102b747cbd482a95ce577b82b",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/WED%28L%29.ngmesh": {
+      "sha256": "61989be0eb5d4c1b1c969871bce8df421cece79e703166c3affd5dc5f8bd617a",
+      "bytes": 1905628
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/VES%28L%29.ngmesh": {
+      "sha256": "dbb758a3fbb53a74eeb78753f6256cf2d9c867429b82c8ae95464d3f2bfea785",
+      "bytes": 1600936
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/a%27L%28L%29.ngmesh": {
+      "sha256": "82c45903d45d727683180025c1e05cdb50e1bab95b03147fad395919978d551e",
+      "bytes": 297832
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/a%27L%28R%29.ngmesh": {
+      "sha256": "9581ea0c7bee3f38a031b6814bebabd710efefd7a1323cb73b03cd19a42d91f6",
+      "bytes": 450736
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/WED%28R%29.ngmesh": {
+      "sha256": "baad40f683a3d801c99d98a1f13e2311376fae9e820eaba6db9a8d13f2596b95",
+      "bytes": 1909648
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/82:0": {
+      "sha256": "88fbd822371c9b452d32715429f0838a74c58fe103826aca4fa317d17b1423e4",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/83:0": {
+      "sha256": "9baa56fa2baae122d7d523065ef6291816a665c1bb81c7046b3a3205393f9d7a",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/aL%28L%29.ngmesh": {
+      "sha256": "0d57e4de5b5567b48017ad88776e1bd288f950eeb4a5930fd964131403d11552",
+      "bytes": 515116
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/b%27L%28L%29.ngmesh": {
+      "sha256": "bbf40dbae91d87fd467df09a98233b8c9df2bce95404b61018b0dddf4837e18d",
+      "bytes": 417784
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/84:0": {
+      "sha256": "71554ec2c40d450b7b378280b7a396878e5d30380c03e7fba46e6748255538da",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/85:0": {
+      "sha256": "0b9d42bcb71dd12efa4e823325b6ee2d5ae3b790ef0713322d734892de61d080",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/aL%28R%29.ngmesh": {
+      "sha256": "a075a908386470b30a7e15a1e580e8d5bdada6c83aea199413a13accfe29b2e8",
+      "bytes": 642424
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/86:0": {
+      "sha256": "0ad43d3dae0a02fa07f0b45fdbed69992619406c2d008c916991b1a74aecef4b",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/94:0": {
+      "sha256": "958e8c22184eafe6a2f460611792bf74b9a4a8b462afa6c7cff591ccafc97782",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/b%27L%28R%29.ngmesh": {
+      "sha256": "7125223038862085b7c00d9636640f329a8f81cfab7bba15393493570ef51c78",
+      "bytes": 423976
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/bL%28L%29.ngmesh": {
+      "sha256": "4a0dd399a7e77ce0838c0c54c3a012295619b1683fa352bad88257beb327d4ba",
+      "bytes": 352504
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/bL%28R%29.ngmesh": {
+      "sha256": "63f69732c91d8ea8d259f1dd1425523e194aa1e1ab031d2e7e5c7cd09ea040dc",
+      "bytes": 428116
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/93:0": {
+      "sha256": "2497bc8ca7e3d87fce6b40a4de64835ef56b67b1d6c2c476f85a1cd39d37ccad",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/gL%28L%29.ngmesh": {
+      "sha256": "d49c6265f25dabd94912ed1d4431c6928d20ad4ef4d16fce1fc254f1b89aba58",
+      "bytes": 1136932
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AB%28L%29.ngmesh": {
+      "sha256": "89188ed7fe6cb2ff706d581c683b588e97c3cc0cd9697229c50a8fa9e9a1d7dd",
+      "bytes": 21520
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/95:0": {
+      "sha256": "b8636ddb7aa3b70692386d6fd7914bcf2940e74a4dee8edcb57b48ed4e95537f",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/96:0": {
+      "sha256": "53cc7ee84b12c872c6cc56738ceec7658c97a5f002385e5b3bc58920a8f3fd6c",
+      "bytes": 41
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/4:0": {
+      "sha256": "3a9ba6507477b001e5b5b76268c91647353b80d92d6ca66d4c88a022197bb503",
+      "bytes": 40
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/5:0": {
+      "sha256": "56a39a5370301fbcec461186577d845d1c52e136e5963ec60553d70d61553e13",
+      "bytes": 50
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/6:0": {
+      "sha256": "a0732f679edf3c853e8e3d31d699dd69edf062c019c0bc8cd0b207b957ad7830",
+      "bytes": 50
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/AB%28R%29.ngmesh": {
+      "sha256": "36d074d20598ce8d8b4bbfaa9e88e64039401b566e676f45944ec7ee8d072d1e",
+      "bytes": 43444
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/7:0": {
+      "sha256": "24467102001699a1f3767649fd7c6858427e2fe022a6402553f241daaef9df73",
+      "bytes": 50
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CRN.ngmesh": {
+      "sha256": "5fa74c81204d23d869ed29ac53b47a58f8f45e66b194f003b4e5e45b17072cb7",
+      "bytes": 866476
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/gL%28R%29.ngmesh": {
+      "sha256": "eda698add18607704dde557839b91f5df0fc03c82f3939ddb860953d2021a4fb",
+      "bytes": 1128688
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/8:0": {
+      "sha256": "e955c9a7f013c3442087746ec5fa931b682cf159b536016331c480025af60aaa",
+      "bytes": 50
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/CV.ngmesh": {
+      "sha256": "e3ece650016d49205f59169ba2dbccd32892fbb855a68ed5107a93749506b7e6",
+      "bytes": 2850220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/fullbrain-roi-v4/mesh/CV-anterior.ngmesh": {
+      "sha256": "7005bb55dfe111a9b2223537a4469c30e655504429af80d10c6c8928430694c8",
+      "bytes": 1738936
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/9:0": {
+      "sha256": "f7f8311c058e3e5a414f64d8d401e738ada0e4ca2be748d7d9274b3f72812a0c",
+      "bytes": 50
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LegNp%28T1%29%28L%29.ngmesh": {
+      "sha256": "eb48cb807676b3096ca0fd468ae2a328e1c792244e143a5b8773ac73a692ae2b",
+      "bytes": 5152144
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/10:0": {
+      "sha256": "feb4f56dec5e5ebf19f07d39ab0ad3fa0ca9aeaa717d778b1aba847ec267360c",
+      "bytes": 50
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LegNp%28T1%29%28R%29.ngmesh": {
+      "sha256": "1d6e8704913186fb1bda65529fac5e2e298098a42d37ede01fa8e982bc215338",
+      "bytes": 5206480
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/11:0": {
+      "sha256": "35d68b26527e72e2da57fbbca3377a213cb7baef0f989692d93751d5b422d76c",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LegNp%28T2%29%28L%29.ngmesh": {
+      "sha256": "58771ebe0a0c3f5e15521e00259114314360729d02936df9152f9d6c4eaf478d",
+      "bytes": 4334248
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/12:0": {
+      "sha256": "7389178649104645f0a427a7a508e515f808c19824b2dacb7a472a0ea29260f6",
+      "bytes": 43
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/13:0": {
+      "sha256": "f4a0463d709a7bba696b036bd594070e93ad8825373b6648191b2bb506e94a8c",
+      "bytes": 44
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LegNp%28T2%29%28R%29.ngmesh": {
+      "sha256": "a656485058ce4e3d8f0f5e35e112bf1e38fb73ceeccc8145b0973a9df1d30dab",
+      "bytes": 4205704
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/14:0": {
+      "sha256": "3f99850cb6ab9c1053b2e0eb4c7ec45b14f2a4da5519809cace76708984f719a",
+      "bytes": 42
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/15:0": {
+      "sha256": "65df62ea0720a79dedb86d97ed05a1e0129bad6593204291059af218218bcc05",
+      "bytes": 54
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LegNp%28T3%29%28R%29.ngmesh": {
+      "sha256": "97602190a4aa175a4b9aaf5ae27650b6e2b8ff1faa2bd496857358364216dad1",
+      "bytes": 5025220
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/Ov%28L%29.ngmesh": {
+      "sha256": "5c7e1bde6cd686af265b3a5c52a137f45b60384595540b30b2683d709d9095be",
+      "bytes": 1530016
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/16:0": {
+      "sha256": "cb6ff3978315e59a04c0798026d72703d58b9515f95b21b7c7de0777fe06d1be",
+      "bytes": 54
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LegNp%28T3%29%28L%29.ngmesh": {
+      "sha256": "f27668a9cfc2477fa09dfd8ecef0275adc428d1214bbf37ec07c67d793e4d98f",
+      "bytes": 4620196
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/Ov%28R%29.ngmesh": {
+      "sha256": "1f5ba88d2d42eaf46d8db648dc8be8a34b2d88e3f1cdaad1767a73d5975c3447",
+      "bytes": 1499488
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/17:0": {
+      "sha256": "2e3dd651b297b4ab836209126a83ff0356339b007f2f96ea5c22cf422f0beb19",
+      "bytes": 54
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/18:0": {
+      "sha256": "ed63b79fd44d18bff755c3120ef0cca039a6d8baf5c2ff1d10628d66cdd6de5f",
+      "bytes": 54
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/LTct.ngmesh": {
+      "sha256": "271d71a619708c556dec2e1c9bca4666b87a48a9aa3c0d4c03563fed7d8af54f",
+      "bytes": 3901540
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/NTct%28UTct-T1%29%28L%29.ngmesh": {
+      "sha256": "ce74268ebb5b4e1da49aecfaa295eff4fe64f49c073f97086dd13997e3c92933",
+      "bytes": 982324
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/19:0": {
+      "sha256": "9b2201ac0dac99e25675f5bffa6cd58155e4d2bf38a9c53facacadd65b07fc5b",
+      "bytes": 54
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/20:0": {
+      "sha256": "7e3f40c587ff6cac1504f8e301e879a3af539480145f480f82c7f76ea77f9e77",
+      "bytes": 54
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/NTct%28UTct-T1%29%28R%29.ngmesh": {
+      "sha256": "9bcd4fe8c0d1e03607191085fa58924883b5a8c4756fcf51d345d066805abf96",
+      "bytes": 915400
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/IntTct.ngmesh": {
+      "sha256": "4539dfbdb89077764e647796c0dc4a5197bb5115dee7cd83a8c19eecbc22d009",
+      "bytes": 5733844
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/21:0": {
+      "sha256": "322c95d34f9c67e219d93dbf43c0bf21d6d1bc5ee3d39d05651a81a87dba814c",
+      "bytes": 41
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/23:0": {
+      "sha256": "33c3b098d62ea608a22b9a151d0e7494b020c42aeb4cf16ba03fed8707b7aa8f",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/22:0": {
+      "sha256": "092837fd7be81ebc711624d4dde65bf373dddd597f0d72b277f01e7d1f837490",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/WTct%28UTct-T2%29%28L%29.ngmesh": {
+      "sha256": "764086a552932161b9f755f540c1751e09b381c6a8ec9f6094c7aadc6f211467",
+      "bytes": 2804008
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/HTct%28UTct-T3%29%28R%29.ngmesh": {
+      "sha256": "2fb1b27ba79af2393f0926037c24a243ebba00f9a854aaa887582a5f1aa6d8b5",
+      "bytes": 1275112
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/24:0": {
+      "sha256": "08f2408d8feab3d1fc39cd40303552b08dffcc34bd0a13d68c4717cf4edcf2b2",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/HTct%28UTct-T3%29%28L%29.ngmesh": {
+      "sha256": "d61ab9965dcc382496ce1d26cbd9a924a3ddde043536116f9c85aa8f50b18077",
+      "bytes": 1209664
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/WTct%28UTct-T2%29%28R%29.ngmesh": {
+      "sha256": "55a9fbfd6325452d50beb49bd1e6ad2380e9df3d2826fb6793dc6f3310970a07",
+      "bytes": 2850064
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/26:0": {
+      "sha256": "8ec1c59aabbc4dfda88dd0e3f032a5120cec818fa0ada0b3cfba7ff06ab2ba78",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/25:0": {
+      "sha256": "119425faf1fe424e14a8f681afde3485ae611deca35ef51d08e7f157a747411f",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/mVAC%28T1%29%28R%29.ngmesh": {
+      "sha256": "4b3b838941f19f52db8e43a7e7bb92c6db14716b54e53093131b595636986197",
+      "bytes": 767884
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/27:0": {
+      "sha256": "5aba8ed204da9f8745f4b694e9d1f872c0b51818ae017bd5e6d539d965ab51e5",
+      "bytes": 49
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/mVAC%28T3%29%28L%29.ngmesh": {
+      "sha256": "fee896981228cc35a08a20085a92c27cf3225e883c104f811f7323854bce36ec",
+      "bytes": 344080
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/mVAC%28T2%29%28L%29.ngmesh": {
+      "sha256": "4c2bce3b90470a006c3462a463efda23b9ff4326509557dd5bca443ef52d5198",
+      "bytes": 685240
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/mVAC%28T2%29%28R%29.ngmesh": {
+      "sha256": "898bf86e3a804f3bc19b7dbdf7878d073697cacace003c9d6143e48c7e7a964c",
+      "bytes": 554668
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/mVAC%28T1%29%28L%29.ngmesh": {
+      "sha256": "1752fc4478eda8d87eb80ca9b55e74ba460d47605d08ac2255aeed5571aab009",
+      "bytes": 814816
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/ANm.ngmesh": {
+      "sha256": "ebc620a57b32b25b575964fc222dbf2e67af340da957e7c3db55d8788146c200",
+      "bytes": 6208576
+    },
+    "https://storage.googleapis.com/flyem-male-cns/rois/malecns-vnc-neuropil-roi-v0/mesh/mVAC%28T3%29%28R%29.ngmesh": {
+      "sha256": "5a3811a35acbb3d24f6d0efce43f86f35ee00d003a7bee302ad790ab6881961f",
+      "bytes": 351916
+    }
+  }
+}

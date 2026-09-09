@@ -17,7 +17,9 @@ def main():
     parser.add_argument('--manifest', default='work/remote-artifact-manifest.json')
     args = parser.parse_args(); manifest_path = Path(args.manifest)
     if args.mode == 'create':
-        paths = list(Path('runs').rglob('*')) + list(Path('data/graph-traced-v1').glob('*'))
+        paths = (list(Path('runs').rglob('*'))
+                 + list(Path('data/graph-traced-v1').glob('*'))
+                 + list(Path('data/cns-geometry-v1').glob('*')))
         # Rendering extends this metadata locally; the original capture metadata
         # is retained in the export log. All underlying states are compared.
         paths = [p for p in paths if p.is_file() and str(p) != 'runs/e03-learned-replay/metrics.json']

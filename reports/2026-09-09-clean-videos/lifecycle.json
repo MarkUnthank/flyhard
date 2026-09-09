@@ -1,0 +1,27 @@
+{
+  "status": "terminated_and_verified",
+  "pod_absent": true,
+  "remaining_pods": [],
+  "balance_usd": 18.5529876059,
+  "current_spend_per_hour_usd": 0,
+  "session_starting_balance_usd": 19.0592309197,
+  "observed_session_spend_usd": 0.5062433137999989,
+  "credit_added_usd": 0,
+  "exports_verified": true,
+  "export_verification": {
+    "status": "verified",
+    "files": 65,
+    "bytes": 2383418764,
+    "manifest_sha256": "cd79aaa9997ac99fb920b276f41cb86e79fee2fec5526e4d0710fdc7fd94a912"
+  },
+  "gpu": "NVIDIA A40, 48 GB",
+  "region": "CA-MTL-1",
+  "gpu_hourly_usd": 0.49,
+  "total_hourly_usd": 0.518,
+  "limits": {
+    "additional_spend_cap_usd": 3,
+    "balance_reserve_usd": 4,
+    "deadline_hours": 3
+  },
+  "recorded_at_epoch": 1788978805.809991
+}
