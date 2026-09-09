@@ -1,0 +1,26 @@
+src/flyhard/cockpit.py
+  s_4cf9d98cda6aae::t_c383d20da552c4 32,114-117
+src/flyhard/motor_policy.py
+  s_4cf9d98cda6aae::t_c383d20da552c4 1-43
+scripts/train_wheel.py
+  s_4cf9d98cda6aae::t_c383d20da552c4 1-80,82-123
+  s_4cf9d98cda6aae::t_975296324504b3 81
+scripts/carla_smoke.py
+  s_4cf9d98cda6aae::t_ff8cb4b1183f06 1-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d462cda67e38984c0e1035f2c443e4ccbb0f69b3",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
