@@ -1,0 +1,19 @@
+docker/Dockerfile
+  s_4cf9d98cda6aae::t_d6de2927cfaa79 40-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "c66dd5736f01f72b65132cc7621e970f3213da66",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
