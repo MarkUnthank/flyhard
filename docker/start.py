@@ -53,9 +53,8 @@ def main():
             spawn([sys.executable,str(bundled/'scripts/pod_deadline.py'),
                 '--deadline',str(started+limit)],'deadline')
         spawn(['bash',str(project/'scripts/start_carla.sh')],'carla')
-        health = subprocess.Popen([sys.executable,str(bundled/'scripts/runtime_health.py'),
-            '--output',str(ready),'--started-epoch',str(started)],cwd=project)
-        processes.append(health)
+        health = spawn([sys.executable,str(bundled/'scripts/runtime_health.py'),
+            '--output',str(ready),'--started-epoch',str(started)],'health')
         while health.poll() is None:
             if any(p.poll() is not None for p in processes if p is not health):
                 raise RuntimeError('A required runtime process exited during startup; inspect work/runtime logs.')

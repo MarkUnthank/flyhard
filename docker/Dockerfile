@@ -52,5 +52,5 @@ LABEL org.opencontainers.image.source="https://github.com/MarkUnthank/flyhard" \
 
 WORKDIR /workspace/flyhard
 EXPOSE 22
-ENTRYPOINT ["/usr/bin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "-s", "--"]
 CMD ["/opt/flyhard-env/bin/python", "/opt/flyhard/docker/start.py"]

@@ -5,11 +5,26 @@ import json
 from pathlib import Path
 import time
 
-import carla
-import torch
+def wait_for_carla(make_client, timeout=180):
+    deadline=time.monotonic()+timeout
+    while True:
+        try:
+            # A client created before the server listens can retain a failed
+            # connection. Recreate it instead of retrying that same client.
+            client=make_client('127.0.0.1',2000);client.set_timeout(10)
+            world=client.get_world();version=client.get_server_version()
+            assert version=='0.9.16'
+            assert world.get_blueprint_library().find('vehicle.mini.cooper_s_2021')
+            return client,world,version
+        except RuntimeError as exc:
+            if time.monotonic()>=deadline:raise
+            print('Waiting for CARLA: '+str(exc),flush=True)
+            time.sleep(1)
 
 
 def main():
+    import carla
+    import torch
     parser=argparse.ArgumentParser()
     parser.add_argument('--output',default='work/runtime/ready.json')
     parser.add_argument('--started-epoch',type=float,required=True)
@@ -18,17 +33,8 @@ def main():
     matrix=torch.arange(16,dtype=torch.float32,device='cuda').reshape(4,4)
     assert torch.equal((matrix@matrix).cpu(),matrix.cpu()@matrix.cpu())
     torch.cuda.synchronize()
-    client=carla.Client('127.0.0.1',2000);client.set_timeout(2)
-    deadline=time.monotonic()+180
-    while True:
-        try:
-            world=client.get_world();version=client.get_server_version()
-            assert version=='0.9.16'
-            assert world.get_blueprint_library().find('vehicle.mini.cooper_s_2021')
-            break
-        except RuntimeError:
-            if time.monotonic()>=deadline:raise
-            time.sleep(1)
+    print('CUDA calculation passed; connecting to CARLA.',flush=True)
+    client,world,version=wait_for_carla(carla.Client)
     now=time.time()
     result={'status':'ready','container_started_epoch':args.started_epoch,'ready_epoch':now,
         'container_to_ready_seconds':now-args.started_epoch,'gpu':torch.cuda.get_device_name(0),
