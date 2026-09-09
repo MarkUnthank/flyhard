@@ -1,0 +1,23 @@
+{
+  "image": "ghcr.io/markunthank/flyhard@sha256:ef0ddbb27f76cc148059d928de897d16652666c67bdbaf4f0a15392a82b0f032",
+  "source_revision": "9a9a2e7ea2125ec7375d0280782102668f03f8bb",
+  "index_image": "ghcr.io/markunthank/flyhard@sha256:59d2c66844ba348818b3e1d1c64451d09005459c15a3aa246be707ffa5a968ff",
+  "workflow_run_id": "34402567972",
+  "anonymous_pull": "verified",
+  "compressed_gb": 19.56489047,
+  "largest_layer_gb": 8.493384558,
+  "workflow_url": "https://github.com/MarkUnthank/flyhard/actions/runs/34402567972",
+  "build_status": "success",
+  "job_started_at": "2026-09-09T20:41:37Z",
+  "job_completed_at": "2026-09-09T20:48:06Z",
+  "build_started_at": "2026-09-09T20:42:29Z",
+  "build_completed_at": "2026-09-09T20:47:55Z",
+  "tests_passed": 8,
+  "cached_layers": [
+    "CARLA download and extraction",
+    "apt graphics libraries",
+    "Python environment installation"
+  ],
+  "environment_files_included": false,
+  "connectome_graph_and_checkpoints_included": false
+}

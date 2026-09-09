@@ -1,0 +1,72 @@
+{
+  "files": {
+    "data/cns-geometry-v1/geometry.npz": {
+      "bytes": 112701537,
+      "sha256": "49d69883966a8bc2d7b587123456c854a2b229913a2dc4ff0d2340013784fc27"
+    },
+    "data/cns-geometry-v1/manifest.json": {
+      "bytes": 167594,
+      "sha256": "aeabef60269f8ce896a16b268065b0c8ab71e9d65d070d97f2e04d1d50412be1"
+    },
+    "data/cns-geometry-v1/roi-display-49d69883966a8bc2-90.vtp": {
+      "bytes": 17045933,
+      "sha256": "a9dc8a21085606a413dd6d4802496b6ef9c348b1673a8d478fb655ce688db50b"
+    },
+    "runs/runtime-carla-smoke/carla-smoke.mp4": {
+      "bytes": 7649704,
+      "sha256": "3ea0b041cc205e213525821ae27d9392403bff836c1a6488d61dbabcaea7a9a5"
+    },
+    "runs/runtime-carla-smoke/config.json": {
+      "bytes": 255,
+      "sha256": "d778d59ef696a821c497f7d2e2752ccd133ca91459c38faa44d46dbe1b2cd5d4"
+    },
+    "runs/runtime-carla-smoke/metrics.json": {
+      "bytes": 465,
+      "sha256": "9e532e01a5bb5b69d9e34f44dfc6716e3c51d27bf159e25fa14c9d0daf14aa1c"
+    },
+    "runs/runtime-carla-smoke/preview.png": {
+      "bytes": 687616,
+      "sha256": "350dc338f0f21065202eca3b5bc0b7e9831eed287162b51087644baa0af44e0c"
+    },
+    "runs/runtime-carla-smoke/trace.json": {
+      "bytes": 32752,
+      "sha256": "7914a196d69e5079a1de053fbdada16411f645979d3b237cc634d7b36f86b866"
+    },
+    "runs/runtime-cns/cns-preview-0000.png": {
+      "bytes": 88157,
+      "sha256": "10efa41845cdece57c33a42a8a2c12b00560415323a6ee873e30401e7ab300a0"
+    },
+    "runs/runtime-cns/cns-preview-metrics.json": {
+      "bytes": 1274,
+      "sha256": "60195dcffc937f222ded24348e3203cc1f7fd0fdad06392b1d070d1bcb1d7119"
+    },
+    "runs/runtime-cns/frames.json": {
+      "bytes": 845,
+      "sha256": "1f91f89afc52099c1c31eff61d04956282f6f24de2eb11d03fcf906bc8f8ef49"
+    },
+    "runs/runtime-cns/neural-trace.npz": {
+      "bytes": 297163365,
+      "sha256": "ae6a99feb7bad13c7b86223ee25a5f403bd1f376519b085249fc058663a233e1"
+    },
+    "runs/runtime-cns/source.json": {
+      "bytes": 345,
+      "sha256": "897480e0a721540fe6f74fa8c413e7e3644ac54daf466495193c5e673bc39fb7"
+    },
+    "runs/runtime-smoke/mujoco.json": {
+      "bytes": 306,
+      "sha256": "dacda046c160526972ac5d039fcb229c2775ad55f5664d37a4e8d017c03a2c32"
+    },
+    "runs/runtime-smoke/mujoco.png": {
+      "bytes": 74521,
+      "sha256": "e7dfc85a3f445b95e890b9cd902d5d6168d27b57db600e91249068510e38c081"
+    },
+    "runs/runtime-smoke/vtk.json": {
+      "bytes": 13848,
+      "sha256": "f6205c9df38e5b9f44c9cc566d3f5bb6285c63a787ad88970357c7a66bd78a44"
+    },
+    "runs/runtime-smoke/vtk.png": {
+      "bytes": 21966,
+      "sha256": "bb488e180b464aed4ed66c815b216dd896e6e9dbfaafdd2b9572b4bb337ace1f"
+    }
+  }
+}

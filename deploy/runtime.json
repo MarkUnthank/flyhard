@@ -1,0 +1,11 @@
+{
+  "image": "ghcr.io/markunthank/flyhard@sha256:ef0ddbb27f76cc148059d928de897d16652666c67bdbaf4f0a15392a82b0f032",
+  "template_name": "Flyhard / CARLA 0.9.16",
+  "source_revision": "9a9a2e7ea2125ec7375d0280782102668f03f8bb",
+  "validated": true,
+  "validation_report": "reports/2026-09-09-runtime/validation.json",
+  "default_gpu": "NVIDIA A40",
+  "container_disk_gb": 100,
+  "workspace_gb": 40,
+  "runtime_seconds": 3600
+}

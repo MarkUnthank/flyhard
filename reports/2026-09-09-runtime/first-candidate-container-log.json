@@ -1,0 +1,207 @@
+[
+  {
+    "source": "container",
+    "line": "[WARN  tini (50)] Tini is not running as PID 1 and isn't registered as a child subreaper.",
+    "ts": "2026-09-09T20:31:30.921566541Z"
+  },
+  {
+    "source": "container",
+    "line": "Zombie processes will not be re-parented to Tini, so zombie reaping won't work.",
+    "ts": "2026-09-09T20:31:30.921623207Z"
+  },
+  {
+    "source": "container",
+    "line": "To fix the problem, use the -s option or set the environment variable TINI_SUBREAPER to register Tini as a child subreaper, or run Tini as PID 1.",
+    "ts": "2026-09-09T20:31:30.921627637Z"
+  },
+  {
+    "source": "container",
+    "line": "Traceback (most recent call last):",
+    "ts": "2026-09-09T20:34:35.441020542Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/scripts/runtime_health.py\", line 41, in <module>",
+    "ts": "2026-09-09T20:34:35.441090412Z"
+  },
+  {
+    "source": "container",
+    "line": "    if __name__=='__main__':main()",
+    "ts": "2026-09-09T20:34:35.441178847Z"
+  },
+  {
+    "source": "container",
+    "line": "                            ^^^^^^",
+    "ts": "2026-09-09T20:34:35.441266080Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/scripts/runtime_health.py\", line 25, in main",
+    "ts": "2026-09-09T20:34:35.441271804Z"
+  },
+  {
+    "source": "container",
+    "line": "    world=client.get_world();version=client.get_server_version()",
+    "ts": "2026-09-09T20:34:35.441277123Z"
+  },
+  {
+    "source": "container",
+    "line": "          ^^^^^^^^^^^^^^^^^^",
+    "ts": "2026-09-09T20:34:35.441306029Z"
+  },
+  {
+    "source": "container",
+    "line": "RuntimeError: time-out of 2000ms while waiting for the simulator, make sure the simulator is ready and connected to 127.0.0.1:2000",
+    "ts": "2026-09-09T20:34:35.441400593Z"
+  },
+  {
+    "source": "container",
+    "line": "Traceback (most recent call last):",
+    "ts": "2026-09-09T20:34:36.065607508Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/docker/start.py\", line 76, in <module>",
+    "ts": "2026-09-09T20:34:36.065663919Z"
+  },
+  {
+    "source": "container",
+    "line": "    if __name__ == '__main__':main()",
+    "ts": "2026-09-09T20:34:36.065911538Z"
+  },
+  {
+    "source": "container",
+    "line": "                              ^^^^^^",
+    "ts": "2026-09-09T20:34:36.065940458Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/docker/start.py\", line 63, in main",
+    "ts": "2026-09-09T20:34:36.065950168Z"
+  },
+  {
+    "source": "container",
+    "line": "    if health.returncode != 0:raise RuntimeError('Runtime readiness check failed')",
+    "ts": "2026-09-09T20:34:36.066153968Z"
+  },
+  {
+    "source": "container",
+    "line": "                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "ts": "2026-09-09T20:34:36.066409760Z"
+  },
+  {
+    "source": "container",
+    "line": "RuntimeError: Runtime readiness check failed",
+    "ts": "2026-09-09T20:34:36.066488820Z"
+  },
+  {
+    "source": "container",
+    "line": "[WARN  tini (49)] Tini is not running as PID 1 and isn't registered as a child subreaper.",
+    "ts": "2026-09-09T20:34:40.720897723Z"
+  },
+  {
+    "source": "container",
+    "line": "Zombie processes will not be re-parented to Tini, so zombie reaping won't work.",
+    "ts": "2026-09-09T20:34:40.720941991Z"
+  },
+  {
+    "source": "container",
+    "line": "To fix the problem, use the -s option or set the environment variable TINI_SUBREAPER to register Tini as a child subreaper, or run Tini as PID 1.",
+    "ts": "2026-09-09T20:34:40.720945123Z"
+  },
+  {
+    "source": "container",
+    "line": "Traceback (most recent call last):",
+    "ts": "2026-09-09T20:37:44.465713815Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/scripts/runtime_health.py\", line 41, in <module>",
+    "ts": "2026-09-09T20:37:44.465801358Z"
+  },
+  {
+    "source": "container",
+    "line": "    if __name__=='__main__':main()",
+    "ts": "2026-09-09T20:37:44.466408653Z"
+  },
+  {
+    "source": "container",
+    "line": "                            ^^^^^^",
+    "ts": "2026-09-09T20:37:44.466577822Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/scripts/runtime_health.py\", line 25, in main",
+    "ts": "2026-09-09T20:37:44.466637823Z"
+  },
+  {
+    "source": "container",
+    "line": "    world=client.get_world();version=client.get_server_version()",
+    "ts": "2026-09-09T20:37:44.466782505Z"
+  },
+  {
+    "source": "container",
+    "line": "          ^^^^^^^^^^^^^^^^^^",
+    "ts": "2026-09-09T20:37:44.466923901Z"
+  },
+  {
+    "source": "container",
+    "line": "RuntimeError: time-out of 2000ms while waiting for the simulator, make sure the simulator is ready and connected to 127.0.0.1:2000",
+    "ts": "2026-09-09T20:37:44.467004638Z"
+  },
+  {
+    "source": "container",
+    "line": "Traceback (most recent call last):",
+    "ts": "2026-09-09T20:37:45.397961137Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/docker/start.py\", line 76, in <module>",
+    "ts": "2026-09-09T20:37:45.398025630Z"
+  },
+  {
+    "source": "container",
+    "line": "    if __name__ == '__main__':main()",
+    "ts": "2026-09-09T20:37:45.398239767Z"
+  },
+  {
+    "source": "container",
+    "line": "                              ^^^^^^",
+    "ts": "2026-09-09T20:37:45.398444906Z"
+  },
+  {
+    "source": "container",
+    "line": "  File \"/opt/flyhard/docker/start.py\", line 63, in main",
+    "ts": "2026-09-09T20:37:45.398538612Z"
+  },
+  {
+    "source": "container",
+    "line": "    if health.returncode != 0:raise RuntimeError('Runtime readiness check failed')",
+    "ts": "2026-09-09T20:37:45.398813306Z"
+  },
+  {
+    "source": "container",
+    "line": "                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "ts": "2026-09-09T20:37:45.399134551Z"
+  },
+  {
+    "source": "container",
+    "line": "RuntimeError: Runtime readiness check failed",
+    "ts": "2026-09-09T20:37:45.399201225Z"
+  },
+  {
+    "source": "container",
+    "line": "[WARN  tini (50)] Tini is not running as PID 1 and isn't registered as a child subreaper.",
+    "ts": "2026-09-09T20:37:49.986429411Z"
+  },
+  {
+    "source": "container",
+    "line": "Zombie processes will not be re-parented to Tini, so zombie reaping won't work.",
+    "ts": "2026-09-09T20:37:49.986451976Z"
+  },
+  {
+    "source": "container",
+    "line": "To fix the problem, use the -s option or set the environment variable TINI_SUBREAPER to register Tini as a child subreaper, or run Tini as PID 1.",
+    "ts": "2026-09-09T20:37:49.986454119Z"
+  }
+]

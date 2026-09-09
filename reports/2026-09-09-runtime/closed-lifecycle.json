@@ -1,0 +1,17 @@
+{
+  "verified_utc": "2026-09-09T21:26:25.697584+00:00",
+  "status": "terminated",
+  "active_pods": 0,
+  "current_spend_usd_per_hour": 0,
+  "local_guard_exited": true,
+  "exports_verified": true,
+  "validation_spend_usd": 0.44575899710000044,
+  "template": {
+    "name": "Flyhard / CARLA 0.9.16",
+    "imageName": "ghcr.io/markunthank/flyhard@sha256:ef0ddbb27f76cc148059d928de897d16652666c67bdbaf4f0a15392a82b0f032",
+    "isPublic": false,
+    "ports": [
+      "22/tcp"
+    ]
+  }
+}

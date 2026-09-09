@@ -1,0 +1,10 @@
+{
+  "engine": "mujoco",
+  "version": "3.9.0",
+  "gpu_renderer": "NVIDIA A40/PCIe/SSE2",
+  "body_count": 54,
+  "simulated_body_seconds": 0.4999999999999531,
+  "status": "passed",
+  "wall_seconds": 2.578718683216721,
+  "screenshot_sha256": "e7dfc85a3f445b95e890b9cd902d5d6168d27b57db600e91249068510e38c081"
+}

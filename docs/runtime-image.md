@@ -6,7 +6,7 @@ The Docker base is pinned by its Linux AMD64 manifest digest. The CARLA archive 
 
 ## Build and publication
 
-The `Build Flyhard runtime` GitHub Actions workflow builds on a disposable Ubuntu 24.04 Linux runner and publishes an immutable `runtime-<commit>` tag in `ghcr.io/markunthank/flyhard`. The workflow can also be dispatched manually. Its artifact contains the exact image digest. The registry cache retains the large CARLA and dependency layers across source-only changes.
+The `Build Flyhard runtime` GitHub Actions workflow builds on a disposable Ubuntu 24.04 Linux runner and publishes a commit-tagged candidate, `runtime-<commit>`, in `ghcr.io/markunthank/flyhard`. The workflow can also be dispatched manually. Its artifact contains the image index digest. Deployment pins the immutable Linux AMD64 manifest digest selected from that index. The registry cache retains the large CARLA and dependency layers across source-only changes.
 
 Build context is an explicit allowlist: project source, scripts, tests, fonts, dependency declarations and licenses. Environment files, credentials, account configuration, local apps, simulation recordings, graph data and checkpoints are excluded. Trained-model data is restored separately into the mounted workspace when required. The image contains the official CARLA binary distribution with its existing notices; that distribution is not relicensed under Flyhard's MIT license. No Unreal editor/source is included.
 
@@ -30,6 +30,7 @@ The default entrypoint starts SSH, the independent Pod deadline guard, and offsc
 The build runs the existing graph/budget tests and constructs the full supported fly rig without a GPU. A built image is still only a candidate. On a newly created Runpod GPU:
 
 ```bash
+source docker/activate.sh
 cat work/runtime/ready.json
 python scripts/runtime_graphics_smoke.py mujoco
 python scripts/runtime_graphics_smoke.py vtk
@@ -41,3 +42,35 @@ MuJoCo and VTK render in separate processes to preserve their separate EGL lifet
 Record both provider-request-to-ready and container-start-to-ready times. A fresh host still needs to pull uncached image layers; an already cached image can start faster. Do not infer warm-start timing from the build duration. Update the Runpod template to the tested immutable digest only after the GPU checks and local exports pass.
 
 The native-fly Unreal editor build remains a separate task. This image accelerates the existing packaged CARLA and MuJoCo workflow.
+
+## Measured startup
+
+The [2026-09-09 validation](../reports/2026-09-09-runtime/) used one A40 in EU-SE-1 and the immutable image recorded in `deploy/runtime.json`.
+
+| Measurement | Fresh Pod | Restart of the same Pod |
+| --- | ---: | ---: |
+| Request to CUDA + CARLA ready | 9 min 41 sec | 24 sec |
+| Container start to ready | 19 sec | 18 sec |
+| Package installation at startup | None | None |
+
+The image is 19.6 GB compressed. The fresh launch spent 9 min 21 sec before the container started. The restart reused the image on the same host; it does not predict the pull time on another host. These are single observations, not guaranteed startup times. The local launcher noticed readiness about 3 seconds after the fresh check and 7 seconds after the restart check because it polls at intervals.
+
+The NVIDIA CUDA calculation, full 54-body fly rig, VTK EGL render, actual MaleCNS anatomy preview and 120-frame CARLA camera capture passed. All 17 exported input/output files matched their hashes and survived the restart. The CNS preview reused an existing model recording. This validation does not add training or driving capability.
+
+## Launch a validated release
+
+After GPU validation, `deploy/runtime.json` records the tested image. Your account's template ID is saved separately in the ignored `work/runpod-template.json`. The local `.env` must contain your own `RUNPOD_API_KEY`; the launcher creates a project SSH key if one is missing.
+
+```bash
+python3 deploy/launch.py
+ssh -F work/ssh-config flyhard
+# Inside the Pod:
+cd /workspace/flyhard
+source docker/activate.sh
+```
+
+The launcher creates one A40, waits for the packaged CUDA calculation and CARLA API check, verifies the running source revision, and saves measured startup times to `work/runtime-launch.json`. It archives a completed previous session before starting a new one. It requires at least $10 of existing credit, caps the estimated hourly price at $0.90, and never adds credit. The image and local guard both enforce the one-hour runtime limit. A readiness failure requests a stop and retains the workspace for inspection.
+
+Use `python3 deploy/launch.py --wait` to reconnect to an existing launch without creating another Pod. Stop early with `python3 scripts/runpod_control.py stop`. After copying results locally and verifying their hashes, set `exports_verified` in the local session record and run `python3 scripts/runpod_control.py terminate`; stopping alone can retain storage charges.
+
+To promote a newly tested build, run `python3 deploy/register_template.py --validation reports/<run>/validation.json`. This requires successful CUDA, MuJoCo, VTK and CARLA checks. It updates the existing private `Flyhard / CARLA 0.9.16` Runpod template, reads it back, and records the release locally. A successful container build alone cannot promote a release.

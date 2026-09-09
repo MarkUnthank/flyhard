@@ -1,0 +1,9 @@
+{
+  "purpose": "GPU runtime rendering verification using an existing recorded model state",
+  "source_run": "runs/carla-calm-v2",
+  "source_frame": 100,
+  "source_neural_trace_sha256": "ae6a99feb7bad13c7b86223ee25a5f403bd1f376519b085249fc058663a233e1",
+  "body_time": 4.039999999997254,
+  "neural_index": 80,
+  "new_training_or_driving": false
+}

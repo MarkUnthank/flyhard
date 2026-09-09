@@ -1,0 +1,22 @@
+{
+  "pod_id": "scneeyxtztqy3b",
+  "image": "ghcr.io/markunthank/flyhard@sha256:ef0ddbb27f76cc148059d928de897d16652666c67bdbaf4f0a15392a82b0f032",
+  "source_revision": "9a9a2e7ea2125ec7375d0280782102668f03f8bb",
+  "data_center": "EU-SE-1",
+  "requested_epoch": 1788986946.087978,
+  "request_to_ready_seconds": 580.5200200080872,
+  "provider_and_image_seconds": 561.2531838417053,
+  "observed_ready_epoch": 1788987530.058222,
+  "ready": {
+    "status": "ready",
+    "container_started_epoch": 1788987507.3411617,
+    "ready_epoch": 1788987526.607998,
+    "container_to_ready_seconds": 19.266836166381836,
+    "gpu": "NVIDIA A40",
+    "torch": "2.8.0+cu128",
+    "carla": "0.9.16",
+    "map": "Carla/Maps/Town10HD_Opt",
+    "cuda_kernel_check": "passed",
+    "installation_at_startup": false
+  }
+}

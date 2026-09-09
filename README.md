@@ -20,7 +20,7 @@ The first bounded A6000 pilot is complete (2026-09-09). A model retaining 165,12
 
 This is a requested-angle steering skill with engineered interfaces. Visual driving, combined wheel/pedal control, the Panda shell, and three-seed replication remain untested.
 
-The [packaged GPU runtime](docs/runtime-image.md) builds CARLA and the Python environment once for reuse across Runpod instances. Image candidates require a fresh GPU launch check before deployment.
+The [packaged GPU runtime](docs/runtime-image.md) is published and validated on a fresh Runpod A40. It includes CARLA and the Python/graphics environment, with no installation at startup. Run `python3 deploy/launch.py` from this checkout to launch the tested image with a one-hour limit; your Runpod API key stays in the local `.env`. See the [runtime validation report](reports/2026-09-09-runtime/).
 
 Read the [pilot report](docs/pilot-2026-09-09.md), [measured results](reports/2026-09-09/), [connected steering results](reports/2026-09-09-carla-video/), and [reproduction instructions](docs/reproduce.md).
 

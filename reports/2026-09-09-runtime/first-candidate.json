@@ -1,0 +1,18 @@
+{
+  "status": "failed",
+  "image": "ghcr.io/markunthank/flyhard@sha256:5090e827af6a17cfd7b9822d6ba5a24ad2b6f17ad2e4072f1475fa65fca755bf",
+  "source_revision": "07c92e5f3f386fc7d484b384f7e093d8fff3bce8",
+  "requested_epoch": 1788985329.978163,
+  "observed_container_started_epoch": 1788985890.95488,
+  "provider_and_image_seconds": 560.9767169952393,
+  "failure": "CARLA readiness reused an RPC client that connected before the server started and retained the failed connection.",
+  "independent_fresh_client": {
+    "server": "0.9.16",
+    "map": "Carla/Maps/Town10HD_Opt",
+    "world_read_seconds": 0.22845644690096378,
+    "mini_blueprint": "present"
+  },
+  "experiments_or_recordings_generated": false,
+  "diagnostic_log_sha256": "08338e73961b7e590a9a8344f41add6d98e835dffd99f817af88070cdbabbac5",
+  "recorded_utc": "2026-09-09T20:43:36.451304+00:00"
+}

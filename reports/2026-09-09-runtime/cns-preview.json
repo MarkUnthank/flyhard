@@ -1,0 +1,31 @@
+{
+  "status": "previewed",
+  "frames": 1,
+  "fps": 25,
+  "width": 600,
+  "height": 440,
+  "geometry_sha256": "49d69883966a8bc2d7b587123456c854a2b229913a2dc4ff0d2340013784fc27",
+  "neural_trace_sha256": "ae6a99feb7bad13c7b86223ee25a5f403bd1f376519b085249fc058663a233e1",
+  "frames_sha256": "1f91f89afc52099c1c31eff61d04956282f6f24de2eb11d03fcf906bc8f8ef49",
+  "surface_sha256": "a9dc8a21085606a413dd6d4802496b6ef9c348b1673a8d478fb655ce688db50b",
+  "model_rate_color_scale": {
+    "method": "Fixed per-neuron 95th percentile absolute state over the episode",
+    "floor": 1e-05,
+    "minimum": 9.999999747378752e-06,
+    "maximum": 0.6140929460525513,
+    "comparable_between_neurons": false
+  },
+  "vtk_window": "vtkEGLRenderWindow",
+  "gpu_capabilities": "OpenGL vendor string:  NVIDIA Corporation\nOpenGL renderer string:  NVIDIA A40/PCIe/SSE2\nOpenGL version string:  3.2.0 NVIDIA 580.159.03",
+  "frame_map": [
+    {
+      "index": 0,
+      "neural_index": 80,
+      "body_time": 4.039999999997254,
+      "neural_time": 3.999999999997347
+    }
+  ],
+  "renderer_script_sha256": "c1470691162aa97e191969a43b4c65ca466f00e35e63cb2850a66a8db2cfae6d",
+  "cns_view_sha256": "3c34398eb1da20094c820bab9bb930a4ea4f76e20a2698520c16c5621d4e7924",
+  "wall_seconds": 2.6651743080001324
+}

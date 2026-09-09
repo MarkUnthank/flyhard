@@ -1,0 +1,17 @@
+{
+  "experiment": "CARLA camera smoke test",
+  "version": "0.9.16",
+  "fixed_delta_seconds": 0.05,
+  "camera_size": [
+    960,
+    540
+  ],
+  "frames": 120,
+  "claim": "Scripted infrastructure check. No fly or neural controller supplies these commands.",
+  "status": "passed",
+  "map": "Carla/Maps/Town10HD_Opt",
+  "matching_camera_frames": 120,
+  "wall_seconds": 10.285493136849254,
+  "final_speed_m_s": 1.0333806449892837,
+  "displacement_m": 3.2718537699028962
+}

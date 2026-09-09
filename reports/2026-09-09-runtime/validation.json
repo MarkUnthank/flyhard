@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-09-09T21:23:00.538950+00:00",
+  "image": "ghcr.io/markunthank/flyhard@sha256:ef0ddbb27f76cc148059d928de897d16652666c67bdbaf4f0a15392a82b0f032",
+  "source_revision": "9a9a2e7ea2125ec7375d0280782102668f03f8bb",
+  "hardware": {
+    "gpu": "NVIDIA A40",
+    "gpu_vram_gb": 48,
+    "driver": "580.159.03",
+    "data_center": "EU-SE-1",
+    "gpu_usd_per_hour": 0.49,
+    "total_usd_per_hour": 0.509
+  },
+  "checks": {
+    "cuda": "passed",
+    "mujoco": "passed",
+    "vtk": "passed",
+    "carla": "passed"
+  },
+  "cns_preview": "passed using existing recorded neural activity",
+  "build_tests_passed": 8,
+  "build_source_hashes_verified": 42,
+  "fresh_request_to_ready_seconds": 580.5200200080872,
+  "fresh_container_to_ready_seconds": 19.266836166381836,
+  "cached_restart_request_to_ready_seconds": 24.13476538658142,
+  "cached_restart_container_to_ready_seconds": 18.367542028427124,
+  "installation_at_startup": false,
+  "exports": {
+    "status": "verified",
+    "files": 17,
+    "bytes": 435650483,
+    "manifest_sha256": "38becce4d530ec97d4fe78f76ff1c32a8455925dc8fdfb2658861f4b6f7802af",
+    "survived_restart": true
+  },
+  "evidence": {
+    "build": "build.json",
+    "provenance": "build-receipt.json",
+    "fresh_boot": "fresh-launch.json",
+    "cached_restart": "warm-launch.json",
+    "mujoco": "mujoco.json",
+    "vtk": "vtk.json",
+    "carla": "carla.json",
+    "cns": "cns-preview.json",
+    "cns_source": "cns-source.json",
+    "exports": "artifact-manifest.json"
+  },
+  "limits": [
+    "One fresh launch and one restart of the same Pod; other hosts may need to pull all 19.6 GB.",
+    "Connectome graph, trained checkpoints and recordings are restored separately.",
+    "Infrastructure and graphics validation, not new training or learned driving.",
+    "The Unreal editor and a native fly asset inside CARLA remain outside this runtime."
+  ],
+  "closed_lifecycle": "closed-lifecycle.json",
+  "template_readback": "verified"
+}
