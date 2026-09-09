@@ -29,6 +29,7 @@ def make_fly():
 class WheelRig:
     timestep = 5e-5
     command_period = 0.005
+    max_joint_target_rate = 3.0  # rad/s; generic joint servo limit, no wheel knowledge
 
     def __init__(self):
         probe_fly = make_fly()
@@ -110,7 +111,10 @@ class WheelRig:
     def step(self, action, substeps=None):
         action = np.asarray(action)
         assert action.shape == (7,) and np.isfinite(action).all()
-        self.data.ctrl[self.actuators] = np.clip(action,self.bounds[:,0],self.bounds[:,1])
+        action = np.clip(action,self.bounds[:,0],self.bounds[:,1])
+        current = self.data.ctrl[self.actuators]
+        delta = self.max_joint_target_rate*self.command_period
+        self.data.ctrl[self.actuators] = current + np.clip(action-current,-delta,delta)
         for _ in range(substeps or round(self.command_period/self.timestep)):
             mj.mj_step(self.model,self.data)
         assert np.isfinite(self.data.qpos).all() and abs(self.angle)<1
