@@ -1,0 +1,29 @@
+{
+  "name": "flyhard-a6000-pilot-20260909",
+  "cloud": "SECURE",
+  "image": "runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404",
+  "gpu": {
+    "id": "NVIDIA RTX A6000",
+    "count": 1,
+    "minRamPerGpu": 48,
+    "minVcpuCountPerGpu": 8,
+    "minCudaVersion": "12.8"
+  },
+  "disk": 40,
+  "mounts": {
+    "persistent": {
+      "size": 160,
+      "path": "/workspace"
+    }
+  },
+  "ports": [
+    "22/tcp"
+  ],
+  "env": {
+    "NVIDIA_DRIVER_CAPABILITIES": "all",
+    "MUJOCO_GL": "egl",
+    "PYOPENGL_PLATFORM": "egl"
+  },
+  "startSsh": true,
+  "startJupyter": false
+}
