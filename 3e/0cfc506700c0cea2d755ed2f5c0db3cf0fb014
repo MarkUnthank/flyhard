@@ -1,0 +1,46 @@
+LICENSE
+  s_4cf9d98cda6aae::t_a27a8bc3317205 1-21
+README.md
+  s_4cf9d98cda6aae::t_1eb3698c8ec32a 13-21,31,35,37,45,56
+docs/pilot-2026-09-09.md
+  s_4cf9d98cda6aae::t_aec9579349f7c0 1-86
+scripts/install_carla.sh
+  s_4cf9d98cda6aae::t_a27a8bc3317205 1-17
+THIRD_PARTY.md
+  s_4cf9d98cda6aae::t_1eb3698c8ec32a 1-29
+scripts/start_carla.sh
+  s_4cf9d98cda6aae::t_a27a8bc3317205 1-20
+docs/reproduce.md
+  s_4cf9d98cda6aae::t_1eb3698c8ec32a 1-47,49-82
+scripts/verify_artifacts.py
+  s_4cf9d98cda6aae::t_30711155cf6b32 1-42
+docs/experiment-plan.md
+  s_4cf9d98cda6aae::t_1eb3698c8ec32a 3,140,142
+requirements/runpod-pilot.txt
+  s_4cf9d98cda6aae::t_a27a8bc3317205 1-15
+scripts/runpod_control.py
+  s_4cf9d98cda6aae::t_a27a8bc3317205 156
+  s_4cf9d98cda6aae::t_058bd7d8f32926 25-30,54,84-89
+scripts/acquire_connectome.py
+  s_4cf9d98cda6aae::t_a27a8bc3317205 16-20,53-54
+configs/runpod-a6000.example.json
+  s_4cf9d98cda6aae::t_a27a8bc3317205 1-9
+scripts/bootstrap_runpod.sh
+  s_4cf9d98cda6aae::t_a27a8bc3317205 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3e0cfc506700c0cea2d755ed2f5c0db3cf0fb014",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
