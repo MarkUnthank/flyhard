@@ -1,0 +1,55 @@
+scripts/prepare_graph.py
+  s_4cf9d98cda6aae::t_d7c6b6001481eb 1-125
+src/flyhard/connectome.py
+  s_4cf9d98cda6aae::t_bb349fd9d6f190 1-23,26,32-37,39-40,44-48
+  s_4cf9d98cda6aae::t_352dec48f212b8 24-25,27-31,38,41-43
+pyproject.toml
+  s_4cf9d98cda6aae::t_bb349fd9d6f190 1-21
+tests/test_budget.py
+  s_4cf9d98cda6aae::t_98efbef5b5e711 1-19
+.env.example
+  s_4cf9d98cda6aae::t_98efbef5b5e711 1
+scripts/acquire_connectome.py
+  s_4cf9d98cda6aae::t_59c0d9f30de2af 1-55
+README.md
+  s_4cf9d98cda6aae::t_ac94e615c8d233 25-26
+  s_4cf9d98cda6aae::t_9fd3f187c6ef15 3
+  s_4cf9d98cda6aae::t_329449651d66dd 7
+  s_4cf9d98cda6aae::t_ab2bde853fc986 27
+  s_4cf9d98cda6aae::t_dc8140959875d1 1-2,4-6,8-24,28-48
+tests/test_connectome.py
+  s_4cf9d98cda6aae::t_bb349fd9d6f190 1-45
+scripts/runpod_control.py
+  s_4cf9d98cda6aae::t_98efbef5b5e711 1-192
+docs/flyat-design.md
+  s_4cf9d98cda6aae::t_329449651d66dd 1-32
+configs/runpod-pilot.json
+  s_4cf9d98cda6aae::t_98efbef5b5e711 1-2,4-29
+scripts/pod_deadline.py
+  s_4cf9d98cda6aae::t_f96a66cdb7abdf 1-54
+scripts/benchmark_core.py
+  s_4cf9d98cda6aae::t_d7c6b6001481eb 1-141
+scripts/body_baseline.py
+  s_4cf9d98cda6aae::t_59c0d9f30de2af 1-121
+src/flyhard/__init__.py
+  s_4cf9d98cda6aae::t_98efbef5b5e711 1
+docs/experiment-plan.md
+  s_4cf9d98cda6aae::t_ac94e615c8d233 1-77,79,82-141,143-152
+  s_4cf9d98cda6aae::t_ab2bde853fc986 78,80-81,142,153-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "0c8a0ce23f8087f10bd8e040d8b75646a99eac32",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
