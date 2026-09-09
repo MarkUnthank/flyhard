@@ -1,0 +1,27 @@
+{
+  "experiment": "E00",
+  "source": "FlyGym upstream experimental motion replay",
+  "claim": "Body dependency and replay only; no neural training or driving",
+  "steps": 15000,
+  "dt_s": 0.0001,
+  "threshold": "finite states; exact saved state replay",
+  "playback_speed": 0.1,
+  "seed": 0,
+  "timeout_seconds": 300,
+  "setup_seconds": 0.8610478956252337,
+  "physics_wall_seconds": 1.3557781772688031,
+  "physics_steps_per_second": 11063.756779311272,
+  "simulation_seconds": 1.5,
+  "nq": 73,
+  "actuators": 48,
+  "replay_max_qpos_error": 0.0,
+  "finite": true,
+  "trace_sha256": "d9f70162d386b37984309e5c3fe65041ec8b9c7932c5bb39b5ef85d1a2ca8c5d",
+  "versions": {
+    "flygym": "2.1.0",
+    "mujoco": "3.9.0",
+    "numpy": "2.1.2"
+  },
+  "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.39",
+  "status": "passed"
+}

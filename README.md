@@ -10,7 +10,15 @@ Intended GitHub home: `MarkUnthank/flyhard`.
 
 ## Status
 
-Planning and feasibility stage. No driving capability or training performance has been demonstrated yet. The public repository has not been created.
+The first bounded A6000 pilot is complete (2026-09-09). A model retaining 165,122 traced MaleCNS neurons and 25,563,197 measured neuron-pair connections learned to turn a passive wheel through the simulated fly's foreleg.
+
+- Stationary steering: **100/100 held-out targets passed after training; 0/100 before**. One training seed, 600 optimizer updates, 186 seconds of training. The worst final hold error was 4.85 degrees against a predeclared 7.45-degree limit.
+- Mechanics: wheel and pedal each passed 20 paired trials with grip/contact interventions. Pedal contact also reproduced on the A6000; fine timestep sensitivity remains documented.
+- Infrastructure: actual body rendering and CARLA 0.9.16 offscreen cameras work on the selected Runpod host.
+
+This is a requested-angle steering skill with engineered interfaces. Visual driving, combined wheel/pedal control, the Panda shell, and three-seed replication remain untested. The public GitHub repository has not been created.
+
+Read the [pilot report](docs/pilot-2026-09-09.md), [measured results](reports/2026-09-09/), and [reproduction instructions](docs/reproduce.md).
 
 ## The experiment
 
@@ -20,13 +28,13 @@ The body must causally operate the controls. An animated driver following direct
 
 The measured connectivity topology is the starting architectural constraint. Training must involve the connectome-based model, including connection strengths and neuronal dynamics where appropriate. Document measured, inferred, fixed, and learned parameters, sensory interfaces, and any separate body controller. This is not a claim to recreate the original fly's mind or biological learning.
 
-## First milestone
+## Next milestone
 
 Follow the [verifiable experiment plan](docs/experiment-plan.md). Each experiment has a narrow question, an evidence requirement, and a decision before proceeding.
 
-Prepare a bounded pilot on one NVIDIA RTX A6000 using a Runpod on-demand Pod. Begin with a stationary cockpit task, then evaluate the proposed curriculum before integrated driving.
+Keep the A6000. Replicate the steering skill across two additional training seeds, refine and teach the pedal skill, then verify physical control positions driving CARLA on one coordinated clock.
 
-Record training progress, evaluation success, simulation throughput, GPU memory, and billed runtime. Save checkpoints and synchronized neural, body, contact, wheel, and pedal traces. Use the results to decide whether longer training or different hardware is justified. No infrastructure has been provisioned.
+The first pilot saved resumable checkpoints, all held-out scores, source hashes, numerical checks, and synchronized neural/body/wheel recordings. Its approximately 3 GB peak training allocation does not justify a GPU upgrade. Integrated driving throughput has not been measured.
 
 ## Presentation
 
@@ -34,7 +42,7 @@ Driving footage, cockpit footage, body motion, and computed neuron activations o
 
 ## Open-source preparation
 
-Keep credentials, account-specific configuration, large datasets, checkpoints, and recordings outside version control. Provide reproducible acquisition and setup scripts as development progresses. Preserve source versions, attribution, licenses, and modification records for all third-party data, code, and body assets. Select a license for original code before public release; third-party materials retain their own terms.
+Original project code is MIT licensed, copyright Mark Unthank. Third-party materials retain their own terms; see [attribution and provenance](THIRD_PARTY.md). Credentials, account configuration, large data, checkpoints, and videos are excluded from Git. Acquisition scripts verify the pinned source hashes.
 
 ## Research starting points
 
@@ -45,4 +53,4 @@ Keep credentials, account-specific configuration, large datasets, checkpoints, a
 - [FlyGM preprint](https://arxiv.org/abs/2602.17997)
 - [CARLA](https://github.com/carla-simulator/carla)
 
-These are research candidates, not yet validated project dependencies.
+MaleCNS, FlyGym/NeuroMechFly, and CARLA are exercised dependencies. FlyVis, FlyBody, and FlyGM remain research references and are not part of the current controller.

@@ -22,6 +22,12 @@ ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "work/runpod-session.json"
 
 
+class RunpodError(RuntimeError):
+    def __init__(self, status, detail):
+        self.status = status
+        super().__init__(f"Runpod HTTP {status}: {detail[:1200]}")
+
+
 def api_key():
     if os.environ.get("RUNPOD_API_KEY"):
         return os.environ["RUNPOD_API_KEY"]
@@ -45,7 +51,7 @@ def request(method, path, payload=None):
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode().replace(key, "[REDACTED]")
-        raise RuntimeError(f"Runpod HTTP {exc.code}: {detail[:1200]}") from None
+        raise RunpodError(exc.code, detail) from None
 
 
 def balance():
@@ -75,7 +81,12 @@ def must_stop(state, remaining, now):
 
 def resolve_pod(state):
     if state.get("pod_id"):
-        return request("GET", "/v2/pods/" + state["pod_id"])
+        try:
+            return request("GET", "/v2/pods/" + state["pod_id"])
+        except RunpodError as exc:
+            if exc.status == 404:
+                return None
+            raise
     result = request("GET", "/v2/pods")
     pods = result.get("pods", []) if isinstance(result, dict) else result
     matches = [p for p in pods if p["name"] == state["name"]]
@@ -142,7 +153,7 @@ def launch(config_path):
     state = {"name": config["name"], "requested_epoch": now, "deadline_epoch": now + 6 * 3600,
              "initial_balance_usd": current["clientBalance"], "reserve_usd": 4.0,
              "spend_cap_usd": 6.0, "estimated_hourly_usd": estimated_hourly,
-             "auto_pay_verified_disabled": "2026-09-09 via Runpod billing UI",
+             "auto_pay_verified_disabled": config.pop("auto_pay_verified_disabled", None),
              "closed": False}
     save_state(state)
     with (ROOT / "work/runpod-guard.log").open("a") as log:

@@ -1,0 +1,433 @@
+{
+  "experiment": "E02-pedal",
+  "trials": 20,
+  "seed": 71,
+  "physics_dt_s": 5e-05,
+  "contact": "Explicit spherical sole on right middle distal tarsus contacts passive sprung pad.",
+  "pad_travel_mm": 0.25,
+  "pad_mass_mg": 1e-05,
+  "spring": 3,
+  "spring_reference_mm": -0.05,
+  "damping": 0.02,
+  "contact_solref": [
+    0.001,
+    1
+  ],
+  "contact_solimp": [
+    0.99,
+    0.999,
+    0.001,
+    0.5,
+    2
+  ],
+  "hold_error_limit_mm": 0.04,
+  "release_limit_mm": 0.02,
+  "disabled_motion_limit_mm": 0.02,
+  "claim": "Physical contact diagnostic; not learned pedal operation.",
+  "passed_trials": 20,
+  "ik_max_error_mm": 1.9261889400654917e-06,
+  "wall_seconds": 43.61274058930576,
+  "results": [
+    {
+      "trial": 0,
+      "enabled": {
+        "target_mm": 0.1402730941949842,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.019993667116768615,
+        "max_depression_mm": 0.12028099699129395,
+        "released_displacement_mm": 0.00044682190754049395,
+        "max_contact_force": 0.41442332837936585
+      },
+      "disabled": {
+        "target_mm": 0.1402730941949842,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.1551016656235556,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "enabled": {
+        "target_mm": 0.16220310685171407,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.023396597234245087,
+        "max_depression_mm": 0.13880792249865576,
+        "released_displacement_mm": 0.00043190130415809893,
+        "max_contact_force": 0.4703823621248221
+      },
+      "disabled": {
+        "target_mm": 0.16220310685171407,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.17703167828028543,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "enabled": {
+        "target_mm": 0.180878924700035,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02624390221043088,
+        "max_depression_mm": 0.15463641360532746,
+        "released_displacement_mm": 0.00041451454999725737,
+        "max_contact_force": 0.5183061252628823
+      },
+      "disabled": {
+        "target_mm": 0.180878924700035,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.19570749612860638,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "enabled": {
+        "target_mm": 0.17078088500327776,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.024702876518359645,
+        "max_depression_mm": 0.14607940900203273,
+        "released_displacement_mm": 0.0004230878660329659,
+        "max_contact_force": 0.4923952031383839
+      },
+      "disabled": {
+        "target_mm": 0.17078088500327776,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.18560945643184912,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "enabled": {
+        "target_mm": 0.13633379438233412,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.019403621971497642,
+        "max_depression_mm": 0.11693178807721478,
+        "released_displacement_mm": 0.0004513311707482161,
+        "max_contact_force": 0.4042964189310839
+      },
+      "disabled": {
+        "target_mm": 0.13633379438233412,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.15116236581090547,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "enabled": {
+        "target_mm": 0.12366157591378864,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.017456002905552312,
+        "max_depression_mm": 0.10620739877379246,
+        "released_displacement_mm": 0.0004625129046360794,
+        "max_contact_force": 0.3719751605249846
+      },
+      "disabled": {
+        "target_mm": 0.12366157591378864,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.13849014734236,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "enabled": {
+        "target_mm": 0.16185323528740966,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.023345793117750674,
+        "max_depression_mm": 0.13850886691943187,
+        "released_displacement_mm": 0.00043009363676216295,
+        "max_contact_force": 0.4694777391582783
+      },
+      "disabled": {
+        "target_mm": 0.16185323528740966,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.17668180671598105,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 7,
+      "enabled": {
+        "target_mm": 0.1361129472494326,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.019369120442505217,
+        "max_depression_mm": 0.11674543648030189,
+        "released_displacement_mm": 0.0004514817404885546,
+        "max_contact_force": 0.40373294584852587
+      },
+      "disabled": {
+        "target_mm": 0.1361129472494326,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.15094151867800398,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 8,
+      "enabled": {
+        "target_mm": 0.16738378059552012,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02418942925440795,
+        "max_depression_mm": 0.14319577634984806,
+        "released_displacement_mm": 0.00042260543018166286,
+        "max_contact_force": 0.4836651533826773
+      },
+      "disabled": {
+        "target_mm": 0.16738378059552012,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.18221235202409147,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 9,
+      "enabled": {
+        "target_mm": 0.12310616385734544,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.017369668019946438,
+        "max_depression_mm": 0.10573832013282637,
+        "released_displacement_mm": 0.00046290158949556943,
+        "max_contact_force": 0.37055598831690345
+      },
+      "disabled": {
+        "target_mm": 0.12310616385734544,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.13793473528591682,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 10,
+      "enabled": {
+        "target_mm": 0.18465134174776032,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02682073272721411,
+        "max_depression_mm": 0.157832001402327,
+        "released_displacement_mm": 0.00040846822507372614,
+        "max_contact_force": 0.5279840232649092
+      },
+      "disabled": {
+        "target_mm": 0.18465134174776032,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.19947991317633168,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 11,
+      "enabled": {
+        "target_mm": 0.15014741312916063,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02149510253186393,
+        "max_depression_mm": 0.12865386178489613,
+        "released_displacement_mm": 0.00043858544276199744,
+        "max_contact_force": 0.4397593667870139
+      },
+      "disabled": {
+        "target_mm": 0.15014741312916063,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.164975984557732,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 12,
+      "enabled": {
+        "target_mm": 0.14510422857865765,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.020722028159379888,
+        "max_depression_mm": 0.12438374141553159,
+        "released_displacement_mm": 0.0004404141960858042,
+        "max_contact_force": 0.4268338782509358
+      },
+      "disabled": {
+        "target_mm": 0.14510422857865765,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.15993280000722904,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 13,
+      "enabled": {
+        "target_mm": 0.17296574861760097,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.025034363900749035,
+        "max_depression_mm": 0.1479327744792555,
+        "released_displacement_mm": 0.00041875983948674574,
+        "max_contact_force": 0.49800563968639405
+      },
+      "disabled": {
+        "target_mm": 0.17296574861760097,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.18779432004617236,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 14,
+      "enabled": {
+        "target_mm": 0.19284031501819565,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.028074112865180384,
+        "max_depression_mm": 0.16476759061746057,
+        "released_displacement_mm": 0.00040341408872038667,
+        "max_contact_force": 0.5489903437175446
+      },
+      "disabled": {
+        "target_mm": 0.19284031501819565,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.207668886446767,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 15,
+      "enabled": {
+        "target_mm": 0.13676183016103663,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.01946751890860343,
+        "max_depression_mm": 0.11729592085956594,
+        "released_displacement_mm": 0.0004506745356812744,
+        "max_contact_force": 0.4053969780303728
+      },
+      "disabled": {
+        "target_mm": 0.13676183016103663,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.15159040158960801,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 16,
+      "enabled": {
+        "target_mm": 0.1635898669214984,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02360732274275082,
+        "max_depression_mm": 0.13998395337787733,
+        "released_displacement_mm": 0.00042828505552432584,
+        "max_contact_force": 0.4739421080398615
+      },
+      "disabled": {
+        "target_mm": 0.1635898669214984,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.17841843835006976,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 17,
+      "enabled": {
+        "target_mm": 0.19392843352546024,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02824027696511308,
+        "max_depression_mm": 0.16568954360040122,
+        "released_displacement_mm": 0.000401895876667721,
+        "max_contact_force": 0.5517830318942821
+      },
+      "disabled": {
+        "target_mm": 0.19392843352546024,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.2087570049540316,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 18,
+      "enabled": {
+        "target_mm": 0.14238442686094005,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.02031361712196239,
+        "max_depression_mm": 0.12207237448168909,
+        "released_displacement_mm": 0.00044494195370294064,
+        "max_contact_force": 0.4198408307732067
+      },
+      "disabled": {
+        "target_mm": 0.14238442686094005,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.1572129982895114,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 19,
+      "enabled": {
+        "target_mm": 0.13276857390917132,
+        "contact_enabled": true,
+        "max_hold_error_mm": 0.0188687877045524,
+        "max_depression_mm": 0.1139014386525764,
+        "released_displacement_mm": 0.0004498252891389204,
+        "max_contact_force": 0.39513697040337836
+      },
+      "disabled": {
+        "target_mm": 0.13276857390917132,
+        "contact_enabled": false,
+        "max_hold_error_mm": 0.1475971453377427,
+        "max_depression_mm": -0.003492327343952615,
+        "released_displacement_mm": -0.014828571428571372,
+        "max_contact_force": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "status": "passed"
+}

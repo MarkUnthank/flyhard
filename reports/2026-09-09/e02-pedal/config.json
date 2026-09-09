@@ -1,0 +1,27 @@
+{
+  "experiment": "E02-pedal",
+  "trials": 20,
+  "seed": 71,
+  "physics_dt_s": 5e-05,
+  "contact": "Explicit spherical sole on right middle distal tarsus contacts passive sprung pad.",
+  "pad_travel_mm": 0.25,
+  "pad_mass_mg": 1e-05,
+  "spring": 3,
+  "spring_reference_mm": -0.05,
+  "damping": 0.02,
+  "contact_solref": [
+    0.001,
+    1
+  ],
+  "contact_solimp": [
+    0.99,
+    0.999,
+    0.001,
+    0.5,
+    2
+  ],
+  "hold_error_limit_mm": 0.04,
+  "release_limit_mm": 0.02,
+  "disabled_motion_limit_mm": 0.02,
+  "claim": "Physical contact diagnostic; not learned pedal operation."
+}

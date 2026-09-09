@@ -1,0 +1,50 @@
+{
+  "graph": "data/graph-traced-v1",
+  "out": "runs/e03-wheel-pilot",
+  "steps": 600,
+  "seconds": 900,
+  "batch": 16,
+  "seed": 123,
+  "experiment": "E03/E04 wheel pilot",
+  "device": "cuda",
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "teacher": "Offline inverse kinematics -> physical joint servos. Teacher never used during learned evaluation.",
+  "interfaces": "Frozen random signed sensory mapping and motor-neuron readout; only core edge gains and leaks train.",
+  "sensory_population": "vnc_sensory",
+  "motor_population": "vnc_motor",
+  "neural_steps_per_decision": 4,
+  "neural_state_reset_each_decision": true,
+  "control_period_seconds": 0.05,
+  "physics_timestep": 5e-05,
+  "joint_target_slew_limit_rad_s": 3.0,
+  "heldout_physical_targets": 100,
+  "heldout_seed": 61733,
+  "pass_threshold": "90/100 within 0.13 rad for the entire last second of a 3 second trial",
+  "training_seed_count": 1,
+  "learning_rate": 0.04,
+  "claim": "Preliminary stationary steering only; no visual driving or biological functional mapping.",
+  "status": "preliminary_pass",
+  "initial_successes": 0,
+  "trained_successes": 100,
+  "evaluation_trials_per_condition": 100,
+  "fixed_interfaces_and_topology_unchanged": true,
+  "trainable_parameters": 25728319,
+  "gradient_audit": {
+    "core.edge_gain": {
+      "finite": true,
+      "nonzero": 3051570
+    },
+    "core.leak": {
+      "finite": true,
+      "nonzero": 23483
+    }
+  },
+  "optimizer_steps": 600,
+  "training_seconds": 186.0263060182333,
+  "wall_seconds": 684.6519459746778,
+  "first_loss": 0.25961464643478394,
+  "last_loss": 0.0013309924397617579,
+  "edge_gain_mean_absolute_change": 0.009659145027399063,
+  "peak_gpu_allocated_gb": 2.997748224,
+  "next_decision": "Three-seed replication and pedal skill if successful; diagnose the failed layer otherwise."
+}

@@ -1,0 +1,21 @@
+{
+  "graph": "data/graph-traced-v1",
+  "out": "runs/e01-core-v2",
+  "steps": 80,
+  "seconds": 900,
+  "batch": 4,
+  "seed": 1701,
+  "experiment": "E01",
+  "device": "cuda",
+  "rollout_steps": 4,
+  "task": "Fit a fixed synthetic teacher with the same measured graph; random initial states across all neurons.",
+  "teacher_edge_gain_logit": 1.0,
+  "teacher_leak_logit": 0.8,
+  "transmission": "unsigned numerical proxy; acquired transmitter predictions not applied",
+  "loss": "mean squared next-state error divided by target variance",
+  "threshold": "at least 20% held-out loss reduction; finite nonzero core gradients; unchanged graph",
+  "evaluation_seed": 99017,
+  "learning_rate": 0.08,
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "claim": "Numerical trainability only, not a learned motor skill, visual control, or driving."
+}

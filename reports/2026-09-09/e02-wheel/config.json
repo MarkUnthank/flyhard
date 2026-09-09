@@ -1,0 +1,24 @@
+{
+  "experiment": "E02-wheel",
+  "trials": 20,
+  "seed": 42,
+  "target_range_rad": [
+    0.18,
+    0.42
+  ],
+  "hold_error_limit_rad": 0.08,
+  "disabled_motion_limit_rad": 0.02,
+  "claim": "Diagnostic leg controller and engineered point grip; no neural learning or driving.",
+  "actuation": "Only seven left foreleg joint targets; passive wheel; supported thorax.",
+  "dt_seconds": 5e-05,
+  "control_period_seconds": 0.005,
+  "playback_speed": 0.3,
+  "integrator": "implicitfast",
+  "wheel_damping": 0.1,
+  "wheel_spring": 0.02,
+  "grip_solref": [
+    0.01,
+    1
+  ],
+  "grip_anchor": "left distal tarsus body origin, aligned at neutral keyframe"
+}

@@ -1,0 +1,602 @@
+[
+  {
+    "target": 0.2554424796701198,
+    "passed": false,
+    "max_last_second_error_rad": 0.31272520250171454,
+    "failure": null
+  },
+  {
+    "target": -0.30693267986262585,
+    "passed": false,
+    "max_last_second_error_rad": 0.35837160192903644,
+    "failure": null
+  },
+  {
+    "target": 0.27463881065457796,
+    "passed": false,
+    "max_last_second_error_rad": 0.3355296606497922,
+    "failure": null
+  },
+  {
+    "target": -0.37430291089287726,
+    "passed": false,
+    "max_last_second_error_rad": 0.43346620097381316,
+    "failure": null
+  },
+  {
+    "target": 0.27947005452475165,
+    "passed": false,
+    "max_last_second_error_rad": 0.3412550927568369,
+    "failure": null
+  },
+  {
+    "target": -0.3002610302628975,
+    "passed": false,
+    "max_last_second_error_rad": 0.3508370373223464,
+    "failure": null
+  },
+  {
+    "target": 0.40926241429361787,
+    "passed": false,
+    "max_last_second_error_rad": 0.49416658227534754,
+    "failure": null
+  },
+  {
+    "target": -0.34039423383156786,
+    "passed": false,
+    "max_last_second_error_rad": 0.3958999200241417,
+    "failure": null
+  },
+  {
+    "target": 0.24872078306461942,
+    "passed": false,
+    "max_last_second_error_rad": 0.3047177522702273,
+    "failure": null
+  },
+  {
+    "target": -0.3865968854764426,
+    "passed": false,
+    "max_last_second_error_rad": 0.4469690856693418,
+    "failure": null
+  },
+  {
+    "target": 0.2665351769886287,
+    "passed": false,
+    "max_last_second_error_rad": 0.32591404350713093,
+    "failure": null
+  },
+  {
+    "target": -0.2096874700985566,
+    "passed": false,
+    "max_last_second_error_rad": 0.24697654644421185,
+    "failure": null
+  },
+  {
+    "target": 0.182491306410438,
+    "passed": false,
+    "max_last_second_error_rad": 0.22515545570098663,
+    "failure": null
+  },
+  {
+    "target": -0.401269833228874,
+    "passed": false,
+    "max_last_second_error_rad": 0.4630052256425383,
+    "failure": null
+  },
+  {
+    "target": 0.28109875917308935,
+    "passed": false,
+    "max_last_second_error_rad": 0.3431839917639982,
+    "failure": null
+  },
+  {
+    "target": -0.23554525059242185,
+    "passed": false,
+    "max_last_second_error_rad": 0.2769086259495111,
+    "failure": null
+  },
+  {
+    "target": 0.3710991207498896,
+    "passed": false,
+    "max_last_second_error_rad": 0.449229541627861,
+    "failure": null
+  },
+  {
+    "target": -0.21449793094861835,
+    "passed": false,
+    "max_last_second_error_rad": 0.2525610623061086,
+    "failure": null
+  },
+  {
+    "target": 0.2444027165962895,
+    "passed": false,
+    "max_last_second_error_rad": 0.2995671434062792,
+    "failure": null
+  },
+  {
+    "target": -0.3972903293704066,
+    "passed": false,
+    "max_last_second_error_rad": 0.4586648567771037,
+    "failure": null
+  },
+  {
+    "target": 0.28788762507675636,
+    "passed": false,
+    "max_last_second_error_rad": 0.3512180679142981,
+    "failure": null
+  },
+  {
+    "target": -0.21727980394473914,
+    "passed": false,
+    "max_last_second_error_rad": 0.255787244925245,
+    "failure": null
+  },
+  {
+    "target": 0.3888957005879616,
+    "passed": false,
+    "max_last_second_error_rad": 0.47017384825393194,
+    "failure": null
+  },
+  {
+    "target": -0.2988544621398379,
+    "passed": false,
+    "max_last_second_error_rad": 0.3492461805087366,
+    "failure": null
+  },
+  {
+    "target": 0.3343182012917747,
+    "passed": false,
+    "max_last_second_error_rad": 0.40596579518851345,
+    "failure": null
+  },
+  {
+    "target": -0.3994822257750469,
+    "passed": false,
+    "max_last_second_error_rad": 0.46105645655223304,
+    "failure": null
+  },
+  {
+    "target": 0.3317747618345782,
+    "passed": false,
+    "max_last_second_error_rad": 0.4029728854495037,
+    "failure": null
+  },
+  {
+    "target": -0.21753198120372297,
+    "passed": false,
+    "max_last_second_error_rad": 0.25607913577485125,
+    "failure": null
+  },
+  {
+    "target": 0.32760640838446087,
+    "passed": false,
+    "max_last_second_error_rad": 0.3980670314135147,
+    "failure": null
+  },
+  {
+    "target": -0.2181371193526352,
+    "passed": false,
+    "max_last_second_error_rad": 0.2567807085217671,
+    "failure": null
+  },
+  {
+    "target": 0.20404200634958108,
+    "passed": false,
+    "max_last_second_error_rad": 0.2511745329425961,
+    "failure": null
+  },
+  {
+    "target": -0.3075090572361683,
+    "passed": false,
+    "max_last_second_error_rad": 0.35902198223545195,
+    "failure": null
+  },
+  {
+    "target": 0.3083867638365057,
+    "passed": false,
+    "max_last_second_error_rad": 0.37542510767696147,
+    "failure": null
+  },
+  {
+    "target": -0.21992287921571846,
+    "passed": false,
+    "max_last_second_error_rad": 0.25885015673458617,
+    "failure": null
+  },
+  {
+    "target": 0.3871860610380937,
+    "passed": false,
+    "max_last_second_error_rad": 0.4681611437988803,
+    "failure": null
+  },
+  {
+    "target": -0.37478683168352334,
+    "passed": false,
+    "max_last_second_error_rad": 0.43399867392850383,
+    "failure": null
+  },
+  {
+    "target": 0.40297577956666786,
+    "passed": false,
+    "max_last_second_error_rad": 0.48675794003067974,
+    "failure": null
+  },
+  {
+    "target": -0.2953718233676555,
+    "passed": false,
+    "max_last_second_error_rad": 0.34530392482794336,
+    "failure": null
+  },
+  {
+    "target": 0.401894700257202,
+    "passed": false,
+    "max_last_second_error_rad": 0.48548392981552746,
+    "failure": null
+  },
+  {
+    "target": -0.38773012349550445,
+    "passed": false,
+    "max_last_second_error_rad": 0.4482109703573567,
+    "failure": null
+  },
+  {
+    "target": 0.37918722559016393,
+    "passed": false,
+    "max_last_second_error_rad": 0.45874620114094006,
+    "failure": null
+  },
+  {
+    "target": -0.3055735512706705,
+    "passed": false,
+    "max_last_second_error_rad": 0.3568379118038246,
+    "failure": null
+  },
+  {
+    "target": 0.31258608494735335,
+    "passed": false,
+    "max_last_second_error_rad": 0.38037592534922127,
+    "failure": null
+  },
+  {
+    "target": -0.38873985825618074,
+    "passed": false,
+    "max_last_second_error_rad": 0.4493169928116977,
+    "failure": null
+  },
+  {
+    "target": 0.38417435326977173,
+    "passed": false,
+    "max_last_second_error_rad": 0.46461565211241296,
+    "failure": null
+  },
+  {
+    "target": -0.3893470850141748,
+    "passed": false,
+    "max_last_second_error_rad": 0.4499816735338933,
+    "failure": null
+  },
+  {
+    "target": 0.4012991003389855,
+    "passed": false,
+    "max_last_second_error_rad": 0.4847823964792177,
+    "failure": null
+  },
+  {
+    "target": -0.31035223708797116,
+    "passed": false,
+    "max_last_second_error_rad": 0.3622269104460615,
+    "failure": null
+  },
+  {
+    "target": 0.302401053224106,
+    "passed": false,
+    "max_last_second_error_rad": 0.36836381088349934,
+    "failure": null
+  },
+  {
+    "target": -0.39657701261041356,
+    "passed": false,
+    "max_last_second_error_rad": 0.45788587661744795,
+    "failure": null
+  },
+  {
+    "target": 0.18684772615283465,
+    "passed": false,
+    "max_last_second_error_rad": 0.23042440590748298,
+    "failure": null
+  },
+  {
+    "target": -0.23005232392676483,
+    "passed": false,
+    "max_last_second_error_rad": 0.27056815825998076,
+    "failure": null
+  },
+  {
+    "target": 0.3959295659943547,
+    "passed": false,
+    "max_last_second_error_rad": 0.4784568911769398,
+    "failure": null
+  },
+  {
+    "target": -0.39734620628280826,
+    "passed": false,
+    "max_last_second_error_rad": 0.4587258250491385,
+    "failure": null
+  },
+  {
+    "target": 0.21910610413881074,
+    "passed": false,
+    "max_last_second_error_rad": 0.26928944659083914,
+    "failure": null
+  },
+  {
+    "target": -0.40822706079586907,
+    "passed": false,
+    "max_last_second_error_rad": 0.47057875566856117,
+    "failure": null
+  },
+  {
+    "target": 0.30117389359447866,
+    "passed": false,
+    "max_last_second_error_rad": 0.3669156372461056,
+    "failure": null
+  },
+  {
+    "target": -0.31639509669847976,
+    "passed": false,
+    "max_last_second_error_rad": 0.3690291230410596,
+    "failure": null
+  },
+  {
+    "target": 0.4072607419836493,
+    "passed": false,
+    "max_last_second_error_rad": 0.4918073776307179,
+    "failure": null
+  },
+  {
+    "target": -0.38215890270233616,
+    "passed": false,
+    "max_last_second_error_rad": 0.4421017737378881,
+    "failure": null
+  },
+  {
+    "target": 0.29577244061930175,
+    "passed": false,
+    "max_last_second_error_rad": 0.36053771647456534,
+    "failure": null
+  },
+  {
+    "target": -0.29121255273267743,
+    "passed": false,
+    "max_last_second_error_rad": 0.34059071981949485,
+    "failure": null
+  },
+  {
+    "target": 0.30061977896839953,
+    "passed": false,
+    "max_last_second_error_rad": 0.3662617033331757,
+    "failure": null
+  },
+  {
+    "target": -0.35764613789965444,
+    "passed": false,
+    "max_last_second_error_rad": 0.41507177603826356,
+    "failure": null
+  },
+  {
+    "target": 0.24151670169009656,
+    "passed": false,
+    "max_last_second_error_rad": 0.29612179520739246,
+    "failure": null
+  },
+  {
+    "target": -0.41527076836311594,
+    "passed": false,
+    "max_last_second_error_rad": 0.4782267192568411,
+    "failure": null
+  },
+  {
+    "target": 0.2775156314478201,
+    "passed": false,
+    "max_last_second_error_rad": 0.33893937401943236,
+    "failure": null
+  },
+  {
+    "target": -0.20814953764652133,
+    "passed": false,
+    "max_last_second_error_rad": 0.2451895219270131,
+    "failure": null
+  },
+  {
+    "target": 0.1835627729457231,
+    "passed": false,
+    "max_last_second_error_rad": 0.2264519382047419,
+    "failure": null
+  },
+  {
+    "target": -0.3451060170758602,
+    "passed": false,
+    "max_last_second_error_rad": 0.40114800308117693,
+    "failure": null
+  },
+  {
+    "target": 0.2998965106855056,
+    "passed": false,
+    "max_last_second_error_rad": 0.36540773288183503,
+    "failure": null
+  },
+  {
+    "target": -0.31292410679048854,
+    "passed": false,
+    "max_last_second_error_rad": 0.36512382707935537,
+    "failure": null
+  },
+  {
+    "target": 0.21710935690141397,
+    "passed": false,
+    "max_last_second_error_rad": 0.2668919876136222,
+    "failure": null
+  },
+  {
+    "target": -0.2501599306500528,
+    "passed": false,
+    "max_last_second_error_rad": 0.2937304947577197,
+    "failure": null
+  },
+  {
+    "target": 0.2326992136826828,
+    "passed": false,
+    "max_last_second_error_rad": 0.28558127819067486,
+    "failure": null
+  },
+  {
+    "target": -0.3288188215752188,
+    "passed": false,
+    "max_last_second_error_rad": 0.38296816475205125,
+    "failure": null
+  },
+  {
+    "target": 0.31560142416484727,
+    "passed": false,
+    "max_last_second_error_rad": 0.3839291305335681,
+    "failure": null
+  },
+  {
+    "target": -0.24184743960918406,
+    "passed": false,
+    "max_last_second_error_rad": 0.28417112883135176,
+    "failure": null
+  },
+  {
+    "target": 0.4168513193725249,
+    "passed": false,
+    "max_last_second_error_rad": 0.5031132315259363,
+    "failure": null
+  },
+  {
+    "target": -0.2183636747356034,
+    "passed": false,
+    "max_last_second_error_rad": 0.25704322587950684,
+    "failure": null
+  },
+  {
+    "target": 0.3523278379572392,
+    "passed": false,
+    "max_last_second_error_rad": 0.4271505111877487,
+    "failure": null
+  },
+  {
+    "target": -0.20775344143114136,
+    "passed": false,
+    "max_last_second_error_rad": 0.24472932773923856,
+    "failure": null
+  },
+  {
+    "target": 0.26230429141483813,
+    "passed": false,
+    "max_last_second_error_rad": 0.3208873663988318,
+    "failure": null
+  },
+  {
+    "target": -0.3388960736647911,
+    "passed": false,
+    "max_last_second_error_rad": 0.3942293756041102,
+    "failure": null
+  },
+  {
+    "target": 0.19161570629921632,
+    "passed": false,
+    "max_last_second_error_rad": 0.23618623737686298,
+    "failure": null
+  },
+  {
+    "target": -0.29523736400364325,
+    "passed": false,
+    "max_last_second_error_rad": 0.3451520168411418,
+    "failure": null
+  },
+  {
+    "target": 0.356884654670635,
+    "passed": false,
+    "max_last_second_error_rad": 0.43250954867870367,
+    "failure": null
+  },
+  {
+    "target": -0.21874504201773054,
+    "passed": false,
+    "max_last_second_error_rad": 0.2574852585743841,
+    "failure": null
+  },
+  {
+    "target": 0.4182056526764525,
+    "passed": false,
+    "max_last_second_error_rad": 0.5047104651508878,
+    "failure": null
+  },
+  {
+    "target": -0.29642547063741076,
+    "passed": false,
+    "max_last_second_error_rad": 0.3464973148086422,
+    "failure": null
+  },
+  {
+    "target": 0.317895158446377,
+    "passed": false,
+    "max_last_second_error_rad": 0.3866316419678819,
+    "failure": null
+  },
+  {
+    "target": -0.24217672255758016,
+    "passed": false,
+    "max_last_second_error_rad": 0.2845502813887847,
+    "failure": null
+  },
+  {
+    "target": 0.19935360666464094,
+    "passed": false,
+    "max_last_second_error_rad": 0.245524247330074,
+    "failure": null
+  },
+  {
+    "target": -0.24792422881108583,
+    "passed": false,
+    "max_last_second_error_rad": 0.291161957019927,
+    "failure": null
+  },
+  {
+    "target": 0.2305203725572754,
+    "passed": false,
+    "max_last_second_error_rad": 0.2829734538927831,
+    "failure": null
+  },
+  {
+    "target": -0.18935235173344261,
+    "passed": false,
+    "max_last_second_error_rad": 0.22329161388626698,
+    "failure": null
+  },
+  {
+    "target": 0.39137711065404257,
+    "passed": false,
+    "max_last_second_error_rad": 0.47309563641268637,
+    "failure": null
+  },
+  {
+    "target": -0.3429126414048089,
+    "passed": false,
+    "max_last_second_error_rad": 0.3987061926286784,
+    "failure": null
+  },
+  {
+    "target": 0.288605775895863,
+    "passed": false,
+    "max_last_second_error_rad": 0.3520675087594228,
+    "failure": null
+  },
+  {
+    "target": -0.2867788261681493,
+    "passed": false,
+    "max_last_second_error_rad": 0.33555869223672496,
+    "failure": null
+  }
+]

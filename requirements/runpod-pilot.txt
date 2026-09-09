@@ -1,0 +1,15 @@
+# Verified on the pinned Runpod CUDA image, Python 3.12. Not a macOS lock.
+torch==2.8.0+cu128
+numpy==2.1.2
+pyarrow==25.0.1
+scipy==1.18.1
+mujoco==3.9.0
+imageio==2.37.4
+imageio-ffmpeg==0.6.0
+pillow==11.0.0
+matplotlib==3.11.1
+numba==0.67.0
+llvmlite==0.49.0
+PyOpenGL==3.1.10
+pytest==9.1.1
+carla==0.9.16

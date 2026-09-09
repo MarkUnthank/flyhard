@@ -1,0 +1,11 @@
+{
+  "experiment": "CARLA camera smoke test",
+  "version": "0.9.16",
+  "fixed_delta_seconds": 0.05,
+  "camera_size": [
+    960,
+    540
+  ],
+  "frames": 120,
+  "claim": "Scripted infrastructure check. No fly or neural controller supplies these commands."
+}

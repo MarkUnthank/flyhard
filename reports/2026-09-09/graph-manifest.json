@@ -1,0 +1,74 @@
+{
+  "dataset": "male-cns:v1.0",
+  "selection": "annotations.status == 'Traced'",
+  "reason": "All traced neurons; exclude glia, incomplete fragments, anchors and unclassified segments.",
+  "edge_threshold": null,
+  "neuron_count": 165122,
+  "published_headline_neuron_count": 166691,
+  "scope_note": "This explicit annotation filter differs from the published headline census; not claimed to include every biological neuron.",
+  "annotation_rows": 211577,
+  "excluded_annotation_rows": 46455,
+  "excluded_annotation_status_counts": {
+    "Unimportant": 10751,
+    "Glia": 11864,
+    "null": 5472,
+    "Orphan": 15925,
+    "Anchor": 611,
+    "Assign": 1832
+  },
+  "raw_segment_pair_rows": 151856684,
+  "raw_synapse_sum": 311833243,
+  "retained_pair_rows_before_aggregation": 25563197,
+  "edges": 25563197,
+  "retained_synapse_sum": 124025046,
+  "excluded_connectivity_endpoint_ids": 88219733,
+  "weak_components": 539,
+  "largest_weak_component": 164581,
+  "isolated_neurons": 535,
+  "direction": "CSR row=body_post, column=body_pre; incoming matrix times presynaptic state",
+  "sensory_to_motor": {
+    "ol_sensory": {
+      "input_neurons": 4114,
+      "output_neurons": 708,
+      "reachable_neurons": 164486,
+      "reachable_outputs": 708,
+      "first_output_step": 2,
+      "iterations": 7
+    },
+    "vnc_sensory": {
+      "input_neurons": 6365,
+      "output_neurons": 708,
+      "reachable_neurons": 164524,
+      "reachable_outputs": 708,
+      "first_output_step": 1,
+      "iterations": 6
+    }
+  },
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "sources": {
+    "dataset": "male-cns:v1.0",
+    "license": "CC-BY-4.0",
+    "source_page": "https://male-cns.janelia.org/download/",
+    "files": {
+      "annotations": {
+        "filename": "body-annotations-male-cns-v1.0-minconf-0.5.feather",
+        "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather",
+        "bytes": 14483314,
+        "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+      },
+      "transmitters": {
+        "filename": "body-neurotransmitters-male-cns-v1.0.feather",
+        "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-neurotransmitters-male-cns-v1.0.feather",
+        "bytes": 43282834,
+        "sha256": "95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621"
+      },
+      "weights": {
+        "filename": "connectome-weights-male-cns-v1.0-minconf-0.5.feather",
+        "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/connectome-weights-male-cns-v1.0-minconf-0.5.feather",
+        "bytes": 1051241946,
+        "sha256": "e35da783d1c686b2b58b3b87cd6a403ae43bfcfba8bff28e08ef752c1a56afc1"
+      }
+    }
+  },
+  "seconds": 45.228842778131366
+}

@@ -1,0 +1,11 @@
+{
+  "experiment": "E00",
+  "source": "FlyGym upstream experimental motion replay",
+  "claim": "Body dependency and replay only; no neural training or driving",
+  "steps": 15000,
+  "dt_s": 0.0001,
+  "threshold": "finite states; exact saved state replay",
+  "playback_speed": 0.1,
+  "seed": 0,
+  "timeout_seconds": 300
+}

@@ -1,0 +1,391 @@
+{
+  "experiment": "E02-wheel",
+  "trials": 20,
+  "seed": 42,
+  "target_range_rad": [
+    0.18,
+    0.42
+  ],
+  "hold_error_limit_rad": 0.08,
+  "disabled_motion_limit_rad": 0.02,
+  "claim": "Diagnostic leg controller and engineered point grip; no neural learning or driving.",
+  "actuation": "Only seven left foreleg joint targets; passive wheel; supported thorax.",
+  "dt_seconds": 5e-05,
+  "control_period_seconds": 0.005,
+  "playback_speed": 0.3,
+  "integrator": "implicitfast",
+  "wheel_damping": 0.1,
+  "wheel_spring": 0.02,
+  "grip_solref": [
+    0.01,
+    1
+  ],
+  "grip_anchor": "left distal tarsus body origin, aligned at neutral keyframe",
+  "passed_trials": 20,
+  "ik_max_error_mm": 6.964745014312296e-06,
+  "wheel_has_actuator": false,
+  "wall_seconds": 44.34235218539834,
+  "results": [
+    {
+      "trial": 0,
+      "enabled": {
+        "target": 0.3657494516534312,
+        "grip": true,
+        "max_hold_error_rad": 0.023263580570876352,
+        "final_angle": 0.3424859227299946,
+        "max_grip_constraint_force": 1.3604088020692129
+      },
+      "disabled": {
+        "target": 0.3657494516534312,
+        "grip": false,
+        "max_hold_error_rad": 0.3657614970164893,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "enabled": {
+        "target": -0.28533082554049255,
+        "grip": true,
+        "max_hold_error_rad": 0.016671259667352778,
+        "final_angle": -0.26865956587874745,
+        "max_grip_constraint_force": 1.310396875075915
+      },
+      "disabled": {
+        "target": -0.28533082554049255,
+        "grip": false,
+        "max_hold_error_rad": 0.28532021592205387,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "enabled": {
+        "target": 0.38606350077873175,
+        "grip": true,
+        "max_hold_error_rad": 0.02443063391396255,
+        "final_angle": 0.3616329259933051,
+        "max_grip_constraint_force": 1.4309703132751528
+      },
+      "disabled": {
+        "target": 0.38606350077873175,
+        "grip": false,
+        "max_hold_error_rad": 0.38607554614178985,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "enabled": {
+        "target": -0.34736832697424735,
+        "grip": true,
+        "max_hold_error_rad": 0.020500106869398627,
+        "final_angle": -0.32686822014569067,
+        "max_grip_constraint_force": 1.61624758334275
+      },
+      "disabled": {
+        "target": -0.34736832697424735,
+        "grip": false,
+        "max_hold_error_rad": 0.34735771735580867,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "enabled": {
+        "target": 0.20260256349303588,
+        "grip": true,
+        "max_hold_error_rad": 0.01379923411346684,
+        "final_angle": 0.18880332943061587,
+        "max_grip_constraint_force": 0.7654463931369369
+      },
+      "disabled": {
+        "target": 0.20260256349303588,
+        "grip": false,
+        "max_hold_error_rad": 0.20261460885609398,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "enabled": {
+        "target": -0.4141493643928214,
+        "grip": true,
+        "max_hold_error_rad": 0.024526888081136122,
+        "final_angle": -0.38962247633415287,
+        "max_grip_constraint_force": 1.9552738072803197
+      },
+      "disabled": {
+        "target": -0.4141493643928214,
+        "grip": false,
+        "max_hold_error_rad": 0.4141387547743827,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "enabled": {
+        "target": 0.3626735284776847,
+        "grip": true,
+        "max_hold_error_rad": 0.023086514573061157,
+        "final_angle": 0.33958706477999817,
+        "max_grip_constraint_force": 1.3497884845702002
+      },
+      "disabled": {
+        "target": 0.3626735284776847,
+        "grip": false,
+        "max_hold_error_rad": 0.3626855738407428,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 7,
+      "enabled": {
+        "target": -0.3686554332664689,
+        "grip": true,
+        "max_hold_error_rad": 0.021792251519498873,
+        "final_angle": -0.3468631817812338,
+        "max_grip_constraint_force": 1.7230906573700064
+      },
+      "disabled": {
+        "target": -0.3686554332664689,
+        "grip": false,
+        "max_hold_error_rad": 0.3686448236480302,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 8,
+      "enabled": {
+        "target": 0.210747271842131,
+        "grip": true,
+        "max_hold_error_rad": 0.014269634135856135,
+        "final_angle": 0.19647763788135567,
+        "max_grip_constraint_force": 0.7962726861610345
+      },
+      "disabled": {
+        "target": 0.210747271842131,
+        "grip": false,
+        "max_hold_error_rad": 0.2107593172051891,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 9,
+      "enabled": {
+        "target": -0.2880926250949361,
+        "grip": true,
+        "max_hold_error_rad": 0.016844538996448277,
+        "final_angle": -0.27124808610447726,
+        "max_grip_constraint_force": 1.3237832778660468
+      },
+      "disabled": {
+        "target": -0.2880926250949361,
+        "grip": false,
+        "max_hold_error_rad": 0.2880820154764974,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 10,
+      "enabled": {
+        "target": 0.2689915258158195,
+        "grip": true,
+        "max_hold_error_rad": 0.017628152799555707,
+        "final_angle": 0.2513633880162106,
+        "max_grip_constraint_force": 1.0130302404744174
+      },
+      "disabled": {
+        "target": 0.2689915258158195,
+        "grip": false,
+        "max_hold_error_rad": 0.2690035711788776,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 11,
+      "enabled": {
+        "target": -0.4024235973236644,
+        "grip": true,
+        "max_hold_error_rad": 0.023825663254411655,
+        "final_angle": -0.3785979340944128,
+        "max_grip_constraint_force": 1.8947178938005511
+      },
+      "disabled": {
+        "target": -0.4024235973236644,
+        "grip": false,
+        "max_hold_error_rad": 0.4024129877052257,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 12,
+      "enabled": {
+        "target": 0.3345276288193595,
+        "grip": true,
+        "max_hold_error_rad": 0.021459161564330753,
+        "final_angle": 0.3130685078307418,
+        "max_grip_constraint_force": 1.2501335620398646
+      },
+      "disabled": {
+        "target": 0.3345276288193595,
+        "grip": false,
+        "max_hold_error_rad": 0.3345396741824176,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 13,
+      "enabled": {
+        "target": -0.37746278718499915,
+        "grip": true,
+        "max_hold_error_rad": 0.022324488171058976,
+        "final_angle": -0.3551382990456406,
+        "max_grip_constraint_force": 1.7676481647174784
+      },
+      "disabled": {
+        "target": -0.37746278718499915,
+        "grip": false,
+        "max_hold_error_rad": 0.37745217756656047,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 14,
+      "enabled": {
+        "target": 0.28641940771855945,
+        "grip": true,
+        "max_hold_error_rad": 0.018652525544761822,
+        "final_angle": 0.26776690553046073,
+        "max_grip_constraint_force": 1.0765770599119562
+      },
+      "disabled": {
+        "target": 0.28641940771855945,
+        "grip": false,
+        "max_hold_error_rad": 0.28643145308161755,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 15,
+      "enabled": {
+        "target": -0.23453729322834643,
+        "grip": true,
+        "max_hold_error_rad": 0.013449273960628394,
+        "final_angle": -0.22108801927115607,
+        "max_grip_constraint_force": 1.0654722481920897
+      },
+      "disabled": {
+        "target": -0.23453729322834643,
+        "grip": false,
+        "max_hold_error_rad": 0.23452668360990772,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 16,
+      "enabled": {
+        "target": 0.31310034888380034,
+        "grip": true,
+        "max_hold_error_rad": 0.020213223451589768,
+        "final_angle": 0.29288715829764933,
+        "max_grip_constraint_force": 1.1734794372883672
+      },
+      "disabled": {
+        "target": 0.31310034888380034,
+        "grip": false,
+        "max_hold_error_rad": 0.31311239424685844,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 17,
+      "enabled": {
+        "target": -0.19531614146500206,
+        "grip": true,
+        "max_hold_error_rad": 0.010934155296951159,
+        "final_angle": -0.18438198617589818,
+        "max_grip_constraint_force": 0.8520777399595799
+      },
+      "disabled": {
+        "target": -0.19531614146500206,
+        "grip": false,
+        "max_hold_error_rad": 0.19530553184656335,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 18,
+      "enabled": {
+        "target": 0.37863148127821966,
+        "grip": true,
+        "max_hold_error_rad": 0.02400447260758931,
+        "final_angle": 0.35462706376458203,
+        "max_grip_constraint_force": 1.4054224182455253
+      },
+      "disabled": {
+        "target": 0.37863148127821966,
+        "grip": false,
+        "max_hold_error_rad": 0.37864352664127776,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    },
+    {
+      "trial": 19,
+      "enabled": {
+        "target": -0.33159945578929556,
+        "grip": true,
+        "max_hold_error_rad": 0.01953815842661205,
+        "final_angle": -0.3120612974083052,
+        "max_grip_constraint_force": 1.5376024556567334
+      },
+      "disabled": {
+        "target": -0.33159945578929556,
+        "grip": false,
+        "max_hold_error_rad": 0.3315888461708569,
+        "final_angle": -1.2045363058090882e-05,
+        "max_grip_constraint_force": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "status": "passed"
+}

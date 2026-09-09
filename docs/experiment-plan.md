@@ -1,6 +1,6 @@
 # Flyhard: verifiable experiment plan
 
-Status: proposed plan, 2026-09-09. No implementation, training, hardware benchmark, or driving result has yet passed these gates.
+Status updated 2026-09-09 after the [first bounded pilot](pilot-2026-09-09.md). E00, E01, independent E02 mechanics and the E04 pilot report have evidence. The wheel portion of E03 passed narrowly for one training seed; pedal learning and three-seed replication remain. E05–E09 have not passed. CARLA rendering is verified independently of body control.
 
 ## Final success
 
@@ -137,9 +137,9 @@ Pass: A new user can reproduce the declared demo within documented requirements;
 
 Use an evidence table with each capability marked untested, demonstrated narrowly, reproduced, or failed. Update the overall qualitative confidence after valid experiments, with reasons. Earlier 60–70% success and 200–700 GPU-hour estimates were subjective planning judgments, not measured forecasts. The first visual turn and coordinated driving are stronger evidence than installation success or attractive footage. Predictability of virality remains separate from technical feasibility.
 
-## Next action
+## Next action after the first pilot
 
-Begin E00 and prepare E01/E02 locally. The first proof is a reproducible body trace plus a verifiable connectome ingestion/training check. Runpod access has not been verified in this task, and no billable resources have been launched by this task.
+Retain the A6000 for the next bounded block. Replicate stationary steering over two additional training seeds; resolve the pedal's recorded fine timestep sensitivity and teach pedal operation. Combine the controls in one cockpit and verify measured control positions against CARLA commands before visual training. The first pilot used one Runpod Secure Cloud A6000 with budget/deadline guards and exported its artifacts; consult its lifecycle receipt before provisioning again.
 
 ## Sources
 

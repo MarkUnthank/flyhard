@@ -1,0 +1,30 @@
+{
+  "claim": "Learned stationary steering replay; no autonomous driving",
+  "targets_source": "First two held-out targets from the 100-trial evaluation, seed 61733",
+  "body_sampling_hz": 200,
+  "neural_decision_hz": 20,
+  "physics_hz": 20000,
+  "clock": "Each recorded neural decision precedes the next ten 5 ms body samples.",
+  "display": "12,000 fixed sampled measured soma locations; colors show signed model rate states, not spikes.",
+  "checkpoint_sha256": "d09953b336df742c00450489c26c3b0ba10de069b4de7e39f656a49a623a4df7",
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "wall_seconds": 8.815845301374793,
+  "results": [
+    {
+      "episode": 0,
+      "target_rad": 0.2554424796701198,
+      "max_last_second_error_rad": 0.008654243796675454,
+      "passed": true
+    },
+    {
+      "episode": 1,
+      "target_rad": -0.30693267986262585,
+      "max_last_second_error_rad": 0.02561942030933606,
+      "passed": true
+    }
+  ],
+  "replay_max_qpos_error": 0.0,
+  "video_fps": 30,
+  "playback_speed": 0.3,
+  "video_frames": 600
+}

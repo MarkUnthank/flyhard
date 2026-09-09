@@ -13,6 +13,11 @@ FILES = {
     "transmitters": "body-neurotransmitters-male-cns-v1.0.feather",
     "weights": "connectome-weights-male-cns-v1.0-minconf-0.5.feather",
 }
+EXPECTED_SHA256 = {
+    'annotations': '2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2',
+    'transmitters': '95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621',
+    'weights': 'e35da783d1c686b2b58b3b87cd6a403ae43bfcfba8bff28e08ef752c1a56afc1',
+}
 
 
 def main():
@@ -45,6 +50,8 @@ def main():
         with path.open("rb") as f:
             while chunk := f.read(8 * 1024 * 1024):
                 h.update(chunk)
+        if h.hexdigest() != EXPECTED_SHA256[role]:
+            raise RuntimeError(f"Source hash differs from the verified v1.0 pilot: {name}")
         manifest["files"][role] = {"filename": name, "url": url, "bytes": path.stat().st_size,
                                     "sha256": h.hexdigest()}
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")

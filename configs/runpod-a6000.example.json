@@ -1,0 +1,9 @@
+{
+  "name": "flyhard-a6000-pilot",
+  "cloud": "SECURE",
+  "gpu": {"id": "NVIDIA RTX A6000", "count": 1},
+  "image": "runpod/pytorch@sha256:0a360022e8de4375af99430f84e8b38951acc397252163a37ceac7204d01be35",
+  "disk": 40,
+  "mounts": {"persistent": {"size": 160, "path": "/workspace"}},
+  "ports": ["22/tcp"]
+}

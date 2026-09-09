@@ -1,0 +1,24 @@
+{
+  "hypothesis": "Halving dt changes hold error by less than 0.001 mm",
+  "results": [
+    {
+      "timestep": 5e-05,
+      "target_mm": 0.19,
+      "contact_enabled": true,
+      "max_hold_error_mm": 0.027638294223762877,
+      "max_depression_mm": 0.16236309413105823,
+      "released_displacement_mm": 0.0004044297727745799,
+      "max_contact_force": 0.5417077229726718
+    },
+    {
+      "timestep": 2.5e-05,
+      "target_mm": 0.19,
+      "contact_enabled": true,
+      "max_hold_error_mm": 0.026489005092272422,
+      "max_depression_mm": 0.16351142747315633,
+      "released_displacement_mm": 0.00034326367639762504,
+      "max_contact_force": 0.5436784743876261
+    }
+  ],
+  "passed": false
+}
