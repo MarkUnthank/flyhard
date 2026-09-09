@@ -1,0 +1,38 @@
+docker/install_environment.py
+  s_4cf9d98cda6aae::t_fa3dfda8124fcc 1-15
+docker/build_receipt.py
+  s_4cf9d98cda6aae::t_fa3dfda8124fcc 1-19
+scripts/runtime_graphics_smoke.py
+  s_4cf9d98cda6aae::t_ae60e6e142b45f 1-53
+scripts/runtime_health.py
+  s_4cf9d98cda6aae::t_fa3dfda8124fcc 1-41
+docker/start.py
+  s_4cf9d98cda6aae::t_fa3dfda8124fcc 1-76
+README.md
+  s_4cf9d98cda6aae::t_88158fe582a5f3 9,21-23
+docker/Dockerfile
+  s_4cf9d98cda6aae::t_fa3dfda8124fcc 1-16,18-55
+  s_4cf9d98cda6aae::t_ae60e6e142b45f 17
+.github/workflows/runtime-image.yml
+  s_4cf9d98cda6aae::t_ae60e6e142b45f 1-78
+docs/runtime-image.md
+  s_4cf9d98cda6aae::t_88158fe582a5f3 1-43
+.dockerignore
+  s_4cf9d98cda6aae::t_fa3dfda8124fcc 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "07c92e5f3f386fc7d484b384f7e093d8fff3bce8",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
