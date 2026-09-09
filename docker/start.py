@@ -1,0 +1,76 @@
+"""Start a preinstalled Flyhard runtime and publish measured readiness.
+
+No package installation, simulator download or extraction happens here.
+Workspace code is mutable; the Python environment and CARLA are image assets.
+"""
+import json
+import os
+from pathlib import Path
+import shutil
+import signal
+import subprocess
+import sys
+import time
+
+
+def main():
+    started = time.time()
+    bundled = Path('/opt/flyhard')
+    project = Path('/workspace/flyhard')
+    project.mkdir(parents=True,exist_ok=True)
+    for name in ['src','scripts','tests','assets','requirements','docker','pyproject.toml',
+                 'README.md','LICENSE','THIRD_PARTY.md']:
+        source,target = bundled/name,project/name
+        if not target.exists():
+            if source.is_dir():shutil.copytree(source,target)
+            else:shutil.copy2(source,target)
+    environment = project/'.venv'
+    if not environment.exists():environment.symlink_to('/opt/flyhard-env',target_is_directory=True)
+    if environment.resolve() != Path('/opt/flyhard-env'):
+        raise RuntimeError('Workspace .venv differs from the packaged environment; use a fresh workspace.')
+    runtime = project/'work/runtime'; runtime.mkdir(parents=True,exist_ok=True)
+    ready = runtime/'ready.json'; ready.unlink(missing_ok=True)
+    receipt = {'status':'starting','container_started_epoch':started,
+        'source_revision':os.environ['FLYHARD_SOURCE_REVISION'],
+        'installation_at_startup':False,'project':str(project)}
+    (runtime/'startup.json').write_text(json.dumps(receipt,indent=2))
+    shutil.copy2(bundled/'build-receipt.json',runtime/'build-receipt.json')
+    processes,logs = [],[]
+    def spawn(command,name):
+        log = (runtime/f'{name}.log').open('a');logs.append(log)
+        process = subprocess.Popen(command,cwd=project,stdout=log,stderr=subprocess.STDOUT)
+        processes.append(process);return process
+    def shutdown(*_):
+        for process in processes:
+            if process.poll() is None:process.terminate()
+        raise SystemExit(0)
+    signal.signal(signal.SIGTERM,shutdown);signal.signal(signal.SIGINT,shutdown)
+    try:
+        spawn(['/start.sh'],'services')
+        limit = int(os.environ['FLYHARD_MAX_RUNTIME_SECONDS'])
+        if not 120 <= limit <= 21600:raise ValueError('Runtime limit must be between 120 and 21600 seconds')
+        if os.environ.get('RUNPOD_POD_ID'):
+            spawn([sys.executable,str(bundled/'scripts/pod_deadline.py'),
+                '--deadline',str(started+limit)],'deadline')
+        spawn(['bash',str(project/'scripts/start_carla.sh')],'carla')
+        health = subprocess.Popen([sys.executable,str(bundled/'scripts/runtime_health.py'),
+            '--output',str(ready),'--started-epoch',str(started)],cwd=project)
+        processes.append(health)
+        while health.poll() is None:
+            if any(p.poll() is not None for p in processes if p is not health):
+                raise RuntimeError('A required runtime process exited during startup; inspect work/runtime logs.')
+            time.sleep(.5)
+        if health.returncode != 0:raise RuntimeError('Runtime readiness check failed')
+        processes.remove(health)
+        print(ready.read_text(),flush=True)
+        while True:
+            if any(p.poll() is not None for p in processes):
+                raise RuntimeError('A required runtime process exited; inspect work/runtime logs.')
+            time.sleep(1)
+    finally:
+        for process in processes:
+            if process.poll() is None:process.terminate()
+        for log in logs:log.close()
+
+
+if __name__ == '__main__':main()

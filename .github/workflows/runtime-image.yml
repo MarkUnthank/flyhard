@@ -1,0 +1,78 @@
+name: Build Flyhard runtime
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - docker/**
+      - requirements/**
+      - src/**
+      - scripts/**
+      - tests/**
+      - assets/fonts/**
+      - pyproject.toml
+      - .dockerignore
+      - .github/workflows/runtime-image.yml
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: flyhard-runtime-image
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Make space for the simulator on this disposable build runner
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache /usr/local/.ghcup /usr/share/swift
+          docker system prune -af
+          df -h /
+          test "$(df --output=avail -BG / | tail -1 | tr -dc '0-9')" -ge 55
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish an immutable candidate
+        id: image
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/markunthank/flyhard:runtime-${{ github.sha }}
+          build-args: SOURCE_REVISION=${{ github.sha }}
+          cache-from: type=registry,ref=ghcr.io/markunthank/flyhard:buildcache
+          cache-to: type=registry,ref=ghcr.io/markunthank/flyhard:buildcache,mode=max
+      - name: Record image identity
+        env:
+          FLYHARD_IMAGE_DIGEST: ${{ steps.image.outputs.digest }}
+          FLYHARD_BUILD_METADATA: ${{ steps.image.outputs.metadata }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt = {
+              'image': 'ghcr.io/markunthank/flyhard@'+os.environ['FLYHARD_IMAGE_DIGEST'],
+              'source_revision': os.environ['GITHUB_SHA'],
+              'workflow_run_id': os.environ['GITHUB_RUN_ID'],
+              'gpu_validated': False,
+              'metadata': json.loads(os.environ['FLYHARD_BUILD_METADATA'])}
+          Path('runtime-image.json').write_text(json.dumps(receipt, indent=2))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as stream:
+              stream.write('Built candidate: `'+receipt['image']+'`\n\nGPU validation is required before updating the Runpod template.\n')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: runtime-image-receipt
+          path: runtime-image.json
+          retention-days: 30

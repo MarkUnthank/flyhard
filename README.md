@@ -6,7 +6,7 @@ A research experiment to train a neural model built from a fruit fly's measured 
 
 The planned **Flyat** is a battered old Fiat Panda in faded green, with a fly-adapted cockpit and physically operated steering wheel and pedals. The current CARLA recordings use a stock green Mini Cooper while the Panda shell remains to be built. See [the vehicle design brief](docs/flyat-design.md).
 
-Intended GitHub home: `MarkUnthank/flyhard`.
+GitHub: [MarkUnthank/flyhard](https://github.com/MarkUnthank/flyhard).
 
 ## Status
 
@@ -18,7 +18,9 @@ The first bounded A6000 pilot is complete (2026-09-09). A model retaining 165,12
 - Connected steering: the saved model now operates the physical wheel **while driving CARLA** through a 24-second instructed sequence. All 600 video frames share the neural/body/CARLA clock. Disconnecting the foot grip removes over 99% of the steering response. See the [video experiment](docs/carla-video-2026-09-09.md).
 - Updated recordings use a minimal black layout, actual MaleCNS neuron skeletons and neuropil surfaces, and a passive second foreleg grip. The [calm and faster video report](docs/carla-clean-videos-2026-09-09.md) explains the current setup and reproduction commands.
 
-This is a requested-angle steering skill with engineered interfaces. Visual driving, combined wheel/pedal control, the Panda shell, and three-seed replication remain untested. The public GitHub repository has not been created.
+This is a requested-angle steering skill with engineered interfaces. Visual driving, combined wheel/pedal control, the Panda shell, and three-seed replication remain untested.
+
+The [packaged GPU runtime](docs/runtime-image.md) builds CARLA and the Python environment once for reuse across Runpod instances. Image candidates require a fresh GPU launch check before deployment.
 
 Read the [pilot report](docs/pilot-2026-09-09.md), [measured results](reports/2026-09-09/), [connected steering results](reports/2026-09-09-carla-video/), and [reproduction instructions](docs/reproduce.md).
 
