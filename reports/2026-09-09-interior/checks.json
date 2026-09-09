@@ -1,0 +1,12 @@
+{
+  "existing_budget_and_connectome_tests": {
+    "passed": 7,
+    "wall_seconds": 2.12,
+    "warning": "PyTorch sparse CSR support is beta"
+  },
+  "new_python_sources_compile": true,
+  "native_video_full_decode": true,
+  "composite_video_full_decode": true,
+  "full_remote_export_hash_verification": true,
+  "native_unreal_import_tested": false
+}

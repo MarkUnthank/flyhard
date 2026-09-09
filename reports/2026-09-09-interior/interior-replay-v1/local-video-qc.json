@@ -1,0 +1,26 @@
+{
+  "native-cabin": {
+    "status": "passed",
+    "frames_decoded": 125,
+    "width": 1280,
+    "height": 720,
+    "fps": 25.0,
+    "duration_s": 5.0,
+    "changed_frame_pairs": 124,
+    "mean_pixel_change": 3.8827752098085515,
+    "sha256": "d96b7fa74ea8681fa43d2796efe2200d0f9f50b81609e5d14f37adc5c9c7cbc6",
+    "bytes": 11257946
+  },
+  "fly-shoulder-preview": {
+    "status": "passed",
+    "frames_decoded": 125,
+    "width": 1280,
+    "height": 720,
+    "fps": 25.0,
+    "duration_s": 5.0,
+    "changed_frame_pairs": 124,
+    "mean_pixel_change": 3.755220012129557,
+    "sha256": "77b3344e6dcac295dcc916b73704e6b48b1fd2c6a136e1be774ecf8a24c1f293",
+    "bytes": 10491993
+  }
+}

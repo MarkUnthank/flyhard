@@ -1,0 +1,18 @@
+{
+  "pod_id": "62drxignfc17oe",
+  "gpu": "NVIDIA A40",
+  "region": "EU-SE-1",
+  "closed": true,
+  "exports_verified": true,
+  "exports_files": 395,
+  "exports_bytes": 286694100,
+  "manifest_sha256": "f19496b7e0050e8bb38e493163b8a07afb00b571c1802b18a81650736db64511",
+  "initial_balance_usd": 18.5345057744,
+  "balance_after_termination_usd": 18.1869624799,
+  "session_cost_usd": 0.34754329449999943,
+  "provider_pod_readback": null,
+  "provider_spend_per_hr": 0,
+  "credit_added_usd": 0,
+  "local_budget_watcher_exited": true,
+  "recorded_utc": "2026-09-09T19:28:25.975810+00:00"
+}

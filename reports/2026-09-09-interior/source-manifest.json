@@ -1,0 +1,12 @@
+{
+  "scripts/capture_interior_replay.py": "63bac8adb0a34b39fa6ef679f6be512502aab1ceb6a781a6a6cd4cb2ca051a57",
+  "scripts/export_interior_assets.py": "dfc4d599507b36c27f22d1801b4953a7494988157ede81afc2d0deb03419dd63",
+  "scripts/export_interior_fbx.py": "b050470c0473d4487e19d04784a3132dcb38bbfa8c8b9737f56fc3234f711bcb",
+  "scripts/interior_camera_spike.py": "abf6100caaee4423d377179bb81778f518db0ea1dae1c337832d580da8363ab3",
+  "scripts/render_interior_replay.py": "ae13902cca0d1f39035eb1500686c8a7d549149426b382c99eebe653cff81a61",
+  "scripts/render_interior_stills.py": "e2a7f179b60f0745f9cc9ccf9423e9b38e048825fda5cc91c2f97fb4bfa7c9fe",
+  "scripts/qc_interior_video.py": "f5fbf97301fa30773c386c8c1ad0a00010243040b6b9a49eaaa758ac0c1ee78f",
+  "src/flyhard/interior_view.py": "1b007542eee50b1981f3d0df76b9de7ef506df18a0679d53c128c5b038727a89",
+  "src/flyhard/cockpit.py": "4dbdeb186c39d59125c8b5d08c0790d222ca7a8f2b276209711d189f96f928c9",
+  "pyproject.toml": "9c359c7ab69471a5775ea4a02627882eafd1dabc0be2bed59419a7ed47cd16a6"
+}

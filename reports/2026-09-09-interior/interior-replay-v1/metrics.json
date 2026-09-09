@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "error": null,
+  "frames": 175,
+  "body_samples": 1400,
+  "source_body_replay_qpos_error": 0.0,
+  "source_body_replay_ctrl_error": 0.0,
+  "max_clock_error_s": 1.5645254780594087e-07,
+  "max_steer_mapping_error": 1.8502364917960534e-09,
+  "collisions": 0,
+  "wall_seconds": 103.56618516193703
+}

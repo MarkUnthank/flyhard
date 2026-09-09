@@ -1,0 +1,30 @@
+{
+  "status": "interchange_assets_prepared",
+  "native_unreal_import_tested": false,
+  "body_parts": 53,
+  "visible_geometries": 106,
+  "vertices": 58659,
+  "triangles": 122518,
+  "pose_frames": 175,
+  "max_mesh_body_transform_roundtrip_error_rig_units": 8.881784197001252e-16,
+  "wheel_anchor_car_m": [
+    0.27,
+    -0.41,
+    1.03
+  ],
+  "metres_per_rig_unit": 0.16,
+  "source_body_trace_sha256": "f3366852d281468d3740862447ecf330b7d140bf72dfafacdf224bf8e8f408c7",
+  "source_frames_sha256": "1b77d8704aeeef368beb7171f07e2f6aecebb6290a6edc84a7b4e14412e85ae6",
+  "geometry_sha256": "8f72a6c9850a44cce9c0a6f812fb46574864baf6bc9ceaafbb02c54c432dca2e",
+  "poses_sha256": "c05e2b7aa7998e70872e8e8e02cd0b22e1180ca5aae6f17065db26826b62f6b1",
+  "script_sha256": "dfc4d599507b36c27f22d1801b4953a7494988157ede81afc2d0deb03419dd63",
+  "flygym_version": "2.1.0",
+  "mujoco_version": "3.9.0",
+  "trimesh_version": "5.1.0",
+  "pending": [
+    "Import FBX in CARLA-compatible Unreal 4.26 editor and verify axis/unit conversion.",
+    "Disable mesh collision; cook assets for CARLA 0.9.16.",
+    "Spawn movable display actors, disable actor physics, attach/update from recorded poses.",
+    "Verify fly/wheel registration, transparency, lighting and frame synchronization in native CARLA."
+  ]
+}

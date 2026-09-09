@@ -1,0 +1,33 @@
+{
+  "experiment": "Native cabin camera with a physics replay of previously learned actions",
+  "native_carla_camera": true,
+  "fly_in_carla": false,
+  "fresh_neural_inference": false,
+  "display": "Fly composited separately from synchronized MuJoCo poses with native depth occlusion.",
+  "carla_version": "0.9.16",
+  "map": "Carla/Maps/Town10HD_Opt",
+  "vehicle": "vehicle.mini.cooper_s_2021",
+  "spawn_index": 69,
+  "width": 1280,
+  "height": 720,
+  "fov_horizontal": 90,
+  "camera_relative": [
+    -0.45,
+    0.08,
+    1.35,
+    -12,
+    -23
+  ],
+  "camera_attachment": "Rigid",
+  "lens_k": 0,
+  "lens_kcube": 0,
+  "fps": 25,
+  "seconds": 7,
+  "support_hand": true,
+  "speed_target_m_s": 2.5,
+  "steer_gain": 0.1,
+  "coupling": "Wheel sampled at interval start; RGB, depth and body saved at same interval end.",
+  "source_body_trace_sha256": "4dcf4b9c20b86f02de34769063752aabd87a59911abb308168e05e3c48e1106b",
+  "script_sha256": "63bac8adb0a34b39fa6ef679f6be512502aab1ceb6a781a6a6cd4cb2ca051a57",
+  "cockpit_sha256": "4dbdeb186c39d59125c8b5d08c0790d222ca7a8f2b276209711d189f96f928c9"
+}
