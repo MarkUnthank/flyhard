@@ -1,14 +1,12 @@
 # syntax=docker/dockerfile:1
 FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404@sha256:4d1721e62b56d345c83b4fd6090664be6daf9312caab5b2e76f23d8231941851
 
-ARG SOURCE_REVISION=unknown
 ENV DEBIAN_FRONTEND=noninteractive \
     MUJOCO_GL=egl PYOPENGL_PLATFORM=egl \
     PYVISTA_OFF_SCREEN=true VTK_DEFAULT_OPENGL_WINDOW=vtkEGLRenderWindow \
     NVIDIA_DRIVER_CAPABILITIES=all \
     FLYHARD_CARLA_ROOT=/opt/carla \
     FLYHARD_MAX_RUNTIME_SECONDS=3600 \
-    FLYHARD_SOURCE_REVISION=${SOURCE_REVISION} \
     PYTHONPATH=/workspace/flyhard/src \
     PATH=/opt/flyhard-env/bin:${PATH}
 
@@ -39,6 +37,9 @@ COPY tests/ /opt/flyhard/tests/
 COPY assets/fonts/ /opt/flyhard/assets/fonts/
 COPY docker/ /opt/flyhard/docker/
 COPY LICENSE THIRD_PARTY.md README.md /opt/flyhard/
+# Keep changing source provenance out of the expensive dependency cache keys.
+ARG SOURCE_REVISION=unknown
+ENV FLYHARD_SOURCE_REVISION=${SOURCE_REVISION}
 RUN python -m pip install --no-deps --no-cache-dir -e /opt/flyhard \
     && PYTHONPATH=/opt/flyhard/src python -m pytest -q /opt/flyhard/tests \
     && PYTHONPATH=/opt/flyhard/src python -c 'from flyhard.cockpit import WheelRig; r=WheelRig(support_hand=True); assert r.model.nbody == 54' \
