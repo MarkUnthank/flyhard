@@ -1,0 +1,27 @@
+src/flyhard/pedal.py
+  s_4cf9d98cda6aae::t_a07fec4050df4f 30
+  s_4cf9d98cda6aae::t_1c81e89bcbd5ad 1-24,27-29,31-32,34-80
+  s_4cf9d98cda6aae::t_7d0214da0cf465 25-26,33
+scripts/pedal_experiment.py
+  s_4cf9d98cda6aae::t_a07fec4050df4f 33
+  s_4cf9d98cda6aae::t_7d0214da0cf465 34
+  s_4cf9d98cda6aae::t_1c81e89bcbd5ad 1-32,35-61
+scripts/record_learned_wheel.py
+  s_4cf9d98cda6aae::t_274b044f6a6bdc 1-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "e84859cc4baac66f9123fcdf9d035807cdadc954",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
