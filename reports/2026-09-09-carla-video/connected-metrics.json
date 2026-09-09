@@ -1,0 +1,21 @@
+{
+  "status": "capture_complete",
+  "error": null,
+  "frames": 600,
+  "neural_decisions": 480,
+  "body_samples": 4800,
+  "wall_seconds": 82.89104375988245,
+  "collisions": 0,
+  "max_clock_error_s": 5.366767545922357e-07,
+  "max_control_mapping_error": 1.8548622221503663e-09,
+  "lateral_range_m": [
+    -0.0005009454739544773,
+    1.1793718712714358
+  ],
+  "wheel_range_rad": [
+    -0.2779151667321956,
+    0.29977259354100644
+  ],
+  "distance_forward_m": 45.62680597119574,
+  "gpu": "NVIDIA RTX A6000"
+}

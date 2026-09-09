@@ -1,0 +1,13 @@
+{
+  "checked_utc": "2026-09-09T17:24:13.325480+00:00",
+  "video_pod_absent": true,
+  "remaining_pod_count": 0,
+  "initial_total_credit_usd": 20,
+  "video_session_initial_balance_usd": 19.3336233816,
+  "video_session_spent_usd": 0.24399707489999756,
+  "total_spent_usd": 0.9103736932999986,
+  "clientBalance": 19.0896263067,
+  "currentSpendPerHr": 0,
+  "credit_added": false,
+  "exports_verified": true
+}

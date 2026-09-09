@@ -1,0 +1,8 @@
+{
+  "gpu": "NVIDIA RTX A6000",
+  "pytorch": "2.8.0+cu128",
+  "mujoco": "3.9.0",
+  "gl_vendor": "NVIDIA Corporation",
+  "gl_renderer": "NVIDIA RTX A6000/PCIe/SSE2",
+  "gl_version": "4.6.0 NVIDIA 550.127.08"
+}

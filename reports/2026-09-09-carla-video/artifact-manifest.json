@@ -1,0 +1,112 @@
+{
+  "files": {
+    "data/graph-traced-v1/graph.npz": {
+      "bytes": 309401316,
+      "sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d"
+    },
+    "data/graph-traced-v1/manifest.json": {
+      "bytes": 2894,
+      "sha256": "c436f6afa7bc58b39ef6e935a73931ef97853c52f7c519bc35db244f72140a78"
+    },
+    "data/graph-traced-v1/nodes.feather": {
+      "bytes": 13460994,
+      "sha256": "6b5be53d4357b3c6bf704d3808e42567fcb6e63f87921443fa459780eef481fc"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/body-trace.npz": {
+      "bytes": 2683032,
+      "sha256": "486a93c7342abb2098d346cbf119988f55ac08d125e4a801588063242029d6ff"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/carla-camera.mp4": {
+      "bytes": 100269460,
+      "sha256": "ea6e0fa412b3da045860d6aa9cf7c19ce46308623058e50fe34bb76a0b72a674"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/collisions.json": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/config.json": {
+      "bytes": 1881,
+      "sha256": "fee8c90ed7fd898b804a9910150902796e5aa03cf4920a4c15664299ab455cbd"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/frames.json": {
+      "bytes": 497105,
+      "sha256": "9ea9f63ae7eb9c3725d9b9edc854eefa01cc5002c28351875ece0f5e4a1373fd"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/metrics.json": {
+      "bytes": 513,
+      "sha256": "6d2db17f51cfc01a628d60c5d58a9114f61906c664867bf91d3dc4dff3b4ec98"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/neural-trace.npz": {
+      "bytes": 297227649,
+      "sha256": "750a5bea702df6c06931979e5660fcb202782997efd34f4a1d4a011e37d8b7cf"
+    },
+    "runs/carla-cockpit-grip-disabled-v1/somata.npz": {
+      "bytes": 1665551,
+      "sha256": "dda9d902c1c097217d61a455854c139eb9ceba875c32b12c0b1ff4db22461550"
+    },
+    "runs/carla-cockpit-v1/body-trace.npz": {
+      "bytes": 2752180,
+      "sha256": "776b0ce4a9389e8aecb3e49ff0196ac79905b7cec55a044c2630be76490cd86e"
+    },
+    "runs/carla-cockpit-v1/carla-camera.mp4": {
+      "bytes": 92997840,
+      "sha256": "6141931a6e4e722d7af4484da267701f6901f7b727ff398476f4b5b241c99d7e"
+    },
+    "runs/carla-cockpit-v1/collisions.json": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "runs/carla-cockpit-v1/config.json": {
+      "bytes": 1868,
+      "sha256": "ae976f128275e1a544b1690c9feea75c85ef64d19ad2546bae1d9e7a1eca9487"
+    },
+    "runs/carla-cockpit-v1/flyhard-cockpit-16x9.mp4": {
+      "bytes": 69569565,
+      "sha256": "98155643b14718fb0d4e64b095d142579cb3e7ca25c6f03165e806470c368e74"
+    },
+    "runs/carla-cockpit-v1/frames.json": {
+      "bytes": 488045,
+      "sha256": "6a5cf84afe9f990b5e6c31896b89878199a0f7300d2d7aa2b65e282c7756b822"
+    },
+    "runs/carla-cockpit-v1/metrics.json": {
+      "bytes": 504,
+      "sha256": "9beebfe1748a3f361af39db4f6bd59c12da30dea3113212a706348c04b3c6685"
+    },
+    "runs/carla-cockpit-v1/neural-trace.npz": {
+      "bytes": 297279919,
+      "sha256": "a04ca5f9f8197da97bfb908fbdc675f54ba0f62167928c58206161f11c097790"
+    },
+    "runs/carla-cockpit-v1/preview-0000.png": {
+      "bytes": 1324795,
+      "sha256": "12cee2447ebef6430dd629039a6fff0429576096299fb2f768a510203395004d"
+    },
+    "runs/carla-cockpit-v1/preview-0100.png": {
+      "bytes": 1407289,
+      "sha256": "4f95d657ba1196464a2e0ab9bcea279ec6bbf6bb3417733205dd4dcb6659b257"
+    },
+    "runs/carla-cockpit-v1/preview-0200.png": {
+      "bytes": 1443176,
+      "sha256": "f9c3dc90d17ddb28bebd1d90abc6eef7f25376b146fa5627516b5bf5a48e72bf"
+    },
+    "runs/carla-cockpit-v1/preview-0400.png": {
+      "bytes": 1601826,
+      "sha256": "3d6e4c809c19d0cf5f4c7f0b8454cb90f2759eae0b4b18554b99010125fcfe03"
+    },
+    "runs/carla-cockpit-v1/render-metrics.json": {
+      "bytes": 765,
+      "sha256": "7ae8e5caa06c1ff27c62040fac443b99237e6bd7e62c887de224fd16f4109e8c"
+    },
+    "runs/carla-cockpit-v1/somata.npz": {
+      "bytes": 1665551,
+      "sha256": "dda9d902c1c097217d61a455854c139eb9ceba875c32b12c0b1ff4db22461550"
+    },
+    "runs/carla-cockpit-v1/validation.json": {
+      "bytes": 1358,
+      "sha256": "95912e35134abf60e35e8bbbe5cd78d664e4700a45b64d04a899cd469b6f4fb9"
+    },
+    "runs/e03-wheel-pilot/checkpoint.pt": {
+      "bytes": 821485045,
+      "sha256": "d09953b336df742c00450489c26c3b0ba10de069b4de7e39f656a49a623a4df7"
+    }
+  }
+}

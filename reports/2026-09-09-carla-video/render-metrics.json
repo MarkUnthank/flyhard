@@ -1,0 +1,17 @@
+{
+  "status": "rendered",
+  "width": 1920,
+  "height": 1080,
+  "fps": 25,
+  "frames": 600,
+  "duration_s": 24.0,
+  "playback_speed": 1.0,
+  "same_episode": true,
+  "max_camera_body_clock_error_s": 5.366767545922357e-07,
+  "replay_max_qpos_error": 0.0,
+  "model_rate_color_scale": 0.0018752209143713117,
+  "neural_display": "All annotated retained soma locations; x/z orthographic view rotated to put brain left, VNC right; signed asinh color, not spikes. Each overlapping pixel shows the strongest absolute state and preserves its sign.",
+  "renderer_script_sha256": "4a6cfdc4190bb9c4fec9ec14aceb16af9da4dbbf84513719f0584c242e42cb93",
+  "render_wall_seconds": 40.48901208490133,
+  "video_sha256": "98155643b14718fb0d4e64b095d142579cb3e7ca25c6f03165e806470c368e74"
+}

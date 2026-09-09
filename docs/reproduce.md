@@ -9,7 +9,9 @@ runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404
 sha256:0a360022e8de4375af99430f84e8b38951acc397252163a37ceac7204d01be35
 ```
 
-Python 3.12, PyTorch 2.8.0+cu128, FlyGym 2.1.0 pinned to `38c8ec61034cd59bc5ba0de20688d4a3c0000d60`, MuJoCo 3.9.0 and CARLA 0.9.16 were exercised together. The full observed package inventory is in `reports/2026-09-09/environment.lock.txt`; the constraint file pins the relevant computational dependencies. Bootstrap helpers collect the verified installation commands; a second clean-host reproduction has not yet been performed.
+Python 3.12, PyTorch 2.8.0+cu128, FlyGym 2.1.0 pinned to `38c8ec61034cd59bc5ba0de20688d4a3c0000d60`, MuJoCo 3.9.0 and CARLA 0.9.16 were exercised together. The full observed package inventory is in `reports/2026-09-09/environment.lock.txt`; the constraint file pins the relevant computational dependencies. The bootstrap, tests, CARLA installation, and saved checkpoint inference also passed on a second fresh A6000 host in US-TX-1 for the video experiment. Training has not been repeated across seeds.
+
+The second launch rejected a digest-form image reference with HTTP 500; no Pod was created. The tag-form reference above succeeded. The example configuration therefore uses that tag; the digest records the originally verified image provenance.
 
 ## Provisioning and budget
 

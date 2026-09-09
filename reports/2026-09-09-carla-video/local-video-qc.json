@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "decoded_frames": 600,
+  "width": 1920,
+  "height": 1080,
+  "fps": 25.0,
+  "duration_s": 24.0,
+  "sha256": "98155643b14718fb0d4e64b095d142579cb3e7ca25c6f03165e806470c368e74",
+  "bytes": 69569565,
+  "panel_mean_pixel_change_frames_100_to_400": {
+    "carla": 48.8895286643026,
+    "cns": 4.662864688901173,
+    "fly": 1.9692890289817004
+  },
+  "metadata": {
+    "plugin": "ffmpeg",
+    "nframes": null,
+    "ffmpeg_version": "7.1 built with Apple clang version 13.1.6 (clang-1316.0.21.2.5)",
+    "codec": "h264",
+    "pix_fmt": "yuv420p(progressive)",
+    "fps": 25.0,
+    "source_size": [
+      1920,
+      1080
+    ],
+    "size": [
+      1920,
+      1080
+    ],
+    "rotate": 0,
+    "duration": 24.0
+  }
+}

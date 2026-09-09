@@ -1,0 +1,8 @@
+{
+  "scripts/capture_carla_cockpit.py": "81ff312969f2bc3e32f168988d70def43a40e1bbc8927b3ce2ecf40c22e39c8b",
+  "scripts/render_carla_cockpit.py": "4a6cfdc4190bb9c4fec9ec14aceb16af9da4dbbf84513719f0584c242e42cb93",
+  "scripts/validate_carla_cockpit.py": "c8416d15a8527d8c78bfba9cc35637ae87d7170b7bcbd4116b36f811951e9317",
+  "src/flyhard/cockpit.py": "d3f1569a7e0024215b16822eaa9a5cf7188997df25fc84d59b1f476854693666",
+  "src/flyhard/motor_policy.py": "c3a6f436ee1fcd8ec730f7680b073a24cc2082741c199ec19740bb3ef5af9c29",
+  "src/flyhard/connectome.py": "34c2f69386c1f56791724337ac4ee2e1dda168d20c4a46a94d6bc67641335d63"
+}
