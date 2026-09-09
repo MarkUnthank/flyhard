@@ -1,0 +1,72 @@
+reports/2026-09-09-interior/lifecycle.json
+  s_968d37ddad9a26::t_b42be456c39e6b 1-18
+scripts/qc_interior_video.py
+  s_4cf9d98cda6aae::t_9a25431a7afbf7 1-42
+reports/2026-09-09-interior/interior-placement-v1/placement.json
+  ai_agent 1-207
+reports/2026-09-09-interior/interior-replay-v1/action-source.json
+  ai_agent 1-48
+reports/2026-09-09-interior/interior-replay-v1/render-metrics.json
+  ai_agent 1-1167
+reports/2026-09-09-interior/interior-native-assets-v1/fbx-export.json
+  ai_agent 1-650
+reports/2026-09-09-interior/interior-replay-v1/metrics.json
+  ai_agent 1-12
+reports/2026-09-09-interior/interior-replay-v1/collisions.json
+  ai_agent 1
+scripts/capture_interior_replay.py
+  s_4cf9d98cda6aae::t_43e15b074c5a7f 1-154
+reports/2026-09-09-interior/interior-camera-survey-v1/camera-survey.json
+  ai_agent 1-424
+reports/2026-09-09-interior/interior-replay-v1/local-video-qc.json
+  ai_agent 1-26
+reports/2026-09-09-interior/interior-replay-v1/config.json
+  ai_agent 1-33
+scripts/export_interior_assets.py
+  s_4cf9d98cda6aae::t_9e66c5c8a943a5 1-122
+reports/2026-09-09-interior/artifact-manifest.json
+  ai_agent 1-1584
+scripts/interior_camera_spike.py
+  s_4cf9d98cda6aae::t_13762a325c7d19 1-116
+scripts/render_interior_replay.py
+  s_4cf9d98cda6aae::t_8fdd3b75f7fa88 1-100
+pyproject.toml
+  s_4cf9d98cda6aae::t_225c44df309530 15
+reports/2026-09-09-interior/interior-native-assets-v1/manifest.json
+  ai_agent 1-30
+scripts/render_interior_stills.py
+  s_4cf9d98cda6aae::t_448f9262a79314 1-68
+scripts/export_interior_fbx.py
+  s_4cf9d98cda6aae::t_6d8a014e4b0e57 1-32,43-72,74-76,81-91
+  s_4cf9d98cda6aae::t_225c44df309530 39-41,73,78-79
+  s_4cf9d98cda6aae::t_51e7faa590acec 33-38,42,77,80
+docs/interior-camera-spike-2026-09-09.md
+  s_968d37ddad9a26::t_d7b43ebdc36344 70
+  s_4cf9d98cda6aae::t_0def9b90a464b9 1-69,71-72
+src/flyhard/interior_view.py
+  s_4cf9d98cda6aae::t_4e32237bbbfb6c 1-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "160d20bd227d302b51f1224f7363e8409a875aca",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    },
+    "s_968d37ddad9a26": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08788-a1a6-7af0-8c0f-a7245d4bd831",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
