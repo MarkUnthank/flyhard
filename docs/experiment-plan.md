@@ -8,6 +8,10 @@ A trained model built from MaleCNS connectivity processes camera and engineered 
 
 The first release targets a short course with a start, bends, a conspicuous obstacle, and a stop. Road rules, general urban autonomy, biological learning, and recreation of the original fly's mind are not claims of this experiment.
 
+## Optional smaller demo: correct indicator use
+
+An additional target is a connectome-controlled fly that physically operates an indicator stalk: choose left/right/off, signal before the intended turn, and cancel afterward. It can become a standalone fallback with a clearly disclosed scripted car route, or join the full driving demo later. The full-driving goal remains unchanged. The [indicator experiment plan](indicators-fallback.md) defines I00 physical stalk mechanics, I01 learned state selection, and I02 context and timing, with contact interventions and held-out evaluation. None has run yet.
+
 ## Proposed architecture
 
 - A sparse recurrent model retains the measured neuron-to-neuron topology after explicit, documented dataset filtering. Aggregate multiple synapses between the same neuron pair; preserve counts and identifiers. Do not silently prune the graph to meet a runtime target.

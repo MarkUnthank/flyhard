@@ -36,6 +36,8 @@ Keep the A6000. Replicate the steering skill across two additional training seed
 
 The first pilot saved resumable checkpoints, all held-out scores, source hashes, numerical checks, and synchronized neural/body/wheel recordings. Its approximately 3 GB peak training allocation does not justify a GPU upgrade. Integrated driving throughput has not been measured.
 
+An [optional smaller demo](docs/indicators-fallback.md) is also planned: teach the fly to physically operate an indicator stalk, signal the intended turn, and cancel afterward. A standalone version can use a disclosed scripted car route while the fly controls the indicators. It is untested and does not replace the full-driving goal.
+
 ## Presentation
 
 Driving footage, cockpit footage, body motion, and computed neuron activations on connectome geometry must come from the same recorded simulation run. Label engineered animation and model-derived activity accurately.

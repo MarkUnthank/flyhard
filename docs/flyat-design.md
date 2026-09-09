@@ -19,6 +19,8 @@ Adapt the seat and reachable control surfaces to the fly's body while retaining 
 
 The fly's legs must physically operate the wheel and pedals. Their measured positions drive the CARLA vehicle. Cinematic cockpit and window views should make that contact readable, and must use poses from the same recorded simulation as the vehicle and neural activity.
 
+Include a visibly worn, reachable indicator stalk and working exterior indicator lamps. The [optional indicator demo](indicators-fallback.md) adds a leg-operated left/neutral/right control. Its reach and leg assignment must be tested rather than assumed from the wheel rig. Provide a camera angle that makes the stalk movement and the matching lamp easy to connect.
+
 ## Presentation
 
 Aim for a believable neglected little Italian car. The humour comes from a recognisable fly earnestly operating this battered Panda. Keep distinctive body proportions and weathering consistent across simulation assets, footage, and promotional artwork.
@@ -29,4 +31,4 @@ The supplied photograph is visual reference only. The repository should contain 
 
 ## Status
 
-Design direction recorded. No vehicle mesh, textures, rig, or cockpit physics have been produced yet.
+Design direction recorded. Independent wheel and pedal test rigs exist, but the final combined cockpit, indicator stalk, Panda-style vehicle mesh, textures and lamps have not been produced yet.
