@@ -1,0 +1,19 @@
+AGENTS.md
+  s_5f3bcf9fbff20d::t_c1fa1adf003446 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7fd746c61eadce6b843b62c1e59c1f6a3f745941",
+  "prompts": {},
+  "sessions": {
+    "s_5f3bcf9fbff20d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08ae4-d768-7733-b1e9-ee457ba32962",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
