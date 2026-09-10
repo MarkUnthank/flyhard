@@ -5,7 +5,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://thedrivingfly.com"),
   title: "The Driving Fly — Your brand. A car. A fly.",
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/favicon-32x32.png",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   description:
     "Help teach a fly to drive. Pick a spot on our Mini, put your logo on it, and stay until someone pays more. Seven placements. Outbid the current sponsor to make one yours.",
   openGraph: {
