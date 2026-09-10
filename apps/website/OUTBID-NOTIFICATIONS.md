@@ -1,6 +1,6 @@
 # Outbid notifications
 
-Cloudflare Email Service sends a transactional email when a confirmed payment replaces a published ad. The sender is **The Driving Fly <updates@notify.thedrivingfly.com>**. The email identifies the displaced placement, the replacement bid, and the current minimum to bid again. Its `?spot=ad-XX` link opens that spot's model preview and bid form with the latest auction price.
+Cloudflare Email Service sends a transactional email when a confirmed payment replaces a published ad. The sender is **The Driving Fly <mark@reallynice.company>**, so replies reach Mark's existing mailbox. The email identifies the displaced placement, the replacement bid, and the current minimum to bid again. Its `?spot=ad-XX` link opens that spot's model preview and bid form with the latest auction price.
 
 ## Payment and delivery behavior
 
@@ -16,7 +16,9 @@ Cloudflare's send binding does not expose an idempotency key. The durable outbox
 
 ## Configuration
 
-Production and staging have an `EMAIL` send binding restricted to the sender above, plus `OUTBID_EMAIL_FROM` in `wrangler.jsonc`. The sender domain `notify.thedrivingfly.com` is onboarded to Cloudflare Email Service with DKIM, SPF, DMARC and a dedicated `cf-bounce` return path. Its DNS setup does not replace the website's domain records or an existing inbox's MX records. No additional email API key is needed.
+Production and staging have an `EMAIL` send binding restricted to the sender above, plus `OUTBID_EMAIL_FROM` in `wrangler.jsonc`. Local configuration uses the same sender with simulated delivery. Custom-wrap buyer confirmations and operator alerts also use this sender.
+
+The sender domain `reallynice.company` must be enabled in Cloudflare Email Service before releasing this configuration. Cloudflare uses `cf-bounce.reallynice.company` for return-path MX and SPF records and `cf-bounce._domainkey.reallynice.company` for DKIM. Keep the existing Google Workspace root MX/SPF and DMARC policy intact. The domain uses strict DMARC alignment, so Cloudflare's DKIM signature must use `d=reallynice.company`; the bounce subdomain's SPF alone does not satisfy strict alignment. No additional email API key is needed. See [Cloudflare's domain configuration guide](https://developers.cloudflare.com/email-service/configuration/domains/).
 
 For Stripe test mode, sending requires a private `OUTBID_EMAIL_TEST_TO` secret. **Every sandbox notification goes to that test address**, with `[TEST]` in the subject and an explanation that no real payment or production replacement occurred. The original bidder email is still used to check ownership, but never used as a sandbox destination. Without the test recipient, queued sandbox mail remains unsent.
 

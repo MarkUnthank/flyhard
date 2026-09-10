@@ -20,13 +20,13 @@
   "observability": { "enabled": true },
   "vars": {
     "SITE_URL": "https://thedrivingfly.com",
-    "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
+    "OUTBID_EMAIL_FROM": "mark@reallynice.company",
     "CUSTOM_WRAP_EMAIL_TO": "mark@reallynice.company",
   },
   "send_email": [
     {
       "name": "EMAIL",
-      "allowed_sender_addresses": ["updates@notify.thedrivingfly.com"],
+      "allowed_sender_addresses": ["mark@reallynice.company"],
     },
   ],
   "durable_objects": {
@@ -45,13 +45,13 @@
       "triggers": { "crons": [] },
       "vars": {
         "SITE_URL": "https://the-driving-fly-staging.mxunthank.workers.dev",
-        "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
+        "OUTBID_EMAIL_FROM": "mark@reallynice.company",
         "CUSTOM_WRAP_EMAIL_TEST_TO": "mark@reallynice.company",
       },
       "send_email": [
         {
           "name": "EMAIL",
-          "allowed_sender_addresses": ["updates@notify.thedrivingfly.com"],
+          "allowed_sender_addresses": ["mark@reallynice.company"],
         },
       ],
       "durable_objects": {
