@@ -230,7 +230,7 @@ export default function AuctionSite() {
               {snapshot.totalViews != null && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <span title="Page views recorded by Cloudflare Web Analytics since tracking began; known bots excluded. Updated hourly.">
+                  <span title="Page views recorded by Cloudflare Web Analytics since tracking began; known bots excluded. Updated every five minutes.">
                     {snapshot.totalViews.toLocaleString("en-US")} total views
                   </span>
                 </>

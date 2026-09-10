@@ -215,7 +215,7 @@ export class Auction extends DurableObject<Env> {
           : "unavailable",
     };
   }
-  // Only called through the Worker binding by the hourly cron, never a public HTTP route.
+  // Only called through the Worker binding by the five-minute cron, never a public HTTP route.
   async syncPageViews() {
     if (this.env.SITE_URL !== "https://thedrivingfly.com") return;
     if (!this.env.CLOUDFLARE_ANALYTICS_TOKEN)

@@ -137,7 +137,7 @@ Analytics Read access as the production Worker secret `CLOUDFLARE_ANALYTICS_TOKE
 Do not use an expiring Wrangler login token. Keep the PR in draft until this is
 configured. Secret configuration does not authorize manually deploying Worker code.
 
-Cloudflare cron runs at minute 7 each hour. It calls the auction object through its
+Cloudflare cron runs every five minutes. It calls the auction object through its
 private Worker binding; visitors cannot trigger a sync. Daily aggregates persist
 in Durable Object SQLite. The current day and previous two days are replaced on
 refresh to incorporate delayed data without double counting. Older days remain

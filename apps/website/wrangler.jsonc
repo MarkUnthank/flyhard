@@ -16,7 +16,7 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"],
   },
-  "triggers": { "crons": ["7 * * * *"] },
+  "triggers": { "crons": ["*/5 * * * *"] },
   "observability": { "enabled": true },
   "vars": {
     "SITE_URL": "https://thedrivingfly.com",
