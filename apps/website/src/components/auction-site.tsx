@@ -398,7 +398,10 @@ export default function AuctionSite() {
               car above to outbid its current owner.
             </div>
           )}
-          <div className="auction-toolbar" hidden={!openSlots.length}>
+          <div
+            className="auction-toolbar"
+            style={!openSlots.length ? { display: "none" } : undefined}
+          >
             <div className="spot-filters" aria-label="Filter spots">
               {[
                 { id: "all", label: "Open spots" },
@@ -431,7 +434,10 @@ export default function AuctionSite() {
               />
             </div>
           </div>
-          <div className="table-container" hidden={!openSlots.length}>
+          <div
+            className="table-container"
+            style={!openSlots.length ? { display: "none" } : undefined}
+          >
             <table className="spots-table">
               <thead>
                 <tr>
@@ -564,7 +570,10 @@ export default function AuctionSite() {
               </div>
             )}
           </div>
-          <div className="table-footer" hidden={!openSlots.length}>
+          <div
+            className="table-footer"
+            style={!openSlots.length ? { display: "none" } : undefined}
+          >
             <span>
               Showing {displayed.length} of {filtered.length} spots
             </span>
