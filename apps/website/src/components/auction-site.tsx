@@ -78,7 +78,7 @@ export default function AuctionSite() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Slot | null>(null);
   const [status, setStatus] = useState("");
-  const [sort, setSort] = useState("number");
+  const [sort, setSort] = useState("price");
   const [showAll, setShowAll] = useState(false);
   const slots = useMemo(
     () => activeSlots(snapshot.placements),
