@@ -1,0 +1,27 @@
+scripts/remux_dynamic_horn_audio.py
+  s_4cf9d98cda6aae::t_6ae7d83f5e1194 1-45
+tests/test_driving_horn.py
+  s_4cf9d98cda6aae::t_f497b22a112039 64-71
+reports/2026-09-10-dynamic-horn/README.md
+  s_4cf9d98cda6aae::t_e595f05240a600 26-76
+docs/dynamic-horn-2026-09-10.md
+  s_4cf9d98cda6aae::t_e595f05240a600 126-132
+src/flyhard/recorded_horn_audio.py
+  s_4cf9d98cda6aae::t_97b930d097d650 26-35,52-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "f68907a7ad8f38862000b3604076cc8311231260",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
