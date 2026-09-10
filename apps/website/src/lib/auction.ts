@@ -63,6 +63,7 @@ export type AuctionSnapshot = {
   totalRaised: number;
   totalPurchases: number;
   online: number;
+  totalViews: number | null;
   paymentsEnabled: boolean;
   paymentMode: "live" | "test" | "unavailable";
 };
@@ -76,6 +77,7 @@ export const emptySnapshot: AuctionSnapshot = {
   totalRaised: 0,
   totalPurchases: 0,
   online: 0,
+  totalViews: null,
   paymentsEnabled: false,
   paymentMode: "unavailable",
 };

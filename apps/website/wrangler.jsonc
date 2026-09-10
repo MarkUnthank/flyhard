@@ -16,6 +16,7 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"],
   },
+  "triggers": { "crons": ["7 * * * *"] },
   "observability": { "enabled": true },
   "vars": {
     "SITE_URL": "https://thedrivingfly.com",
@@ -41,6 +42,7 @@
       "workers_dev": true,
       "preview_urls": false,
       "routes": [],
+      "triggers": { "crons": [] },
       "vars": {
         "SITE_URL": "https://the-driving-fly-staging.mxunthank.workers.dev",
         "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",

@@ -160,6 +160,16 @@ input[type="checkbox"] {
   gap: 8px;
   color: #6e736a;
   font-size: 13px;
+  flex-wrap: wrap;
+}
+.live-status,
+.audience-counts {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+.audience-counts {
+  white-space: nowrap;
 }
 .tiny-dot {
   display: inline-block;
@@ -1827,8 +1837,9 @@ fieldset {
     font-size: 10px;
     gap: 5px;
   }
-  .live-indicator > span:last-child {
-    display: none;
+  .audience-counts {
+    flex-basis: 100%;
+    justify-content: center;
   }
   .muted-separator {
     display: none;
