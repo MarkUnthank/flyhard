@@ -1,0 +1,21 @@
+apps/website/src/app/globals.css
+  s_5134ae95f8fb3f::t_d2123ae1d97f71 669
+apps/website/src/components/auction-site.tsx
+  s_5134ae95f8fb3f::t_ecade9a17a2b87 97,100-102,110,393,396-397,408,413,427,509,550,558
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "9c7f494c33fe05f734ce0f2b203eb0f5fba06a3b",
+  "prompts": {},
+  "sessions": {
+    "s_5134ae95f8fb3f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b60-cb23-7d61-b5a2-89dbef26e814",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
