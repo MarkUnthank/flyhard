@@ -30,11 +30,12 @@ def main():
     subprocess.run(['ffmpeg','-nostdin','-v','error','-xerror','-i',str(video),'-f','null','-'],check=True)
     mapping=json.loads((root/'frame-map.json').read_text());assert len(mapping)+120==receipt['frames']
     sources={name:json.loads((Path(name)/'frames.json').read_text()) for name in {r['source'] for r in mapping}}
-    checkpoints=set();max_clock_error=0.;native_frames=0
+    checkpoints=set();max_clock_error=0.;native_frames=0;behaviour={}
     for name,rows in sources.items():
         config=json.loads((Path(name)/'config.json').read_text());checkpoints.add(config['checkpoint_sha256'])
         metrics=json.loads((Path(name)/'metrics.json').read_text())
-        assert metrics['score']['passed'] and metrics['scenario_light_sequence_valid']
+        assert metrics['status']=='capture_complete' and metrics['scenario_light_sequence_valid']
+        behaviour[name]=metrics['score']
         assert np.all(np.diff([r['carla_frame'] for r in rows])==1)
         max_clock_error=max(max_clock_error,max(abs(r['camera_time']-r['body_time']) for r in rows))
         assert max_clock_error<1e-4
@@ -46,6 +47,10 @@ def main():
         original=sources[row['source']][row['source_frame']]
         assert row['output_frame']==index and row['horn_pressed']==original['horn_pressed']
         assert row['neural_index']==original['neural_index']
+        if row.get('camera')=='cabin':
+            camera=original['cabin']
+            assert camera['rgb_frame']==camera['depth_frame']==original['carla_frame']
+            assert abs(camera['camera_time']-original['body_time'])<1e-4
         if row['horn_pressed']:allowed[index*800:(index+1)*800]=True
     with wave.open(str(root/'horn.wav')) as wav:
         assert wav.getframerate()==48000 and wav.getnchannels()==2 and wav.getsampwidth()==2
@@ -56,7 +61,9 @@ def main():
             'width':1920,'height':1080,'fps':60,'frames':receipt['frames'],
             'duration_seconds':receipt['duration_seconds'],'native_source_frames':native_frames,
             'source_camera_frames_consecutive':True,'max_clock_error_seconds':max_clock_error,
+            'interior_frames':sum(r.get('camera')=='cabin' for r in mapping),
             'checkpoint_sha256':next(iter(checkpoints)),
+            'behaviour_scores':behaviour,
             'audio_silent_outside_measured_press':True,'recorded_audio_source':receipt['audio']['source'],
             'livery_revision':receipt['livery_revision'],'livery_layout':receipt['livery_layout']}
     (root/'verification.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))

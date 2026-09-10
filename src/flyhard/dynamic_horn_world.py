@@ -109,6 +109,15 @@ class DynamicHornWorld(HornWorld):
             self.junction_description={k:selected[k] for k in ['junction','arms']}
             start=selected['ego_start'] if rage else selected['ego_entry'].previous(20.)[0]
             goal=straight(selected['exit'],210 if rage else 95)
+            # Bind the observed lamp to this junction, not the light-scene
+            # approach selected by HornWorld during construction.
+            matches=[(wp.transform.location.distance(selected['ego_entry'].transform.location),light,wp)
+                     for light in self.lights for wp in light.get_stop_waypoints()
+                     if angular(wp.transform.rotation.yaw,selected['ego_entry'].transform.rotation.yaw)<15]
+            distance,light,stop=min(matches,key=lambda item:item[0])
+            if distance>35:raise RuntimeError('No traffic light matches this route approach')
+            self.light.set_state(carla.TrafficLightState.Red)
+            self.light,self.stop=light,stop;self.requested_green=None;self.set_green(True)
             self.forward=start.transform.get_forward_vector();self.right=start.transform.get_right_vector()
         else:
             start=self.stop.previous(24.)[0];goal=straight(self.stop,110.)
@@ -118,6 +127,15 @@ class DynamicHornWorld(HornWorld):
         segments=np.diff(path,axis=0);lengths=np.linalg.norm(segments,axis=1);keep=lengths>1e-6
         self.path_start=path[:-1][keep];self.path_delta=segments[keep];self.path_length=lengths[keep]
         self.path_cumulative=np.r_[0.,np.cumsum(self.path_length)[:-1]]
+        self.route_light_ids=[]
+        if is_cut or rage:
+            for light in self.lights:
+                for wp in light.get_stop_waypoints():
+                    progress,lateral=self.path_position(wp.transform.location)
+                    nearest=int(np.argmin(np.linalg.norm(self.path_start-np.array([wp.transform.location.x,wp.transform.location.y]),axis=1)))
+                    heading=math.degrees(math.atan2(self.path_delta[nearest,1],self.path_delta[nearest,0]))
+                    if lateral<2.5 and angular(heading,wp.transform.rotation.yaw)<20:
+                        light.set_state(carla.TrafficLightState.Green);self.route_light_ids.append(light.id);break
         if not (is_cut or rage):
             self.ego_agent.ignore_vehicles(False)
         if kind in {'arrive_green','wait_green'}:
@@ -230,5 +248,7 @@ class DynamicHornWorld(HornWorld):
     def metadata(self):
         return {**super().metadata(),'kind':getattr(self,'kind',None),
                 'junction':self.junction_description,'traffic_count':len(self.traffic),
+                'controlled_route_light_ids':self.route_light_ids,
+                'signal_scope':'Native lamp matched to the current scenario approach; route lamps held green for directed cut-in/rage scenes',
                 'route_points':[[w.transform.location.x,w.transform.location.y,w.transform.location.z] for w,_ in self.ego_route],
                 'directed':'BasicAgent route and speed control; cut-in/rage deliberately do not brake; only measured fly wheel supplies applied steering'}

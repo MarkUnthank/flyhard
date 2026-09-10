@@ -72,6 +72,19 @@ def capture(env, model, saved, args):
     lamp_queue = queue.Queue()
     lamp.listen(lamp_queue.put)
     sensors.append(lamp); queues.append(lamp_queue); env.actors.append(lamp)
+    cabin_pose = carla.Transform(carla.Location(x=-.45,y=.08,z=1.35),
+                                 carla.Rotation(pitch=-12,yaw=-23))
+    has_cabin = args.kind.startswith('cut_in') or args.kind == 'road_rage'
+    if has_cabin:
+        for kind in ['rgb','depth']:
+            bp=library.find('sensor.camera.'+kind)
+            for key,value in {'image_size_x':'1248','image_size_y':'960','fov':'90',
+                              'sensor_tick':'0','lens_k':'0','lens_kcube':'0'}.items():
+                bp.set_attribute(key,value)
+            if kind=='rgb':bp.set_attribute('motion_blur_intensity','0')
+            sensor=env.world.spawn_actor(bp,cabin_pose,attach_to=env.ego,attachment_type=carla.AttachmentType.Rigid)
+            inbox=queue.Queue();sensor.listen(inbox.put)
+            sensors.append(sensor);queues.append(inbox);env.actors.append(sensor)
     for _ in range(25):
         frame = env.world.tick()
         for inbox in queues:
@@ -90,12 +103,15 @@ def capture(env, model, saved, args):
               'livery_revision':manifest['revision'], 'livery_layout':manifest['layoutVersion'],
               'recorder_start_result':recorder_result,
               'lamp_camera_matrix':light_pose.get_matrix(), 'lamp_camera_fov':35,
+              'cabin':{'relative_matrix':cabin_pose.get_matrix(),'fov':90} if has_cabin else None,
               'claim':'One learned connectome core commands LF steering and RF horn joints. Route requests, rage-mode cue, traffic and speed/braking are directed.',
               'clock':'10 Hz neural decisions command fourteen fly joints at 300 Hz. Physics and CARLA advance 1/60 s together. Sound follows measured button state at displayed frame times.',
               'source_sha256':{p:sha(p) for p in [__file__, 'src/flyhard/driving_horn.py', 'src/flyhard/driving_horn_policy.py', 'src/flyhard/horn_rig.py', 'src/flyhard/dynamic_horn_world.py']}}
     (out/'config.json').write_text(json.dumps(config, indent=2)+'\n')
     writers = [video_writer(out/'carla-camera.mp4'), video_writer(out/'native-depth.mkv', True),
                video_writer(out/'traffic-light.mp4',size='320x240')]
+    if has_cabin:
+        writers.extend([video_writer(out/'cabin-rgb.mp4'),video_writer(out/'cabin-depth.mkv',True)])
     frames, body, activity, observations, commands, neural_times = [], [], [], [], [], []
     history = History()
     env.release()
@@ -147,6 +163,11 @@ def capture(env, model, saved, args):
                    'vehicle_matrix':env.ego.get_transform().get_matrix(),
                    'camera_matrix':sensors[0].get_transform().get_matrix(),
                    'lead_matrix':env.lead.get_transform().get_matrix() if env.lead else None}
+            if has_cabin:
+                row['cabin']={'rgb_frame':images[3].frame,'depth_frame':images[4].frame,
+                              'camera_time':images[3].timestamp-start_time,
+                              'relative_matrix':(np.linalg.inv(np.asarray(row['vehicle_matrix']))@
+                                  np.asarray(sensors[3].get_transform().get_matrix())).tolist()}
             frames.append(row)
             body.append({'time':float(rig.data.time), 'qpos':rig.data.qpos.copy(),
                          'qvel':rig.data.qvel.copy(), 'ctrl':rig.data.ctrl.copy(), 'decision_index':len(activity)-1})
@@ -156,6 +177,9 @@ def capture(env, model, saved, args):
             if i in preview_indices:
                 Image.fromarray(arrays[0]).save(out/f'carla-preview-{i:04}.png')
                 Image.fromarray(arrays[1]).save(out/f'depth-preview-{i:04}.png')
+                if has_cabin:
+                    Image.fromarray(arrays[3]).save(out/f'cabin-preview-{i:04}.png')
+                    Image.fromarray(arrays[4]).save(out/f'cabin-depth-preview-{i:04}.png')
             if i % 120 == 0:
                 Image.fromarray(arrays[0]).save(out/f'carla-preview-{i:04}.png')
                 print(json.dumps({'frame':i, 'green':row['light_green'], 'horn':row['horn_pressed'],

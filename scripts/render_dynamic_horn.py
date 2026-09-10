@@ -17,6 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 from flyhard.horn_audio import press_intervals
 from flyhard.recorded_horn_audio import write_horn_audio
 from flyhard.horn_rig import make_horn_rig
+from flyhard.interior_view import InteriorFlyView
 from flyhard.live_livery import verify_live_livery
 from flyhard.steering_hud import draw_steering_readout
 from flyhard.video_branding import draw_site_brand
@@ -44,7 +45,7 @@ def main():
     configurations = [json.loads((r/'config.json').read_text()) for r in sources]
     for root in sources:
         receipt=json.loads((root/'metrics.json').read_text())
-        assert receipt['status']=='capture_complete' and receipt['score']['passed'], 'Source has not passed the requested behaviour checks'
+        assert receipt['status']=='capture_complete' and receipt['scenario_light_sequence_valid'], 'Source recording is incomplete or has an invalid light sequence'
     if not 1<=args.layer_workers<=4:p.error('Layer workers must be between one and four')
     if args.ranges and len(args.ranges)!=len(sources):p.error('One source range per run required')
     ranges=[tuple(map(float,r.split(':'))) for r in args.ranges] if args.ranges else [(0,c['seconds']) for c in configurations]
@@ -101,7 +102,8 @@ def main():
             frames = json.loads((root/'frames.json').read_text())
             metrics = json.loads((root/'metrics.json').read_text())
             assert metrics['status'] == 'capture_complete'
-            assert metrics['score']['passed'], 'The final edit requires the requested measured behaviour and motion'
+            # Behaviour may be imperfect. Preserve its score and the recorded
+            # actions; export integrity is independent of task success.
             with np.load(root/'body-trace.npz') as archive:
                 body = {k:archive[k] for k in archive.files}
             begin,end=round(interval[0]*60),round(interval[1]*60)
@@ -112,9 +114,23 @@ def main():
             cns_reader = None if args.preview_only else imageio.get_reader(root/'cns-layer.mp4', input_params=['-threads','1'])
             press = np.array([row['horn_pressed'] for row in frames])
             intervals.extend(press_intervals((np.arange(end-begin)+offset)/60, press[begin:end], 1/60))
+            cabin = None; cabin_rgb = None; cabin_depth = None; cabin_windows = []
+            if config.get('cabin'):
+                starts=np.flatnonzero(press & ~np.r_[False,press[:-1]])
+                stops=np.flatnonzero(press & ~np.r_[press[1:],False])+1
+                for a,b in zip(starts,stops):
+                    if b-a>=60:
+                        cabin_windows.append((int(a+9),int(min(b,a+153))))
+                cabin=InteriorFlyView(rig,1248,960,config['cabin']['relative_matrix'],
+                                      [.27,-.41,1.03],metres_per_rig_unit=.16,horizontal_fov=90)
+                if not args.preview_only:
+                    cabin_rgb=imageio.get_reader(root/'cabin-rgb.mp4',input_params=['-threads','1'])
+                    cabin_depth=imageio.get_reader(root/'cabin-depth.mkv',input_params=['-threads','1'])
             if not args.preview_only and press.any():wanted.add(min(int(np.flatnonzero(press)[0])+6,len(frames)-1))
             try:
                 for i, lamp in enumerate(lamp_reader):
+                    cabin_pixels = cabin_rgb.get_next_data() if cabin_rgb else None
+                    cabin_encoded = cabin_depth.get_next_data() if cabin_depth else None
                     if args.preview_only and i not in wanted:
                         continue
                     road = np.asarray(Image.open(road_root/f'road-{i:04}.png')) if args.preview_only else raw_reader.get_next_data()
@@ -130,6 +146,17 @@ def main():
                     mj.mj_forward(rig.model,replay)
                     rig.model.geom_rgba[rig.model.geom('horn_button_pad').id,:3] = (
                         [1.,.7,.12] if row['horn_pressed'] else [.9,.25,.2])
+                    interior = cabin is not None and any(a<=i<b for a,b in cabin_windows)
+                    if interior:
+                        if args.preview_only:
+                            cabin_pixels=np.asarray(Image.open(root/f'cabin-preview-{i:04}.png'))
+                            cabin_encoded=np.asarray(Image.open(root/f'cabin-depth-preview-{i:04}.png'))
+                        encoded=cabin_encoded.astype(np.float32)
+                        depth=(encoded[:,:,0]+256*encoded[:,:,1]+65536*encoded[:,:,2])*(1000/16777215)
+                        cabin.camera_matrix=np.asarray(row['cabin']['relative_matrix'])
+                        road,mask,_=cabin.render(replay,cabin_pixels,depth)
+                        road=np.asarray(Image.fromarray(road).crop((110,190,1085,940)).resize((1248,960),Image.Resampling.LANCZOS))
+                        assert mask.any(), 'Interior fly must be visible'
                     renderer.update_scene(replay,camera=camera)
                     renderer.scene.flags[mj.mjtRndFlag.mjRND_SKYBOX] = False
                     canvas = Image.new('RGB',(1920,1080),'black')
@@ -154,7 +181,10 @@ def main():
                     if writer:
                         writer.append_data(np.asarray(canvas))
                     frame_map.append({'output_frame':offset+i-begin,'source':str(root),'source_frame':i,
-                                      'neural_index':row['neural_index'],'horn_pressed':bool(beep)})
+                                      'neural_index':row['neural_index'],'horn_pressed':bool(beep),
+                                      'camera':'cabin' if interior else 'exterior'})
+                    if interior and (i==cabin_windows[0][0] or i in wanted):
+                        canvas.save(out/f'interior-case{case_number}-{i:04}.png')
                     if i % 180 == 0:
                         print(json.dumps({'case':case_number,'frame':i,'wall_seconds':time.monotonic()-started}),flush=True)
                 if not args.preview_only:
@@ -164,11 +194,15 @@ def main():
                 lamp_reader.close()
                 if cns_reader:
                     cns_reader.close()
+                if cabin_rgb:cabin_rgb.close()
+                if cabin_depth:cabin_depth.close()
+                if cabin:cabin.close()
             source_metrics.append({'source':str(root),'score':metrics['score'],
                                    'minimum_sponsor_pixels':road_meta['minimum_sponsor_pixels'],
                                    'frames_sha256':sha(root/'frames.json'),
                                    'body_sha256':sha(root/'body-trace.npz'),
                                    'neural_sha256':sha(root/'neural-trace.npz')})
+            source_metrics[-1]['cabin_windows_frames']=cabin_windows
             offset += end-begin
         if writer:
             credit = Image.new('RGB',(1920,1080),'black')
@@ -192,6 +226,7 @@ def main():
               'fps':60,'frames':offset+120,'duration_seconds':offset/60+2,
               'livery_revision':manifest['revision'],'livery_layout':manifest['layoutVersion'],
               'gpu':gpu,'audio_intervals':intervals,
+              'source_sha256':{f:sha(f) for f in [__file__,'src/flyhard/interior_view.py','src/flyhard/horn_rig.py','src/flyhard/recorded_horn_audio.py']},
               'claim':'Single learned core operates both forelegs. Directed route, speed, traffic and rage mode; measured steering and horn. Recorded neural and body states share one clock.',
               'sponsor_note':'Exact live sponsor meshes composited with native CARLA camera and depth; not native Unreal materials.'}
     if writer:

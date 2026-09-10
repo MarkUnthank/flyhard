@@ -53,10 +53,15 @@ vehicle materials.
 Lane presence is measured by projecting actual vehicle positions onto the provided
 route centreline. This handles curved junctions without making a lead car vanish
 when the fly corrects its steering. Nearby-car distance is Euclidean.
+The lamp is selected from native stop waypoints matching that scene's approach;
+directed cut-in/rage routes hold their own lamps green. An earlier capture bound
+the observation to the original light-scene junction while the visible local
+lamps stayed red. Those captures were rejected and retained as development data.
 
 Development recordings and failed checkpoints are retained. An early controller
 honked before green; another briefly honked on an empty road at the transition.
-These are failures, not acceptable substitutes for the requested negative cases.
+These remain failures of the quiet-case requirement. The final direction accepts
+genuine imperfect takes; retaining a false chirp does not turn it into a pass.
 The training sampler balances short green-light presses with longer positive
 holds and focuses some negative examples around potential event times.
 
@@ -100,6 +105,16 @@ take merely to inspect placements.
 1080p60 timing, source-frame continuity, the shared causal clock, a single frozen
 checkpoint and silence outside measured horn intervals. Preserve raw captures,
 model checkpoints, current source receipts and sponsor snapshots with the exports.
+Export integrity is independent of behavioural perfection: a genuine messy take
+can be rendered with its actual score intact. No horn events or steering errors
+are inserted to improve the story.
+
+The pull-out and road-rage sources also record native cabin RGB and lossless depth
+at the same 60 Hz frame numbers. Sustained physical presses motivate the interior
+cuts: a short exterior reaction, a close view of the actual foreleg/button state,
+then the exterior again. The calibrated MuJoCo fly is depth-composited into that
+native cabin and the image is cropped for readability. This is the same recorded
+body state, not a newly animated press or a native Unreal fly asset.
 
 ## Recorded horn and attribution
 
