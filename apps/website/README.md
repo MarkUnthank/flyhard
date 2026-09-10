@@ -91,6 +91,31 @@ For recording-ready PNGs and a sponsor-textured Blender/glTF model, run `npm run
 
 `GET /api/livery` returns the same uncached manifest as `/api/auction`: revision, current placements keyed by slot ID, immutable texture URLs, and recent history. An external renderer can consume this manifest without re-exporting the GLB. Integrating it into CARLA's native vehicle textures is separate work; this site does not claim that the simulator updates itself.
 
+### Automatic social images
+
+[Refresh sponsor social images](../../.github/workflows/social-images.yml) runs when a confirmed paid sponsorship changes the live wrap. The winning-bid transaction also records a durable image-update request, then starts the main-branch GitHub Actions workflow in the background. Unpaid checkouts, refunded losing bids and duplicate Stripe webhooks do not request another run. There is no recurring Actions schedule. The first request after deployment also queues a refresh if the published images do not match the deployed model/template, and the workflow remains available to run manually.
+
+The job renders the same Three.js car, artwork fitting, fonts and confirmed textures as the website, with local headless Chromium on the runner. It freezes one livery snapshot and waits for the model, every texture and a completed frame. Both images are uploaded to R2 through `POST /api/social/publish` before the server makes their URLs current. A failed run keeps the previous pair visible. The existing Durable Object alarm retries a failed GitHub dispatch with backoff, and retries an accepted job after 15 minutes if it never publishes. Once the pair is published, its pending request is cleared and social-image retries stop. A newer sponsor or different deployed renderer rejects stale uploads. Retries never overwrite immutable URLs. Rendering and GitHub availability do not delay payment acknowledgement.
+
+The website starts Actions using the production Worker secret `SOCIAL_IMAGES_GITHUB_TOKEN`. Use a dedicated fine-grained GitHub token restricted to `MarkUnthank/flyhard` with **Actions: read and write**; this is the permission required by GitHub's [workflow dispatch endpoint](https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event). Keep its value out of the repository and set or rotate it through the approved production-secret configuration process. Without this credential the pending update remains saved and can still be published by running the workflow manually.
+
+For the return request, Actions authenticates to the website with a short-lived GitHub OIDC token restricted to this repository's main-branch `social-images.yml` workflow. No Actions secret or Cloudflare browser binding is needed. The workflow can publish generated social images only; it does not deploy Worker code or commit assets. Website changes ship through the normal PR and Cloudflare Builds release process.
+
+To render the live sponsors locally on your Mac, from `apps/website`:
+
+```sh
+npm ci
+npm run social:render
+```
+
+The preview pair and revision receipt are written to ignored `artifacts/social/`. To publish locally instead, use `npm run social:update` with the existing `AUCTION_ADMIN_TOKEN` in the environment. That command requires a renderer fingerprint matching the deployed website, then publishes and reads back both image URLs. `-- --site http://localhost:8797` selects an isolated local API for testing; `-- --output /path/to/folder` changes the output location. `social:build` runs automatically before rendering, development, tests, typechecking and the Next/OpenNext build. It fingerprints the renderer bundle, model, fonts, capture code and dependency lockfile.
+
+Next's metadata reads the current published URLs on each request. Each completed wrap gets a distinct URL containing the renderer fingerprint and auction revision. The `/api/social/wide.jpg` and `/api/social/square.jpg` aliases, plus the former `/social/driving-fly-*-v*.jpg` URLs, resolve to the latest complete pair with `Cache-Control: no-store`. The original v4 cards remain the fallback until the first job succeeds. Generated revision URLs stay immutable and available for old links.
+
+We can refresh our metadata and image URLs; we cannot revoke a copy already cached by a social platform. Platforms need to scrape the page again to discover new URLs, and existing posts may retain their original previews. For example, [LinkedIn's Post Inspector](https://www.linkedin.com/help/linkedin/answer/a6269011) refreshes previews for new posts only.
+
+After configuring the trigger credential, the authorized PR merge and Cloudflare build, check `GET /api/social`: `triggerConfigured` should be true, `pending` should become false and `publishedRevision` should equal `revision`. Fetch both returned `images` and check the homepage's `og:image` and `twitter:image` tags with a crawler user agent. Failed runs expose their error in Actions; `social_workflow_dispatched` and `social_workflow_retry` identify dispatch attempts in Worker logs. A run using a checkout that does not match the deployed renderer fails safely and the pending update retries. No timer remains once the images are current.
+
 The supporter leaderboard uses `highestBids`: the 50 highest published paid bids of all time, including outbid sponsors, ordered by paid amount, publication time, and bid ID. It shows eight compact rows per page, without logos, and preserves each purchase’s original website link. The ranking is independent of the 50 most recent events in `history`, so older high bids remain eligible. Complimentary credit affects current placement prices, but does not inflate this paid-bid history.
 
 The main car opens in 3D View and rotates slowly until the visitor interacts. Reduced-motion preferences disable rotation. Reset returns to the perspective view without restarting rotation. Checkout frames the selected spot independently. The bid dialog suggests an amount at least $1 above the highest effective bid, with a one-click update. Complimentary credits affect current bid thresholds, but never paid history or the fundraising total; see [COMPLIMENTARY-CREDITS.md](COMPLIMENTARY-CREDITS.md).

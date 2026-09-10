@@ -1,6 +1,7 @@
 // @ts-ignore OpenNext generates this entry point during build:worker.
 import next from "../.open-next/worker.js";
 import api from "./api";
+import { legacySocialAlias } from "../src/lib/social";
 import type { Env } from "./env";
 export { Auction } from "./auction";
 
@@ -18,6 +19,9 @@ export default {
       return Response.redirect(url.href, 308);
     }
     if (url.pathname.startsWith("/api/")) return api.fetch(request, env);
+    // Previously shared image URLs resolve to the latest complete render when
+    // fetched again. Third-party copies already cached cannot be revoked here.
+    if (legacySocialAlias(url.pathname)) return api.fetch(request, env);
     const response = await next.fetch(request, env, ctx);
     if (env.SITE_URL !== "https://thedrivingfly.com") {
       const headers = new Headers(response.headers);

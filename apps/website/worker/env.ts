@@ -12,4 +12,10 @@ export interface Env extends Pick<CloudflareBindings, "ARTWORK" | "ASSETS" | "SI
   STRIPE_API_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
   AUCTION_ADMIN_TOKEN?: string;
+  /** Repository-scoped credential with Actions: write, used only to dispatch the social workflow. */
+  SOCIAL_IMAGES_GITHUB_TOKEN?: string;
+}
+
+declare global {
+  interface CloudflareEnv extends CloudflareBindings {}
 }

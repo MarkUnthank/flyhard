@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "social:build": "node scripts/build-social-renderer.mjs",
+    "predev": "npm run social:build",
+    "prebuild": "npm run social:build",
+    "pretypecheck": "npm run social:build",
+    "pretest": "npm run social:build",
     "dev": "node scripts/dev.mjs",
     "build": "next build",
     "build:worker": "opennextjs-cloudflare build",
@@ -17,12 +22,17 @@
     "format": "prettier --write src worker scripts tests *.ts *.mts *.json *.jsonc README.md",
     "stripe:listen": "node scripts/stripe-listen.mjs",
     "export:livery": "node scripts/export-livery.mjs",
-    "package:livery": "node scripts/package-livery.mjs"
+    "package:livery": "node scripts/package-livery.mjs",
+    "presocial:render": "npm run social:build",
+    "social:render": "node scripts/update-social.mjs",
+    "presocial:update": "npm run social:build",
+    "social:update": "node scripts/update-social.mjs --publish"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
     "@opennextjs/cloudflare": "1.20.6",
     "fast-png": "^8.0.0",
+    "jose": "^6.2.12",
     "lucide-react": "^0.577.0",
     "next": "16.3.4",
     "react": "^19.2.0",
@@ -32,7 +42,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "5.20260908.1",
+    "@cloudflare/workers-types": "5.20260910.1",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
@@ -40,6 +50,7 @@
     "esbuild": "^0.28.2",
     "miniflare": "^4.0.0",
     "prettier": "^3.9.6",
+    "puppeteer": "^25.10.0",
     "sharp": "^0.35.4",
     "typescript": "^5.9.3",
     "vitest": "^4.0.0",

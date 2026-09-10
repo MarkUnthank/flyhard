@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
+import { headers } from "next/headers";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { socialSizes, type SocialStatus } from "@/lib/social";
 import "@fontsource-variable/dm-sans";
 import "./globals.css";
 
-export const metadata: Metadata = {
+const metadata = {
   metadataBase: new URL("https://thedrivingfly.com"),
   title: "The Driving Fly — Your brand. A car. A fly.",
   icons: {
@@ -26,16 +30,14 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/social/driving-fly-wide-v4.jpg",
-        width: 1200,
-        height: 630,
+        url: "/api/social/wide.jpg",
+        ...socialSizes.wide,
         type: "image/jpeg",
         alt: "Your brand. A car. A fly. Seven ad spaces. Outbid a sponsor.",
       },
       {
-        url: "/social/driving-fly-square-v4.jpg",
-        width: 1080,
-        height: 1080,
+        url: "/api/social/square.jpg",
+        ...socialSizes.square,
         type: "image/jpeg",
         alt: "The Driving Fly: 7 ad spaces on a green Mini. Outbid a sponsor.",
       },
@@ -49,13 +51,65 @@ export const metadata: Metadata = {
       "7 ad spaces. One very small driver. Outbid a sponsor to put your brand on The Driving Fly.",
     images: [
       {
-        url: "/social/driving-fly-wide-v4.jpg",
+        url: "/api/social/wide.jpg",
         alt: "Your brand. A car. A fly. Seven ad spaces. Outbid a sponsor.",
       },
     ],
   },
   robots: { index: true, follow: true },
-};
+} satisfies Metadata;
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Metadata must follow the durable published-image pointer on every scrape,
+  // rather than freezing the wrap into Next's prerender/HTML cache at build time.
+  await connection();
+  let images = {
+    wide: "/api/social/wide.jpg",
+    square: "/api/social/square.jpg",
+  };
+  let siteUrl = "https://thedrivingfly.com";
+  try {
+    let response: Response;
+    if (process.env.NODE_ENV === "development") {
+      siteUrl =
+        process.env.SITE_URL ||
+        `http://${(await headers()).get("host") || "localhost:3000"}`;
+      const apiUrl = process.env.AUCTION_API_URL || "http://127.0.0.1:8788";
+      response = await fetch(new URL("/api/social", apiUrl), {
+        cache: "no-store",
+      });
+    } else {
+      const { env } = getCloudflareContext();
+      siteUrl = env.SITE_URL;
+      response = await env.AUCTION.get(
+        env.AUCTION.idFromName("the-driving-fly-v1"),
+      ).fetch(new Request(new URL("/api/social", siteUrl)));
+    }
+    if (!response.ok) throw new Error("Social image status unavailable");
+    images = ((await response.json()) as SocialStatus).images;
+  } catch {
+    // A temporary status failure should not take the homepage down. The aliases
+    // still resolve to the last complete pair and are never cached at the origin.
+    console.error(
+      "Social image metadata unavailable; using current-image aliases",
+    );
+  }
+  return {
+    ...metadata,
+    metadataBase: new URL(siteUrl),
+    openGraph: {
+      ...metadata.openGraph,
+      images: metadata.openGraph.images.map((image, index) => ({
+        ...image,
+        url: index === 0 ? images.wide : images.square,
+      })),
+    },
+    twitter: {
+      ...metadata.twitter,
+      images: [{ ...metadata.twitter.images[0], url: images.wide }],
+    },
+  };
+}
 export default function RootLayout({
   children,
 }: {

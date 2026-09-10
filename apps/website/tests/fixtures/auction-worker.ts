@@ -21,6 +21,9 @@ export class Auction extends ProductionAuction {
     this.env.CUSTOM_WRAP_EMAIL_TO = recipient;
     this.env.CUSTOM_WRAP_EMAIL_TEST_TO = testRecipient;
   }
+  testSocialConfig(token?: string) {
+    this.env.SOCIAL_IMAGES_GITHUB_TOKEN = token;
+  }
 }
 export class TestEmail extends WorkerEntrypoint {
   async send(message: EmailMessageBuilder) {

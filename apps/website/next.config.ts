@@ -3,13 +3,24 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async rewrites() {
+    const apiUrl = process.env.AUCTION_API_URL || "http://127.0.0.1:8788";
     return process.env.NODE_ENV === "development"
-      ? [
-          {
-            source: "/api/:path*",
-            destination: `${process.env.AUCTION_API_URL || "http://127.0.0.1:8788"}/api/:path*`,
-          },
-        ]
+      ? {
+          beforeFiles: [
+            {
+              source:
+                "/social/driving-fly-:shape(wide|square)-v:version(\\d+).jpg",
+              destination: `${apiUrl}/api/social/:shape.jpg`,
+            },
+          ],
+          afterFiles: [
+            {
+              source: "/api/:path*",
+              destination: `${apiUrl}/api/:path*`,
+            },
+          ],
+          fallback: [],
+        }
       : [];
   },
   async headers() {
