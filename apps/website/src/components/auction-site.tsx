@@ -111,9 +111,7 @@ export default function AuctionSite() {
   const fundingTarget = 100_000;
   const fundingPercent = (snapshot.totalRaised / fundingTarget) * 100;
   const fundingLabel = `${Number(fundingPercent.toFixed(1))}%`;
-  const leadingSlot = slots.find((slot) => slot.id === highestBid?.slotId);
-  const openingView: View = (leadingSlot?.face as View) ?? "perspective";
-  const view = manualView ?? openingView;
+  const view = manualView ?? "perspective";
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -186,7 +184,6 @@ export default function AuctionSite() {
     const slot = slots.find((s) => s.id === url.searchParams.get("spot"));
     if (slot) {
       setSelected(slot);
-      setManualView(slot.face as View);
       url.searchParams.delete("spot");
       history.replaceState({}, "", url.pathname + url.search + "#live-auction");
     }
@@ -314,9 +311,9 @@ export default function AuctionSite() {
               selected={selected?.id || null}
               view={view}
               onSelect={choose}
-              resetView={openingView}
+              autoRotate={manualView === null}
               onInteract={() => setManualView(view)}
-              onResetView={() => setManualView(null)}
+              onResetView={() => setManualView("perspective")}
             />
           </div>
           <div className="under-car">
@@ -332,10 +329,8 @@ export default function AuctionSite() {
             </a>
           </div>
           <p className="hero-footnote">
-            Six legs. One steering wheel. A questionable business model.{" "}
-            <a className="text-link" href="/media">
-              Watch the fly <ArrowDown size={13} />
-            </a>
+            Six legs. One steering wheel. A questionable business model.
+            {" "}<a className="text-link" href="/media">Watch the fly <ArrowDown size={13} /></a>
           </p>
         </section>
 

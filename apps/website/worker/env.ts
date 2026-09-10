@@ -9,4 +9,5 @@ export interface Env {
   OUTBID_EMAIL_TEST_TO?: string;
   STRIPE_API_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
+  AUCTION_ADMIN_TOKEN?: string;
 }

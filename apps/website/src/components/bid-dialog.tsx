@@ -29,6 +29,7 @@ export default function BidDialog({
   onClose: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const bidInput = useRef<HTMLInputElement>(null);
   const current = snapshot.placements[slot.id];
   const minimum = minimumBid(current?.amount);
   const [amount, setAmount] = useState(
@@ -60,6 +61,14 @@ export default function BidDialog({
     setAmount((next / 100).toFixed(next % 100 ? 2 : 0));
   }
 
+  const highestBid = Math.max(
+    0,
+    ...Object.values(snapshot.placements).map((placement) => placement.amount),
+  );
+  const featuredMinimum = Math.max(minimum, highestBid + 100);
+  const validBid = cents !== null && cents > 0 && cents <= 99_999_999;
+  const featuredDifference = cents === null ? 0 : featuredMinimum - cents;
+  const willBeFeatured = validBid && cents >= featuredMinimum;
   const previewPlacements = useMemo(
     () =>
       preview
@@ -273,11 +282,14 @@ export default function BidDialog({
                       stepAmount(event.key === "ArrowUp" ? 1 : -1);
                     }
                   }}
+                  ref={bidInput}
                   inputMode="decimal"
                   value={amount}
                   onChange={(event) => setAmount(event.target.value)}
                   required
-                  aria-describedby="bid-help"
+                  aria-describedby={
+                    validBid ? "bid-help featured-sponsor-help" : "bid-help"
+                  }
                 />
                 <div className="amount-controls">
                   <button
@@ -310,6 +322,47 @@ export default function BidDialog({
                   : "Start at $1, or pay any amount you like."}{" "}
                 All prices in USD.
               </p>
+              <div
+                id="featured-sponsor-help"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {validBid && featuredMinimum <= maximum && (
+                  <div
+                    className={`featured-sponsor-callout${willBeFeatured ? " is-qualified" : ""}`}
+                  >
+                    <span className="featured-sponsor-label">
+                      Become the featured sponsor
+                    </span>
+                    <strong>
+                      {willBeFeatured
+                        ? "You will be the featured sponsor"
+                        : `Bid ${money(featuredDifference)} more`}
+                    </strong>
+                    <p>
+                      {willBeFeatured
+                        ? "Once your payment is confirmed."
+                        : `Minimum ${money(featuredMinimum)} to be the featured sponsor.`}
+                    </p>
+                    {!willBeFeatured && (
+                      <button
+                        type="button"
+                        className="featured-sponsor-update"
+                        onClick={() => {
+                          setAmount(
+                            (featuredMinimum / 100).toFixed(
+                              featuredMinimum % 100 ? 2 : 0,
+                            ),
+                          );
+                          bidInput.current?.focus();
+                        }}
+                      >
+                        Update my bid
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
               <div className="amount-presets">
                 {[1, 5, 10, 25]
                   .filter((value) => value * 100 >= minimum)

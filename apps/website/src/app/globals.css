@@ -1405,6 +1405,61 @@ fieldset {
   color: #65715e;
   margin: 8px 0;
 }
+.featured-sponsor-callout {
+  margin: 16px 0;
+  padding: 18px;
+  color: #813b12;
+  background: #fff2e2;
+  border: 1px solid #eeb779;
+  border-left: 4px solid #dc761c;
+  border-radius: 12px;
+}
+.featured-sponsor-callout.is-qualified {
+  color: #244b2b;
+  background: #edf6e6;
+  border-color: #b4cfa0;
+  border-left-color: #4c873c;
+}
+.featured-sponsor-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.featured-sponsor-callout strong {
+  display: block;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.featured-sponsor-callout.is-qualified strong {
+  font-size: 22px;
+}
+.featured-sponsor-callout p {
+  margin: 7px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.featured-sponsor-update {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 0;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.featured-sponsor-update:hover {
+  text-decoration-thickness: 2px;
+}
+.featured-sponsor-update:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
 .amount-presets {
   display: flex;
   gap: 6px;

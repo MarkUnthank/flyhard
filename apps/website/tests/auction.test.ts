@@ -150,6 +150,7 @@ beforeAll(async () => {
     },
     bindings: {
       SITE_URL: "http://localhost:3000",
+      AUCTION_ADMIN_TOKEN: "admin_credit_test_only",
       STRIPE_API_KEY: "local_live_fixture",
       OUTBID_EMAIL_FROM: "updates@notify.example.test",
       STRIPE_WEBHOOK_SECRET: secret,
@@ -524,7 +525,8 @@ describe("auction rules", () => {
     expect(live.placements["ad-01"].id).not.toBe(first.id);
     expect(live.placements["ad-01"].textureUrl).not.toBe(first.textureUrl);
     expect(live.history.some((p) => p.id === first.id)).toBe(true);
-    expect(live.highestBids.find((p) => p.id === first.id)).toEqual(first);
+    const { paidAmount: _paid, complimentaryCredit: _credit, ...originalPaidBid } = first;
+    expect(live.highestBids.find((p) => p.id === first.id)).toEqual(originalPaidBid);
     expect(live.highestBids.map((p) => p.amount)).toEqual(
       live.highestBids.map((p) => p.amount).sort((a, b) => b - a),
     );
@@ -810,5 +812,101 @@ describe("outbid notifications", () => {
       for (const id of ids)
         await testStub.testSql("DELETE FROM bids WHERE id = ?", id);
     }
+  });
+});
+
+describe("complimentary sponsor credits", () => {
+  it("preserves payments, rejects unauthorized/stale changes, and enforces boosted bids", async () => {
+    testMode = false;
+    await testStub.testConfig(false);
+    const id = crypto.randomUUID();
+    await testStub.testSql(
+      "INSERT INTO bids (id,request_id,slot_id,amount,brand,url,artwork_token,logo_token,status,created_at,published_at) VALUES (?,?,?,200,?,?,?,?, 'published',?,?)",
+      id,
+      crypto.randomUUID(),
+      "ad-59",
+      "Credit recipient",
+      "https://example.com",
+      "credit-art",
+      "credit-logo",
+      Date.now(),
+      Date.now(),
+    );
+    await testStub.testSql(
+      "INSERT OR REPLACE INTO placements VALUES (?,?)",
+      "ad-59",
+      id,
+    );
+    const pending = await bid("ad-59", 300);
+    const before = await snapshot();
+    const body = {
+      requestId: crypto.randomUUID(),
+      bidId: id,
+      expectedAmount: 200,
+      credit: 400,
+      reason: "Owner-authorized complimentary boost",
+    };
+    const auth = { Authorization: "Bearer admin_credit_test_only" };
+    expect((await request("/api/admin/credits", body)).status).toBe(403);
+    expect(
+      (await request("/api/admin/credits", { ...body, credit: -1 }, auth))
+        .status,
+    ).toBe(400);
+    expect(
+      (
+        await request(
+          "/api/admin/credits",
+          { ...body, expectedAmount: 300 },
+          auth,
+        )
+      ).status,
+    ).toBe(409);
+    expect((await request("/api/admin/credits", body, auth)).status).toBe(200);
+    const boosted = await snapshot();
+    expect(boosted.placements["ad-59"]).toMatchObject({
+      id,
+      amount: 600,
+      paidAmount: 200,
+      complimentaryCredit: 400,
+    });
+    expect(boosted.totalRaised).toBe(before.totalRaised);
+    expect(boosted.totalPurchases).toBe(before.totalPurchases);
+    expect(boosted.history.find((p) => p.id === id)?.amount).toBe(200);
+    expect(boosted.highestBids.find((p) => p.id === id)?.amount).toBe(200);
+    expect(boosted.revision).toBe(before.revision + 1);
+    expect((await request("/api/admin/credits", body, auth)).status).toBe(200);
+    expect((await snapshot()).revision).toBe(boosted.revision);
+    expect(
+      (await request("/api/admin/credits", { ...body, credit: 500 }, auth))
+        .status,
+    ).toBe(409);
+    expect(
+      (
+        await request("/api/checkout", {
+          ...pending.input,
+          requestId: crypto.randomUUID(),
+        })
+      ).status,
+    ).toBe(409);
+    expect((await pay(pending.sessionId)).status).toBe(200);
+    expect((await snapshot()).placements["ad-59"].id).toBe(id);
+    const replacement = await bid("ad-59", 700);
+    expect((await pay(replacement.sessionId)).status).toBe(200);
+    const after = await snapshot();
+    expect(after.placements["ad-59"]).toMatchObject({
+      amount: 700,
+      paidAmount: 700,
+      complimentaryCredit: 0,
+    });
+    expect(after.totalRaised).toBe(before.totalRaised + 700);
+    expect(
+      (
+        await request(
+          "/api/admin/credits",
+          { ...body, requestId: crypto.randomUUID(), expectedAmount: 600 },
+          auth,
+        )
+      ).status,
+    ).toBe(409);
   });
 });

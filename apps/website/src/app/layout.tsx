@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/social/driving-fly-wide-v3.jpg",
+        url: "/social/driving-fly-wide-v4.jpg",
         width: 1200,
         height: 630,
         type: "image/jpeg",
         alt: "Your brand. A car. A fly. Seven ad spaces. Outbid a sponsor.",
       },
       {
-        url: "/social/driving-fly-square-v3.jpg",
+        url: "/social/driving-fly-square-v4.jpg",
         width: 1080,
         height: 1080,
         type: "image/jpeg",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
       "7 ad spaces. One very small driver. Outbid a sponsor to put your brand on The Driving Fly.",
     images: [
       {
-        url: "/social/driving-fly-wide-v3.jpg",
+        url: "/social/driving-fly-wide-v4.jpg",
         alt: "Your brand. A car. A fly. Seven ad spaces. Outbid a sponsor.",
       },
     ],
