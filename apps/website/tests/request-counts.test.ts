@@ -12,7 +12,7 @@ let fail = false;
 let invalid = false;
 let requests = 0;
 let stub: {
-  syncPageViews(): Promise<void>;
+  syncRequestCounts(): Promise<void>;
   testSql(
     query: string,
     ...values: (string | number | null)[]
@@ -20,7 +20,7 @@ let stub: {
 };
 
 beforeAll(async () => {
-  directory = await mkdtemp(join(tmpdir(), "fly-views-"));
+  directory = await mkdtemp(join(tmpdir(), "fly-requests-"));
   const script = join(directory, "worker.mjs");
   await build({
     entryPoints: ["tests/fixtures/auction-worker.ts"],
@@ -51,8 +51,11 @@ beforeAll(async () => {
         query: string;
         variables: { from: string; to: string };
       };
-      expect(body.query).toContain("bot: 0");
-      expect(body.query).toContain("a9425d0f08934c0b919b4c5ff11fb5f7");
+      expect(body.query).not.toContain("bot:");
+      expect(body.query).toContain("sum { requests }");
+      expect(body.variables.from).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(body.variables.to).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(body.query).toContain("0f870574c4a4f0ee249260cb93e3bff6");
       if (fail)
         return Response.json({
           errors: [{ message: "Permission denied" }],
@@ -62,11 +65,11 @@ beforeAll(async () => {
         errors: null,
         data: {
           viewer: {
-            accounts: [
+            zones: [
               {
-                rumPageloadEventsAdaptiveGroups: [
+                httpRequests1dGroups: [
                   {
-                    count: invalid ? -1 : count,
+                    sum: { requests: invalid ? -1 : count },
                     dimensions: { date: body.variables.from.slice(0, 10) },
                   },
                 ],
@@ -87,56 +90,65 @@ afterAll(async () => {
 const snapshot = async () =>
   (await (
     await mf.dispatchFetch("https://thedrivingfly.com/api/auction")
-  ).json()) as { totalViews: number | null };
+  ).json()) as { totalRequests: number | null };
 
-describe("durable historic page views", () => {
+describe("durable historic request counts", () => {
   it("hides an unknown total and does not let page requests trigger analytics queries", async () => {
-    expect((await snapshot()).totalViews).toBeNull();
+    // Existing production page-view data must not seed the new request metric.
+    await stub.testSql("INSERT INTO counters VALUES ('total_views', 990)");
+    await stub.testSql(
+      "INSERT INTO counters VALUES ('views_synced_through', ?)",
+      Date.now(),
+    );
+    expect((await snapshot()).totalRequests).toBeNull();
     expect(requests).toBe(0);
     expect(
       (
-        await mf.dispatchFetch("https://thedrivingfly.com/api/syncPageViews", {
-          method: "POST",
-          headers: { Origin: "https://thedrivingfly.com" },
-        })
+        await mf.dispatchFetch(
+          "https://thedrivingfly.com/api/syncRequestCounts",
+          {
+            method: "POST",
+            headers: { Origin: "https://thedrivingfly.com" },
+          },
+        )
       ).status,
     ).toBe(404);
     expect(requests).toBe(0);
   });
   it("backfills, replaces daily counts without double counting, and retains older history", async () => {
     // Start within the refresh window, with an older archived daily aggregate.
-    await stub.testSql("INSERT INTO page_views VALUES ('2026-09-08', 100)");
+    await stub.testSql("INSERT INTO request_counts VALUES ('2026-09-08', 100)");
     await stub.testSql(
-      "INSERT INTO counters VALUES ('views_synced_through', ?)",
+      "INSERT INTO counters VALUES ('requests_synced_through', ?)",
       Date.now(),
     );
-    await stub.syncPageViews();
-    expect((await snapshot()).totalViews).toBe(112);
-    await stub.syncPageViews();
-    expect((await snapshot()).totalViews).toBe(112);
+    await stub.syncRequestCounts();
+    expect((await snapshot()).totalRequests).toBe(112);
+    await stub.syncRequestCounts();
+    expect((await snapshot()).totalRequests).toBe(112);
     count = 17;
-    await stub.syncPageViews();
-    expect((await snapshot()).totalViews).toBe(117);
+    await stub.syncRequestCounts();
+    expect((await snapshot()).totalRequests).toBe(117);
   });
   it("preserves the last good total and sync position on GraphQL or malformed-data failures", async () => {
     const before = await stub.testSql(
-      "SELECT * FROM counters WHERE name = 'views_synced_through'",
+      "SELECT * FROM counters WHERE name = 'requests_synced_through'",
     );
     fail = true;
-    await expect(stub.syncPageViews()).rejects.toThrow();
-    expect((await snapshot()).totalViews).toBe(117);
+    await expect(stub.syncRequestCounts()).rejects.toThrow();
+    expect((await snapshot()).totalRequests).toBe(117);
     expect(
       await stub.testSql(
-        "SELECT * FROM counters WHERE name = 'views_synced_through'",
+        "SELECT * FROM counters WHERE name = 'requests_synced_through'",
       ),
     ).toEqual(before);
     fail = false;
     invalid = true;
-    await expect(stub.syncPageViews()).rejects.toThrow();
-    expect((await snapshot()).totalViews).toBe(117);
+    await expect(stub.syncRequestCounts()).rejects.toThrow();
+    expect((await snapshot()).totalRequests).toBe(117);
     invalid = false;
     count = 20;
-    await stub.syncPageViews();
-    expect((await snapshot()).totalViews).toBe(120);
+    await stub.syncRequestCounts();
+    expect((await snapshot()).totalRequests).toBe(120);
   });
 });

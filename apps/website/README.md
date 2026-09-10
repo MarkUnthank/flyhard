@@ -124,28 +124,28 @@ Browser-only auction fixtures verified the default camera on all five faces, the
 
 Vehicle attribution is retained at `/credits`; font licensing is included with the model. All fonts, model textures, and Draco decoders used by the site are self-hosted.
 
-## Historic page-view counter
+## Historic request counter
 
-The hero displays Cloudflare Web Analytics page views next to the active browser
-connection count. This is page views (including repeat views), not unique people.
-The source is site `a9425d0f08934c0b919b4c5ff11fb5f7`, with known bots excluded,
-starting September 9, 2026 UTC, the date tracking was enabled. The GraphQL `count`
-is already sampling-adjusted, so it is not multiplied by the sampling interval.
+The hero displays Cloudflare zone HTTP request totals next to the active browser
+connection count. Requests include page loads, assets, API polling, repeat requests,
+and bot traffic. The label is “total requests”, not views or unique visitors.
+The source is the site's zone HTTP analytics, starting September 9, 2026 UTC,
+when the domain was added to Cloudflare. Use `httpRequests1dGroups.sum.requests`.
 
-Before merging this feature, store a dedicated Cloudflare token with account
-Analytics Read access as the production Worker secret `CLOUDFLARE_ANALYTICS_TOKEN`.
-Do not use an expiring Wrangler login token. Keep the PR in draft until this is
-configured. Secret configuration does not authorize manually deploying Worker code.
+The encrypted production Worker secret `CLOUDFLARE_ANALYTICS_TOKEN` needs Zone
+Analytics Read permission for this zone. It must never be committed or sent to
+browsers. The previous Web Analytics account-only permission must be replaced
+before releasing this change. Keep the PR in draft until credentials are configured.
 
-Cloudflare cron runs every five minutes. It calls the auction object through its
-private Worker binding; visitors cannot trigger a sync. Daily aggregates persist
-in Durable Object SQLite. The current day and previous two days are replaced on
-refresh to incorporate delayed data without double counting. Older days remain
-stored after Cloudflare retention expires. A bounded catch-up processes up to four
-seven-day batches per run; failures preserve the last successfully published total.
-The counter stays hidden until the first complete backfill. Staging has no cron and
-cannot sync production analytics. After the Git build deploys, verify the first cron
-succeeds and `/api/auction` reports `totalViews` matching the stored daily sum.
+Cloudflare cron runs every five minutes and invokes the auction object through
+its private Worker binding. Daily aggregates persist in Durable Object SQLite;
+refreshes replace the current and previous two days without double counting.
+Older totals survive analytics retention. Catch-up is bounded to four seven-day
+batches per run, preserving the last complete total on failure. The new counter
+uses separate storage from the previous page-view metric; it never adds page
+views to requests. It stays hidden until the first complete backfill. Staging
+cannot sync production analytics.
 
-Cloudflare figures can be sampled and omit blocked/missed beacons. They represent
-recorded views since tracking began, not a guaranteed census of every visitor.
+After the Git-based release, verify the first successful cron and check
+`/api/auction.totalRequests` against Cloudflare's zone request totals. Analytics
+processing and the five-minute schedule mean this is not a per-request live ticker.

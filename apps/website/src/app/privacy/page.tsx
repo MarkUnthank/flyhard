@@ -55,9 +55,10 @@ export default function Privacy() {
         them after two minutes. Hosting providers may retain operational logs
         under their own policies. The online counter counts active browser
         connections, not identifiable people. Cloudflare Web Analytics measures
-        page views without analytics cookies. We retain daily aggregate view
-        counts to display the historic total, excluding known bots. We do not
-        add advertising trackers or analytics cookies.
+        page views without analytics cookies. We retain daily aggregate HTTP
+        request counts to display the historic total, including requests for
+        pages, assets, and APIs, and traffic from bots. We do not add
+        advertising trackers or analytics cookies.
       </p>
       <h2>Retention and requests</h2>
       <p>

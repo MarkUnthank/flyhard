@@ -227,11 +227,11 @@ export default function AuctionSite() {
                   ? `${snapshot.online} online now`
                   : `${slots.length} spots. One tiny driver.`}
               </span>
-              {snapshot.totalViews != null && (
+              {snapshot.totalRequests != null && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <span title="Page views recorded by Cloudflare Web Analytics since tracking began; known bots excluded. Updated every five minutes.">
-                    {snapshot.totalViews.toLocaleString("en-US")} total views
+                  <span title="HTTP requests recorded by Cloudflare since launch, including pages, assets, API calls, and bots. Updated every five minutes.">
+                    {snapshot.totalRequests.toLocaleString("en-US")} total requests
                   </span>
                 </>
               )}

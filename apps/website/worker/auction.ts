@@ -1,6 +1,6 @@
 import { DurableObject } from "cloudflare:workers";
 import Stripe from "stripe";
-import { ANALYTICS_START, fetchPageViews } from "./page-views";
+import { ANALYTICS_START, fetchRequestCounts } from "./request-counts";
 import { z } from "zod";
 import { decode, encode } from "fast-png";
 import {
@@ -40,7 +40,7 @@ const DAY = 86_400_000;
 
 export class Auction extends DurableObject<Env> {
   private sql: SqlStorage;
-  private viewsWork: Promise<void> | undefined;
+  private requestsWork: Promise<void> | undefined;
   private notificationWork: Promise<void> | undefined;
   private refundWork: Promise<void> | undefined;
   private wraps: CustomWrapOrders;
@@ -63,7 +63,7 @@ export class Auction extends DurableObject<Env> {
       );
       CREATE INDEX IF NOT EXISTS credit_bid ON complimentary_credits(bid_id);
       CREATE TABLE IF NOT EXISTS uploads (token TEXT PRIMARY KEY, created_at INTEGER NOT NULL, bid_id TEXT);
-      CREATE TABLE IF NOT EXISTS page_views (day TEXT PRIMARY KEY, views INTEGER NOT NULL);
+      CREATE TABLE IF NOT EXISTS request_counts (day TEXT PRIMARY KEY, requests INTEGER NOT NULL);
       CREATE TABLE IF NOT EXISTS counters (name TEXT PRIMARY KEY, value INTEGER NOT NULL);
       INSERT OR IGNORE INTO counters VALUES ('revision', 0);
       CREATE TABLE IF NOT EXISTS limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, expires_at INTEGER NOT NULL);
@@ -199,10 +199,10 @@ export class Auction extends DurableObject<Env> {
       totalRaised: totals.total + customWrap.totalRaised,
       totalPurchases: totals.count + customWrap.soldCount,
       online: this.ctx.getWebSockets().length,
-      totalViews:
+      totalRequests:
         this.sql
           .exec<{ value: number }>(
-            "SELECT value FROM counters WHERE name = 'total_views'",
+            "SELECT value FROM counters WHERE name = 'total_requests'",
           )
           .toArray()[0]?.value ?? null,
       paymentsEnabled: Boolean(
@@ -216,26 +216,26 @@ export class Auction extends DurableObject<Env> {
     };
   }
   // Only called through the Worker binding by the five-minute cron, never a public HTTP route.
-  async syncPageViews() {
+  async syncRequestCounts() {
     if (this.env.SITE_URL !== "https://thedrivingfly.com") return;
     if (!this.env.CLOUDFLARE_ANALYTICS_TOKEN)
-      throw new Error("Missing Web Analytics token");
-    if (!this.viewsWork) {
-      this.viewsWork = this.updatePageViews().finally(() => {
-        this.viewsWork = undefined;
+      throw new Error("Missing analytics token");
+    if (!this.requestsWork) {
+      this.requestsWork = this.updateRequestCounts().finally(() => {
+        this.requestsWork = undefined;
       });
     }
-    return this.viewsWork;
+    return this.requestsWork;
   }
-  private async updatePageViews() {
+  private async updateRequestCounts() {
     const now = Date.now();
     const through =
       this.sql
         .exec<{ value: number }>(
-          "SELECT value FROM counters WHERE name = 'views_synced_through'",
+          "SELECT value FROM counters WHERE name = 'requests_synced_through'",
         )
         .toArray()[0]?.value ?? ANALYTICS_START;
-    // Re-query two completed UTC days for delayed beacons. Older daily totals stay durable.
+    // Re-query two completed UTC days for delayed analytics. Older daily totals stay durable.
     let from = Math.max(
       ANALYTICS_START,
       Math.floor(through / DAY) * DAY - 2 * DAY,
@@ -243,26 +243,26 @@ export class Auction extends DurableObject<Env> {
     // Bounded catch-up, without skipping missing history after an outage.
     for (let batch = 0; batch < 4 && from < now; batch++) {
       const to = Math.min(from + 7 * DAY, now);
-      const days = await fetchPageViews(
+      const days = await fetchRequestCounts(
         this.env.CLOUDFLARE_ANALYTICS_TOKEN!,
         from,
         to,
       );
       this.ctx.storage.transactionSync(() => {
-        for (const [day, views] of days)
+        for (const [day, requests] of days)
           this.sql.exec(
-            "INSERT INTO page_views VALUES (?, ?) ON CONFLICT(day) DO UPDATE SET views = excluded.views",
+            "INSERT INTO request_counts VALUES (?, ?) ON CONFLICT(day) DO UPDATE SET requests = excluded.requests",
             day,
-            views,
+            requests,
           );
         this.sql.exec(
-          "INSERT OR REPLACE INTO counters VALUES ('views_synced_through', ?)",
+          "INSERT OR REPLACE INTO counters VALUES ('requests_synced_through', ?)",
           to,
         );
         // Never publish an incomplete backfill or replace a good total with a failed query.
         if (to === now)
           this.sql.exec(
-            "INSERT OR REPLACE INTO counters SELECT 'total_views', COALESCE(SUM(views), 0) FROM page_views",
+            "INSERT OR REPLACE INTO counters SELECT 'total_requests', COALESCE(SUM(requests), 0) FROM request_counts",
           );
       });
       from = to;
