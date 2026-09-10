@@ -123,6 +123,13 @@ released under CC0. The original recording, source URL, license and checksum are
 in `assets/audio`. A recorded attack and a crossfaded segment of the real steady
 horn sustain longer physical presses. No oscillator creates the horn sound.
 
+Touching or overlapping measured press spans are merged at sample boundaries
+before laying out the recording, so an edit within a continuous hold does not
+introduce a fresh horn attack. `scripts/remux_dynamic_horn_audio.py` can finalize
+audio while copying the compressed picture stream unchanged. It still requires
+a fresh live-livery export and refuses reuse if the revision, layout, texture or
+panel checksums differ. A changed sponsor requires a fresh visual render.
+
 Retain CARLA 0.9.16 / CVC / Universitat Autònoma de Barcelona, MaleCNS / Janelia,
 and NeuroMechFly / FlyGym / EPFL credits. Sponsor artwork remains the property of
 its owners and is not relicensed under the software license.

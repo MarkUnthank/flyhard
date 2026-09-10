@@ -1,0 +1,121 @@
+{
+  "status": "verified",
+  "video": "Flyhard-horn-etiquette.mp4",
+  "sha256": "8ef75db167044b8071f3c304158c5651cbfab2bda0d29d02d9f56fdb72ce176b",
+  "full_decode": "passed",
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "frames": 2250,
+  "duration_seconds": 37.5,
+  "native_source_frames": 3180,
+  "source_camera_frames_consecutive": true,
+  "max_clock_error_seconds": 6.257768134787511e-07,
+  "interior_frames": 250,
+  "checkpoint_sha256": "b529a3623a42bf1b34fe9ccc42e6d1839bcbe5d1878ec53d49fd50888e4e8f88",
+  "behaviour_scores": {
+    "runs/dynamic-empty-final": {
+      "kind": "empty",
+      "beep_count": 1,
+      "beep_onsets_seconds": [
+        5.033333595842123
+      ],
+      "pressed_seconds": 0.08333333333333333,
+      "distance_m": 40.37875861735856,
+      "peak_speed_m_s": 6.038787841796875,
+      "longest_hold_seconds": 0.08333333333333333,
+      "red_stop_frames": 50,
+      "green_time": 4.866666920483112,
+      "moving_after_green": true,
+      "collision_free_claim": false,
+      "passed": false
+    },
+    "runs/dynamic-arrive-green-final": {
+      "kind": "arrive_green",
+      "beep_count": 0,
+      "beep_onsets_seconds": [],
+      "pressed_seconds": 0.0,
+      "distance_m": 36.745523777883186,
+      "peak_speed_m_s": 6.0180463790893555,
+      "longest_hold_seconds": 0.0,
+      "red_stop_frames": 0,
+      "green_time": 0.01666666753590107,
+      "moving_after_green": true,
+      "collision_free_claim": false,
+      "passed": true
+    },
+    "runs/dynamic-cut-in-cross-signal-fixed": {
+      "kind": "cut_in_cross",
+      "beep_count": 3,
+      "beep_onsets_seconds": [
+        6.516667006537318,
+        6.716667016968131,
+        7.416667053475976
+      ],
+      "pressed_seconds": 2.2,
+      "distance_m": 66.55228772320142,
+      "peak_speed_m_s": 6.062478065490723,
+      "longest_hold_seconds": 2.0,
+      "red_stop_frames": 0,
+      "green_time": 0.01666666753590107,
+      "moving_after_green": true,
+      "collision_free_claim": false,
+      "lead_entry_seconds": [
+        6.3500003311783075
+      ],
+      "maximum_brake": 0.0,
+      "passed": true
+    },
+    "runs/dynamic-cut-in-t-signal-fixed": {
+      "kind": "cut_in_t",
+      "beep_count": 2,
+      "beep_onsets_seconds": [
+        5.6166669595986605,
+        6.116666985675693
+      ],
+      "pressed_seconds": 2.8666666666666667,
+      "distance_m": 66.64425739745434,
+      "peak_speed_m_s": 6.032169342041016,
+      "longest_hold_seconds": 2.466666666666667,
+      "red_stop_frames": 0,
+      "green_time": 0.01666666753590107,
+      "moving_after_green": true,
+      "collision_free_claim": false,
+      "lead_entry_seconds": [
+        5.466666951775551
+      ],
+      "maximum_brake": 0.0,
+      "passed": true
+    },
+    "runs/dynamic-wait-green-final": {
+      "kind": "wait_green",
+      "beep_count": 1,
+      "beep_onsets_seconds": [
+        6.416667001321912
+      ],
+      "pressed_seconds": 0.5166666666666667,
+      "distance_m": 29.475997824942368,
+      "peak_speed_m_s": 6.031451225280762,
+      "longest_hold_seconds": 0.5166666666666667,
+      "red_stop_frames": 110,
+      "green_time": 6.300000328570604,
+      "moving_after_green": true,
+      "collision_free_claim": false,
+      "reaction_seconds": 0.11666667275130749,
+      "passed": true
+    }
+  },
+  "audio_silent_outside_measured_press": true,
+  "recorded_audio_source": {
+    "title": "05 Horn.wav",
+    "author": "15HPanska_Ruttner_Jan",
+    "source": "https://freesound.org/people/15HPanska_Ruttner_Jan/sounds/461679/",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Car_Horn.wav",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "f44a161267e00c374ea6670292e70491e18f7c49a9448fc3a96960525adcfeb6",
+    "recorded": "2019-02-28"
+  },
+  "livery_revision": 21,
+  "livery_layout": 5
+}

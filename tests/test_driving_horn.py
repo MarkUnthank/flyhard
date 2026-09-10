@@ -61,6 +61,14 @@ def test_real_recording_audio_follows_measured_hold_and_stays_silent_elsewhere(t
     assert not pcm[182400:].any()
 
 
+def test_adjacent_edit_segments_do_not_restart_a_continuous_horn(tmp_path):
+    split=tmp_path/'split.wav';continuous=tmp_path/'continuous.wav'
+    result=write_horn_audio(split,[(.1,.3),(.3,.5)],.7)
+    write_horn_audio(continuous,[(.1,.5)],.7)
+    assert split.read_bytes()==continuous.read_bytes()
+    assert result['intervals']==[[.1,.5]]
+
+
 def test_resume_replaces_expired_timer_and_rejects_ambiguous_startup(monkeypatch):
     import sys
     monkeypatch.syspath_prepend(str(Path(__file__).parents[1]/'scripts'))

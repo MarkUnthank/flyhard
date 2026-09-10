@@ -23,16 +23,8 @@ def write_horn_audio(path, intervals, duration, sample_rate=48000):
     fade=round(.012*rate)
     ramp=np.linspace(0,1,fade)[:,None]
     sound=np.zeros((round(duration*rate),2),np.float64)
-    spans=[]
-    for start,end in sorted(intervals):
-        a=max(0,round(start*rate));b=min(len(sound),round(end*rate))
-        if b<=a:continue
-        if spans and a<=spans[-1][1]:spans[-1][1]=max(spans[-1][1],b)
-        else:spans.append([a,b])
-    # Adjacent edit segments can retain one continuous measured press. Do not
-    # introduce a fresh attack or a silent dip merely because the camera cut.
-    for a,b in spans:
-        length=b-a
+    for start,end in intervals:
+        a=max(0,round(start*rate));b=min(len(sound),round(end*rate));length=b-a
         if length<=0:continue
         clip=attack.copy()
         while len(clip)<length+fade:
@@ -49,5 +41,4 @@ def write_horn_audio(path, intervals, duration, sample_rate=48000):
     with wave.open(str(path),'wb') as f:
         f.setnchannels(2);f.setsampwidth(2);f.setframerate(rate);f.writeframes(pcm.tobytes())
     return {'source':metadata,'sample_rate':rate,'samples':len(sound),'duration_seconds':len(sound)/rate,
-            'intervals':[[a/rate,b/rate] for a,b in spans],
-            'editing':'Recorded attack and crossfaded steady recording; gated exclusively by measured button travel; touching edit spans retain one continuous horn'}
+            'intervals':intervals,'editing':'Recorded attack and crossfaded steady recording; gated exclusively by measured button travel'}
