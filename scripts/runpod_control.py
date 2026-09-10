@@ -31,9 +31,14 @@ class RunpodError(RuntimeError):
 def api_key():
     if os.environ.get("RUNPOD_API_KEY"):
         return os.environ["RUNPOD_API_KEY"]
-    for line in (ROOT / ".env").read_text().splitlines():
+    env_file = ROOT / ".env"
+    lines = env_file.read_text().splitlines() if env_file.exists() else []
+    for line in lines:
         if line.strip().startswith("RUNPOD_API_KEY="):
-            return shlex.split(line.split("=", 1)[1], comments=True)[0]
+            # .env.example ships the key blank; treat that as missing.
+            values = shlex.split(line.split("=", 1)[1], comments=True)
+            if values:
+                return values[0]
     raise RuntimeError("RUNPOD_API_KEY missing")
 
 
