@@ -1,0 +1,59 @@
+apps/website/src/app/globals.css
+  ai_agent 1408-1462
+apps/website/src/components/auction-site.tsx
+  ai_agent 114,314,316,332-333
+apps/website/README.md
+  s_30dd7cdd84a7a5::t_64db8a9db8a328 90
+apps/website/worker/env.ts
+  ai_agent 12
+apps/website/RECOVERY.md
+  s_30dd7cdd84a7a5::t_9122372b84a625 28-31
+  s_30dd7cdd84a7a5::t_02bfb9378e467c 1-27
+apps/website/tests/auction.test.ts
+  s_30dd7cdd84a7a5::t_41a0f498c823c0 153,817-874,876-912
+  s_30dd7cdd84a7a5::t_64db8a9db8a328 528-529,875
+apps/mini-livery/layout.json
+  ai_agent 2,54-55,57-59,61-63,89-97
+apps/website/worker/auction.ts
+  ai_agent 3,56-60,120-131,138-141,180,207-272,303-304,635,801
+apps/website/scripts/grant-credit.mjs
+  ai_agent 1-54
+apps/website/src/app/layout.tsx
+  s_30dd7cdd84a7a5::t_41a0f498c823c0 29,36,52
+apps/mini-livery/layout-checks.json
+  ai_agent 32-36
+apps/mini-livery/rebuild-layout.py
+  ai_agent 81-103,189
+apps/website/scripts/build-social.mjs
+  ai_agent 1-31
+apps/website/src/components/car-viewer.tsx
+  ai_agent 13,29,136,145-152,232-233,240,374-377,391-398,639,650-656,773
+apps/website/src/lib/auction.ts
+  ai_agent 15-16
+apps/mini-livery/README.md
+  s_30dd7cdd84a7a5::t_41a0f498c823c0 3-5
+apps/mini-livery/ad-spaces.json
+  ai_agent 960,962,964-965,968-970,972,1013-1014,1023-1031
+apps/website/tests/model-assets.test.ts
+  s_30dd7cdd84a7a5::t_02bfb9378e467c 10-11
+apps/website/COMPLIMENTARY-CREDITS.md
+  ai_agent 1-19
+apps/website/src/components/bid-dialog.tsx
+  s_30dd7cdd84a7a5::t_64db8a9db8a328 32,64-71,285,290-292,325-365
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "47e86d38a2a6e8ccd29b0155405a2a966f3694f5",
+  "prompts": {},
+  "sessions": {
+    "s_30dd7cdd84a7a5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08ac9-f5b9-7e01-b19f-00bd604f78a1",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
