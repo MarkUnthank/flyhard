@@ -6,7 +6,7 @@ The package is separate from the spot auction. Buying it does not replace existi
 
 ## Purchase notifications
 
-Production uses `CUSTOM_WRAP_EMAIL_TO=mark@reallynice.company`. Messages come from the existing `OUTBID_EMAIL_FROM` sender through the `EMAIL` binding. The operator alert contains the order number, amount paid, buyer email, brand/project name, deliverables, and a Stripe payment link.
+Production uses `CUSTOM_WRAP_EMAIL_TO=mark@reallynice.company`. Buyer confirmations and operator alerts come from **The Driving Fly <mark@reallynice.company>**, configured through `OUTBID_EMAIL_FROM` and the `EMAIL` binding. Replies reach Mark's existing mailbox. The operator alert contains the order number, amount paid, buyer email, brand/project name, deliverables, and a Stripe payment link. Sender authentication is documented in [OUTBID-NOTIFICATIONS.md](OUTBID-NOTIFICATIONS.md#configuration).
 
 The buyer receives a separate welcome email at their verified Stripe Checkout email. It confirms their payment and two videos, asks them to [book a meeting with Mark ASAP](https://cal.com/mark-unthank/meeting), links the [Mini's paint texture on GitHub](https://github.com/MarkUnthank/flyhard/blob/main/apps/mini-livery/custom-wrap/M_Bodywork_Mini2021_d.png), and encourages them to vibe, sketch, or start designing before the call. Replies go to the operator. Both HTML and plain-text versions contain the links. The texture is extracted unchanged from the original packed Blender asset; the adjacent design guide includes attribution and the editable model.
 
