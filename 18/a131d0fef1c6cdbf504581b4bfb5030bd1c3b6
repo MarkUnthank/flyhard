@@ -1,0 +1,72 @@
+apps/website/worker/env.ts
+  s_7d70d58a0d1841::t_5c4fe516b5488a 1-4
+  s_7d70d58a0d1841::t_d04f3d54d06979 9-10
+apps/website/wrangler.dev.jsonc
+  s_7d70d58a0d1841::t_7fd77d506ca7b9 7-11
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 12-17
+apps/website/src/components/custom-wrap-offer.module.css
+  s_7d70d58a0d1841::t_7fd77d506ca7b9 1-9,18-26,29-38,46-47,51,70-82,101-102,110-111,123,178-187,307,317-318,384-385,393
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 10-17,27-28,39-45,48-50,52-69,83-100,103-109,112-122,124-177,188-306,308-316,319-383,386-392
+apps/website/CUSTOM-WRAPS.md
+  s_7d70d58a0d1841::t_cf01cbca4f28ad 1-35
+  ai_agent 36-40
+apps/website/scripts/stripe-listen.mjs
+  s_7d70d58a0d1841::t_b74c62f4887388 20
+apps/website/src/components/custom-wrap-offer.tsx
+  s_7d70d58a0d1841::t_7fd77d506ca7b9 1-8,14-27,37-61,67-70,77-83,88,93-95,100-111,119,121-122,126-128,134-137,141-144,151-154,163-165,182-185,192,205,211,215,242-245,267,278-282
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 9-13,28-36,62-66,71,73-76,84-87,89-92,96-99,112-118,120,123-125,129-133,138-140,145-150,155-162,166-181,186-191,193-204,206-210,212-214,216-241,246-266,268-277
+  s_7d70d58a0d1841::t_5e4aeeebc3a6dc 72
+apps/website/next.config.ts
+  s_7d70d58a0d1841::t_0b29c61d05deeb 10
+apps/website/src/components/auction-site.tsx
+  s_7d70d58a0d1841::t_7fd77d506ca7b9 29,119,339
+apps/website/wrangler.jsonc
+  s_7d70d58a0d1841::t_7fd77d506ca7b9 23,47
+apps/website/README.md
+  s_7d70d58a0d1841::t_5c4fe516b5488a 35-39,42,45
+  s_7d70d58a0d1841::t_cf01cbca4f28ad 62-65
+apps/website/worker/custom-wrap.ts
+  s_7d70d58a0d1841::t_d04f3d54d06979 1-74,77-81,86-90,98-102,107,110-112,129-130,135-138,143,147-149,168,189,197-198,203-207,213,220-221,228,234-236,243,255,260-262,269-270,277-280,285-288,295-302,308-309,313-314,319-321,327-336,340,346-347,353-355,375,384-389,393-401,406-408,411-414,427-431
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 75-76,82-85,91-97,103-106,108-109,113-128,131-134,139-142,144-146,150-167,169-188,190-196,199-202,208-212,214-219,222-227,229-233,237-242,244-254,256-259,263-265,271-276,281-284,289-294,303-307,310-312,315-318,322-326,337-339,341-345,348-352,356-374,376-383,390-392,402-405,409-410,415-426
+  s_7d70d58a0d1841::t_0b29c61d05deeb 266-268
+apps/website/worker/auction.ts
+  s_7d70d58a0d1841::t_d04f3d54d06979 17,44,350-353,609-610,919,968
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 99-105,108-114
+  s_7d70d58a0d1841::t_0b29c61d05deeb 178,195-197
+apps/website/src/app/privacy/page.tsx
+  s_7d70d58a0d1841::t_0b29c61d05deeb 40-50
+apps/website/src/app/terms/page.tsx
+  s_7d70d58a0d1841::t_0b29c61d05deeb 10,16-32,35-41
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 33-34
+apps/website/src/lib/custom-wrap.ts
+  s_7d70d58a0d1841::t_d04f3d54d06979 1-22
+apps/website/src/components/site-header.tsx
+  s_7d70d58a0d1841::t_7fd77d506ca7b9 20
+apps/website/tests/auction.test.ts
+  s_7d70d58a0d1841::t_0b29c61d05deeb 30,45,89,101,107,168
+  s_7d70d58a0d1841::t_b5db0a6f63b9fa 102-106,108-110
+  s_7d70d58a0d1841::t_e5be950bc3ee7e 926-1153,1158-1250
+  s_7d70d58a0d1841::t_5e4aeeebc3a6dc 1154-1155,1157
+apps/website/worker-configuration.d.ts
+  s_7d70d58a0d1841::t_065114fc4822ac 2,9,13,26,38
+apps/website/tests/fixtures/auction-worker.ts
+  s_7d70d58a0d1841::t_0b29c61d05deeb 20-23
+apps/website/src/lib/auction.ts
+  s_7d70d58a0d1841::t_d04f3d54d06979 3,57,70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "18a131d0fef1c6cdbf504581b4bfb5030bd1c3b6",
+  "prompts": {},
+  "sessions": {
+    "s_7d70d58a0d1841": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b0e-7c66-7260-8541-8384f02a3b25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
