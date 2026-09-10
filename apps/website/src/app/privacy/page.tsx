@@ -13,6 +13,12 @@ export default function Privacy() {
         provide to deliver your advertising placement and manage the live
         auction.
       </p>
+      <p>
+        This browser stores private checkout references so you can return after
+        payment to finish your brand details and artwork. Keep completion links
+        private: they provide access to that purchase’s unpublished details
+        form.
+      </p>
       <h2>What becomes public</h2>
       <p>
         Your submitted brand name, message, website, artwork, winning bid, and

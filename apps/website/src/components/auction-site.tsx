@@ -18,6 +18,8 @@ import {
   rankPlacements,
   type Slot,
   type AuctionSnapshot,
+  type CheckoutConfirmation,
+  slots as allSlots,
 } from "@/lib/auction";
 import { useAuction } from "./use-auction";
 import FlyMark from "./fly-mark";
@@ -26,6 +28,11 @@ import SiteHeader from "./site-header";
 import SiteFooter from "./site-footer";
 import HistoricalBids from "./historical-bids";
 import BidDialog from "./bid-dialog";
+import {
+  savedCheckouts,
+  rememberCheckout,
+  forgetCheckout,
+} from "@/lib/checkout-recovery";
 import CustomWrapOffer from "./custom-wrap-offer";
 import type { View } from "./car-viewer";
 
@@ -54,7 +61,7 @@ const faqs = [
   ],
   [
     "What happens when someone outbids me?",
-    "Their artwork replaces yours when their payment is confirmed. We’ll email your Stripe checkout address with a link to bid again. Your brand remains in the recent supporter history. A placement that has already gone live isn’t refunded just because it is outbid.",
+    "Their artwork replaces yours once they have paid and published their details. We’ll email your Stripe checkout address with a link to bid again. Your brand remains in the recent supporter history. A placement that has already gone live isn’t refunded just because it is outbid.",
   ],
   [
     "What if two people pay at the same time?",
@@ -66,7 +73,7 @@ const faqs = [
   ],
   [
     "What can I put on my spot?",
-    "A logo, project, or original design you have permission to use. Upload a PNG, JPG, or WebP, choose its background, and check the preview before paying. Illegal, hateful, explicit, misleading, or infringing ads can be removed under the placement terms.",
+    "A logo, project, or original design you have permission to use. Upload a PNG, JPG, or WebP, choose its background, and check the preview after payment, before publishing your spot. Illegal, hateful, explicit, misleading, or infringing ads can be removed under the placement terms.",
   ],
   ["Is this a joke?", "100% yes."],
   ["Is this joke funny?", "Not in the slightest."],
@@ -79,6 +86,15 @@ export default function AuctionSite() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Slot | null>(null);
   const [status, setStatus] = useState("");
+  const [purchases, setPurchases] = useState<
+    ({ sessionId: string } & CheckoutConfirmation)[]
+  >([]);
+  const [editingPurchase, setEditingPurchase] = useState<
+    ({ sessionId: string } & CheckoutConfirmation) | null
+  >(null);
+  const [initialAmount, setInitialAmount] = useState<number>();
+  const [checkoutRetry, setCheckoutRetry] = useState(0);
+  const [canRetryCheckout, setCanRetryCheckout] = useState(false);
   const [sort, setSort] = useState("price");
   const [showAll, setShowAll] = useState(false);
   const slots = useMemo(
@@ -117,70 +133,136 @@ export default function AuctionSite() {
   const fundingLabel = `${Number(fundingPercent.toFixed(1))}%`;
   const view = manualView ?? "perspective";
 
+  const paymentMessages: Partial<
+    Record<CheckoutConfirmation["status"], string>
+  > = {
+    won: "You’re on the car. Your payment is confirmed and your artwork is live.",
+    outbid:
+      "Your artwork went live, and another supporter has since outbid you. Thank you for being part of the experiment.",
+    refund_pending:
+      "Someone beat your bid before your ad went live. We’re arranging a full refund.",
+    refunded:
+      "Someone beat your bid before your ad went live. Your payment has been refunded.",
+    expired:
+      "This checkout has expired. You can start a new bid whenever you’re ready.",
+  };
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.has("wrap")) return;
-    if (params.get("checkout") === "cancelled") {
-      setStatus("Checkout cancelled. Your card has not been charged.");
-      return;
-    }
-    const sessionId = params.get("session_id");
-    if (!sessionId) return;
+    const wasCancelled = params.get("checkout") === "cancelled";
+    if (wasCancelled)
+      setStatus("Checkout cancelled. You can update your bid and try again.");
+    const returnSession = params.get("session_id");
+    if (returnSession) rememberCheckout(returnSession);
+    const sessionIds = [
+      ...new Set([
+        ...(returnSession ? [returnSession] : []),
+        ...savedCheckouts(),
+      ]),
+    ];
     let cancelled = false;
-    let timer: ReturnType<typeof setTimeout>;
-    let attempts = 0;
-    const confirm = async () => {
-      setStatus(
-        "Checking your payment. Your artwork will appear as soon as it’s confirmed…",
-      );
+    let opened = false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    setCanRetryCheckout(false);
+    const confirm = async (sessionId: string, attempts = 0) => {
+      if (sessionId === returnSession && attempts === 0)
+        setStatus("Checking your payment with Stripe…");
       try {
         const response = await fetch("/api/checkout/confirm", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sessionId }),
         });
-        const data = (await response.json()) as {
+        const data = (await response.json()) as CheckoutConfirmation & {
           error?: string;
-          status: string;
-          snapshot: AuctionSnapshot;
         };
         if (cancelled) return;
-        if (!response.ok) throw new Error(data.error);
+        if (!response.ok) {
+          if (response.status === 404 || response.status === 400) {
+            forgetCheckout(sessionId);
+            if (sessionId !== returnSession) return;
+          }
+          throw new Error(data.error);
+        }
         accept(data.snapshot);
-        const messages: Record<string, string> = {
-          won: "You’re on the car. Your payment is confirmed and your artwork is live.",
-          outbid:
-            "Your artwork went live, and another supporter has since outbid you. Thank you for being part of the experiment.",
-          refund_pending:
-            "Someone beat your bid before your ad went live. A full refund has been requested.",
-          refunded:
-            "Someone beat your bid before your ad went live. Your payment has been refunded.",
-          expired:
-            "This checkout has expired. You can start a new bid whenever you’re ready.",
-        };
-        if (messages[data.status]) {
-          setStatus(messages[data.status]);
-          history.replaceState({}, "", "/#live-auction");
-        } else if (++attempts < 20) timer = setTimeout(confirm, 3000);
-        else
+        if (data.status === "awaiting_details") {
+          const purchase = { ...data, sessionId };
+          setPurchases((previous) => [
+            ...previous.filter((item) => item.sessionId !== sessionId),
+            purchase,
+          ]);
+          if (!opened && !wasCancelled) {
+            opened = true;
+            setSelected(null);
+            setEditingPurchase(purchase);
+          }
           setStatus(
-            "Your payment is still being checked. You can close this page; confirmed payments publish automatically.",
+            "Payment received. Add your brand and artwork to publish your spot.",
           );
+        } else if (data.status === "pending") {
+          if (sessionId !== returnSession) return;
+          if (attempts < 19)
+            timers.push(
+              setTimeout(() => void confirm(sessionId, attempts + 1), 3000),
+            );
+          else if (sessionId === returnSession) {
+            setStatus(
+              "Your payment is still being checked. Try again to continue to your details.",
+            );
+            setCanRetryCheckout(true);
+          }
+        } else {
+          setPurchases((previous) =>
+            previous.filter((item) => item.sessionId !== sessionId),
+          );
+          if (data.status !== "refund_pending") forgetCheckout(sessionId);
+          if (
+            sessionId === returnSession ||
+            data.status === "refund_pending" ||
+            data.status === "refunded"
+          ) {
+            setStatus(paymentMessages[data.status] || "Payment checked.");
+            if (data.status !== "refund_pending")
+              history.replaceState({}, "", "/#live-auction");
+          }
+        }
       } catch {
-        if (!cancelled)
+        if (!cancelled) {
           setStatus(
-            "We couldn’t check the payment yet. Keep your checkout receipt; confirmed payments are processed automatically.",
+            "We couldn’t check your payment yet. Try again to continue. You won’t be charged again.",
           );
+          setCanRetryCheckout(true);
+        }
       }
     };
-    void confirm();
+    // Check each saved payment independently, including a payment whose browser
+    // never made it back from Stripe. No new checkout is created by recovery.
+    void (async () => {
+      for (const sessionId of sessionIds) {
+        if (cancelled) break;
+        await confirm(sessionId);
+      }
+    })();
     return () => {
       cancelled = true;
-      clearTimeout(timer);
+      timers.forEach(clearTimeout);
     };
-    // The return URL only asks the server to check payment; it never grants a spot.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [checkoutRetry]);
+
+  function finishPurchase(result: CheckoutConfirmation) {
+    accept(result.snapshot);
+    if (editingPurchase) {
+      const { sessionId } = editingPurchase;
+      if (result.status !== "refund_pending") forgetCheckout(sessionId);
+      setPurchases((previous) =>
+        previous.filter((item) => item.sessionId !== sessionId),
+      );
+    }
+    setEditingPurchase(null);
+    setStatus(paymentMessages[result.status] || "Your spot has been saved.");
+    history.replaceState({}, "", "/#live-auction");
+  }
   const openedEmailSpot = useRef(false);
   useEffect(() => {
     if (!loaded || openedEmailSpot.current) return;
@@ -188,13 +270,20 @@ export default function AuctionSite() {
     const url = new URL(location.href);
     const slot = slots.find((s) => s.id === url.searchParams.get("spot"));
     if (slot) {
+      const amount = Number(url.searchParams.get("amount"));
+      if (Number.isSafeInteger(amount) && amount >= 100 && amount <= 99_999_999)
+        setInitialAmount(amount);
       setSelected(slot);
       url.searchParams.delete("spot");
+      url.searchParams.delete("amount");
+      if (url.searchParams.get("checkout") === "cancelled")
+        url.searchParams.delete("checkout");
       history.replaceState({}, "", url.pathname + url.search + "#live-auction");
     }
   }, [loaded, slots]);
 
   function choose(id: string) {
+    setInitialAmount(undefined);
     const slot = slots.find((s) => s.id === id);
     if (slot) {
       setSelected(slot);
@@ -276,7 +365,9 @@ export default function AuctionSite() {
             <div className="funding-progress-label">
               <span>{money(fundingTarget)} experiment goal</span>
               <strong>
-                {loaded ? `${fundingPercent >= 100 ? "Goal reached · " : ""}${fundingLabel}` : "—"}
+                {loaded
+                  ? `${fundingPercent >= 100 ? "Goal reached · " : ""}${fundingLabel}`
+                  : "—"}
               </strong>
             </div>
             <div
@@ -286,9 +377,17 @@ export default function AuctionSite() {
               aria-valuemin={0}
               aria-valuemax={100}
               aria-valuenow={loaded ? Math.min(100, fundingPercent) : undefined}
-              aria-valuetext={loaded ? `${money(snapshot.totalRaised)} raised of ${money(fundingTarget)} goal, ${fundingLabel}` : "Loading funding progress"}
+              aria-valuetext={
+                loaded
+                  ? `${money(snapshot.totalRaised)} raised of ${money(fundingTarget)} goal, ${fundingLabel}`
+                  : "Loading funding progress"
+              }
             >
-              <div style={{ width: `${loaded ? Math.min(100, fundingPercent) : 0}%` }} />
+              <div
+                style={{
+                  width: `${loaded ? Math.min(100, fundingPercent) : 0}%`,
+                }}
+              />
             </div>
           </div>
           <div
@@ -318,7 +417,9 @@ export default function AuctionSite() {
               </span>
             ) : (
               <span>
-                {loaded ? "Drag to take a closer look." : "Loading the live livery…"}
+                {loaded
+                  ? "Drag to take a closer look."
+                  : "Loading the live livery…"}
               </span>
             )}
           </div>
@@ -346,8 +447,10 @@ export default function AuctionSite() {
             </a>
           </div>
           <p className="hero-footnote">
-            Six legs. One steering wheel. A questionable business model.
-            {" "}<a className="text-link" href="/media">Watch the fly <ArrowDown size={13} /></a>
+            Six legs. One steering wheel. A questionable business model.{" "}
+            <a className="text-link" href="/media">
+              Watch the fly <ArrowDown size={13} />
+            </a>
           </p>
         </section>
 
@@ -372,6 +475,38 @@ export default function AuctionSite() {
               Outbid the current owner by $1 or more
             </span>
           </div>
+          {purchases.length > 0 && (
+            <div
+              className="checkout-resume"
+              aria-label="Finish your paid spots"
+            >
+              <div>
+                <strong>Your payment is saved.</strong>
+                <p>Add your details when you’re ready to go live.</p>
+              </div>
+              {purchases.map((purchase) => (
+                <button
+                  key={purchase.sessionId}
+                  className="primary"
+                  onClick={() => {
+                    setSelected(null);
+                    setEditingPurchase(purchase);
+                  }}
+                >
+                  Finish spot {purchase.slotId.slice(3)}{" "}
+                  <ArrowUpRight size={16} />
+                </button>
+              ))}
+            </div>
+          )}
+          {canRetryCheckout && (
+            <button
+              className="secondary"
+              onClick={() => setCheckoutRetry((value) => value + 1)}
+            >
+              Check payment again
+            </button>
+          )}
           {status && (
             <div className="payment-status" role="status">
               <Check size={19} />
@@ -553,9 +688,7 @@ export default function AuctionSite() {
             </span>
             {filter === "all" && !query && (
               <button onClick={() => setShowAll(!showAll)}>
-                {showAll
-                  ? "Show fewer spots"
-                  : `See all ${slots.length} spots`}
+                {showAll ? "Show fewer spots" : `See all ${slots.length} spots`}
                 <ChevronDown
                   size={15}
                   style={{ transform: showAll ? "rotate(180deg)" : undefined }}
@@ -585,12 +718,12 @@ export default function AuctionSite() {
               [
                 "02",
                 "Put your money where your logo is.",
-                "Upload your artwork and bid at least $1 above the current owner. Pay once through Stripe. That’s your whole commitment.",
+                "Choose a bid at least $1 above the current owner, then pay once through Stripe. You’ll add your brand and artwork when you return.",
               ],
               [
                 "03",
-                "Ride until you’re outbid.",
-                "Your artwork goes live automatically after payment. It stays until someone pays more. No countdown. The auction never parks.",
+                "Add your details. Take your spot.",
+                "Add your brand, website, and artwork. Preview it on the car, then publish. Your ad stays until a higher paid bid publishes its artwork.",
               ],
             ].map(([number, title, body]) => (
               <div key={number}>
@@ -674,11 +807,24 @@ export default function AuctionSite() {
         </section>
       </main>
       <SiteFooter />
-      {selected && (
+      {editingPurchase &&
+        allSlots.some((slot) => slot.id === editingPurchase.slotId) && (
+          <BidDialog
+            key={editingPurchase.sessionId}
+            slot={allSlots.find((slot) => slot.id === editingPurchase.slotId)!}
+            snapshot={snapshot}
+            purchase={editingPurchase}
+            onComplete={finishPurchase}
+            onClose={() => setEditingPurchase(null)}
+          />
+        )}
+      {selected && !editingPurchase && (
         <BidDialog
           key={selected.id}
           slot={selected}
           snapshot={snapshot}
+          initialAmount={initialAmount}
+          onComplete={finishPurchase}
           onClose={() => setSelected(null)}
         />
       )}

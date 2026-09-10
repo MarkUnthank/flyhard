@@ -104,6 +104,15 @@ export const bidSchema = z.object({
       "Choose a valid spot.",
     ),
   amount: z.number().int().min(100).max(99_999_999),
+  acceptedTerms: z.literal(true),
+});
+export const checkoutSessionSchema = z.object({
+  sessionId: z
+    .string()
+    .max(250)
+    .regex(/^cs_(test_|live_)?[A-Za-z0-9]+$/),
+});
+export const placementDetailsSchema = checkoutSessionSchema.extend({
   brand: z.string().trim().min(1).max(60),
   message: z.string().trim().max(140),
   url: z
@@ -118,3 +127,16 @@ export const bidSchema = z.object({
   acceptedTerms: z.literal(true),
 });
 export type BidInput = z.infer<typeof bidSchema>;
+export type CheckoutConfirmation = {
+  status:
+    | "pending"
+    | "awaiting_details"
+    | "won"
+    | "outbid"
+    | "refund_pending"
+    | "refunded"
+    | "expired";
+  slotId: string;
+  amount: number;
+  snapshot: AuctionSnapshot;
+};

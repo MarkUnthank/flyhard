@@ -50,11 +50,15 @@ export default function Terms() {
       </p>
       <h2>When your placement starts and ends</h2>
       <p>
-        Your artwork is published after the server verifies successful payment.
-        It stays until a higher successful payment replaces it. There is no
-        guaranteed minimum display time, audience, number of impressions,
-        clicks, or appearance in project videos. Previous advertisers may remain
-        in public supporter history.
+        Choose your bid and pay first, then return to add your brand, website,
+        and artwork. Your artwork goes live when you publish those details and
+        the server has verified successful payment. Until then, the current ad
+        remains live and bidding continues. You can return using your private
+        completion link or this browser to finish your paid spot. Your ad stays
+        until a higher paid bid publishes its artwork. There is no guaranteed
+        minimum display time, audience, number of impressions, clicks, or
+        appearance in project videos. Previous advertisers may remain in public
+        supporter history.
       </p>
       <h2>Simultaneous purchases and refunds</h2>
       <p>

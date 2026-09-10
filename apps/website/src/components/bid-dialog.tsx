@@ -7,10 +7,12 @@ import {
   minimumBid,
   money,
   type AuctionSnapshot,
+  type CheckoutConfirmation,
   type Slot,
 } from "@/lib/auction";
 import ArtworkEditor, { type PreparedArtwork } from "./artwork-editor";
 import type { View } from "./car-viewer";
+import { rememberCheckout } from "@/lib/checkout-recovery";
 
 const CarViewer = dynamic(() => import("./car-viewer"), {
   ssr: false,
@@ -23,17 +25,28 @@ export default function BidDialog({
   slot,
   snapshot,
   onClose,
+  purchase,
+  initialAmount,
+  onComplete,
 }: {
   slot: Slot;
   snapshot: AuctionSnapshot;
   onClose: () => void;
+  purchase?: { sessionId: string; amount: number };
+  initialAmount?: number;
+  onComplete: (result: CheckoutConfirmation) => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const bidInput = useRef<HTMLInputElement>(null);
   const current = snapshot.placements[slot.id];
   const minimum = minimumBid(current?.amount);
   const [amount, setAmount] = useState(
-    (minimum / 100).toFixed(minimum % 100 ? 2 : 0),
+    (
+      (initialAmount && initialAmount >= minimum ? initialAmount : minimum) /
+      100
+    )
+      .toFixed(2)
+      .replace(/\.00$/, ""),
   );
   const [brand, setBrand] = useState("");
   const [message, setMessage] = useState("");
@@ -44,6 +57,7 @@ export default function BidDialog({
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   const checkoutAttempt = useRef<{
     signature: string;
     requestId: string;
@@ -110,66 +124,112 @@ export default function BidDialog({
   async function submit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    if (!cents || cents < minimum) {
+    if (purchase) {
+      if (!artwork || !logo || !agreed) {
+        setError("Add your artwork and confirm you have permission to use it.");
+        return;
+      }
+    } else if (!cents || cents < minimum || cents > maximum) {
       setError(`The minimum for this spot is now ${money(minimum)}.`);
-      return;
-    }
-    if (!artwork || !logo) {
-      setError("Add your logo before continuing.");
-      return;
-    }
-    if (!agreed) {
-      setError("Please accept the placement terms.");
       return;
     }
     setBusy(true);
     try {
-      const signature = JSON.stringify([
-        slot.id,
-        cents,
-        brand.trim(),
-        message.trim(),
-        url.trim(),
-        preview,
-      ]);
+      if (purchase) {
+        const signature = JSON.stringify([
+          brand.trim(),
+          message.trim(),
+          url.trim(),
+          preview,
+        ]);
+        if (checkoutAttempt.current.signature !== signature)
+          checkoutAttempt.current = { signature, requestId: "" };
+        const attempt = checkoutAttempt.current;
+        async function upload(image: Blob) {
+          const response = await fetch("/api/artwork", {
+            method: "POST",
+            headers: { "Content-Type": "image/png" },
+            body: image,
+          });
+          const data = (await response.json()) as {
+            error?: string;
+            token: string;
+          };
+          if (!response.ok)
+            throw new Error(
+              data.error || "Artwork upload failed. Please try again.",
+            );
+          return data.token;
+        }
+        if (!attempt.token) attempt.token = await upload(artwork!);
+        if (!attempt.logoToken) attempt.logoToken = await upload(logo!);
+        const response = await fetch("/api/checkout/details", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId: purchase.sessionId,
+            brand: brand.trim(),
+            message: message.trim(),
+            url: url.trim(),
+            artworkToken: attempt.token,
+            logoToken: attempt.logoToken,
+            acceptedTerms: agreed,
+          }),
+        });
+        const data = (await response.json()) as CheckoutConfirmation & {
+          error?: string;
+        };
+        if (!response.ok) {
+          if (response.status === 409) {
+            const confirmation = await fetch("/api/checkout/confirm", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessionId: purchase.sessionId }),
+            });
+            if (confirmation.ok) {
+              const result =
+                (await confirmation.json()) as CheckoutConfirmation;
+              if (
+                ["won", "outbid", "refunded", "refund_pending"].includes(
+                  result.status,
+                )
+              ) {
+                onComplete(result);
+                return;
+              }
+            }
+          }
+          if (response.status === 400)
+            checkoutAttempt.current = { signature: "", requestId: "" };
+          throw new Error(
+            data.error || "Your details could not be saved. Please try again.",
+          );
+        }
+        onComplete(data);
+        return;
+      }
+      const signature = JSON.stringify([slot.id, cents]);
       if (checkoutAttempt.current.signature !== signature)
         checkoutAttempt.current = { signature, requestId: crypto.randomUUID() };
-      const attempt = checkoutAttempt.current;
-      async function upload(image: Blob) {
-        const response = await fetch("/api/artwork", {
-          method: "POST",
-          headers: { "Content-Type": "image/png" },
-          body: image,
-        });
-        const data = (await response.json()) as {
-          error?: string;
-          token: string;
-        };
-        if (!response.ok) throw new Error(data.error);
-        return data.token;
-      }
-      if (!attempt.token) attempt.token = await upload(artwork);
-      if (!attempt.logoToken) attempt.logoToken = await upload(logo);
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          requestId: attempt.requestId,
+          requestId: checkoutAttempt.current.requestId,
           slotId: slot.id,
           amount: cents,
-          brand: brand.trim(),
-          message: message.trim(),
-          url: url.trim(),
-          artworkToken: attempt.token,
-          logoToken: attempt.logoToken,
-          acceptedTerms: agreed,
+          acceptedTerms: true,
         }),
       });
-      const data = (await response.json()) as { error?: string; url: string };
+      const data = (await response.json()) as {
+        error?: string;
+        url: string;
+        sessionId: string;
+      };
       if (!response.ok) {
         if (response.status === 409)
           checkoutAttempt.current = { signature: "", requestId: "" };
-        throw new Error(data.error);
+        throw new Error(data.error || "Checkout failed. Please try again.");
       }
       const target = new URL(data.url);
       if (
@@ -177,16 +237,14 @@ export default function BidDialog({
         target.hostname !== "checkout.stripe.com"
       )
         throw new Error("Checkout could not be opened.");
+      rememberCheckout(data.sessionId);
       window.location.assign(target.href);
     } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : "Checkout failed. Please try again.",
-      );
+      setError(error instanceof Error ? error.message : "Please try again.");
       setBusy(false);
     }
   }
+
   return (
     <dialog
       ref={dialog}
@@ -233,7 +291,9 @@ export default function BidDialog({
             <p>
               {preview
                 ? "Your artwork, fitted to the actual spot. Only you can see this preview."
-                : "Your spot is outlined in green. Add artwork to see it on the car."}
+                : purchase
+                  ? "Your spot is outlined in green. Add artwork to see it on the car."
+                  : "Your spot is outlined in green. You’ll add your artwork after payment."}
             </p>
             <span className="spot-dimensions">
               {Math.round(slot.width_m * 100)} ×{" "}
@@ -247,207 +307,243 @@ export default function BidDialog({
             PARKING SPOT
           </div>
           <h2 id="checkout-title">{slot.name}</h2>
-          <p className="dialog-intro">A little space for your big idea.</p>
-          <div className="current-owner">
-            <span>
-              {current ? (
-                <>
-                  Currently held by <strong>{current.brand}</strong>
-                </>
-              ) : (
-                <>
-                  <span className="tiny-dot" /> Be the first on this spot
-                </>
-              )}
-            </span>
-            <strong>{current ? money(current.amount) : "From $1"}</strong>
-          </div>
+          <ol className="checkout-steps" aria-label="Claim your spot">
+            {["Your bid", "Payment", "Your details"].map((label, index) => (
+              <li
+                key={label}
+                aria-current={index === (purchase ? 2 : 0) ? "step" : undefined}
+                className={purchase && index < 2 ? "is-complete" : ""}
+              >
+                <span>{purchase && index < 2 ? "✓" : index + 1}</span>
+                {label}
+              </li>
+            ))}
+          </ol>
+          <p className="dialog-intro">
+            {purchase
+              ? "Payment received. Let’s make this spot yours."
+              : "Choose your bid. Add your brand and artwork after payment."}
+          </p>
+          {purchase ? (
+            <div className="payment-received">
+              <span>Paid securely</span>
+              <strong>{money(purchase.amount)}</strong>
+            </div>
+          ) : (
+            <div className="current-owner">
+              <span>
+                {current ? (
+                  <>
+                    Currently held by <strong>{current.brand}</strong>
+                  </>
+                ) : (
+                  <>
+                    <span className="tiny-dot" /> Be the first on this spot
+                  </>
+                )}
+              </span>
+              <strong>{current ? money(current.amount) : "From $1"}</strong>
+            </div>
+          )}
           <form onSubmit={submit}>
             <fieldset disabled={busy}>
-              <div className="field-heading">
-                <label htmlFor="bid-amount">Your one-time bid</label>
-                <span>Minimum {money(minimum)}</span>
-              </div>
-              <div className="amount-input">
-                <span>$</span>
-                <input
-                  id="bid-amount"
-                  type="number"
-                  min={minimum / 100}
-                  max={maximum / 100}
-                  step="0.01"
-                  onKeyDown={(event) => {
-                    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-                      event.preventDefault();
-                      stepAmount(event.key === "ArrowUp" ? 1 : -1);
-                    }
-                  }}
-                  ref={bidInput}
-                  inputMode="decimal"
-                  value={amount}
-                  onChange={(event) => setAmount(event.target.value)}
-                  required
-                  aria-describedby={
-                    validBid ? "bid-help featured-sponsor-help" : "bid-help"
-                  }
-                />
-                <div className="amount-controls">
-                  <button
-                    type="button"
-                    aria-label="Decrease bid by one dollar"
-                    aria-controls="bid-amount"
-                    disabled={
-                      minimum > maximum || cents === null || cents <= minimum
-                    }
-                    onClick={() => stepAmount(-1)}
-                  >
-                    <Minus size={18} aria-hidden="true" />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Increase bid by one dollar"
-                    aria-controls="bid-amount"
-                    disabled={
-                      minimum > maximum || (cents !== null && cents >= maximum)
-                    }
-                    onClick={() => stepAmount(1)}
-                  >
-                    <Plus size={18} aria-hidden="true" />
-                  </button>
-                </div>
-              </div>
-              <p id="bid-help" className="field-help">
-                {current
-                  ? "Bid at least $1 more than the current owner."
-                  : "Start at $1, or pay any amount you like."}{" "}
-                All prices in USD.
-              </p>
-              <div
-                id="featured-sponsor-help"
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {validBid && featuredMinimum <= maximum && (
-                  <div
-                    className={`featured-sponsor-callout${willBeFeatured ? " is-qualified" : ""}`}
-                  >
-                    <span className="featured-sponsor-label">
-                      Become the featured sponsor
-                    </span>
-                    <strong>
-                      {willBeFeatured
-                        ? "You will be the featured sponsor"
-                        : `Bid ${money(featuredDifference)} more`}
-                    </strong>
-                    <p>
-                      {willBeFeatured
-                        ? "Once your payment is confirmed."
-                        : `Minimum ${money(featuredMinimum)} to be the featured sponsor.`}
-                    </p>
-                    {!willBeFeatured && (
+              {!purchase && (
+                <>
+                  <div className="field-heading">
+                    <label htmlFor="bid-amount">Your one-time bid</label>
+                    <span>Minimum {money(minimum)}</span>
+                  </div>
+                  <div className="amount-input">
+                    <span>$</span>
+                    <input
+                      id="bid-amount"
+                      type="number"
+                      min={minimum / 100}
+                      max={maximum / 100}
+                      step="0.01"
+                      onKeyDown={(event) => {
+                        if (
+                          event.key === "ArrowUp" ||
+                          event.key === "ArrowDown"
+                        ) {
+                          event.preventDefault();
+                          stepAmount(event.key === "ArrowUp" ? 1 : -1);
+                        }
+                      }}
+                      ref={bidInput}
+                      inputMode="decimal"
+                      value={amount}
+                      onChange={(event) => setAmount(event.target.value)}
+                      required
+                      aria-describedby={
+                        validBid ? "bid-help featured-sponsor-help" : "bid-help"
+                      }
+                    />
+                    <div className="amount-controls">
                       <button
                         type="button"
-                        className="featured-sponsor-update"
-                        onClick={() => {
-                          setAmount(
-                            (featuredMinimum / 100).toFixed(
-                              featuredMinimum % 100 ? 2 : 0,
-                            ),
-                          );
-                          bidInput.current?.focus();
-                        }}
+                        aria-label="Decrease bid by one dollar"
+                        aria-controls="bid-amount"
+                        disabled={
+                          minimum > maximum ||
+                          cents === null ||
+                          cents <= minimum
+                        }
+                        onClick={() => stepAmount(-1)}
                       >
-                        Update my bid
+                        <Minus size={18} aria-hidden="true" />
                       </button>
+                      <button
+                        type="button"
+                        aria-label="Increase bid by one dollar"
+                        aria-controls="bid-amount"
+                        disabled={
+                          minimum > maximum ||
+                          (cents !== null && cents >= maximum)
+                        }
+                        onClick={() => stepAmount(1)}
+                      >
+                        <Plus size={18} aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                  <p id="bid-help" className="field-help">
+                    {current
+                      ? "Bid at least $1 more than the current owner."
+                      : "Start at $1, or pay any amount you like."}{" "}
+                    All prices in USD.
+                  </p>
+                  <div
+                    id="featured-sponsor-help"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {validBid && featuredMinimum <= maximum && (
+                      <div
+                        className={`featured-sponsor-callout${willBeFeatured ? " is-qualified" : ""}`}
+                      >
+                        <span className="featured-sponsor-label">
+                          Become the featured sponsor
+                        </span>
+                        <strong>
+                          {willBeFeatured
+                            ? "You will be the featured sponsor"
+                            : `Bid ${money(featuredDifference)} more`}
+                        </strong>
+                        <p>
+                          {willBeFeatured
+                            ? "Once you’ve paid and published your details."
+                            : `Minimum ${money(featuredMinimum)} to be the featured sponsor.`}
+                        </p>
+                        {!willBeFeatured && (
+                          <button
+                            type="button"
+                            className="featured-sponsor-update"
+                            onClick={() => {
+                              setAmount(
+                                (featuredMinimum / 100).toFixed(
+                                  featuredMinimum % 100 ? 2 : 0,
+                                ),
+                              );
+                              bidInput.current?.focus();
+                            }}
+                          >
+                            Update my bid
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
-              <div className="amount-presets">
-                {[1, 5, 10, 25]
-                  .filter((value) => value * 100 >= minimum)
-                  .map((value) => (
-                    <button
-                      type="button"
-                      key={value}
-                      className={cents === value * 100 ? "active" : ""}
-                      onClick={() => setAmount(String(value))}
-                    >
-                      {money(value * 100)}
-                    </button>
-                  ))}
-              </div>
-              <label className="field-label" htmlFor="brand">
-                Brand or project name
-              </label>
-              <input
-                id="brand"
-                placeholder="Something worth putting on a car"
-                value={brand}
-                maxLength={60}
-                onChange={(event) => setBrand(event.target.value)}
-                required
-              />
-              <label className="field-label" htmlFor="brand-url">
-                Website
-              </label>
-              <input
-                id="brand-url"
-                type="url"
-                placeholder="https://your-website.com"
-                value={url}
-                maxLength={500}
-                onChange={(event) => setUrl(event.target.value)}
-                required
-              />
-              <label className="field-label" htmlFor="brand-message">
-                Your message <span className="optional-label">(optional)</span>
-              </label>
-              <input
-                id="brand-message"
-                placeholder="A little introduction to what you do"
-                value={message}
-                maxLength={140}
-                onChange={(event) => setMessage(event.target.value)}
-                aria-describedby="message-help"
-              />
-              <p id="message-help" className="field-help message-help">
-                <span>
-                  Shown with your logo and website in “Riding with us”.
-                </span>
-                <span>{message.length}/140</span>
-              </p>
-              <ArtworkEditor
-                ratio={slot.width_m / slot.height_m}
-                disabled={busy}
-                onChange={prepareArtwork}
-                onError={setError}
-              />
-              <label className="terms-checkbox">
-                <input
-                  type="checkbox"
-                  checked={agreed}
-                  onChange={(event) => setAgreed(event.target.checked)}
-                  required
-                />
-                <span>
-                  I own or can use this artwork and accept the{" "}
-                  <a href="/terms" target="_blank">
-                    placement terms
-                  </a>
-                  . My ad stays until someone pays at least $1 more, with no
-                  guaranteed duration or refund after it goes live.
-                </span>
-              </label>
+                  <div className="amount-presets">
+                    {[1, 5, 10, 25]
+                      .filter((value) => value * 100 >= minimum)
+                      .map((value) => (
+                        <button
+                          type="button"
+                          key={value}
+                          className={cents === value * 100 ? "active" : ""}
+                          onClick={() => setAmount(String(value))}
+                        >
+                          {money(value * 100)}
+                        </button>
+                      ))}
+                  </div>
+                </>
+              )}
+              {purchase && (
+                <>
+                  <label className="field-label" htmlFor="brand">
+                    Brand or project name
+                  </label>
+                  <input
+                    id="brand"
+                    placeholder="Something worth putting on a car"
+                    value={brand}
+                    maxLength={60}
+                    onChange={(event) => setBrand(event.target.value)}
+                    required
+                  />
+                  <label className="field-label" htmlFor="brand-url">
+                    Website
+                  </label>
+                  <input
+                    id="brand-url"
+                    type="url"
+                    placeholder="https://your-website.com"
+                    value={url}
+                    maxLength={500}
+                    onChange={(event) => setUrl(event.target.value)}
+                    required
+                  />
+                  <label className="field-label" htmlFor="brand-message">
+                    Your message{" "}
+                    <span className="optional-label">(optional)</span>
+                  </label>
+                  <input
+                    id="brand-message"
+                    placeholder="A little introduction to what you do"
+                    value={message}
+                    maxLength={140}
+                    onChange={(event) => setMessage(event.target.value)}
+                    aria-describedby="message-help"
+                  />
+                  <p id="message-help" className="field-help message-help">
+                    <span>
+                      Shown with your logo and website in “Riding with us”.
+                    </span>
+                    <span>{message.length}/140</span>
+                  </p>
+                  <ArtworkEditor
+                    ratio={slot.width_m / slot.height_m}
+                    disabled={busy}
+                    onChange={prepareArtwork}
+                    onError={setError}
+                  />
+                  <label className="terms-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={agreed}
+                      onChange={(event) => setAgreed(event.target.checked)}
+                      required
+                    />
+                    <span>
+                      I own or can use this artwork and accept the{" "}
+                      <a href="/terms" target="_blank">
+                        placement terms
+                      </a>
+                      . Publish my ad with these details and this artwork.
+                    </span>
+                  </label>
+                </>
+              )}
               {error && (
                 <p className="form-error" role="alert">
                   {error}
                 </p>
               )}
-              {!snapshot.paymentsEnabled && (
+              {!purchase && !snapshot.paymentsEnabled && (
                 <p className="checkout-notice">
-                  Payments aren’t open yet. You can explore the car and preview
-                  your artwork.
+                  Payments aren’t open yet. Please check back soon.
                 </p>
               )}
               <button
@@ -455,28 +551,78 @@ export default function BidDialog({
                 type="submit"
                 disabled={
                   busy ||
-                  !snapshot.paymentsEnabled ||
-                  !artwork ||
-                  !cents ||
-                  cents < minimum
+                  (purchase
+                    ? !artwork || !logo || !agreed
+                    : !snapshot.paymentsEnabled ||
+                      !cents ||
+                      cents < minimum ||
+                      cents > maximum)
                 }
               >
                 {busy ? (
-                  "Opening secure checkout…"
+                  purchase ? (
+                    "Publishing your spot…"
+                  ) : (
+                    "Opening secure checkout…"
+                  )
                 ) : (
                   <>
-                    Claim this spot {cents ? `for ${money(cents)}` : ""}
+                    {purchase
+                      ? "Publish my spot"
+                      : `Claim this spot${cents ? ` for ${money(cents)}` : ""}`}
                     <ArrowUpRight size={18} />
                   </>
                 )}
               </button>
-              <p className="stripe-note">
-                We’ll email your Stripe checkout address if you’re outbid.
-              </p>
-              <p className="stripe-note">
-                <LockKeyhole size={12} /> Secure checkout with Stripe{" "}
-                {snapshot.paymentMode === "test" && "· Test mode"}
-              </p>
+              {purchase ? (
+                <p className="stripe-note">
+                  No further payment. Your ad goes live when you publish it.
+                </p>
+              ) : (
+                <p className="checkout-terms">
+                  By continuing, you accept the{" "}
+                  <a href="/terms" target="_blank" rel="noreferrer">
+                    placement terms
+                  </a>
+                  . Your ad stays until someone bids at least $1 more and
+                  publishes their ad. No guaranteed duration or refund once
+                  live. If your bid is beaten before publication, we’ll refund
+                  you in full.
+                </p>
+              )}
+              {!purchase && (
+                <p className="stripe-note">
+                  <LockKeyhole size={12} /> Secure checkout with Stripe{" "}
+                  {snapshot.paymentMode === "test" && "· Test mode"}
+                </p>
+              )}
+              {purchase && (
+                <p className="stripe-note">
+                  <button
+                    type="button"
+                    className="checkout-save-link"
+                    onClick={async () => {
+                      const link = new URL(
+                        `/?checkout=success&session_id=${encodeURIComponent(purchase.sessionId)}#live-auction`,
+                        location.origin,
+                      );
+                      try {
+                        await navigator.clipboard.writeText(link.href);
+                        setLinkCopied(true);
+                      } catch {
+                        history.replaceState({}, "", link.href);
+                        setError(
+                          "Bookmark this page’s address to finish later.",
+                        );
+                      }
+                    }}
+                  >
+                    {linkCopied
+                      ? "Private link copied"
+                      : "Copy a private link to finish later"}
+                  </button>
+                </p>
+              )}
             </fieldset>
           </form>
         </div>

@@ -16,6 +16,7 @@ import {
 } from "../worker/custom-wrap-email";
 import {
   bidSchema,
+  placementDetailsSchema,
   dollarsToCents,
   minimumBid,
   slots,
@@ -247,6 +248,8 @@ async function upload(png = image) {
   expect(response.status).toBe(201);
   return ((await response.json()) as { token: string }).token;
 }
+const draftDetails = new Map<string, Record<string, unknown>>();
+
 async function bid(slotId: string, amount: number, brand = "Test studio") {
   const artworkToken = await upload();
   const logoToken = await upload();
@@ -263,7 +266,17 @@ async function bid(slotId: string, amount: number, brand = "Test studio") {
   };
   const response = await request("/api/checkout", input);
   expect(response.status).toBe(200);
-  return { ...((await response.json()) as { sessionId: string }), input };
+  const result = (await response.json()) as { sessionId: string };
+  draftDetails.set(result.sessionId, {
+    sessionId: result.sessionId,
+    brand,
+    message: input.message,
+    url: input.url,
+    artworkToken,
+    logoToken,
+    acceptedTerms: true,
+  });
+  return { ...result, input };
 }
 async function pay(sessionId: string) {
   const session = sessions.get(sessionId)!;
@@ -284,6 +297,15 @@ async function pay(sessionId: string) {
     body: payload,
     headers: { "Stripe-Signature": signature },
   });
+}
+async function payAndPublish(sessionId: string) {
+  const response = await pay(sessionId);
+  const details = draftDetails.get(sessionId);
+  if (response.ok && details) {
+    const saved = await request("/api/checkout/details", details);
+    expect(saved.status).toBe(200);
+  }
+  return response;
 }
 async function snapshot() {
   return (await (await request("/api/auction")).json()) as AuctionSnapshot;
@@ -406,9 +428,9 @@ describe("auction rules", () => {
       acceptedTerms: true,
     };
     expect(
-      bidSchema.safeParse({
+      placementDetailsSchema.safeParse({
         ...base,
-        slotId: "ad-01",
+        sessionId: "cs_test_invalidlink",
         url: "javascript:alert(1)",
       }).success,
     ).toBe(false);
@@ -472,7 +494,7 @@ describe("auction rules", () => {
         if (data.revision === 1) resolve(data);
       }),
     );
-    expect((await pay(result.sessionId)).status).toBe(200);
+    expect((await payAndPublish(result.sessionId)).status).toBe(200);
     const live = await pushed;
     expect(live.placements["ad-01"].amount).toBe(100);
     expect(live.placements["ad-01"].message).toBe(result.input.message);
@@ -505,7 +527,7 @@ describe("auction rules", () => {
       (
         await request("/api/checkout", {
           ...result.input,
-          message: "Changed after checkout",
+          amount: result.input.amount + 100,
         })
       ).status,
     ).toBe(409);
@@ -513,13 +535,13 @@ describe("auction rules", () => {
       (
         await request("/api/checkout", {
           ...result.input,
-          logoToken: crypto.randomUUID(),
+          slotId: "ad-57",
         })
       ).status,
     ).toBe(409);
-    await pay(result.sessionId);
+    await payAndPublish(result.sessionId);
     const before = await snapshot();
-    await pay(result.sessionId);
+    await payAndPublish(result.sessionId);
     const after = await snapshot();
     expect(after.revision).toBe(before.revision);
     expect(after.totalRaised).toBe(before.totalRaised);
@@ -545,11 +567,11 @@ describe("auction rules", () => {
     const equal = await bid("ad-53", 500, "Equal");
     const insufficient = await bid("ad-53", 599, "Less than a dollar higher");
     const high = await bid("ad-53", 500, "High");
-    await pay(high.sessionId);
+    await payAndPublish(high.sessionId);
     await Promise.all([
-      pay(low.sessionId),
-      pay(equal.sessionId),
-      pay(insufficient.sessionId),
+      payAndPublish(low.sessionId),
+      payAndPublish(equal.sessionId),
+      payAndPublish(insufficient.sessionId),
     ]);
     const live = await snapshot();
     expect(live.placements["ad-53"].brand).toBe("High");
@@ -561,7 +583,7 @@ describe("auction rules", () => {
       expect(((await status.json()) as { status: string }).status).toBe(
         "refunded",
       );
-      await pay(loser.sessionId);
+      await payAndPublish(loser.sessionId);
       expect(
         refundRequests.filter((p) => p === `pi_${loser.sessionId}`),
       ).toHaveLength(1);
@@ -571,7 +593,7 @@ describe("auction rules", () => {
     const before = await snapshot();
     const first = before.placements["ad-01"];
     const next = await bid("ad-01", 200, "Next studio");
-    await pay(next.sessionId);
+    await payAndPublish(next.sessionId);
     const live = await snapshot();
     expect(live.placements["ad-01"].id).not.toBe(first.id);
     expect(live.placements["ad-01"].textureUrl).not.toBe(first.textureUrl);
@@ -593,45 +615,51 @@ describe("auction rules", () => {
   it("does not publish a paid session with a mismatched amount", async () => {
     const result = await bid("ad-54", 100);
     sessions.get(result.sessionId)!.amount_total = 99;
-    expect((await pay(result.sessionId)).status).toBe(400);
+    expect((await payAndPublish(result.sessionId)).status).toBe(400);
     expect((await snapshot()).placements["ad-54"]).toBeUndefined();
   });
-  it("validates messages and requires an unclaimed logo upload before checkout", async () => {
-    const artworkToken = await upload();
-    const input = {
-      requestId: crypto.randomUUID(),
-      slotId: "ad-56",
-      amount: 100,
-      brand: "Studio",
-      url: "https://example.com",
-      message: "",
-      artworkToken,
-      logoToken: crypto.randomUUID(),
-      acceptedTerms: true,
-    };
+  it("validates messages and requires unclaimed artwork only after payment", async () => {
+    const result = await bid("ad-56", 100);
+    const input = draftDetails.get(result.sessionId)!;
     expect(
-      bidSchema.parse({ ...input, message: "  Made with care.  " }).message,
+      placementDetailsSchema.parse({ ...input, message: "  Made with care.  " })
+        .message,
     ).toBe("Made with care.");
     expect(
-      bidSchema.safeParse({ ...input, message: "a".repeat(140) }).success,
+      placementDetailsSchema.safeParse({ ...input, message: "a".repeat(140) })
+        .success,
     ).toBe(true);
+    expect((await request("/api/checkout/details", input)).status).toBe(409);
+    await pay(result.sessionId);
     expect(
-      (await request("/api/checkout", { ...input, message: "a".repeat(141) }))
-        .status,
+      (
+        await request("/api/checkout/details", {
+          ...input,
+          message: "a".repeat(141),
+        })
+      ).status,
     ).toBe(400);
-    expect((await request("/api/checkout", input)).status).toBe(400);
+    expect(
+      (
+        await request("/api/checkout/details", {
+          ...input,
+          logoToken: crypto.randomUUID(),
+        })
+      ).status,
+    ).toBe(400);
     const takenLogo = (await snapshot()).placements["ad-01"].logoUrl
       .split("/")
       .at(-1)!
       .replace(".png", "");
     expect(
-      (await request("/api/checkout", { ...input, logoToken: takenLogo }))
-        .status,
+      (
+        await request("/api/checkout/details", {
+          ...input,
+          logoToken: takenLogo,
+        })
+      ).status,
     ).toBe(400);
-    const logoToken = await upload();
-    expect(
-      (await request("/api/checkout", { ...input, logoToken })).status,
-    ).toBe(200);
+    expect((await request("/api/checkout/details", input)).status).toBe(200);
   });
 });
 
@@ -656,8 +684,8 @@ describe("outbid notifications", () => {
       (s) => s.client_reference_id === current.id,
     )!;
     await Promise.all([
-      pay(String(currentSession.id)),
-      pay(String(currentSession.id)),
+      payAndPublish(String(currentSession.id)),
+      payAndPublish(String(currentSession.id)),
     ]);
     await testStub.testAlarm();
     expect(emails).toHaveLength(1);
@@ -677,7 +705,7 @@ describe("outbid notifications", () => {
     sessionReads = [];
     failEmail = true;
     const replacement = await bid("ad-10", 300, "Replacement");
-    expect((await pay(replacement.sessionId)).status).toBe(200);
+    expect((await payAndPublish(replacement.sessionId)).status).toBe(200);
     expect((await snapshot()).placements["ad-10"].amount).toBe(300);
     await expect
       .poll(
@@ -708,7 +736,7 @@ describe("outbid notifications", () => {
         owner.id,
       ),
     ).toEqual([{ status: "sent", attempts: 2, message_id: "email-2" }]);
-    await pay(replacement.sessionId);
+    await payAndPublish(replacement.sessionId);
     await testStub.testAlarm();
     expect(emails).toHaveLength(2);
   });
@@ -721,7 +749,7 @@ describe("outbid notifications", () => {
     const replacement = await bid("ad-10", 400, "Same owner");
     sessions.get(replacement.sessionId)!.customer_details =
       session.customer_details;
-    await pay(replacement.sessionId);
+    await payAndPublish(replacement.sessionId);
     await expect
       .poll(
         async () =>
@@ -747,7 +775,7 @@ describe("outbid notifications", () => {
       owner.id,
     );
     const replacement = await bid("ad-10", 500);
-    await pay(replacement.sessionId);
+    await payAndPublish(replacement.sessionId);
     await expect
       .poll(
         async () =>
@@ -771,7 +799,7 @@ describe("outbid notifications", () => {
     );
     failEmail = true;
     const replacement = await bid("ad-10", 600);
-    await pay(replacement.sessionId);
+    await payAndPublish(replacement.sessionId);
     await expect
       .poll(
         async () =>
@@ -798,7 +826,7 @@ describe("outbid notifications", () => {
     );
     await testStub.testAlarm();
     expect(emails).toHaveLength(3);
-    await pay(replacement.sessionId);
+    await payAndPublish(replacement.sessionId);
     await testStub.testAlarm();
     expect(emails).toHaveLength(3);
   });
@@ -808,8 +836,8 @@ describe("outbid notifications", () => {
     await testStub.testConfig(true);
     const first = await bid("ad-59", 100);
     const second = await bid("ad-59", 200);
-    await pay(first.sessionId);
-    await pay(second.sessionId);
+    await payAndPublish(first.sessionId);
+    await payAndPublish(second.sessionId);
     await testStub.testAlarm();
     expect(emails).toHaveLength(3);
     await testStub.testConfig(true, "operator@example.test");
@@ -945,10 +973,10 @@ describe("complimentary sponsor credits", () => {
         })
       ).status,
     ).toBe(409);
-    expect((await pay(pending.sessionId)).status).toBe(200);
+    expect((await payAndPublish(pending.sessionId)).status).toBe(200);
     expect((await snapshot()).placements["ad-59"].id).toBe(id);
     const replacement = await bid("ad-59", 700);
-    expect((await pay(replacement.sessionId)).status).toBe(200);
+    expect((await payAndPublish(replacement.sessionId)).status).toBe(200);
     const after = await snapshot();
     expect(after.placements["ad-59"]).toMatchObject({
       amount: 700,
@@ -1089,9 +1117,9 @@ describe("custom wrap purchases", () => {
     const before = await snapshot();
     const checkout = await wrapCheckout();
     const results = await Promise.all([
-      pay(checkout.sessionId),
-      pay(checkout.sessionId),
-      pay(checkout.sessionId),
+      payAndPublish(checkout.sessionId),
+      payAndPublish(checkout.sessionId),
+      payAndPublish(checkout.sessionId),
     ]);
     expect(results.every((result) => result.status === 200)).toBe(true);
     await expect.poll(() => wrapEmails().length).toBe(1);
@@ -1146,7 +1174,7 @@ describe("custom wrap purchases", () => {
       /buyer_email|session_id|payment_id|example.test/,
     );
     expect(JSON.stringify(after)).not.toContain(checkout.sessionId);
-    await pay(checkout.sessionId);
+    await payAndPublish(checkout.sessionId);
     await testStub.testAlarm();
     expect(wrapEmails()).toHaveLength(1);
     expect(wrapBuyerEmails()).toHaveLength(1);
@@ -1157,7 +1185,7 @@ describe("custom wrap purchases", () => {
     const b = await wrapCheckout();
     const refundCount = refundRequests.length;
     const mailCount = wrapEmails().length;
-    await Promise.all([pay(a.sessionId), pay(b.sessionId)]);
+    await Promise.all([payAndPublish(a.sessionId), payAndPublish(b.sessionId)]);
     await testStub.testAlarm();
     const rows = await testStub.testSql(
       "SELECT status FROM wrap_orders WHERE session_id IN (?,?)",
@@ -1174,7 +1202,7 @@ describe("custom wrap purchases", () => {
     expect(refundRequests.length).toBe(refundCount + 1);
     expect(wrapEmails().length).toBe(mailCount + 1);
     expect(wrapBuyerEmails()).toHaveLength(1);
-    await Promise.all([pay(a.sessionId), pay(b.sessionId)]);
+    await Promise.all([payAndPublish(a.sessionId), payAndPublish(b.sessionId)]);
     await testStub.testAlarm();
     expect(refundRequests.length).toBe(refundCount + 1);
     expect(wrapEmails().length).toBe(mailCount + 1);
@@ -1203,7 +1231,7 @@ describe("custom wrap purchases", () => {
           ? await request("/api/custom-wrap/confirm", {
               sessionId: checkout.sessionId,
             })
-          : await pay(checkout.sessionId);
+          : await payAndPublish(checkout.sessionId);
       expect(response.status).toBe(400);
       session[key] = original;
     }
@@ -1254,7 +1282,7 @@ describe("custom wrap purchases", () => {
     async (audience) => {
       const checkout = await wrapCheckout();
       failEmailAudience = audience;
-      await pay(checkout.sessionId);
+      await payAndPublish(checkout.sessionId);
       await testStub.testAlarm();
       expect(wrapEmails()).toHaveLength(audience === "operator" ? 0 : 1);
       expect(wrapBuyerEmails()).toHaveLength(audience === "buyer" ? 0 : 1);
@@ -1279,7 +1307,7 @@ describe("custom wrap purchases", () => {
       await testStub.testAlarm();
       expect(wrapEmails()).toHaveLength(1);
       expect(wrapBuyerEmails()).toHaveLength(1);
-      await pay(checkout.sessionId);
+      await payAndPublish(checkout.sessionId);
       await testStub.testAlarm();
       expect(wrapEmails()).toHaveLength(1);
       expect(wrapBuyerEmails()).toHaveLength(1);
@@ -1322,7 +1350,7 @@ describe("custom wrap purchases", () => {
   it("does not describe pending or failed refunds as completed", async () => {
     const a = await wrapCheckout();
     const b = await wrapCheckout();
-    await pay(a.sessionId);
+    await payAndPublish(a.sessionId);
     const session = sessions.get(b.sessionId)!;
     const refundId = `re_${session.payment_intent}`;
     refunds.set(refundId, { id: refundId, status: "pending" });
@@ -1331,7 +1359,7 @@ describe("custom wrap purchases", () => {
       refundId,
       b.sessionId,
     );
-    await pay(b.sessionId);
+    await payAndPublish(b.sessionId);
     await testStub.testAlarm();
     const status = async () =>
       (
@@ -1370,7 +1398,7 @@ describe("custom wrap purchases", () => {
     );
     try {
       const checkout = await wrapCheckout();
-      await pay(checkout.sessionId);
+      await payAndPublish(checkout.sessionId);
       await testStub.testAlarm();
       const mail = wrapEmails().at(-1)!;
       expect(mail.to).toBe("wrap-sandbox@example.test");
@@ -1404,12 +1432,15 @@ describe("social workflow payment trigger", () => {
     const loser = await bid("ad-10", minimum);
     const winner = await bid("ad-10", minimum + 100);
     expect(socialDispatches).toHaveLength(0); // Uploads and unpaid checkout do not trigger Actions.
+    await pay(winner.sessionId);
+    expect((await snapshot()).revision).toBe(current.revision);
+    expect(socialDispatches).toHaveLength(0); // Paid, unfinished details do not trigger Actions either.
     let release!: () => void;
     socialDispatchGate = new Promise<void>((resolve) => {
       release = resolve;
     });
     try {
-      expect((await pay(winner.sessionId)).status).toBe(200); // GitHub is still waiting.
+      expect((await payAndPublish(winner.sessionId)).status).toBe(200); // GitHub is still waiting.
       await expect.poll(() => socialDispatches.length).toBe(1);
       expect(socialDispatches[0]).toEqual({ ref: "main" });
       const live = await snapshot();
@@ -1419,8 +1450,8 @@ describe("social workflow payment trigger", () => {
       );
       const queued = await testStub.testSql("SELECT * FROM social_dispatch");
       expect(queued[0].image_key).toMatch(new RegExp(`-r${live.revision}$`));
-      expect((await pay(winner.sessionId)).status).toBe(200);
-      expect((await pay(loser.sessionId)).status).toBe(200); // Refunded loser never changes the wrap.
+      expect((await payAndPublish(winner.sessionId)).status).toBe(200);
+      expect((await payAndPublish(loser.sessionId)).status).toBe(200); // Refunded loser never changes the wrap.
       expect((await snapshot()).revision).toBe(live.revision);
       expect(socialDispatches).toHaveLength(1);
     } finally {
@@ -1428,5 +1459,183 @@ describe("social workflow payment trigger", () => {
       socialDispatchGate = undefined;
       await testStub.testSocialConfig();
     }
+  });
+});
+
+describe("payment before advertiser details", () => {
+  async function start(slotId = "ad-57", extra = 0) {
+    const before = await snapshot();
+    const input = {
+      requestId: crypto.randomUUID(),
+      slotId,
+      amount: minimumBid(before.placements[slotId]?.amount) + extra,
+      acceptedTerms: true,
+    };
+    const response = await request("/api/checkout", input);
+    expect(response.status).toBe(200);
+    const { sessionId } = (await response.json()) as { sessionId: string };
+    return { input, sessionId, before };
+  }
+  async function details(sessionId: string, brand = "After payment studio") {
+    return {
+      sessionId,
+      brand,
+      message: "Added after paying",
+      url: "https://example.com",
+      artworkToken: await upload(),
+      logoToken: await upload(),
+      acceptedTerms: true,
+    };
+  }
+  it("opens Stripe without a brand or uploads, confirms payment without publishing, and finishes exactly once", async () => {
+    const checkout = await start();
+    expect(checkoutForms.get(checkout.sessionId)!.get("success_url")).toContain(
+      "session_id={CHECKOUT_SESSION_ID}",
+    );
+    expect(checkoutForms.get(checkout.sessionId)!.get("cancel_url")).toContain(
+      `amount=${checkout.input.amount}`,
+    );
+    const duplicate = await request("/api/checkout", checkout.input);
+    expect(await duplicate.json()).toMatchObject({
+      sessionId: checkout.sessionId,
+    });
+    const row = await testStub.testSql(
+      "SELECT * FROM bids WHERE session_id = ?",
+      checkout.sessionId,
+    );
+    expect(row[0]).toMatchObject({
+      brand: "",
+      artwork_token: "",
+      logo_token: "",
+      status: "pending",
+    });
+    const input = await details(checkout.sessionId);
+    expect((await request("/api/checkout/details", input)).status).toBe(409);
+    expect(
+      (
+        await request("/api/checkout/details", {
+          ...input,
+          sessionId: "cs_test_unknown",
+        })
+      ).status,
+    ).toBe(404);
+    expect(
+      (
+        await request("/api/checkout/details", input, {
+          Origin: "https://evil.example",
+        })
+      ).status,
+    ).toBe(403);
+    await pay(checkout.sessionId);
+    const confirmed = await request("/api/checkout/confirm", {
+      sessionId: checkout.sessionId,
+    });
+    expect(confirmed.headers.get("Cache-Control")).toBe("no-store");
+    expect(await confirmed.json()).toMatchObject({
+      status: "awaiting_details",
+      slotId: "ad-57",
+      amount: checkout.input.amount,
+    });
+    const paid = await snapshot();
+    expect(paid.revision).toBe(checkout.before.revision);
+    expect(paid.totalRaised).toBe(checkout.before.totalRaised);
+    expect(JSON.stringify(paid)).not.toContain(checkout.sessionId);
+    expect(
+      (await request(`/api/artwork/${input.artworkToken}.png`)).status,
+    ).toBe(404);
+    const published = await Promise.all([
+      request("/api/checkout/details", input),
+      request("/api/checkout/details", input),
+      pay(checkout.sessionId),
+    ]);
+    for (const response of published) expect(response.status).toBe(200);
+    const live = await snapshot();
+    expect(live.revision).toBe(checkout.before.revision + 1);
+    expect(live.totalRaised).toBe(
+      checkout.before.totalRaised + checkout.input.amount,
+    );
+    expect(live.placements["ad-57"]).toMatchObject({
+      brand: input.brand,
+      message: input.message,
+    });
+    expect((await request(live.placements["ad-57"].textureUrl)).status).toBe(
+      200,
+    );
+    expect(
+      (
+        await request("/api/checkout/details", {
+          ...input,
+          brand: "Changed after publishing",
+        })
+      ).status,
+    ).toBe(409);
+    expect((await request("/api/checkout/details", input)).status).toBe(200);
+  });
+  it("recovers missing webhooks and preserves an unfinished paid purchase across restart and cleanup", async () => {
+    const checkout = await start();
+    const session = sessions.get(checkout.sessionId)!;
+    session.status = "complete";
+    session.payment_status = "paid";
+    await testStub.testSql(
+      "UPDATE bids SET created_at = ? WHERE session_id = ?",
+      Date.now() - 2 * 86_400_000,
+      checkout.sessionId,
+    );
+    await testStub.testAlarm();
+    await mf.setOptions(mfOptions);
+    const confirmed = await request("/api/checkout/confirm", {
+      sessionId: checkout.sessionId,
+    });
+    expect(await confirmed.json()).toMatchObject({
+      status: "awaiting_details",
+    });
+    const input = await details(checkout.sessionId, "Resumed studio");
+    expect((await request("/api/checkout/details", input)).status).toBe(200);
+    expect((await snapshot()).placements["ad-57"].brand).toBe("Resumed studio");
+  });
+  it("refunds a paid customer who is outbid while entering details without replacing the winner", async () => {
+    const low = await start();
+    const high = await start("ad-57", 100);
+    await pay(low.sessionId);
+    await pay(high.sessionId);
+    expect((await snapshot()).revision).toBe(low.before.revision);
+    const winner = await details(high.sessionId, "Finished first");
+    await request("/api/checkout/details", winner);
+    const loser = await details(low.sessionId);
+    const response = await request("/api/checkout/details", loser);
+    expect(await response.json()).toMatchObject({ status: "refunded" });
+    await pay(low.sessionId);
+    expect(
+      refundRequests.filter((id) => id === `pi_${low.sessionId}`),
+    ).toHaveLength(1);
+    expect((await snapshot()).placements["ad-57"].brand).toBe("Finished first");
+    expect(
+      (await request(`/api/artwork/${loser.artworkToken}.png`)).status,
+    ).toBe(404);
+  });
+  it("also refunds an unfinished payment when the current spot receives a price credit", async () => {
+    const checkout = await start();
+    await pay(checkout.sessionId);
+    const current = checkout.before.placements["ad-57"];
+    const response = await request(
+      "/api/admin/credits",
+      {
+        requestId: crypto.randomUUID(),
+        bidId: current.id,
+        expectedAmount: current.amount,
+        credit: 100,
+        reason: "Test the paid details race against a price credit",
+      },
+      { Authorization: "Bearer admin_credit_test_only" },
+    );
+    expect(response.status).toBe(200);
+    const confirmed = await request("/api/checkout/confirm", {
+      sessionId: checkout.sessionId,
+    });
+    expect(await confirmed.json()).toMatchObject({ status: "refunded" });
+    expect(
+      refundRequests.filter((id) => id === `pi_${checkout.sessionId}`),
+    ).toHaveLength(1);
+    expect((await snapshot()).placements["ad-57"].id).toBe(current.id);
   });
 });
