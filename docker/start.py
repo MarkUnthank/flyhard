@@ -12,18 +12,26 @@ import subprocess
 import sys
 import time
 
+from sync_workspace import sync_workspace
+
 
 def main():
     started = time.time()
     bundled = Path('/opt/flyhard')
     project = Path('/workspace/flyhard')
     project.mkdir(parents=True,exist_ok=True)
-    for name in ['src','scripts','tests','assets','requirements','docker','pyproject.toml',
-                 'README.md','LICENSE','THIRD_PARTY.md']:
-        source,target = bundled/name,project/name
-        if not target.exists():
-            if source.is_dir():shutil.copytree(source,target)
-            else:shutil.copy2(source,target)
+    if os.environ.get('FLYHARD_RUNTIME_LAYOUT') == 'network-volume':
+        import hashlib
+        asset = Path(os.environ['FLYHARD_CARLA_ROOT'])
+        cached = json.loads((asset/'asset-receipt.json').read_text())
+        if cached['archive_sha256'] != '09e3ebb28df17962f0c997e66f4b914ad5ea6f1d6a6dbbf13c9f87eb38346d57':
+            raise RuntimeError('Seed the pinned CARLA asset before launching this image')
+        binary = asset/cached['binary']
+        if hashlib.sha256(binary.read_bytes()).hexdigest() != cached['binary_sha256']:
+            raise RuntimeError('Cached CARLA launcher has changed; revalidate the volume')
+        if not os.environ.get('FLYHARD_NETWORK_VOLUME_ID'):
+            raise RuntimeError('Network runtime requires the durable volume ID from the launcher')
+    source = sync_workspace(bundled, project, os.environ['FLYHARD_SOURCE_REVISION'])
     environment = project/'.venv'
     if not environment.exists():environment.symlink_to('/opt/flyhard-env',target_is_directory=True)
     if environment.resolve() != Path('/opt/flyhard-env'):
@@ -32,6 +40,7 @@ def main():
     ready = runtime/'ready.json'; ready.unlink(missing_ok=True)
     receipt = {'status':'starting','container_started_epoch':started,
         'source_revision':os.environ['FLYHARD_SOURCE_REVISION'],
+        'workspace_source': {'locally_modified':source['locally_modified'], 'backup':source['backup']},
         'installation_at_startup':False,'project':str(project)}
     (runtime/'startup.json').write_text(json.dumps(receipt,indent=2))
     shutil.copy2(bundled/'build-receipt.json',runtime/'build-receipt.json')
