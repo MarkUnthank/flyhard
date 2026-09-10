@@ -87,7 +87,7 @@ For recording-ready PNGs and a sponsor-textured Blender/glTF model, run `npm run
 
 The supporter leaderboard uses `highestBids`: the 50 highest published paid bids of all time, including outbid sponsors, ordered by paid amount, publication time, and bid ID. It shows eight compact rows per page, without logos, and preserves each purchase’s original website link. The ranking is independent of the 50 most recent events in `history`, so older high bids remain eligible. Complimentary credit affects current placement prices, but does not inflate this paid-bid history.
 
-The main car opens on the face containing the highest current paid placement. Equal bids favor the earlier publication, then the spot ID, keeping the angle stable across snapshots. With no bids, it uses the perspective view. Live changes update the angle until a visitor chooses an angle, selects a spot, or uses the camera controls; Reset returns to the current leader and resumes following it. Checkout continues to frame the selected spot independently.
+The main car opens in 3D View and rotates slowly until the visitor interacts. Reduced-motion preferences disable rotation. Reset returns to the perspective view without restarting rotation. Checkout frames the selected spot independently. The bid dialog suggests an amount at least $1 above the highest effective bid, with a one-click update. Complimentary credits affect current bid thresholds, but never paid history or the fundraising total; see [COMPLIMENTARY-CREDITS.md](COMPLIMENTARY-CREDITS.md).
 
 ## Verification
 

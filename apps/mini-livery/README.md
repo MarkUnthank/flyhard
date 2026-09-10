@@ -1,6 +1,8 @@
 # The Driving Fly — Mini advertising livery
 
-The actual CARLA Mini Cooper S 2021. **Layout 4 has seven large advertising spaces, all occupied at release:** two on the left, one right door, bonnet, roof, front grille, and rear window. Supertask stays on the rear window. Every paid placement is retained, including Blueshake. Published artwork is fitted without stretching when a panel changes shape. The source retains all 59 historical IDs; the website hides inactive groups and the sponsor exporter removes them.
+The actual CARLA Mini Cooper S 2021. **Layout 5 has seven advertising spaces:** two on the left, one right door, bonnet, a double-sided roof billboard, front grille, and rear window. The billboard uses the existing `ad-59` placement and owner. Every paid placement is retained, including Blueshake and Supertask. The source retains all 59 historical IDs; the website hides inactive groups and the sponsor exporter removes them.
+
+`roof-billboard.blend` is the editable, artwork-free accessory master taken from the approved smaller design. Its advertising mesh has two outward-facing quads with normalized UVs; one texture fills both faces. `rebuild-layout.py` appends it into the base vehicle for website exports. The immutable current roof texture has an explicit centre crop in `layout.json`, shared by browser display and paid-livery export; subsequent uploaded artwork uses the full billboard dimensions. Native CARLA import/cooking remains separate and is not complete.
 
 ## Rebuild the active layout
 

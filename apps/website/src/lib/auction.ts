@@ -12,6 +12,8 @@ export type Placement = {
   message: string;
   url: string;
   amount: number;
+  paidAmount?: number;
+  complimentaryCredit?: number;
   textureUrl: string;
   logoUrl: string;
   publishedAt: number;

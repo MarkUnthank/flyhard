@@ -1,5 +1,6 @@
 import { DurableObject } from "cloudflare:workers";
 import Stripe from "stripe";
+import { z } from "zod";
 import { decode, encode } from "fast-png";
 import {
   bidSchema,
@@ -52,6 +53,11 @@ export class Auction extends DurableObject<Env> {
         published_at INTEGER, checked_at INTEGER NOT NULL DEFAULT 0
       );
       CREATE TABLE IF NOT EXISTS placements (slot_id TEXT PRIMARY KEY, bid_id TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS complimentary_credits (
+        request_id TEXT PRIMARY KEY, bid_id TEXT NOT NULL, amount INTEGER NOT NULL,
+        reason TEXT NOT NULL, created_at INTEGER NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS credit_bid ON complimentary_credits(bid_id);
       CREATE TABLE IF NOT EXISTS uploads (token TEXT PRIMARY KEY, created_at INTEGER NOT NULL, bid_id TEXT);
       CREATE TABLE IF NOT EXISTS counters (name TEXT PRIMARY KEY, value INTEGER NOT NULL);
       INSERT OR IGNORE INTO counters VALUES ('revision', 0);
@@ -111,14 +117,28 @@ export class Auction extends DurableObject<Env> {
       maxNetworkRetries: 2,
     });
   }
-  private placement(row: BidRow): Placement {
+  private credit(row: BidRow): number {
+    return this.sql
+      .exec<{ amount: number }>(
+        "SELECT COALESCE(SUM(amount),0) AS amount FROM complimentary_credits WHERE bid_id = ?",
+        row.id,
+      )
+      .one().amount;
+  }
+  private effectiveAmount(row: BidRow | undefined): number {
+    return row ? row.amount + this.credit(row) : 0;
+  }
+  private placement(row: BidRow, includeCredit = false): Placement {
     return {
       id: row.id,
       slotId: row.slot_id,
       brand: row.brand,
       message: row.message,
       url: row.url,
-      amount: row.amount,
+      amount: includeCredit ? this.effectiveAmount(row) : row.amount,
+      ...(includeCredit
+        ? { paidAmount: row.amount, complimentaryCredit: this.credit(row) }
+        : {}),
       textureUrl: `/api/artwork/${row.artwork_token}.png`,
       logoUrl: `/api/artwork/${row.logo_token}.png`,
       publishedAt: row.published_at!,
@@ -157,7 +177,7 @@ export class Auction extends DurableObject<Env> {
         )
         .one().value,
       placements: Object.fromEntries(
-        current.map((row) => [row.slot_id, this.placement(row)]),
+        current.map((row) => [row.slot_id, this.placement(row, true)]),
       ),
       history: history.map((row) => this.placement(row)),
       highestBids: highestBids.map((row) => this.placement(row)),
@@ -183,6 +203,72 @@ export class Auction extends DurableObject<Env> {
         socket.close(1011, "Reconnect");
       }
     }
+  }
+  private async grantCredit(request: Request) {
+    if (
+      !this.env.AUCTION_ADMIN_TOKEN ||
+      request.headers.get("Authorization") !==
+        `Bearer ${this.env.AUCTION_ADMIN_TOKEN}`
+    )
+      throw new HttpError(403, "Admin authorization required.");
+    const parsed = z
+      .object({
+        requestId: z.uuid(),
+        bidId: z.uuid(),
+        expectedAmount: z.number().int().min(100).max(99_999_999),
+        credit: z.number().int().min(1).max(99_999_999),
+        reason: z.string().trim().min(1).max(500),
+      })
+      .strict()
+      .safeParse(await readJson(request));
+    if (!parsed.success) throw new HttpError(400, "Invalid credit request.");
+    const input = parsed.data;
+    this.ctx.storage.transactionSync(() => {
+      const existing = this.sql
+        .exec<{ bid_id: string; amount: number; reason: string }>(
+          "SELECT * FROM complimentary_credits WHERE request_id = ?",
+          input.requestId,
+        )
+        .toArray()[0];
+      if (existing) {
+        if (
+          existing.bid_id !== input.bidId ||
+          existing.amount !== input.credit ||
+          existing.reason !== input.reason
+        )
+          throw new HttpError(
+            409,
+            "Request ID already used for a different credit.",
+          );
+        return;
+      }
+      const current = this.sql
+        .exec<BidRow>(
+          "SELECT b.* FROM placements p JOIN bids b ON b.id = p.bid_id WHERE b.id = ?",
+          input.bidId,
+        )
+        .toArray()[0];
+      if (!current || this.effectiveAmount(current) !== input.expectedAmount)
+        throw new HttpError(
+          409,
+          "Placement changed. Refresh before granting credit.",
+        );
+      if (input.expectedAmount + input.credit > 99_999_999)
+        throw new HttpError(400, "Credit exceeds the maximum bid.");
+      this.sql.exec(
+        "INSERT INTO complimentary_credits VALUES (?,?,?,?,?)",
+        input.requestId,
+        input.bidId,
+        input.credit,
+        input.reason,
+        Date.now(),
+      );
+      this.sql.exec(
+        "UPDATE counters SET value = value + 1 WHERE name = 'revision'",
+      );
+    });
+    this.broadcast();
+    return json(this.snapshot());
   }
   private checkOrigin(request: Request) {
     if (request.headers.get("Origin") !== this.env.SITE_URL)
@@ -214,6 +300,8 @@ export class Auction extends DurableObject<Env> {
     try {
       const url = new URL(request.url);
       const path = url.pathname;
+      if (request.method === "POST" && path === "/api/admin/credits")
+        return await this.grantCredit(request);
       if (request.method === "GET" && path === "/api/live") {
         this.checkOrigin(request);
         if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket")
@@ -544,7 +632,7 @@ export class Auction extends DurableObject<Env> {
         checkoutEmail(session),
         bid.id,
       );
-      if (bid.amount < minimumBid(current?.amount)) {
+      if (bid.amount < minimumBid(this.effectiveAmount(current))) {
         this.sql.exec(
           "UPDATE bids SET status = 'refund_pending' WHERE id = ?",
           bid.id,
@@ -710,7 +798,7 @@ export class Auction extends DurableObject<Env> {
             brand: previous.brand,
             previousAmount: previous.amount,
             replacementAmount: replacement.amount,
-            currentAmount: current.amount,
+            currentAmount: this.effectiveAmount(current),
             test,
           }),
         });

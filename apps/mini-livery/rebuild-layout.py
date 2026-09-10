@@ -78,6 +78,29 @@ for order, spec in enumerate(layout["slots"], 1):
     for key, value in {"slot_id": spec["id"], "title": spec["name"], "status": "available",
                        "width_m": width, "height_m": height, "color": slot["color"]}.items():
         group[key] = value
+    if spec.get("kind") == "billboard":
+        # The reviewed Blender accessory is the geometry source for both web
+        # and CARLA exports. Web artwork always uses normalized 0–1 UVs.
+        with bpy.data.libraries.load(str(root / "roof-billboard.blend"), link=False) as (source, target):
+            target.objects = source.objects
+        panel = None
+        for obj in target.objects:
+            ads.objects.link(obj)
+            obj.parent = group
+            obj["slot_id"] = spec["id"]
+            if obj.get("role") == "logo_surface":
+                panel = obj
+                obj.name = f'{spec["id"]}__logo_surface'
+                obj.data.materials.clear()
+                obj.data.materials.append(panel_material)
+        if panel is None:
+            raise RuntimeError("Billboard artwork surface missing")
+        slot.update(name=spec["name"], node=group.name, panel=panel.name,
+                    face=spec["face"], width_m=width, height_m=height,
+                    position=[center.x, center.z, -center.y], position_order=order)
+        report.append({"id":spec["id"], "face":spec["face"], "width_m":width,
+                       "height_m":height, "coverage":1, "display_faces":2})
+        continue
     nx, ny = max(20, math.ceil(width / .025)), max(10, math.ceil(height / .025))
     points, uvs, indices = [], [], {}
     for j in range(ny + 1):
@@ -163,6 +186,7 @@ for slot in inventory["slots"]:
         slot["position_order"] = 100 + int(slot["id"][3:])
 inventory["active_slot_ids"] = [s["id"] for s in layout["slots"]]
 inventory["layout_version"] = layout["version"]
+inventory["artwork_crops"] = layout.get("artwork_crops", {})
 inventory["model_url"] = f'/model/the-driving-fly-mini-v{layout["version"]}.glb'
 bpy.ops.file.pack_all()
 bpy.ops.wm.save_as_mainfile(filepath=str(root / "the-driving-fly-mini.blend"))

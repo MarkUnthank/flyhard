@@ -29,10 +29,11 @@
   },
   {
     "id": "ad-59",
-    "face": "top",
-    "width_m": 1.16,
-    "height_m": 0.95,
-    "coverage": 1.0
+    "face": "left",
+    "width_m": 1.3532,
+    "height_m": 0.3587,
+    "coverage": 1,
+    "display_faces": 2
   },
   {
     "id": "ad-53",

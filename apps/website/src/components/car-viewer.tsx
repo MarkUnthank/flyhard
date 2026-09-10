@@ -10,10 +10,10 @@ import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import { artworkBounds } from "@/lib/artwork-bounds.mjs";
 import styles from "./car-ad-preview.module.css";
 import {
+  artworkCrops,
   slots,
   activeSlots,
   modelUrl,
-  artworkCrops,
   money,
   minimumBid,
   type Placement,
@@ -26,6 +26,7 @@ type Props = {
   view: View;
   onSelect: (id: string) => void;
   resetView?: View;
+  autoRotate?: boolean;
   onInteract?: () => void;
   onResetView?: () => void;
   focusOnSelected?: boolean;
@@ -132,6 +133,7 @@ export default function CarViewer({
   view,
   onSelect,
   resetView = "perspective",
+  autoRotate = false,
   onInteract,
   onResetView,
   focusOnSelected = false,
@@ -140,6 +142,14 @@ export default function CarViewer({
   const host = useRef<HTMLDivElement>(null);
   const runtime = useRef<Runtime | null>(null);
   const select = useRef(onSelect);
+  const rotation = useRef(autoRotate);
+  rotation.current = autoRotate;
+  const interacted = useRef(false);
+  function stopRotation() {
+    interacted.current = true;
+    if (runtime.current) runtime.current.controls.autoRotate = false;
+    interact.current?.();
+  }
   const interact = useRef(onInteract);
   interact.current = onInteract;
   const currentPlacements = useRef(placements);
@@ -219,13 +229,15 @@ export default function CarViewer({
     controls.maxDistance = 11;
     controls.maxPolarAngle = Math.PI / 2 - 0.035;
     controls.autoRotate = false;
+    // One revolution every two minutes, independent of display refresh rate.
+    controls.autoRotateSpeed = 0.5;
     const onControlsStart = () => {
       const state = runtime.current;
       if (state) {
         state.destination = null;
         state.targetDestination = null;
       }
-      interact.current?.();
+      stopRotation();
     };
     controls.addEventListener("start", onControlsStart);
     const pmrem = new THREE.PMREMGenerator(renderer);
@@ -359,7 +371,10 @@ export default function CarViewer({
     renderer.domElement.addEventListener("pointerleave", onLeave);
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
     let animation = 0;
-    const render = () => {
+    let previousTime = performance.now();
+    const render = (time = performance.now()) => {
+      const delta = Math.min((time - previousTime) / 1000, 0.1);
+      previousTime = time;
       if (state.destination) {
         camera.position.lerp(state.destination, motion.matches ? 1 : 0.09);
         if (camera.position.distanceTo(state.destination) < 0.01)
@@ -373,7 +388,14 @@ export default function CarViewer({
         if (controls.target.distanceTo(state.targetDestination) < 0.001)
           state.targetDestination = null;
       }
-      controls.update();
+      controls.autoRotate =
+        rotation.current &&
+        !interacted.current &&
+        !motion.matches &&
+        !!state.model &&
+        !state.destination &&
+        !state.targetDestination;
+      controls.update(delta);
       renderer.render(scene, camera);
       animation = requestAnimationFrame(render);
     };
@@ -614,7 +636,7 @@ export default function CarViewer({
   function zoom(factor: number) {
     const state = runtime.current;
     if (!state) return;
-    interact.current?.();
+    stopRotation();
     const offset = state.camera.position
       .clone()
       .sub(state.controls.target)
@@ -625,7 +647,13 @@ export default function CarViewer({
   const hoveredSlot = slots.find((s) => s.id === hovered);
   const hoveredAd = hoveredSlot && placements[hoveredSlot.id];
   return (
-    <div className={`viewer-shell${focusOnSelected ? " focused-viewer" : ""}`}>
+    <div
+      className={`viewer-shell${focusOnSelected ? " focused-viewer" : ""}`}
+      onPointerDownCapture={stopRotation}
+      onWheelCapture={stopRotation}
+      onKeyDownCapture={stopRotation}
+      onClickCapture={stopRotation}
+    >
       <div className="viewer-corner">
         <span className="tiny-dot" />{" "}
         {previewing
@@ -742,9 +770,7 @@ export default function CarViewer({
           </button>
           <button
             aria-label="Reset view"
-            title={
-              onResetView ? "Return to the highest bidder’s side" : "Reset view"
-            }
+            title="Reset view"
             onClick={() => {
               onResetView?.();
               if (runtime.current)
