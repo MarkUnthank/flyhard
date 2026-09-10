@@ -379,20 +379,20 @@
     },
     {
       "id": "ad-25",
-      "name": "rear window headline",
+      "name": "right door headline",
       "status": "available",
-      "node": "AD-25__rear_window_headline",
+      "node": "AD-25__right_door_headline",
       "panel": "ad-25__logo_surface",
-      "width_m": 1.1,
-      "height_m": 0.28,
+      "width_m": 1.38,
+      "height_m": 0.345,
       "color": "#bfadff",
       "position": [
-        -1.8794714212417603,
-        1.3575172424316406,
-        -9.595400115358643e-06
+        -0.060001347213983536,
+        0.7800124883651733,
+        1.029310941696167
       ],
-      "face": "back",
-      "position_order": 11
+      "face": "right",
+      "position_order": 4
     },
     {
       "id": "ad-26",
@@ -872,20 +872,20 @@
     },
     {
       "id": "ad-54",
-      "name": "right door headline",
+      "name": "rear window headline",
       "status": "available",
-      "node": "AD-54__right_door_headline",
+      "node": "AD-54__rear_window_headline",
       "panel": "ad-54__logo_surface",
-      "width_m": 1.38,
-      "height_m": 0.345,
+      "width_m": 1.24,
+      "height_m": 0.31,
       "color": "#bfadff",
       "position": [
-        -0.060001347213983536,
-        0.7800124883651733,
-        1.029310941696167
+        -1.8794714212417603,
+        1.3575172424316406,
+        -9.595400115358643e-06
       ],
-      "face": "right",
-      "position_order": 4
+      "face": "back",
+      "position_order": 11
     },
     {
       "id": "ad-55",
@@ -1010,6 +1010,6 @@
   "coordinate_system": "glTF right-handed, Y-up; positions are in metres",
   "asset": "the-driving-fly-mini.glb",
   "decoder": "KHR_draco_mesh_compression",
-  "layout_version": 2,
-  "model_url": "/model/the-driving-fly-mini-v2.glb"
+  "layout_version": 3,
+  "model_url": "/model/the-driving-fly-mini-v3.glb"
 }

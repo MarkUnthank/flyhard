@@ -1,16 +1,16 @@
 # Sponsor artwork for the CARLA/video agent
 
-Current checked-in snapshot: **revision 6, layout 2**, exported September 10, 2026. It contains all six paid placements present at export time. Website purchases after that revision require a fresh export.
+Current checked-in snapshot: **revision 6, layout 3**, exported September 10, 2026. It contains all six paid placements present at export time. Website purchases after that revision require a fresh export.
 
 After `git pull`, use these repository paths directly:
 
-- `apps/mini-livery/sponsors/r6-layout2/sponsored-mini.blend` — Blender model with all images packed.
-- `apps/mini-livery/sponsors/r6-layout2/sponsored-mini.glb` — equivalent glTF model with embedded sponsor textures.
-- `apps/mini-livery/sponsors/r6-layout2/textures/ad-XX.png` — exact transparent, transformed sponsor artwork, one PNG per paid surface.
-- `apps/mini-livery/sponsors/r6-layout2/manifest.json` — maps each sponsor to the correct mesh, PNG, and physical dimensions.
-- `apps/mini-livery/sponsors/r6-layout2/sha256.json` — verifies every model, artwork PNG, and manifest.
+- `apps/mini-livery/sponsors/r6-layout3/sponsored-mini.blend` — Blender model with all images packed.
+- `apps/mini-livery/sponsors/r6-layout3/sponsored-mini.glb` — equivalent glTF model with embedded sponsor textures.
+- `apps/mini-livery/sponsors/r6-layout3/textures/ad-XX.png` — exact transparent, transformed sponsor artwork, one PNG per paid surface.
+- `apps/mini-livery/sponsors/r6-layout3/manifest.json` — maps each sponsor to the correct mesh, PNG, and physical dimensions.
+- `apps/mini-livery/sponsors/r6-layout3/sha256.json` — verifies every model, artwork PNG, and manifest.
 
-All six paid surfaces use the enlarged layout 2 geometry with 0–1 UVs and the original image aspect ratios. The owner approved redistribution of existing paid placements. No unclaimed panels or placeholder lettering are included in the sponsored models. The scale, position, and rotation of each logo are already baked into its PNG; do not apply those transforms twice. Keep the surfaces parented to the car and preserve alpha blending. Check the left door and rear views before rendering the full video.
+All six paid surfaces use the enlarged layout 3 geometry with 0–1 UVs and the original image aspect ratios. The owner approved redistribution of existing paid placements. No unclaimed panels or placeholder lettering are included in the sponsored models. The scale, position, and rotation of each logo are already baked into its PNG; do not apply those transforms twice. Keep the surfaces parented to the car and preserve alpha blending. Check the left door and rear views before rendering the full video.
 
 ## Native CARLA
 
@@ -18,7 +18,7 @@ The sponsor model is render-ready in Blender/glTF. It is not a drop-in replaceme
 
 For native CARLA, integrate the exported sponsor surfaces into the Mini's Unreal vehicle as attached mesh/decal components, or bake them into the corresponding CARLA paint/glass UV maps and rebuild the vehicle materials. Preserve the mapping in `manifest.json`. Simply assigning one of these PNGs to the car's full diffuse material will place it incorrectly.
 
-Record livery revision **6**, layout **2**, with any video using this snapshot. See [export instructions](../../website/LIVERY-EXPORT.md) to refresh the assets for another recording.
+Record livery revision **6**, layout **3**, with any video using this snapshot. See [export instructions](../../website/LIVERY-EXPORT.md) to refresh the assets for another recording.
 
 ## Public data and attribution
 

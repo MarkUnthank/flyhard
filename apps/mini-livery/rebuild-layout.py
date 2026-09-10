@@ -1,7 +1,7 @@
 """Reproject the twelve active panels onto the original CARLA body.
 
 blender --background --python-exit-code 1 --python rebuild-layout.py -- /path/to/mini-livery
-The base body is unchanged. Every panel and marker is generated from layout-v2.json.
+The base body is unchanged. Every panel and marker is generated from layout.json.
 """
 import json
 import math
@@ -14,7 +14,7 @@ from mathutils.bvhtree import BVHTree
 if not bpy.app.background:
     raise RuntimeError("Run Blender in background mode")
 root = Path(sys.argv[sys.argv.index("--") + 1]).resolve()
-layout = json.loads((root / "layout-v2.json").read_text())
+layout = json.loads((root / "layout.json").read_text())
 inventory = json.loads((root / "ad-spaces.json").read_text())
 bpy.ops.wm.open_mainfile(filepath=str(root / "the-driving-fly-mini.blend"))
 car = bpy.data.collections["MINI • original CARLA geometry"]
@@ -36,7 +36,7 @@ basis = {
 }
 report = []
 font = next((f for f in bpy.data.fonts if "Barlow" in f.name), bpy.data.fonts.get("Bfont"))
-cream = bpy.data.materials.new("Layout v2 • lettering")
+cream = bpy.data.materials.new("Layout • lettering")
 cream.diffuse_color = (1, .97, .85, 1)
 cream.use_nodes = True
 cream.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = cream.diffuse_color
@@ -181,5 +181,5 @@ bpy.ops.export_scene.gltf(filepath=str(root / "the-driving-fly-mini.glb"), expor
     export_draco_mesh_compression_enable=True, export_draco_position_quantization=16,
     export_draco_texcoord_quantization=14)
 (root / "ad-spaces.json").write_text(json.dumps(inventory, indent=2) + "\n")
-(root / "layout-v2-checks.json").write_text(json.dumps(report, indent=2) + "\n")
-print("LAYOUT_V2 " + json.dumps(report))
+(root / "layout-checks.json").write_text(json.dumps(report, indent=2) + "\n")
+print("LAYOUT " + json.dumps(report))

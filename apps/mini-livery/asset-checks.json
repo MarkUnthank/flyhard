@@ -1,6 +1,6 @@
 {
-  "glb_bytes": 4397704,
-  "layout_version": 2,
+  "glb_bytes": 4398516,
+  "layout_version": 3,
   "active_spots": 12,
   "source_slots": 59,
   "nodes": 257,
@@ -18,7 +18,6 @@
     "Paid panel aspect ratios preserved",
     "Three left, three right, two top, two front, two rear",
     "Projected surface coverage at least 98 percent",
-    "Studio excluded",
-    "All five views rendered and visually checked"
+    "Studio excluded"
   ]
 }

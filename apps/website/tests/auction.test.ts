@@ -250,9 +250,9 @@ describe("auction rules", () => {
     expect(ordered.slice(0, 7).map((s) => s.id)).toEqual([
       "ad-01",
       "ad-56",
-      "ad-54",
       "ad-57",
       "ad-53",
+      "ad-54",
       "ad-59",
       "ad-02",
     ]);
