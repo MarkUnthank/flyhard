@@ -67,7 +67,7 @@ export default function CustomWrapOffer({
         if (stopped) return;
         if (!response.ok) throw new Error(data.error);
         const messages: Record<string, string> = {
-          paid: `You’re in. Custom wrap #${data.orderNumber} is paid in full. We’ll contact your checkout email to get your brief and arrange your wrap and ${WRAP_VIDEOS} videos.`,
+          paid: `You’re in. Custom wrap #${data.orderNumber} is paid in full. Check your email for Mark’s meeting link and the paint texture. Book a call ASAP so we can make your wrap and ${WRAP_VIDEOS} videos.`,
           refund_pending:
             "Another buyer purchased that price first. We’re arranging a full refund. You can purchase the next wrap at the price below.",
           refunded:
@@ -78,8 +78,12 @@ export default function CustomWrapOffer({
         if (messages[data.status]) {
           setMessage(messages[data.status]);
           history.replaceState({}, "", "/#custom-wrap");
-          const refresh = await fetch("/api/auction", { cache: "no-store" });
-          if (refresh.ok && !stopped) accept(await refresh.json());
+          try {
+            const refresh = await fetch("/api/auction", { cache: "no-store" });
+            if (refresh.ok && !stopped) accept(await refresh.json());
+          } catch {
+            // A failed price refresh cannot undo an authoritative payment result.
+          }
         } else if (++attempts < 20) timer = setTimeout(confirm, 3000);
         else
           setMessage(

@@ -18,8 +18,9 @@ export default function Terms() {
         The custom wrap package includes a full custom livery designed for your
         brand on our simulated Mini, and two released project videos featuring
         that wrap. This is a digital project vehicle, not a physical car wrap.
-        We contact the email address supplied at checkout to collect your brief
-        and artwork and arrange production timing. Projects enter production in
+        After payment, we email your checkout address with a meeting link and
+        the car’s paint texture. Book a meeting with Mark to discuss your brief
+        and artwork and start making your wrap. Projects enter production in
         purchase order; payment does not instantly replace the website’s live
         auction placements.
       </p>

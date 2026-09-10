@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { build } from "esbuild";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -10,6 +10,10 @@ import {
 } from "miniflare";
 import { decode, encode } from "fast-png";
 import Stripe from "stripe";
+import {
+  WRAP_BOOKING_URL,
+  WRAP_TEXTURE_URL,
+} from "../worker/custom-wrap-email";
 import {
   bidSchema,
   dollarsToCents,
@@ -32,6 +36,7 @@ const refunds = new Map<string, Record<string, unknown>>();
 const refundRequests: string[] = [];
 const emails: EmailMessageBuilder[] = [];
 let failEmail = false;
+let failEmailAudience: string | undefined;
 let testMode = false;
 let failSessionRead: string | undefined;
 let sessionReads: string[] = [];
@@ -71,9 +76,14 @@ beforeAll(async () => {
   > = async (request: import("miniflare").Request) => {
     const url = new URL(request.url);
     if (url.origin === "https://email.test") {
-      if (failEmail)
+      const message = (await request.json()) as EmailMessageBuilder;
+      if (
+        failEmail ||
+        (failEmailAudience &&
+          message.headers?.["X-Custom-Wrap-Audience"] === failEmailAudience)
+      )
         return new WorkerResponse("Temporary failure", { status: 503 });
-      emails.push((await request.json()) as EmailMessageBuilder);
+      emails.push(message);
       return WorkerResponse.json({ messageId: `email-${emails.length}` });
     }
     if (url.origin !== "https://api.stripe.com")
@@ -115,6 +125,20 @@ beforeAll(async () => {
         });
       }
       return WorkerResponse.json(sessions.get(id));
+    }
+    if (url.pathname === "/v1/checkout/sessions" && request.method === "GET") {
+      const all = [...sessions.values()];
+      const start = url.searchParams.get("starting_after");
+      const remaining = start
+        ? all.slice(all.findIndex((s) => s.id === start) + 1)
+        : all;
+      const data = remaining.slice(0, 3);
+      return WorkerResponse.json({
+        object: "list",
+        url: "/v1/checkout/sessions",
+        data,
+        has_more: remaining.length > data.length,
+      });
     }
     if (/\/v1\/checkout\/sessions\/cs_test_\d+$/.test(url.pathname)) {
       const id = url.pathname.split("/").at(-1)!;
@@ -538,8 +562,14 @@ describe("auction rules", () => {
     expect(live.placements["ad-01"].id).not.toBe(first.id);
     expect(live.placements["ad-01"].textureUrl).not.toBe(first.textureUrl);
     expect(live.history.some((p) => p.id === first.id)).toBe(true);
-    const { paidAmount: _paid, complimentaryCredit: _credit, ...originalPaidBid } = first;
-    expect(live.highestBids.find((p) => p.id === first.id)).toEqual(originalPaidBid);
+    const {
+      paidAmount: _paid,
+      complimentaryCredit: _credit,
+      ...originalPaidBid
+    } = first;
+    expect(live.highestBids.find((p) => p.id === first.id)).toEqual(
+      originalPaidBid,
+    );
     expect(live.highestBids.map((p) => p.amount)).toEqual(
       live.highestBids.map((p) => p.amount).sort((a, b) => b - a),
     );
@@ -935,9 +965,24 @@ async function wrapCheckout(amount?: number) {
   return { ...((await response.json()) as { sessionId: string }), input };
 }
 const wrapEmails = () =>
-  emails.filter((mail) => mail.headers?.["X-Custom-Wrap-Order"]);
+  emails.filter(
+    (mail) => mail.headers?.["X-Custom-Wrap-Audience"] === "operator",
+  );
+const wrapBuyerEmails = () =>
+  emails.filter((mail) => mail.headers?.["X-Custom-Wrap-Audience"] === "buyer");
 
 describe("custom wrap purchases", () => {
+  beforeEach(async () => {
+    failEmail = false;
+    failEmailAudience = undefined;
+    testMode = false;
+    await testStub.testConfig(false);
+    await testStub.testWrapConfig("operator@example.test");
+    await testStub.testAlarm();
+    await testStub.testSql("DELETE FROM wrap_notifications");
+    await testStub.testSql("DELETE FROM wrap_orders");
+    emails.length = 0;
+  });
   it("starts at $10,000 with immediate capture, two videos and immutable retries", async () => {
     expect((await snapshot()).customWrap).toEqual({
       amount: 1_000_000,
@@ -984,6 +1029,7 @@ describe("custom wrap purchases", () => {
     ).toMatchObject({ status: "pending", orderNumber: null });
     expect((await snapshot()).customWrap.soldCount).toBe(0);
     expect(wrapEmails()).toHaveLength(0);
+    expect(wrapBuyerEmails()).toHaveLength(0);
   });
   it("rejects forged prices, missing acceptance, wrong origin and malformed confirmations", async () => {
     const input = {
@@ -1025,7 +1071,7 @@ describe("custom wrap purchases", () => {
       ).status,
     ).toBe(404);
   });
-  it("confirms once, opens $10,001 and emails the operator without changing sponsors", async () => {
+  it("confirms once, opens $10,001 and emails the operator and buyer without changing sponsors", async () => {
     const before = await snapshot();
     const checkout = await wrapCheckout();
     const results = await Promise.all([
@@ -1055,6 +1101,24 @@ describe("custom wrap purchases", () => {
       `https://dashboard.stripe.com/payments/pi_${checkout.sessionId}`,
     );
     expect(mail.text).toContain("You can start working");
+    expect(wrapBuyerEmails()).toHaveLength(1);
+    const welcome = wrapBuyerEmails()[0];
+    expect(welcome.to).toBe(`${checkout.sessionId}@example.test`);
+    expect(welcome.replyTo).toBe("operator@example.test");
+    expect(welcome.subject).toContain("Your custom wrap is booked");
+    expect(welcome.subject).not.toContain("[TEST]");
+    expect(welcome.text).toContain("$10,000 USD");
+    expect(welcome.text).toContain("2 released project videos");
+    expect(welcome.text).toContain("Book a meeting with me ASAP");
+    expect(welcome.text).toContain(
+      "feel free to vibe, sketch, or start designing your wrap",
+    );
+    expect(welcome.text).toContain(WRAP_BOOKING_URL);
+    expect(welcome.text).not.toContain(`${WRAP_BOOKING_URL},`);
+    expect(welcome.text).toContain(WRAP_TEXTURE_URL);
+    expect(welcome.html).toContain(`href="${WRAP_BOOKING_URL}"`);
+    expect(welcome.html).toContain(`href="${WRAP_TEXTURE_URL}"`);
+    expect(welcome.text).not.toContain("dashboard.stripe.com");
     const confirmation = await (
       await request("/api/custom-wrap/confirm", {
         sessionId: checkout.sessionId,
@@ -1071,6 +1135,7 @@ describe("custom wrap purchases", () => {
     await pay(checkout.sessionId);
     await testStub.testAlarm();
     expect(wrapEmails()).toHaveLength(1);
+    expect(wrapBuyerEmails()).toHaveLength(1);
   });
   it("refunds a simultaneous purchase at an old price without another increase or email", async () => {
     const before = await snapshot();
@@ -1094,6 +1159,7 @@ describe("custom wrap purchases", () => {
     );
     expect(refundRequests.length).toBe(refundCount + 1);
     expect(wrapEmails().length).toBe(mailCount + 1);
+    expect(wrapBuyerEmails()).toHaveLength(1);
     await Promise.all([pay(a.sessionId), pay(b.sessionId)]);
     await testStub.testAlarm();
     expect(refundRequests.length).toBe(refundCount + 1);
@@ -1142,21 +1208,22 @@ describe("custom wrap purchases", () => {
       expect(await testStub.testAlarm()).not.toBeNull();
       expect(wrapEmails().length).toBe(mailCount);
       const rows = await testStub.testSql(
-        "SELECT status, notification_status, notification_attempts FROM wrap_orders WHERE session_id = ?",
+        "SELECT o.status, n.status AS notification_status, n.attempts FROM wrap_orders o JOIN wrap_notifications n ON o.id = n.order_id WHERE o.session_id = ?",
         checkout.sessionId,
       );
       expect(rows[0]).toMatchObject({
         status: "paid",
         notification_status: "pending",
       });
-      expect(Number(rows[0].notification_attempts)).toBeGreaterThan(0);
+      expect(rows).toHaveLength(2);
+      expect(rows.every((row) => Number(row.attempts) > 0)).toBe(true);
       await mf.setOptions(mfOptions);
       const namespace = await mf.getDurableObjectNamespace("AUCTION");
       testStub = namespace.get(
         namespace.idFromName("the-driving-fly-v1"),
       ) as unknown as TestStub;
       await testStub.testSql(
-        "UPDATE wrap_orders SET next_attempt_at = 0 WHERE session_id = ?",
+        "UPDATE wrap_notifications SET next_attempt_at = 0 WHERE order_id = (SELECT id FROM wrap_orders WHERE session_id = ?)",
         checkout.sessionId,
       );
     } finally {
@@ -1166,6 +1233,61 @@ describe("custom wrap purchases", () => {
     await expect.poll(() => wrapEmails().length).toBe(mailCount + 1);
     await testStub.testAlarm();
     expect(wrapEmails().length).toBe(mailCount + 1);
+    expect(wrapBuyerEmails()).toHaveLength(1);
+  });
+  it.each(["buyer", "operator"])(
+    "retries only the failed %s email after a restart",
+    async (audience) => {
+      const checkout = await wrapCheckout();
+      failEmailAudience = audience;
+      await pay(checkout.sessionId);
+      await testStub.testAlarm();
+      expect(wrapEmails()).toHaveLength(audience === "operator" ? 0 : 1);
+      expect(wrapBuyerEmails()).toHaveLength(audience === "buyer" ? 0 : 1);
+      const jobs = await testStub.testSql(
+        "SELECT audience, status, attempts FROM wrap_notifications",
+      );
+      expect(jobs.find((job) => job.audience === audience)).toMatchObject({
+        status: "pending",
+      });
+      expect(jobs.find((job) => job.audience !== audience)).toMatchObject({
+        status: "sent",
+      });
+      await mf.setOptions(mfOptions);
+      const namespace = await mf.getDurableObjectNamespace("AUCTION");
+      testStub = namespace.get(
+        namespace.idFromName("the-driving-fly-v1"),
+      ) as unknown as TestStub;
+      failEmailAudience = undefined;
+      await testStub.testSql(
+        "UPDATE wrap_notifications SET next_attempt_at = 0",
+      );
+      await testStub.testAlarm();
+      expect(wrapEmails()).toHaveLength(1);
+      expect(wrapBuyerEmails()).toHaveLength(1);
+      await pay(checkout.sessionId);
+      await testStub.testAlarm();
+      expect(wrapEmails()).toHaveLength(1);
+      expect(wrapBuyerEmails()).toHaveLength(1);
+    },
+  );
+  it("recovers a paid checkout whose session ID and webhook were lost", async () => {
+    const checkout = await wrapCheckout();
+    const session = sessions.get(checkout.sessionId)!;
+    session.status = "complete";
+    session.payment_status = "paid";
+    await testStub.testSql(
+      "UPDATE wrap_orders SET session_id = NULL WHERE session_id = ?",
+      checkout.sessionId,
+    );
+    const before = (await snapshot()).customWrap;
+    await testStub.testAlarm();
+    expect((await snapshot()).customWrap.soldCount).toBe(before.soldCount + 1);
+    expect(wrapEmails()).toHaveLength(1);
+    expect(wrapBuyerEmails()).toHaveLength(1);
+    await testStub.testAlarm();
+    expect(wrapEmails()).toHaveLength(1);
+    expect(wrapBuyerEmails()).toHaveLength(1);
   });
   it("verifies payment when the buyer returns before a webhook", async () => {
     const checkout = await wrapCheckout();
@@ -1241,6 +1363,16 @@ describe("custom wrap purchases", () => {
       expect(mail.subject).toContain("[TEST]");
       expect(mail.text).toContain("Do not begin production");
       expect(mail.text).toContain("stripe.com/test/payments/");
+      const buyerMail = wrapBuyerEmails().at(-1)!;
+      expect(buyerMail.to).toBe("wrap-sandbox@example.test");
+      expect(buyerMail.replyTo).toBe("wrap-sandbox@example.test");
+      expect(buyerMail.subject).toContain("[TEST]");
+      expect(buyerMail.text).toContain(
+        "Do not book a meeting or begin production",
+      );
+      expect(buyerMail.text).toContain(WRAP_BOOKING_URL);
+      expect(buyerMail.text).toContain(WRAP_TEXTURE_URL);
+      expect(buyerMail.to).not.toBe(`${checkout.sessionId}@example.test`);
     } finally {
       testMode = false;
       await testStub.testConfig(false);

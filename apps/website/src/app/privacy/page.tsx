@@ -41,12 +41,12 @@ export default function Privacy() {
       <p>
         For a custom wrap, we privately retain the brand name and email address
         from Stripe Checkout, the purchase amount and order number, and payment
-        and notification status. We email the project operator through
-        Cloudflare Email Service when payment is confirmed so they can contact
-        you for your brief, artwork, and production schedule. Buyer contact
-        details and payment identifiers are never included in the public offer
-        or auction data. The wrap price, purchase count, and total funding are
-        public.
+        and notification status. After payment is confirmed, we use Cloudflare
+        Email Service to email you a meeting link and design files, and to
+        notify the project operator of your purchase. These are transactional
+        emails and do not subscribe you to marketing. Buyer contact details and
+        payment identifiers are never included in the public offer or auction
+        data. The wrap price, purchase count, and total funding are public.
       </p>
       <h2>Hosting and connection data</h2>
       <p>

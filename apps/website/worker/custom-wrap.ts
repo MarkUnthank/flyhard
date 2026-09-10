@@ -10,6 +10,7 @@ import { money } from "../src/lib/auction";
 import type { Env } from "./env";
 import { HttpError, json, readJson } from "./http";
 import { checkoutEmail, emailErrorCode } from "./outbid-email";
+import { buyerWrapEmail } from "./custom-wrap-email";
 
 type WrapOrder = {
   id: string;
@@ -24,9 +25,10 @@ type WrapOrder = {
   sale_number: number | null;
   created_at: number;
   paid_at: number | null;
-  notification_status: "pending" | "sent" | null;
-  notification_attempts: number;
-  next_attempt_at: number;
+};
+type WrapNotification = {
+  audience: "operator" | "buyer";
+  attempts: number;
 };
 const CHECKOUT_LIFETIME = 31 * 60_000;
 
@@ -50,13 +52,18 @@ export class CustomWrapOrders {
         session_id TEXT UNIQUE, payment_id TEXT UNIQUE, refund_id TEXT,
         buyer_email TEXT, brand TEXT, sale_number INTEGER UNIQUE,
         created_at INTEGER NOT NULL, paid_at INTEGER,
-        checked_at INTEGER NOT NULL DEFAULT 0,
-        notification_status TEXT, notification_attempts INTEGER NOT NULL DEFAULT 0,
-        next_attempt_at INTEGER NOT NULL DEFAULT 0,
-        notification_message_id TEXT, notification_error TEXT
+        checked_at INTEGER NOT NULL DEFAULT 0
       );
       CREATE INDEX IF NOT EXISTS wrap_status ON wrap_orders(status, checked_at);
-      CREATE INDEX IF NOT EXISTS wrap_notification ON wrap_orders(notification_status, next_attempt_at);
+      CREATE TABLE IF NOT EXISTS wrap_notifications (
+        order_id TEXT NOT NULL REFERENCES wrap_orders(id),
+        audience TEXT NOT NULL CHECK(audience IN ('operator','buyer')),
+        status TEXT NOT NULL DEFAULT 'pending', attempts INTEGER NOT NULL DEFAULT 0,
+        next_attempt_at INTEGER NOT NULL DEFAULT 0,
+        message_id TEXT, error TEXT,
+        PRIMARY KEY(order_id, audience)
+      );
+      CREATE INDEX IF NOT EXISTS wrap_notification_jobs ON wrap_notifications(status, next_attempt_at);
     `);
   }
 
@@ -91,7 +98,7 @@ export class CustomWrapOrders {
     return (
       this.sql
         .exec<{ count: number }>(
-          "SELECT COUNT(*) AS count FROM wrap_orders WHERE status IN ('pending','refund_pending') OR notification_status = 'pending'",
+          "SELECT (SELECT COUNT(*) FROM wrap_orders WHERE status IN ('pending','refund_pending')) + (SELECT COUNT(*) FROM wrap_notifications WHERE status = 'pending') AS count",
         )
         .one().count > 0
     );
@@ -159,7 +166,7 @@ export class CustomWrapOrders {
                   unit_amount: order.amount,
                   product_data: {
                     name: `The Driving Fly · Full custom wrap + ${WRAP_VIDEOS} videos`,
-                    description: `We design a full custom wrap for the simulated Mini and release ${WRAP_VIDEOS} project videos featuring it. Production follows payment; we contact your checkout email to begin.`,
+                    description: `We design a full custom wrap for the simulated Mini and release ${WRAP_VIDEOS} project videos featuring it. After payment, we email you a meeting link and the car's paint texture so we can get started.`,
                   },
                 },
               },
@@ -183,7 +190,7 @@ export class CustomWrapOrders {
             expires_at: Math.floor(order.created_at / 1000) + 31 * 60,
             custom_text: {
               submit: {
-                message: `Full one-time payment is charged now for one custom wrap and ${WRAP_VIDEOS} videos. Production is scheduled by email. If another buyer pays this price first, we refund your payment in full. Terms: ${this.env.SITE_URL}/terms#custom-wrap`,
+                message: `Full one-time payment is charged now for one custom wrap and ${WRAP_VIDEOS} videos. Check your email after purchase to book your design meeting. If another buyer pays this price first, we refund your payment in full. Terms: ${this.env.SITE_URL}/terms#custom-wrap`,
               },
             },
           },
@@ -285,9 +292,14 @@ export class CustomWrapOrders {
         return;
       }
       this.sql.exec(
-        "UPDATE wrap_orders SET status = 'paid', sale_number = ?, paid_at = ?, notification_status = 'pending' WHERE id = ?",
+        "UPDATE wrap_orders SET status = 'paid', sale_number = ?, paid_at = ? WHERE id = ?",
         offer.soldCount + 1,
         Date.now(),
+        order.id,
+      );
+      this.sql.exec(
+        "INSERT INTO wrap_notifications (order_id, audience) VALUES (?, 'operator'), (?, 'buyer')",
+        order.id,
         order.id,
       );
       this.sql.exec(
@@ -302,13 +314,28 @@ export class CustomWrapOrders {
   async reconcile() {
     const pending = this.sql
       .exec<WrapOrder>(
-        "SELECT * FROM wrap_orders WHERE status = 'pending' AND session_id IS NOT NULL ORDER BY checked_at LIMIT 20",
+        "SELECT * FROM wrap_orders WHERE status = 'pending' ORDER BY checked_at LIMIT 20",
       )
       .toArray();
     for (const order of pending) {
       try {
-        const session = await this.stripe().checkout.sessions.retrieve(
-          order.session_id!,
+        const session = order.session_id
+          ? await this.stripe().checkout.sessions.retrieve(order.session_id)
+          : await this.recoverSession(order);
+        if (!session) {
+          // Only expire after Stripe has confirmed no session exists in the
+          // entire creation window. API failures leave the order recoverable.
+          if (order.created_at < Date.now() - CHECKOUT_LIFETIME)
+            this.sql.exec(
+              "UPDATE wrap_orders SET status = 'expired' WHERE id = ? AND status = 'pending' AND session_id IS NULL",
+              order.id,
+            );
+          continue;
+        }
+        this.sql.exec(
+          "UPDATE wrap_orders SET session_id = ? WHERE id = ? AND session_id IS NULL",
+          session.id,
+          order.id,
         );
         await this.fulfill(session);
         if (session.status === "expired")
@@ -318,19 +345,34 @@ export class CustomWrapOrders {
           );
       } catch {
         console.error("Custom wrap checkout will retry", order.id);
+      } finally {
+        this.sql.exec(
+          "UPDATE wrap_orders SET checked_at = ? WHERE id = ?",
+          Date.now(),
+          order.id,
+        );
       }
-      this.sql.exec(
-        "UPDATE wrap_orders SET checked_at = ? WHERE id = ?",
-        Date.now(),
-        order.id,
-      );
     }
-    // Unknown session responses still recover via Stripe's metadata webhook.
-    this.sql.exec(
-      "UPDATE wrap_orders SET status = 'expired' WHERE status = 'pending' AND session_id IS NULL AND created_at < ?",
-      Date.now() - 86_400_000,
-    );
     await this.maintenance();
+  }
+
+  private async recoverSession(order: WrapOrder) {
+    // Recovery must still work after Stripe's idempotency-key retention window.
+    // The SDK paginates through the order's bounded session-creation interval.
+    for await (const session of this.stripe().checkout.sessions.list({
+      created: {
+        gte: Math.floor(order.created_at / 1000),
+        lte: Math.ceil((order.created_at + CHECKOUT_LIFETIME) / 1000),
+      },
+      limit: 100,
+    })) {
+      if (
+        session.metadata?.custom_wrap_order_id === order.id &&
+        session.client_reference_id === order.id
+      )
+        return this.stripe().checkout.sessions.retrieve(session.id);
+    }
+    return null;
   }
 
   private async maintenance() {
@@ -376,49 +418,66 @@ export class CustomWrapOrders {
     if (!this.env.EMAIL || !this.env.OUTBID_EMAIL_FROM || !this.recipient())
       return;
     for (const order of this.sql
-      .exec<WrapOrder>(
-        "SELECT * FROM wrap_orders WHERE notification_status = 'pending' AND next_attempt_at <= ? ORDER BY paid_at LIMIT 20",
+      .exec<WrapOrder & WrapNotification>(
+        "SELECT o.*, n.audience, n.attempts FROM wrap_notifications n JOIN wrap_orders o ON o.id = n.order_id WHERE n.status = 'pending' AND n.next_attempt_at <= ? AND o.status = 'paid' ORDER BY o.paid_at, n.audience LIMIT 40",
         Date.now(),
       )
       .toArray()) {
       try {
+        const to =
+          this.testMode() || order.audience === "operator"
+            ? this.recipient()
+            : order.buyer_email;
+        if (!checkoutEmail({ customer_email: to }))
+          throw new Error("Custom wrap notification is missing a recipient");
+        const content =
+          order.audience === "buyer"
+            ? buyerWrapEmail({
+                amount: order.amount,
+                orderNumber: order.sale_number!,
+                test: this.testMode(),
+              })
+            : {
+                subject: `${this.testMode() ? "[TEST] " : ""}${money(order.amount)} custom wrap purchased — #${order.sale_number}`,
+                text: [
+                  this.testMode()
+                    ? "TEST PURCHASE — no real money was charged. Do not begin production."
+                    : "Payment confirmed. You can start working on the custom wrap now.",
+                  `Order: #${order.sale_number} (${order.id})`,
+                  `Brand / project: ${order.brand || "See Stripe checkout"}`,
+                  `Buyer email: ${order.buyer_email || "Missing — check the payment in Stripe before starting."}`,
+                  `Paid: ${money(order.amount)} USD, in full.`,
+                  `Deliverables: one full custom wrap for the simulated Mini and ${WRAP_VIDEOS} released project videos featuring it.`,
+                  "The buyer's welcome email includes your meeting link and the paint texture. Get their brief and artwork together, then make their wrap.",
+                  `Payment: https://dashboard.stripe.com/${this.testMode() ? "test/" : ""}payments/${order.payment_id}`,
+                  `The next wrap is available immediately at ${money(this.snapshot().amount)} USD.`,
+                ].join("\n\n"),
+              };
         const result = await this.env.EMAIL.send({
           from: { name: "The Driving Fly", email: this.env.OUTBID_EMAIL_FROM },
-          to: this.recipient()!,
-          subject: `${this.testMode() ? "[TEST] " : ""}${money(order.amount)} custom wrap purchased — #${order.sale_number}`,
-          text: [
-            this.testMode()
-              ? "TEST PURCHASE — no real money was charged. Do not begin production."
-              : "Payment confirmed. You can start working on the custom wrap now.",
-            `Order: #${order.sale_number} (${order.id})`,
-            `Brand / project: ${order.brand || "See Stripe checkout"}`,
-            `Buyer email: ${order.buyer_email || "Missing — check the payment in Stripe before starting."}`,
-            `Paid: ${money(order.amount)} USD, in full.`,
-            `Deliverables: one full custom wrap for the simulated Mini and ${WRAP_VIDEOS} released project videos featuring it.`,
-            "Next step: contact the buyer for their artwork and brief, and arrange production in purchase order.",
-            `Payment: https://dashboard.stripe.com/${this.testMode() ? "test/" : ""}payments/${order.payment_id}`,
-            `The next wrap is available immediately at ${money(this.snapshot().amount)} USD.`,
-          ].join("\n\n"),
+          to: to!,
+          replyTo: this.recipient()!,
+          ...content,
           headers: {
             "X-Custom-Wrap-Order": order.id,
+            "X-Custom-Wrap-Audience": order.audience,
             "Auto-Submitted": "auto-generated",
           },
         });
         this.sql.exec(
-          "UPDATE wrap_orders SET notification_status = 'sent', notification_message_id = ?, notification_error = NULL WHERE id = ?",
+          "UPDATE wrap_notifications SET status = 'sent', message_id = ?, error = NULL WHERE order_id = ? AND audience = ?",
           result.messageId,
           order.id,
+          order.audience,
         );
       } catch (error) {
         this.sql.exec(
-          "UPDATE wrap_orders SET notification_attempts = notification_attempts + 1, next_attempt_at = ?, notification_error = ? WHERE id = ?",
+          "UPDATE wrap_notifications SET attempts = attempts + 1, next_attempt_at = ?, error = ? WHERE order_id = ? AND audience = ?",
           Date.now() +
-            Math.min(
-              3_600_000,
-              60_000 * 2 ** Math.min(order.notification_attempts, 6),
-            ),
+            Math.min(3_600_000, 60_000 * 2 ** Math.min(order.attempts, 6)),
           emailErrorCode(error),
           order.id,
+          order.audience,
         );
         console.error(
           "Custom wrap purchase email will retry",
