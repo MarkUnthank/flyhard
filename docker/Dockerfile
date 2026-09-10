@@ -5,9 +5,6 @@ RUN npm install --omit=dev --ignore-scripts --package-lock=false --no-save sharp
 
 FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404@sha256:4d1721e62b56d345c83b4fd6090664be6daf9312caab5b2e76f23d8231941851
 
-COPY --from=livery-node /usr/local/bin/node /usr/local/bin/node
-COPY --from=livery-node /opt/livery/node_modules /opt/flyhard/node_modules
-
 ENV DEBIAN_FRONTEND=noninteractive \
     MUJOCO_GL=egl PYOPENGL_PLATFORM=egl \
     PYVISTA_OFF_SCREEN=true VTK_DEFAULT_OPENGL_WINDOW=vtkEGLRenderWindow \
@@ -38,9 +35,13 @@ COPY requirements/ /opt/flyhard/requirements/
 COPY docker/install_environment.py /opt/flyhard/docker/install_environment.py
 RUN python /opt/flyhard/docker/install_environment.py
 
+COPY --from=livery-node /usr/local/bin/node /usr/local/bin/node
+COPY --from=livery-node /opt/livery/node_modules /opt/flyhard/node_modules
+
 COPY src/ /opt/flyhard/src/
 COPY scripts/ /opt/flyhard/scripts/
 COPY tests/ /opt/flyhard/tests/
+COPY configs/ /opt/flyhard/configs/
 COPY deploy/seed_runtime_volume.py /opt/flyhard/deploy/seed_runtime_volume.py
 COPY apps/website/scripts/export-livery.mjs apps/website/scripts/apply-livery.py /opt/flyhard/apps/website/scripts/
 COPY apps/website/src/lib/artwork-bounds.mjs /opt/flyhard/apps/website/src/lib/artwork-bounds.mjs

@@ -18,9 +18,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONPATH=/workspace/flyhard/src \
     PATH=/workspace/flyhard-runtime/blender-5.2.1/blender-5.2.1-linux-x64:/opt/flyhard-env/bin:${PATH}
 
-COPY --from=livery-node /usr/local/bin/node /usr/local/bin/node
-COPY --from=livery-node /opt/livery/node_modules /opt/flyhard/node_modules
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
       libegl1 libgl1 libopengl0 libgles2 libvulkan1 libglu1-mesa vulkan-tools \
       mesa-utils xvfb rsync ffmpeg git ca-certificates curl tini \
@@ -35,9 +32,13 @@ COPY requirements/ /opt/flyhard/requirements/
 COPY docker/install_environment.py /opt/flyhard/docker/install_environment.py
 RUN python /opt/flyhard/docker/install_environment.py
 
+COPY --from=livery-node /usr/local/bin/node /usr/local/bin/node
+COPY --from=livery-node /opt/livery/node_modules /opt/flyhard/node_modules
+
 COPY src/ /opt/flyhard/src/
 COPY scripts/ /opt/flyhard/scripts/
 COPY tests/ /opt/flyhard/tests/
+COPY configs/ /opt/flyhard/configs/
 COPY deploy/seed_runtime_volume.py /opt/flyhard/deploy/seed_runtime_volume.py
 COPY apps/website/scripts/export-livery.mjs apps/website/scripts/apply-livery.py /opt/flyhard/apps/website/scripts/
 COPY apps/website/src/lib/artwork-bounds.mjs /opt/flyhard/apps/website/src/lib/artwork-bounds.mjs

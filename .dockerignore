@@ -16,7 +16,11 @@
 !apps/mini-livery/README.md
 !apps/mini-livery/BarlowCondensed-OFL.txt
 !AGENTS.md
+!configs/
+!configs/**
 !requirements/
+!configs/
+!configs/**
 !requirements/**
 !src/
 !src/**

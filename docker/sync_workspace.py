@@ -10,7 +10,7 @@ from pathlib import Path
 import shutil
 import time
 
-SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'deploy', 'assets/fonts',
+SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'deploy', 'configs', 'assets/fonts',
                 'pyproject.toml', 'README.md', 'LICENSE', 'THIRD_PARTY.md', 'AGENTS.md',
                 'apps/website/scripts/export-livery.mjs', 'apps/website/scripts/apply-livery.py',
                 'apps/website/src/lib/artwork-bounds.mjs', 'apps/website/LIVERY-EXPORT.md',
