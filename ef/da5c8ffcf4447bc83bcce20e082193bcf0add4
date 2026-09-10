@@ -1,0 +1,74 @@
+apps/website/worker/social-images.ts
+  s_1c0f4c8f6b797f::t_05724c8828d714 54-55,57-59,62-64,67-69,72-75,85-90,92-104,106-108,110-116,119-135
+  s_1c0f4c8f6b797f::t_384a590f1f9203 50-53,117,183-186
+  s_1c0f4c8f6b797f::t_5cf8017d7e1097 161
+  s_1c0f4c8f6b797f::t_735659c2fc4773 25,44,140
+  s_1c0f4c8f6b797f::t_c6983aafdc6ffd 17,21,30-36,47-49,56,60-61,65-66,70-71,76-84,91,105,109,118,136-137,145,234
+apps/website/scripts/render-social.mjs
+  s_1c0f4c8f6b797f::t_daac64423ee779 3
+apps/website/scripts/build-social-renderer.mjs
+  s_1c0f4c8f6b797f::t_daac64423ee779 35
+apps/website/tests/social-images.test.ts
+  s_1c0f4c8f6b797f::t_bb9d289ef5a38b 23,115-116,142,146-148,208-229,237,241-255,263,267-268,281,285-288
+  s_1c0f4c8f6b797f::t_735659c2fc4773 178-183,189-196,200,204-207
+  s_1c0f4c8f6b797f::t_05724c8828d714 138-141,143-145,230-236,238-240,256-262,264-266,269-280,282-284
+  s_1c0f4c8f6b797f::t_5cf8017d7e1097 370
+  s_1c0f4c8f6b797f::t_384a590f1f9203 29-30,78,342-343
+  s_1c0f4c8f6b797f::t_9d94cdc819ec38 184-188,197-199,201-203
+apps/website/src/app/layout.tsx
+  s_1c0f4c8f6b797f::t_daac64423ee779 3,5,34,40,77-78
+  s_1c0f4c8f6b797f::t_9d94cdc819ec38 74-76
+apps/website/wrangler.dev.jsonc
+  s_1c0f4c8f6b797f::t_daac64423ee779 21
+.github/workflows/social-images.yml
+  s_1c0f4c8f6b797f::t_c6983aafdc6ffd 19
+apps/website/next.config.ts
+  s_1c0f4c8f6b797f::t_9d94cdc819ec38 8-23
+  s_1c0f4c8f6b797f::t_daac64423ee779 6
+apps/website/worker/api.ts
+  s_1c0f4c8f6b797f::t_daac64423ee779 2,6-11
+apps/website/worker/index.ts
+  s_1c0f4c8f6b797f::t_daac64423ee779 4,24
+apps/website/worker/social-auth.ts
+  s_1c0f4c8f6b797f::t_c6983aafdc6ffd 35
+apps/website/worker/env.ts
+  s_1c0f4c8f6b797f::t_c6983aafdc6ffd 15-16
+apps/website/tests/fixtures/auction-worker.ts
+  s_1c0f4c8f6b797f::t_384a590f1f9203 24-26
+apps/website/worker/auction.ts
+  ai_agent 111-115
+  s_1c0f4c8f6b797f::t_c6983aafdc6ffd 764,771,1042,1056,1060,1063
+  s_1c0f4c8f6b797f::t_e027feb9b21431 116,118,1057-1059
+apps/website/scripts/update-social.mjs
+  s_1c0f4c8f6b797f::t_5cf8017d7e1097 65-66
+  s_1c0f4c8f6b797f::t_daac64423ee779 6,76
+apps/website/.env.example
+  s_1c0f4c8f6b797f::t_e027feb9b21431 3,10-12
+apps/website/src/lib/social.ts
+  s_1c0f4c8f6b797f::t_c6983aafdc6ffd 8
+  s_1c0f4c8f6b797f::t_daac64423ee779 1-2,19-22
+apps/website/src/lib/social-sizes.json
+  s_1c0f4c8f6b797f::t_daac64423ee779 1-4
+apps/website/README.md
+  s_1c0f4c8f6b797f::t_e027feb9b21431 96,98,100-102,117
+apps/website/tests/auction.test.ts
+  s_1c0f4c8f6b797f::t_bb9d289ef5a38b 43-44,53,88-91
+  s_1c0f4c8f6b797f::t_571e39e881869d 1397-1407,1411-1416,1420-1432
+  s_1c0f4c8f6b797f::t_05724c8828d714 81-87,1408-1410,1417-1419
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "efda5c8ffcf4447bc83bcce20e082193bcf0add4",
+  "prompts": {},
+  "sessions": {
+    "s_1c0f4c8f6b797f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b10-0dfd-7ef0-8ae9-f3b12e2476ee",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
