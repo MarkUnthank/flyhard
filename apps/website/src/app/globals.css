@@ -744,18 +744,10 @@ input[type="checkbox"] {
 }
 .claim-button {
   font-size: 12px;
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  border: 1px solid #dfe4d8;
   padding: 8px 12px;
   border-radius: 7px;
-  color: #67785a;
   white-space: nowrap;
-}
-.claim-button:hover {
-  background: #eef3e8;
-  border-color: #b5c6a5;
 }
 .sort-button {
   display: inline-flex;
