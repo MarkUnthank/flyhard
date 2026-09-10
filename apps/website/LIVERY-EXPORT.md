@@ -7,7 +7,7 @@ cd apps/website
 npm run export:livery
 ```
 
-This downloads one frozen production livery revision into a new `exports/livery-r…` directory. It needs no Stripe or Cloudflare keys. It includes each sponsor's exact transformed, transparent PNG, their separate original logo thumbnail, stable spot IDs, dimensions, mesh names, public sponsor details, the source model, and SHA-256 checksums. Later bids cannot change these downloaded files. Rerun the command for each new recording; keep the export with that recording.
+This downloads one frozen production livery revision into a new `exports/livery-r…` directory. It needs no Stripe or Cloudflare keys. It includes each sponsor's transparent PNG fitted to the current panel, their separate original logo thumbnail, stable spot IDs, dimensions, mesh names, public sponsor details, the source model, and SHA-256 checksums. When a panel changes aspect ratio, the export removes transparent gutters and fits the visible artwork with a 5% margin, matching the website without stretching the logo. Later bids cannot change these downloaded files. Rerun the command for each new recording; keep the export with that recording.
 
 To generate the model with all sponsor images embedded, run the command printed by the exporter. On this Mac:
 
@@ -20,7 +20,7 @@ Use Blender 4.2 or newer. This creates `sponsored-mini.blend` and `sponsored-min
 
 ## Publish assets in the repository
 
-After generating the models, run `npm run package:livery -- /absolute/path/to/export`. This prepares `apps/mini-livery/sponsors/r<revision>-layout<version>/` with the two models, six (or the current number of) panel PNGs, a public-only sponsor manifest and checksums. Review and commit that directory. The raw export, logs, payment IDs and local configuration stay excluded. Each revision/layout pair is immutable; the command refuses to overwrite an existing release.
+After generating the models, run `npm run package:livery -- /absolute/path/to/export`. This prepares `apps/mini-livery/sponsors/r<revision>-layout<version>/` with the two models, one panel PNG per current sponsor, a public-only sponsor manifest and checksums. Review and commit that directory. The raw export, logs, payment IDs and local configuration stay excluded. Each revision/layout pair is immutable; the command refuses to overwrite an existing release.
 
 The repository's [sponsor asset handoff](../mini-livery/sponsors/README.md) identifies the checked-in revision ready for the CARLA agent.
 

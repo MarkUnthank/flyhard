@@ -1,11 +1,11 @@
 {
-  "glb_bytes": 4398516,
-  "layout_version": 3,
-  "active_spots": 12,
+  "glb_bytes": 4407712,
+  "layout_version": 4,
+  "active_spots": 7,
   "source_slots": 59,
   "nodes": 257,
   "meshes": 198,
-  "materials": 21,
+  "materials": 22,
   "images": 9,
   "extensions": [
     "KHR_draco_mesh_compression",
@@ -14,9 +14,10 @@
     "KHR_materials_specular"
   ],
   "checks": [
-    "Every active spot enlarged",
-    "Paid panel aspect ratios preserved",
-    "Three left, three right, two top, two front, two rear",
+    "All seven paid placements retained",
+    "No retained panel shrunk",
+    "Bonnet and roof retain full-size panels",
+    "Supertask remains on rear window",
     "Projected surface coverage at least 98 percent",
     "Studio excluded"
   ]

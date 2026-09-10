@@ -7,6 +7,7 @@ import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
+import { artworkBounds } from "@/lib/artwork-bounds.mjs";
 import {
   slots,
   activeSlots,
@@ -446,7 +447,7 @@ export default function CarViewer({
       state.pending.set(slot.id, placement.textureUrl);
       loader.load(
         placement.textureUrl,
-        (texture) => {
+        (texture: THREE.Texture) => {
           if (
             state.disposed ||
             currentPlacements.current[slot.id]?.textureUrl !==
@@ -456,6 +457,50 @@ export default function CarViewer({
             return;
           }
           state.pending.delete(slot.id);
+          // A sponsor may move to a differently shaped panel. Fit the published
+          // artwork without stretching it; the surrounding area stays transparent.
+          const image = texture.image as HTMLImageElement;
+          const aspect = slot.width_m / slot.height_m;
+          if (Math.abs(image.width / image.height / aspect - 1) > 0.01) {
+            const canvas = document.createElement("canvas");
+            canvas.width = 1024;
+            canvas.height = Math.round(canvas.width / aspect);
+            const context = canvas.getContext("2d");
+            if (!context) {
+              texture.dispose();
+              setTextureError(true);
+              return;
+            }
+            const source = document.createElement("canvas");
+            source.width = image.width;
+            source.height = image.height;
+            const sourceContext = source.getContext("2d")!;
+            sourceContext.drawImage(image, 0, 0);
+            const crop = artworkBounds(
+              sourceContext.getImageData(0, 0, image.width, image.height).data,
+              image.width,
+              image.height,
+            );
+            const scale = Math.min(
+              (canvas.width * 0.9) / crop.width,
+              (canvas.height * 0.9) / crop.height,
+            );
+            const width = crop.width * scale;
+            const height = crop.height * scale;
+            context.drawImage(
+              image,
+              crop.left,
+              crop.top,
+              crop.width,
+              crop.height,
+              (canvas.width - width) / 2,
+              (canvas.height - height) / 2,
+              width,
+              height,
+            );
+            texture.dispose();
+            texture = new THREE.CanvasTexture(canvas);
+          }
           texture.colorSpace = THREE.SRGBColorSpace;
           texture.flipY = false;
           texture.anisotropy = Math.min(

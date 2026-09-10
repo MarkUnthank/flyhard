@@ -326,7 +326,7 @@ export class Auction extends DurableObject<Env> {
       if (!snapshot.activeSlotIds.includes(input.slotId))
         throw new HttpError(
           409,
-          "This spot has been retired. Choose one of the 12 current spots.",
+          `This spot has been retired. Choose one of the ${snapshot.activeSlotIds.length} current spots.`,
         );
       const current = snapshot.placements[input.slotId];
       if (input.amount < minimumBid(current?.amount))

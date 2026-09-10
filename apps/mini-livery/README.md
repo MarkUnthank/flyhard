@@ -1,6 +1,6 @@
 # The Driving Fly — Mini advertising livery
 
-The actual CARLA Mini Cooper S 2021. **Layout 3 has 12 larger active advertising spaces:** three on each side, two on top, two at the front and two at the rear. Supertask occupies the large rear window. Paid spot IDs and artwork aspect ratios are preserved. The source retains all 59 historical IDs; the website hides inactive groups and the sponsor exporter removes them.
+The actual CARLA Mini Cooper S 2021. **Layout 4 has seven large advertising spaces, all occupied at release:** two on the left, one right door, bonnet, roof, front grille, and rear window. Supertask stays on the rear window. Every paid placement is retained, including Blueshake. Published artwork is fitted without stretching when a panel changes shape. The source retains all 59 historical IDs; the website hides inactive groups and the sponsor exporter removes them.
 
 ## Rebuild the active layout
 

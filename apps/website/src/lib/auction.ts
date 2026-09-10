@@ -17,21 +17,8 @@ export type Placement = {
 };
 // Stable geometry IDs: keep paid placements, then fill the remaining inventory
 // with prominent surfaces. A payment already in flight can never erase a sponsor.
-export const INVENTORY_SIZE = 12;
-const preferredSlotIds = [
-  "ad-01",
-  "ad-53",
-  "ad-54",
-  "ad-56",
-  "ad-57",
-  "ad-59",
-  "ad-16",
-  "ad-31",
-  "ad-38",
-  "ad-48",
-  "ad-10",
-  "ad-25",
-];
+const preferredSlotIds = inventory.active_slot_ids;
+export const INVENTORY_SIZE = preferredSlotIds.length;
 export function activeSlots(placements: Record<string, Placement>) {
   const sold = slots.filter((slot) => placements[slot.id]);
   const remaining = preferredSlotIds

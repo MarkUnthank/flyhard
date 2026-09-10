@@ -192,7 +192,7 @@ async function snapshot() {
 }
 
 describe("auction rules", () => {
-  it("balances the larger layout and preserves paid artwork proportions", () => {
+  it("keeps seven large panels and Supertask on the rear window", () => {
     const current = activeSlots({});
     const counts = Object.fromEntries(
       ["left", "right", "top", "front", "back"].map((face) => [
@@ -200,31 +200,33 @@ describe("auction rules", () => {
         current.filter((s) => s.face === face).length,
       ]),
     );
-    expect(counts).toEqual({ left: 3, right: 3, top: 2, front: 2, back: 2 });
+    expect(counts).toEqual({ left: 2, right: 1, top: 2, front: 1, back: 1 });
     const previous: Record<string, [number, number]> = {
-      "ad-01": [1.08, 0.29],
-      "ad-10": [0.6, 0.23],
-      "ad-16": [1.08, 0.29],
-      "ad-25": [0.6, 0.23],
-      "ad-31": [0.66, 0.22],
-      "ad-38": [0.82, 0.64],
-      "ad-48": [0.86, 0.115],
-      "ad-53": [0.4, 0.12],
-      "ad-54": [0.88, 0.22],
-      "ad-56": [0.34, 0.11],
-      "ad-57": [0.34, 0.11],
-      "ad-59": [0.46, 0.09],
+      "ad-01": [1.38, 0.3705555556],
+      "ad-10": [1.08, 0.31],
+      "ad-53": [1.1, 0.33],
+      "ad-54": [1.24, 0.31],
+      "ad-56": [0.7, 0.2264705882],
+      "ad-57": [0.7, 0.2264705882],
+      "ad-59": [1.12, 0.2191304348],
     };
     for (const slot of current) {
       const [width, height] = previous[slot.id];
-      expect(slot.width_m * slot.height_m).toBeGreaterThan(width * height);
-      if (
-        ["ad-01", "ad-53", "ad-54", "ad-56", "ad-57", "ad-59"].includes(slot.id)
-      )
-        expect(slot.width_m / slot.height_m).toBeCloseTo(width / height, 6);
+      expect(slot.width_m * slot.height_m).toBeGreaterThanOrEqual(
+        width * height - 1e-9,
+      );
     }
+    expect(current.find((s) => s.id === "ad-54")?.face).toBe("back");
+    expect(current.find((s) => s.id === "ad-57")).toMatchObject({
+      width_m: 1.1,
+      height_m: 0.68,
+    });
+    expect(current.find((s) => s.id === "ad-59")).toMatchObject({
+      width_m: 1.16,
+      height_m: 0.95,
+    });
   });
-  it("offers twelve spots and preserves purchases outside the preferred inventory", () => {
+  it("offers seven spots and preserves purchases outside the preferred inventory", () => {
     const placement = (slotId: string) => ({
       id: slotId,
       slotId,
@@ -242,7 +244,7 @@ describe("auction rules", () => {
       ),
     );
     const active = activeSlots(placements);
-    expect(active).toHaveLength(12);
+    expect(active).toHaveLength(7);
     expect(active.map((slot) => slot.id)).toEqual(
       expect.arrayContaining(Object.keys(placements)),
     );
@@ -251,43 +253,40 @@ describe("auction rules", () => {
       "ad-01",
       "ad-56",
       "ad-57",
+      "ad-59",
       "ad-53",
       "ad-54",
-      "ad-59",
       "ad-02",
     ]);
-    expect(ordered.slice(7).map((s) => s.id)).toEqual([
-      "ad-10",
-      "ad-16",
-      "ad-31",
-      "ad-38",
-      "ad-48",
-    ]);
-    expect(activeSlots({})).toHaveLength(12);
-    // Honouring existing payments takes priority even if more than twelve legacy spots sold.
+    expect(ordered.slice(7)).toEqual([]);
+    expect(activeSlots({})).toHaveLength(7);
+    // Honouring existing payments takes priority even if more than seven legacy spots sold.
     const legacy = Object.fromEntries(
       slots.slice(0, 13).map((s) => [s.id, placement(s.id)]),
     );
     expect(activeSlots(legacy)).toHaveLength(13);
   });
-  it("rejects new checkouts for retired geometry IDs before contacting Stripe", async () => {
-    const before = sessions.size;
-    const response = await request("/api/checkout", {
-      requestId: crypto.randomUUID(),
-      slotId: "ad-02",
-      amount: 100,
-      brand: "Retired",
-      message: "",
-      url: "https://example.com",
-      artworkToken: crypto.randomUUID(),
-      logoToken: crypto.randomUUID(),
-      acceptedTerms: true,
-    });
-    expect(response.status).toBe(409);
-    expect(await response.text()).toContain("retired");
-    expect(sessions.size).toBe(before);
-    expect((await snapshot()).activeSlotIds).toHaveLength(12);
-  });
+  it.each(["ad-02", "ad-16", "ad-25", "ad-31", "ad-38", "ad-48"])(
+    "rejects new checkout for retired %s before contacting Stripe",
+    async (retiredId) => {
+      const before = sessions.size;
+      const response = await request("/api/checkout", {
+        requestId: crypto.randomUUID(),
+        slotId: retiredId,
+        amount: 100,
+        brand: "Retired",
+        message: "",
+        url: "https://example.com",
+        artworkToken: crypto.randomUUID(),
+        logoToken: crypto.randomUUID(),
+        acceptedTerms: true,
+      });
+      expect(response.status).toBe(409);
+      expect(await response.text()).toContain("retired");
+      expect(sessions.size).toBe(before);
+      expect((await snapshot()).activeSlotIds).toHaveLength(7);
+    },
+  );
   it("uses cents without floating point errors and requires a full dollar increment", () => {
     expect(dollarsToCents("1.01")).toBe(101);
     expect(dollarsToCents("1.001")).toBeNull();
@@ -399,7 +398,7 @@ describe("auction rules", () => {
     socket.close();
   });
   it("deduplicates checkout retries and payment redelivery", async () => {
-    const result = await bid("ad-16", 200);
+    const result = await bid("ad-10", 200);
     const repeat = await request("/api/checkout", result.input);
     expect(((await repeat.json()) as { sessionId: string }).sessionId).toBe(
       result.sessionId,
@@ -444,10 +443,10 @@ describe("auction rules", () => {
     expect(await result.text()).toContain("$2");
   });
   it("refunds checkouts that no longer meet the dollar increment, exactly once", async () => {
-    const low = await bid("ad-31", 100, "Low");
-    const equal = await bid("ad-31", 500, "Equal");
-    const insufficient = await bid("ad-31", 599, "Less than a dollar higher");
-    const high = await bid("ad-31", 500, "High");
+    const low = await bid("ad-53", 100, "Low");
+    const equal = await bid("ad-53", 500, "Equal");
+    const insufficient = await bid("ad-53", 599, "Less than a dollar higher");
+    const high = await bid("ad-53", 500, "High");
     await pay(high.sessionId);
     await Promise.all([
       pay(low.sessionId),
@@ -455,8 +454,8 @@ describe("auction rules", () => {
       pay(insufficient.sessionId),
     ]);
     const live = await snapshot();
-    expect(live.placements["ad-31"].brand).toBe("High");
-    expect(live.history.filter((p) => p.slotId === "ad-31")).toHaveLength(1);
+    expect(live.placements["ad-53"].brand).toBe("High");
+    expect(live.history.filter((p) => p.slotId === "ad-53")).toHaveLength(1);
     for (const loser of [low, equal, insufficient]) {
       const status = await request("/api/checkout/confirm", {
         sessionId: loser.sessionId,
@@ -483,16 +482,16 @@ describe("auction rules", () => {
     expect(refundRequests).toHaveLength(3);
   });
   it("does not publish a paid session with a mismatched amount", async () => {
-    const result = await bid("ad-38", 100);
+    const result = await bid("ad-54", 100);
     sessions.get(result.sessionId)!.amount_total = 99;
     expect((await pay(result.sessionId)).status).toBe(400);
-    expect((await snapshot()).placements["ad-38"]).toBeUndefined();
+    expect((await snapshot()).placements["ad-54"]).toBeUndefined();
   });
   it("validates messages and requires an unclaimed logo upload before checkout", async () => {
     const artworkToken = await upload();
     const input = {
       requestId: crypto.randomUUID(),
-      slotId: "ad-48",
+      slotId: "ad-56",
       amount: 100,
       brand: "Studio",
       url: "https://example.com",

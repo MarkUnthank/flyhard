@@ -256,7 +256,7 @@
         0.7429012060165405
       ],
       "face": "right",
-      "position_order": 5
+      "position_order": 116
     },
     {
       "id": "ad-17",
@@ -392,7 +392,7 @@
         1.029310941696167
       ],
       "face": "right",
-      "position_order": 4
+      "position_order": 125
     },
     {
       "id": "ad-26",
@@ -494,7 +494,7 @@
         2.0687883079517633e-05
       ],
       "face": "top",
-      "position_order": 7
+      "position_order": 131
     },
     {
       "id": "ad-32",
@@ -613,7 +613,7 @@
         7.986213313415647e-05
       ],
       "face": "top",
-      "position_order": 8
+      "position_order": 138
     },
     {
       "id": "ad-39",
@@ -783,7 +783,7 @@
         1.3166599366343235e-08
       ],
       "face": "front",
-      "position_order": 10
+      "position_order": 148
     },
     {
       "id": "ad-49",
@@ -868,7 +868,7 @@
         4.646331581170671e-05
       ],
       "face": "front",
-      "position_order": 9
+      "position_order": 6
     },
     {
       "id": "ad-54",
@@ -885,7 +885,7 @@
         -9.595400115358643e-06
       ],
       "face": "back",
-      "position_order": 11
+      "position_order": 7
     },
     {
       "id": "ad-55",
@@ -906,37 +906,37 @@
     },
     {
       "id": "ad-56",
-      "name": "left rear window",
+      "name": "right door headline",
       "status": "available",
-      "node": "AD-56__left_rear_window",
+      "node": "AD-56__right_door_headline",
       "panel": "ad-56__logo_surface",
-      "width_m": 0.7,
-      "height_m": 0.2264705882,
+      "width_m": 1.38,
+      "height_m": 0.44647058823529406,
       "color": "#f9f4df",
       "position": [
-        -1.340069055557251,
-        1.3419002294540405,
-        -0.747472882270813
+        -0.060001347213983536,
+        0.7800124883651733,
+        1.029310941696167
       ],
-      "face": "left",
+      "face": "right",
       "position_order": 3
     },
     {
       "id": "ad-57",
-      "name": "right rear window",
+      "name": "bonnet headline",
       "status": "available",
-      "node": "AD-57__right_rear_window",
+      "node": "AD-57__bonnet_headline",
       "panel": "ad-57__logo_surface",
-      "width_m": 0.7,
-      "height_m": 0.2264705882,
+      "width_m": 1.1,
+      "height_m": 0.68,
       "color": "#83e7ff",
       "position": [
-        -1.340069055557251,
-        1.3419002294540405,
-        0.7474733591079712
+        1.2803118228912354,
+        1.1449146270751953,
+        2.0687883079517633e-05
       ],
-      "face": "right",
-      "position_order": 6
+      "face": "top",
+      "position_order": 4
     },
     {
       "id": "ad-58",
@@ -957,20 +957,20 @@
     },
     {
       "id": "ad-59",
-      "name": "rear boot headline",
+      "name": "roof headline",
       "status": "available",
-      "node": "AD-59__rear_boot_headline",
+      "node": "AD-59__roof_headline",
       "panel": "ad-59__logo_surface",
-      "width_m": 1.12,
-      "height_m": 0.2191304348,
+      "width_m": 1.16,
+      "height_m": 0.95,
       "color": "#eaff69",
       "position": [
-        -2.1664562225341797,
-        0.8602880239486694,
-        -0.0
+        -0.4499858319759369,
+        1.6776022911071777,
+        7.986213313415647e-05
       ],
-      "face": "back",
-      "position_order": 12
+      "face": "top",
+      "position_order": 5
     },
     {
       "id": "ad-60",
@@ -1010,6 +1010,15 @@
   "coordinate_system": "glTF right-handed, Y-up; positions are in metres",
   "asset": "the-driving-fly-mini.glb",
   "decoder": "KHR_draco_mesh_compression",
-  "layout_version": 3,
-  "model_url": "/model/the-driving-fly-mini-v3.glb"
+  "layout_version": 4,
+  "model_url": "/model/the-driving-fly-mini-v4.glb",
+  "active_slot_ids": [
+    "ad-01",
+    "ad-10",
+    "ad-56",
+    "ad-57",
+    "ad-59",
+    "ad-53",
+    "ad-54"
+  ]
 }

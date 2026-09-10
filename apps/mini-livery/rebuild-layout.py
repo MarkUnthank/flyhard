@@ -1,4 +1,4 @@
-"""Reproject the twelve active panels onto the original CARLA body.
+"""Reproject the active panels onto the original CARLA body.
 
 blender --background --python-exit-code 1 --python rebuild-layout.py -- /path/to/mini-livery
 The base body is unchanged. Every panel and marker is generated from layout.json.
@@ -161,6 +161,7 @@ active = {s["id"] for s in layout["slots"]}
 for slot in inventory["slots"]:
     if slot["id"] not in active:
         slot["position_order"] = 100 + int(slot["id"][3:])
+inventory["active_slot_ids"] = [s["id"] for s in layout["slots"]]
 inventory["layout_version"] = layout["version"]
 inventory["model_url"] = f'/model/the-driving-fly-mini-v{layout["version"]}.glb'
 bpy.ops.file.pack_all()

@@ -2,6 +2,8 @@ import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
+import sharp from "sharp";
+import { artworkBounds } from "../src/lib/artwork-bounds.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = "https://thedrivingfly.com";
@@ -41,7 +43,40 @@ for (const placement of Object.values(snapshot.placements)) {
   }
   const texture = `textures/${slot.id}.png`;
   const logo = `textures/${slot.id}-logo.png`;
-  await save(texture, await download(placement.textureUrl));
+  let artwork = await download(placement.textureUrl);
+  const metadata = await sharp(artwork).metadata();
+  const aspect = slot.width_m / slot.height_m;
+  if (Math.abs(metadata.width / metadata.height / aspect - 1) > 0.01) {
+    const { data, info } = await sharp(artwork)
+      .toColourspace("srgb")
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    const crop = artworkBounds(data, info.width, info.height);
+    const width = 1024,
+      height = Math.round(1024 / aspect);
+    const fitted = await sharp(artwork)
+      .extract(crop)
+      .resize({
+        width: Math.round(width * 0.9),
+        height: Math.round(height * 0.9),
+        fit: "inside",
+      })
+      .png()
+      .toBuffer();
+    artwork = await sharp({
+      create: {
+        width,
+        height,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      },
+    })
+      .composite([{ input: fitted, gravity: "centre" }])
+      .png()
+      .toBuffer();
+  }
+  await save(texture, artwork);
   await save(logo, await download(placement.logoUrl));
   placements.push({ ...placement, slot, texture, logo });
 }

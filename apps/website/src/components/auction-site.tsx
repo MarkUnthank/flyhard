@@ -82,6 +82,9 @@ export default function AuctionSite() {
     [snapshot.placements],
   );
   const taken = Object.keys(snapshot.placements).length;
+  const entryBid = Math.min(
+    ...slots.map((slot) => minimumBid(snapshot.placements[slot.id]?.amount)),
+  );
   const filtered = useMemo(
     () =>
       slots
@@ -244,8 +247,8 @@ export default function AuctionSite() {
             </div>
             <span className="stat-divider" />
             <div>
-              <strong>$1</strong>
-              <span>to get on the car</span>
+              <strong>{loaded ? money(entryBid) : "—"}</strong>
+              <span>current minimum to get on the car</span>
             </div>
           </div>
           <div
@@ -297,11 +300,14 @@ export default function AuctionSite() {
           </div>
           <div className="under-car">
             <span>
-              <span className="tiny-dot" /> {slots.length - taken} spots waiting
-              for their first passenger
+              <span className="tiny-dot" />{" "}
+              {taken === slots.length
+                ? `All ${slots.length} spots are taken. Outbid a sponsor to get on the car.`
+                : `${slots.length - taken} spots waiting for their first passenger`}
             </span>
             <a href="#live-auction">
-              Find your spot <ArrowDown size={14} />
+              {taken === slots.length ? "Outbid a sponsor" : "Find your spot"}{" "}
+              <ArrowDown size={14} />
             </a>
           </div>
           <p className="hero-footnote">
@@ -324,7 +330,9 @@ export default function AuctionSite() {
                 pays more.
               </p>
             </div>
-            <span className="outline-pill">Every empty spot starts at $1</span>
+            <span className="outline-pill">
+              Outbid the current owner by $1 or more
+            </span>
           </div>
           {status && (
             <div className="payment-status" role="status">
@@ -629,12 +637,12 @@ export default function AuctionSite() {
               [
                 "01",
                 "Find your favorite spot.",
-                "Spin the Mini. Browse the doors, roof, bonnet, bumpers, and even the mirrors. Every empty spot starts at just $1.",
+                "Spin the Mini. Browse the seven large placements on the doors, windows, bonnet, roof, and front grille.",
               ],
               [
                 "02",
                 "Put your money where your logo is.",
-                "Upload your artwork. Start at $1, or bid at least $1 above the current owner. Pay once through Stripe. That’s your whole commitment.",
+                "Upload your artwork and bid at least $1 above the current owner. Pay once through Stripe. That’s your whole commitment.",
               ],
               [
                 "03",
@@ -714,7 +722,7 @@ export default function AuctionSite() {
         <section className="final-cta">
           <FlyMark size={40} />
           <h2>Hop on. The fly’s driving.</h2>
-          <p>Your next questionable marketing decision starts at $1.</p>
+          <p>Your next questionable marketing decision is one bid away.</p>
           <a href="#live-auction" className="primary">
             Find your spot <ArrowUpRight size={17} />
           </a>
