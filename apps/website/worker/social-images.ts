@@ -1,5 +1,4 @@
 import manifest from "../.social/manifest.json";
-import type { AuctionSnapshot } from "../src/lib/auction";
 import {
   socialFallbacks,
   socialImagePath,
@@ -15,18 +14,26 @@ type State = {
   published_revision: number | null;
   generated_at: number | null;
 };
+type Dispatch = { image_key: string; attempts: number; retry_at: number };
 
 /** Publishes a complete pair rendered by GitHub Actions or the local operator. */
 export class SocialImages {
+  private dispatchWork: Promise<void> | undefined;
   constructor(
     private sql: SqlStorage,
     private env: Env,
-    private snapshot: () => AuctionSnapshot,
+    private revision: () => number,
   ) {
     sql.exec(`CREATE TABLE IF NOT EXISTS social_images (
       id INTEGER PRIMARY KEY CHECK (id = 1), published_key TEXT,
       published_revision INTEGER, generated_at INTEGER
-    ); INSERT OR IGNORE INTO social_images (id) VALUES (1);`);
+    ); INSERT OR IGNORE INTO social_images (id) VALUES (1);
+    CREATE TABLE IF NOT EXISTS social_dispatch (
+      id INTEGER PRIMARY KEY CHECK (id = 1), image_key TEXT NOT NULL,
+      attempts INTEGER NOT NULL DEFAULT 0, retry_at INTEGER NOT NULL DEFAULT 0
+    );`);
+    // Bootstrap once after deployment, including a changed model or template.
+    this.queue();
   }
 
   private state() {
@@ -34,16 +41,108 @@ export class SocialImages {
       .exec<State>("SELECT * FROM social_images WHERE id = 1")
       .one();
   }
-  private key(revision = this.snapshot().revision) {
+  private key(revision = this.revision()) {
     return `${manifest.version}-r${revision}`;
+  }
+  /** Called inside the transaction that publishes a winning sponsor. */
+  queue() {
+    const key = this.key();
+    if (this.state().published_key === key) {
+      this.sql.exec("DELETE FROM social_dispatch");
+      return;
+    }
+    this.sql.exec(
+      `INSERT INTO social_dispatch (id, image_key) VALUES (1, ?)
+      ON CONFLICT(id) DO UPDATE SET image_key = excluded.image_key, attempts = 0, retry_at = 0
+      WHERE social_dispatch.image_key != excluded.image_key`,
+      key,
+    );
+  }
+  private queued() {
+    return this.sql
+      .exec<Dispatch>("SELECT * FROM social_dispatch WHERE id = 1")
+      .toArray()[0];
+  }
+  nextAttempt(): number | null {
+    return this.env.SOCIAL_IMAGES_GITHUB_TOKEN
+      ? (this.queued()?.retry_at ?? null)
+      : null;
+  }
+  dispatch(): Promise<void> {
+    if (!this.dispatchWork)
+      this.dispatchWork = this.sendDispatch().finally(() => {
+        this.dispatchWork = undefined;
+      });
+    return this.dispatchWork;
+  }
+  private async sendDispatch() {
+    const due = this.nextAttempt();
+    if (due === null || due > Date.now()) return;
+    const job = this.queued()!;
+    const attempt = job.attempts + 1;
+    // A GitHub acknowledgement is not image publication. Keep this durable job
+    // until /publish succeeds, allowing 15 minutes for the 10-minute workflow.
+    this.sql.exec(
+      "UPDATE social_dispatch SET attempts = ?, retry_at = ? WHERE image_key = ?",
+      attempt,
+      Date.now() + 15 * 60_000,
+      job.image_key,
+    );
+    try {
+      const response = await fetch(
+        "https://api.github.com/repos/MarkUnthank/flyhard/actions/workflows/social-images.yml/dispatches",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.env.SOCIAL_IMAGES_GITHUB_TOKEN}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json",
+            "User-Agent": "the-driving-fly",
+            "X-GitHub-Api-Version": "2026-03-10",
+          },
+          body: JSON.stringify({ ref: "main" }),
+          signal: AbortSignal.timeout(15_000),
+        },
+      );
+      if (!response.ok)
+        throw new Error(`GitHub returned HTTP ${response.status}`);
+      await response.body?.cancel();
+      console.info(
+        JSON.stringify({
+          event: "social_workflow_dispatched",
+          key: job.image_key,
+          attempt,
+        }),
+      );
+    } catch (error) {
+      // Only pending work retries; there is no periodic Actions run or idle poll.
+      this.sql.exec(
+        "UPDATE social_dispatch SET retry_at = ? WHERE image_key = ?",
+        Date.now() +
+          Math.min(15 * 60_000, 60_000 * 2 ** Math.min(attempt - 1, 4)),
+        job.image_key,
+      );
+      console.error(
+        JSON.stringify({
+          event: "social_workflow_retry",
+          key: job.image_key,
+          attempt,
+          error:
+            error instanceof Error
+              ? error.message.slice(0, 150)
+              : "Dispatch failed",
+        }),
+      );
+    }
   }
   status(): SocialStatus {
     const state = this.state();
-    const revision = this.snapshot().revision;
+    const revision = this.revision();
     return {
       revision,
       publishedRevision: state.published_revision,
       pending: state.published_key !== this.key(revision),
+      triggerConfigured: Boolean(this.env.SOCIAL_IMAGES_GITHUB_TOKEN),
       rendererVersion: manifest.version,
       generatedAt: state.generated_at,
       images: {
@@ -59,7 +158,7 @@ export class SocialImages {
 
   async publish(request: Request): Promise<Response> {
     await authorizeSocialPublisher(request, this.env);
-    const bytes = await readBody(request, 4_000_000);
+    const bytes = await readBody(request, 4_100_000); // Both 2 MB JPEGs plus multipart framing.
     let form: FormData;
     try {
       form = await new Response(bytes.buffer as ArrayBuffer, {
@@ -81,7 +180,10 @@ export class SocialImages {
         409,
         "The wrap or renderer changed. Render the latest version.",
       );
-    if (this.state().published_key === key) return json(this.status());
+    if (this.state().published_key === key) {
+      this.sql.exec("DELETE FROM social_dispatch WHERE image_key = ?", key);
+      return json(this.status());
+    }
 
     const images = {} as Record<SocialShape, Uint8Array>;
     for (const shape of ["wide", "square"] as const) {
@@ -129,6 +231,7 @@ export class SocialImages {
       Number(revision),
       Date.now(),
     );
+    this.sql.exec("DELETE FROM social_dispatch WHERE image_key = ?", key);
     console.info(
       JSON.stringify({
         event: "social_images_published",

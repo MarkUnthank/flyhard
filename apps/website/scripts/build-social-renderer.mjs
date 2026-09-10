@@ -32,6 +32,7 @@ const hash = createHash("sha256");
 for (const path of [
   "scripts/render-social.mjs",
   "src/lib/social.ts",
+  "src/lib/social-sizes.json",
   "package-lock.json",
 ])
   hash.update(path).update(await readFile(path));

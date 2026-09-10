@@ -20,11 +20,14 @@ import manifest from "../.social/manifest.json";
 let directory: string, script: string, mf: Miniflare;
 let options: ConstructorParameters<typeof Miniflare>[0];
 let failSquare: boolean, uploadGate: Promise<void> | undefined, uploads: number;
+let dispatches: unknown[], failDispatch: boolean;
 let keys: Awaited<ReturnType<typeof generateKeyPair>>,
   jwk: Awaited<ReturnType<typeof exportJWK>>;
 const adminToken = "test-local-operator";
 const site = "http://localhost:3000";
 type Stub = {
+  testAlarm(): Promise<number | null>;
+  testSocialConfig(token?: string): Promise<void>;
   testSeed(
     revision: number,
     placements: Record<string, Placement>,
@@ -72,7 +75,7 @@ async function oidc(claims: Record<string, unknown> = {}) {
     ref: "refs/heads/main",
     workflow_ref:
       "MarkUnthank/flyhard/.github/workflows/social-images.yml@refs/heads/main",
-    event_name: "schedule",
+    event_name: "workflow_dispatch",
     sub: "repo:MarkUnthank/flyhard:ref:refs/heads/main",
     iss: "https://token.actions.githubusercontent.com",
     aud: `${site}/api/social/publish`,
@@ -109,6 +112,8 @@ beforeEach(async () => {
   failSquare = false;
   uploadGate = undefined;
   uploads = 0;
+  dispatches = [];
+  failDispatch = false;
   const storage = join(directory, crypto.randomUUID());
   options = {
     name: "social-test",
@@ -130,6 +135,17 @@ beforeEach(async () => {
     bindings: { SITE_URL: site, AUCTION_ADMIN_TOKEN: adminToken },
     outboundService: async (request: import("miniflare").Request) => {
       const url = new URL(request.url);
+      if (
+        url.href ===
+        "https://api.github.com/repos/MarkUnthank/flyhard/actions/workflows/social-images.yml/dispatches"
+      ) {
+        expect(request.method).toBe("POST");
+        expect(request.headers.get("Authorization")).toBe(
+          "Bearer fixture-actions-token",
+        );
+        dispatches.push(await request.json());
+        return new WorkerResponse(null, { status: failDispatch ? 503 : 200 });
+      }
       if (
         url.href ===
         "https://token.actions.githubusercontent.com/.well-known/jwks"
@@ -159,6 +175,117 @@ afterAll(async () => {
 });
 
 describe("automatic sponsor social images", () => {
+  it("accepts both advertised 2 MB image limits including multipart overhead", async () => {
+    const body = form();
+    for (const shape of ["wide", "square"]) {
+      const bytes = new Uint8Array(2_000_000);
+      bytes.set([0xff, 0xd8]);
+      bytes.set([0xff, 0xd9], bytes.length - 2);
+      body.set(
+        shape,
+        new Blob([bytes], { type: "image/jpeg" }),
+        `${shape}.jpg`,
+      );
+    }
+    expect((await publish(body)).status).toBe(200);
+  });
+
+  it("redirects former static image URLs to the current pair in the shared API", async () => {
+    await publish();
+    const ready = await status();
+    for (const shape of ["wide", "square"] as const) {
+      const response = await request(`/social/driving-fly-${shape}-v4.jpg`, {
+        redirect: "manual",
+      });
+      expect(response.status).toBe(302);
+      expect(response.headers.get("Location")).toBe(
+        `${site}${ready.images[shape]}`,
+      );
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+    }
+  });
+
+  it("dispatches a pending update once and stops all social work after publication", async () => {
+    await stub.testSocialConfig("fixture-actions-token");
+    expect((await status()).triggerConfigured).toBe(true);
+    const due = await stub.testAlarm();
+    expect(dispatches).toEqual([{ ref: "main" }]);
+    expect(due).toBeGreaterThan(Date.now() + 14 * 60_000);
+    await stub.testAlarm();
+    expect(dispatches).toHaveLength(1);
+    expect((await publish()).status).toBe(200);
+    expect(await stub.testAlarm()).toBeNull();
+    expect(await stub.testSql("SELECT * FROM social_dispatch")).toEqual([]);
+    expect(dispatches).toHaveLength(1);
+  });
+
+  it("persists failed dispatches across restarts and retries an accepted job if it never publishes", async () => {
+    await stub.testSocialConfig("fixture-actions-token");
+    failDispatch = true;
+    await stub.testAlarm();
+    const before = await stub.testSql("SELECT * FROM social_dispatch");
+    expect(before[0].attempts).toBe(1);
+    expect(before[0].retry_at).toBeGreaterThan(Date.now());
+    failDispatch = false;
+    await mf.setOptions({
+      ...options,
+      bindings: {
+        ...options.bindings,
+        SOCIAL_IMAGES_GITHUB_TOKEN: "fixture-actions-token",
+      },
+    });
+    const namespace = await mf.getDurableObjectNamespace("AUCTION");
+    stub = namespace.get(
+      namespace.idFromName("the-driving-fly-v1"),
+    ) as unknown as Stub;
+    await stub.testAlarm();
+    expect(dispatches).toHaveLength(1); // Restart preserves the retry time.
+    await stub.testSql("UPDATE social_dispatch SET retry_at = 0");
+    await stub.testAlarm();
+    expect(dispatches).toHaveLength(2);
+    expect((await status()).pending).toBe(true); // Acceptance alone is not completion.
+    await stub.testSql("UPDATE social_dispatch SET retry_at = 0");
+    await stub.testAlarm();
+    expect(dispatches).toHaveLength(3);
+    await publish();
+    expect(await stub.testAlarm()).toBeNull();
+  });
+
+  it("queues a refresh after a renderer deployment but remains idle if the current pair matches", async () => {
+    await publish();
+    await mf.setOptions({
+      ...options,
+      bindings: {
+        ...options.bindings,
+        SOCIAL_IMAGES_GITHUB_TOKEN: "fixture-actions-token",
+      },
+    });
+    let namespace = await mf.getDurableObjectNamespace("AUCTION");
+    stub = namespace.get(
+      namespace.idFromName("the-driving-fly-v1"),
+    ) as unknown as Stub;
+    expect(await stub.testAlarm()).toBeNull();
+    expect(dispatches).toHaveLength(0);
+    await stub.testSql(
+      "UPDATE social_images SET published_key = ?",
+      `${"0".repeat(20)}-r0`,
+    );
+    await mf.setOptions({
+      ...options,
+      bindings: {
+        ...options.bindings,
+        SOCIAL_IMAGES_GITHUB_TOKEN: "fixture-actions-token",
+        RESTART: "1",
+      },
+    });
+    namespace = await mf.getDurableObjectNamespace("AUCTION");
+    stub = namespace.get(
+      namespace.idFromName("the-driving-fly-v1"),
+    ) as unknown as Stub;
+    await stub.testAlarm();
+    expect(dispatches).toHaveLength(1);
+  });
+
   it("publishes both sizes and serves immutable images with uncached current aliases", async () => {
     expect(await status()).toMatchObject({
       pending: true,
@@ -212,6 +339,8 @@ describe("automatic sponsor social images", () => {
     { ref: "refs/heads/other" },
     { sub: "repo:MarkUnthank/flyhard:pull_request" },
     { event_name: "pull_request" },
+    { event_name: "schedule" },
+    { event_name: "push" },
     {
       workflow_ref:
         "MarkUnthank/flyhard/.github/workflows/other.yml@refs/heads/main",
@@ -238,7 +367,7 @@ describe("automatic sponsor social images", () => {
     const large = form();
     large.set(
       "wide",
-      new Blob([new Uint8Array(4_000_001)], { type: "image/jpeg" }),
+      new Blob([new Uint8Array(4_100_001)], { type: "image/jpeg" }),
       "wide.jpg",
     );
     expect((await publish(large)).status).toBe(413);

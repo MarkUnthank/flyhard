@@ -108,9 +108,14 @@ export class Auction extends DurableObject<Env> {
       () => this.scheduleAlarm(),
       () => this.broadcast(),
     );
-    this.social = new SocialImages(this.sql, env, () => this.snapshot());
-    // Recover queued notifications after a deployment or sender configuration change.
+    this.social = new SocialImages(this.sql, env, () =>
+      this.sql.exec<{ value: number }>(
+        "SELECT value FROM counters WHERE name = 'revision'",
+      ).one().value,
+    );
+    // Recover pending background work after a deployment or configuration change.
     if (
+      this.social.nextAttempt() !== null ||
       this.wraps.hasWork() ||
       (this.canSendOutbidEmails() &&
         this.sql
@@ -756,12 +761,14 @@ export class Auction extends DurableObject<Env> {
       this.sql.exec(
         "UPDATE counters SET value = value + 1 WHERE name = 'revision'",
       );
+      this.social.queue();
       changed = true;
     });
     if (changed) {
       this.broadcast();
       // Durable alarm recovery is already armed; email cannot delay publication.
       this.ctx.waitUntil(this.notifyOutbid());
+      this.ctx.waitUntil(this.social.dispatch());
     }
     await this.refundPending();
   }
@@ -1032,6 +1039,7 @@ export class Auction extends DurableObject<Env> {
       this.sql.exec("DELETE FROM uploads WHERE token = ?", upload.token);
     }
     this.sql.exec("DELETE FROM limits WHERE expires_at < ?", Date.now());
+    await this.social.dispatch();
     const work = this.sql
       .exec<{ count: number }>(
         "SELECT COUNT(*) AS count FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.bid_id IS NULL OR b.status IN ('pending','refund_pending','expired')",
@@ -1045,10 +1053,14 @@ export class Auction extends DurableObject<Env> {
             )
             .one().due
         : null;
-      if (nextEmail === null) await this.ctx.storage.deleteAlarm();
+      const nextSocial = this.social.nextAttempt();
+      const next = [nextEmail, nextSocial].filter(
+        (due): due is number => due !== null,
+      );
+      if (!next.length) await this.ctx.storage.deleteAlarm();
       else
         await this.ctx.storage.setAlarm(
-          Math.max(Date.now() + 60_000, nextEmail),
+          Math.max(Date.now() + 60_000, Math.min(...next)),
         );
     }
   }

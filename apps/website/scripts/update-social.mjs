@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import sharp from "sharp";
 import { renderSocialCards } from "./render-social.mjs";
+import sizes from "../src/lib/social-sizes.json" with { type: "json" };
 
 const { values } = parseArgs({
   options: {
@@ -61,7 +62,8 @@ async function update() {
     // Fail before rendering if local publishing has not been configured.
     if (
       !process.env.AUCTION_ADMIN_TOKEN &&
-      !process.env.ACTIONS_ID_TOKEN_REQUEST_URL
+      (!process.env.ACTIONS_ID_TOKEN_REQUEST_URL ||
+        !process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN)
     )
       await publisherToken();
   }
@@ -71,7 +73,7 @@ async function update() {
   await mkdir(output, { recursive: true });
   for (const [shape, bytes] of Object.entries(images)) {
     const metadata = await sharp(bytes).metadata();
-    const [width, height] = shape === "wide" ? [1200, 630] : [1080, 1080];
+    const { width, height } = sizes[shape];
     if (
       metadata.format !== "jpeg" ||
       metadata.width !== width ||

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
+import { headers } from "next/headers";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import type { SocialStatus } from "@/lib/social";
+import { socialSizes, type SocialStatus } from "@/lib/social";
 import "@fontsource-variable/dm-sans";
 import "./globals.css";
 
@@ -30,15 +31,13 @@ const metadata = {
     images: [
       {
         url: "/api/social/wide.jpg",
-        width: 1200,
-        height: 630,
+        ...socialSizes.wide,
         type: "image/jpeg",
         alt: "Your brand. A car. A fly. Seven ad spaces. Outbid a sponsor.",
       },
       {
         url: "/api/social/square.jpg",
-        width: 1080,
-        height: 1080,
+        ...socialSizes.square,
         type: "image/jpeg",
         alt: "The Driving Fly: 7 ad spaces on a green Mini. Outbid a sponsor.",
       },
@@ -72,8 +71,11 @@ export async function generateMetadata(): Promise<Metadata> {
   try {
     let response: Response;
     if (process.env.NODE_ENV === "development") {
-      siteUrl = "http://localhost:3000";
-      response = await fetch("http://127.0.0.1:8788/api/social", {
+      siteUrl =
+        process.env.SITE_URL ||
+        `http://${(await headers()).get("host") || "localhost:3000"}`;
+      const apiUrl = process.env.AUCTION_API_URL || "http://127.0.0.1:8788";
+      response = await fetch(new URL("/api/social", apiUrl), {
         cache: "no-store",
       });
     } else {

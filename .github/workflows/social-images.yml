@@ -1,14 +1,7 @@
 name: Refresh sponsor social images
 
 on:
-  schedule:
-    - cron: "2-59/5 * * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - apps/website/**
-      - .github/workflows/social-images.yml
   pull_request:
     paths:
       - apps/website/**
@@ -23,7 +16,7 @@ concurrency:
 
 jobs:
   update:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

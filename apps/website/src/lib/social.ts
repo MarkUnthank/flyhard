@@ -1,12 +1,11 @@
-export const socialSizes = {
-  wide: { width: 1200, height: 630 },
-  square: { width: 1080, height: 1080 },
-} as const;
+import socialSizes from "./social-sizes.json";
+export { socialSizes };
 export type SocialShape = keyof typeof socialSizes;
 export type SocialStatus = {
   revision: number;
   publishedRevision: number | null;
   pending: boolean;
+  triggerConfigured: boolean;
   rendererVersion: string;
   generatedAt: number | null;
   images: Record<SocialShape, string>;
@@ -17,3 +16,7 @@ export const socialFallbacks: Record<SocialShape, string> = {
 };
 export const socialImagePath = (key: string, shape: SocialShape) =>
   `/api/social/${key}/${shape}.jpg`;
+export function legacySocialAlias(path: string) {
+  const match = /^\/social\/driving-fly-(wide|square)-v\d+\.jpg$/.exec(path);
+  return match ? `/api/social/${match[1]}.jpg` : null;
+}

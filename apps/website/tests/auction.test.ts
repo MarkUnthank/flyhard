@@ -40,6 +40,8 @@ let failEmailAudience: string | undefined;
 let testMode = false;
 let failSessionRead: string | undefined;
 let sessionReads: string[] = [];
+const socialDispatches: unknown[] = [];
+let socialDispatchGate: Promise<void> | undefined;
 type TestStub = {
   testSql(
     query: string,
@@ -48,6 +50,7 @@ type TestStub = {
   testAlarm(): Promise<number | null>;
   testConfig(test: boolean, recipient?: string): Promise<void>;
   testWrapConfig(recipient?: string, testRecipient?: string): Promise<void>;
+  testSocialConfig(token?: string): Promise<void>;
 };
 let testStub: TestStub;
 const image = encode({
@@ -75,6 +78,17 @@ beforeAll(async () => {
     ConstructorParameters<typeof Miniflare>[0]["outboundService"]
   > = async (request: import("miniflare").Request) => {
     const url = new URL(request.url);
+    if (
+      url.href ===
+      "https://api.github.com/repos/MarkUnthank/flyhard/actions/workflows/social-images.yml/dispatches"
+    ) {
+      expect(request.headers.get("Authorization")).toBe(
+        "Bearer fixture-actions-token",
+      );
+      socialDispatches.push(await request.json());
+      await socialDispatchGate;
+      return new WorkerResponse(null, { status: 200 });
+    }
     if (url.origin === "https://email.test") {
       const message = (await request.json()) as EmailMessageBuilder;
       if (
@@ -1377,6 +1391,42 @@ describe("custom wrap purchases", () => {
       testMode = false;
       await testStub.testConfig(false);
       await testStub.testWrapConfig("operator@example.test");
+    }
+  });
+});
+
+describe("social workflow payment trigger", () => {
+  it("dispatches only for a paid winning sponsor, without delaying checkout or repeating duplicate webhooks", async () => {
+    await testStub.testConfig(false);
+    await testStub.testSocialConfig("fixture-actions-token");
+    const current = await snapshot();
+    const minimum = minimumBid(current.placements["ad-10"]?.amount);
+    const loser = await bid("ad-10", minimum);
+    const winner = await bid("ad-10", minimum + 100);
+    expect(socialDispatches).toHaveLength(0); // Uploads and unpaid checkout do not trigger Actions.
+    let release!: () => void;
+    socialDispatchGate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    try {
+      expect((await pay(winner.sessionId)).status).toBe(200); // GitHub is still waiting.
+      await expect.poll(() => socialDispatches.length).toBe(1);
+      expect(socialDispatches[0]).toEqual({ ref: "main" });
+      const live = await snapshot();
+      expect(live.revision).toBe(current.revision + 1);
+      expect(live.placements["ad-10"].textureUrl).toContain(
+        winner.input.artworkToken,
+      );
+      const queued = await testStub.testSql("SELECT * FROM social_dispatch");
+      expect(queued[0].image_key).toMatch(new RegExp(`-r${live.revision}$`));
+      expect((await pay(winner.sessionId)).status).toBe(200);
+      expect((await pay(loser.sessionId)).status).toBe(200); // Refunded loser never changes the wrap.
+      expect((await snapshot()).revision).toBe(live.revision);
+      expect(socialDispatches).toHaveLength(1);
+    } finally {
+      release();
+      socialDispatchGate = undefined;
+      await testStub.testSocialConfig();
     }
   });
 });

@@ -32,9 +32,7 @@ export async function authorizeSocialPublisher(request: Request, env: Env) {
       payload.ref !== "refs/heads/main" ||
       payload.workflow_ref !==
         "MarkUnthank/flyhard/.github/workflows/social-images.yml@refs/heads/main" ||
-      !["schedule", "workflow_dispatch", "push"].includes(
-        String(payload.event_name),
-      )
+      payload.event_name !== "workflow_dispatch"
     )
       throw new Error("Untrusted publisher");
   } catch {

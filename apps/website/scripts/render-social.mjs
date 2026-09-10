@@ -1,11 +1,8 @@
 import puppeteer from "puppeteer";
 import { readFile } from "node:fs/promises";
+import sizes from "../src/lib/social-sizes.json" with { type: "json" };
 
 const renderOrigin = "https://social.internal";
-const sizes = {
-  wide: { width: 1200, height: 630 },
-  square: { width: 1080, height: 1080 },
-};
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/social/renderer/index.css"></head><body><div id="card"></div><script src="/social/renderer/index.js"></script></body></html>`;
 const contentType = (path) =>
   ({
