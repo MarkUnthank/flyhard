@@ -1,0 +1,25 @@
+apps/website/wrangler.dev.jsonc
+  s_9f3f48cdf4db0d::t_6678dd6d4418f9 9,15
+apps/website/CUSTOM-WRAPS.md
+  s_9f3f48cdf4db0d::t_6678dd6d4418f9 9
+apps/website/wrangler.jsonc
+  s_9f3f48cdf4db0d::t_6678dd6d4418f9 23,29,48,54
+apps/website/OUTBID-NOTIFICATIONS.md
+  s_9f3f48cdf4db0d::t_6678dd6d4418f9 3,19-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "b789d08a67da9819e3df9dbb6c205bcd3eccd9dc",
+  "prompts": {},
+  "sessions": {
+    "s_9f3f48cdf4db0d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b43-87f6-7cc0-bab7-bc0d75ecf36d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
