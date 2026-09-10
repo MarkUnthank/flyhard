@@ -20,6 +20,7 @@
   "vars": {
     "SITE_URL": "https://thedrivingfly.com",
     "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
+    "CUSTOM_WRAP_EMAIL_TO": "mark@reallynice.company",
   },
   "send_email": [
     {
@@ -43,6 +44,7 @@
       "vars": {
         "SITE_URL": "https://the-driving-fly-staging.mxunthank.workers.dev",
         "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
+        "CUSTOM_WRAP_EMAIL_TEST_TO": "mark@reallynice.company",
       },
       "send_email": [
         {

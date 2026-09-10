@@ -17,6 +17,10 @@ export class Auction extends ProductionAuction {
       : "local_live_fixture";
     this.env.OUTBID_EMAIL_TEST_TO = recipient;
   }
+  testWrapConfig(recipient?: string, testRecipient?: string) {
+    this.env.CUSTOM_WRAP_EMAIL_TO = recipient;
+    this.env.CUSTOM_WRAP_EMAIL_TEST_TO = testRecipient;
+  }
 }
 export class TestEmail extends WorkerEntrypoint {
   async send(message: EmailMessageBuilder) {

@@ -27,6 +27,7 @@ let directory: string;
 let requestNumber = 0;
 const sessions = new Map<string, Record<string, unknown>>();
 const sessionsByKey = new Map<string, string>();
+const checkoutForms = new Map<string, URLSearchParams>();
 const refunds = new Map<string, Record<string, unknown>>();
 const refundRequests: string[] = [];
 const emails: EmailMessageBuilder[] = [];
@@ -41,6 +42,7 @@ type TestStub = {
   ): Promise<Record<string, unknown>[]>;
   testAlarm(): Promise<number | null>;
   testConfig(test: boolean, recipient?: string): Promise<void>;
+  testWrapConfig(recipient?: string, testRecipient?: string): Promise<void>;
 };
 let testStub: TestStub;
 const image = encode({
@@ -84,6 +86,7 @@ beforeAll(async () => {
       if (!id) {
         id = `cs_test_${sessions.size + 1}`;
         sessionsByKey.set(key, id);
+        checkoutForms.set(id, form);
         sessions.set(id, {
           id,
           object: "checkout.session",
@@ -95,7 +98,16 @@ beforeAll(async () => {
             form.get("line_items[0][price_data][unit_amount]"),
           ),
           client_reference_id: form.get("client_reference_id"),
-          metadata: { bid_id: form.get("metadata[bid_id]") },
+          metadata: form.has("metadata[custom_wrap_order_id]")
+            ? {
+                custom_wrap_order_id: form.get(
+                  "metadata[custom_wrap_order_id]",
+                ),
+              }
+            : { bid_id: form.get("metadata[bid_id]") },
+          custom_fields: [
+            { key: "brand", type: "text", text: { value: "Wrap test studio" } },
+          ],
           livemode: !testMode,
           customer_details: { email: `${id}@example.test` },
           payment_intent: `pi_${id}`,
@@ -153,6 +165,7 @@ beforeAll(async () => {
       AUCTION_ADMIN_TOKEN: "admin_credit_test_only",
       STRIPE_API_KEY: "local_live_fixture",
       OUTBID_EMAIL_FROM: "updates@notify.example.test",
+      CUSTOM_WRAP_EMAIL_TO: "operator@example.test",
       STRIPE_WEBHOOK_SECRET: secret,
     },
   };
@@ -908,5 +921,330 @@ describe("complimentary sponsor credits", () => {
         )
       ).status,
     ).toBe(409);
+  });
+});
+
+async function wrapCheckout(amount?: number) {
+  const input = {
+    requestId: crypto.randomUUID(),
+    amount: amount ?? (await snapshot()).customWrap.amount,
+    acceptedTerms: true,
+  };
+  const response = await request("/api/custom-wrap/checkout", input);
+  expect(response.status).toBe(200);
+  return { ...((await response.json()) as { sessionId: string }), input };
+}
+const wrapEmails = () =>
+  emails.filter((mail) => mail.headers?.["X-Custom-Wrap-Order"]);
+
+describe("custom wrap purchases", () => {
+  it("starts at $10,000 with immediate capture, two videos and immutable retries", async () => {
+    expect((await snapshot()).customWrap).toEqual({
+      amount: 1_000_000,
+      soldCount: 0,
+      totalRaised: 0,
+      checkoutEnabled: true,
+    });
+    const checkout = await wrapCheckout();
+    const form = checkoutForms.get(checkout.sessionId)!;
+    expect(form.get("mode")).toBe("payment");
+    expect(form.get("payment_method_types[0]")).toBe("card");
+    expect(form.get("payment_intent_data[capture_method]")).toBe("automatic");
+    expect(form.get("line_items[0][price_data][unit_amount]")).toBe("1000000");
+    expect(form.get("line_items[0][price_data][product_data][name]")).toContain(
+      "2 videos",
+    );
+    expect(form.get("custom_fields[0][key]")).toBe("brand");
+    expect(form.get("success_url")).toContain("wrap=success");
+    expect(form.get("metadata[custom_wrap_order_id]")).toBe(
+      form.get("client_reference_id"),
+    );
+    expect(
+      form.get("payment_intent_data[metadata][custom_wrap_order_id]"),
+    ).toBe(form.get("client_reference_id"));
+    expect(
+      (await (
+        await request("/api/custom-wrap/checkout", checkout.input)
+      ).json()) as object,
+    ).toMatchObject({ sessionId: checkout.sessionId });
+    expect(
+      (
+        await request("/api/custom-wrap/checkout", {
+          ...checkout.input,
+          amount: 1_000_100,
+        })
+      ).status,
+    ).toBe(409);
+    expect(
+      (await (
+        await request("/api/custom-wrap/confirm", {
+          sessionId: checkout.sessionId,
+        })
+      ).json()) as object,
+    ).toMatchObject({ status: "pending", orderNumber: null });
+    expect((await snapshot()).customWrap.soldCount).toBe(0);
+    expect(wrapEmails()).toHaveLength(0);
+  });
+  it("rejects forged prices, missing acceptance, wrong origin and malformed confirmations", async () => {
+    const input = {
+      requestId: crypto.randomUUID(),
+      amount: 1_000_001,
+      acceptedTerms: true,
+    };
+    expect((await request("/api/custom-wrap/checkout", input)).status).toBe(
+      409,
+    );
+    expect(
+      (
+        await request("/api/custom-wrap/checkout", {
+          ...input,
+          amount: 1_000_000,
+          acceptedTerms: false,
+        })
+      ).status,
+    ).toBe(400);
+    expect(
+      (
+        await request("/api/custom-wrap/checkout", input, {
+          Origin: "https://evil.example",
+        })
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await request("/api/custom-wrap/confirm", {
+          sessionId: "not-a-session",
+        })
+      ).status,
+    ).toBe(400);
+    expect(
+      (
+        await request("/api/custom-wrap/confirm", {
+          sessionId: "cs_test_unknown",
+        })
+      ).status,
+    ).toBe(404);
+  });
+  it("confirms once, opens $10,001 and emails the operator without changing sponsors", async () => {
+    const before = await snapshot();
+    const checkout = await wrapCheckout();
+    const results = await Promise.all([
+      pay(checkout.sessionId),
+      pay(checkout.sessionId),
+      pay(checkout.sessionId),
+    ]);
+    expect(results.every((result) => result.status === 200)).toBe(true);
+    await expect.poll(() => wrapEmails().length).toBe(1);
+    const after = await snapshot();
+    expect(after.customWrap).toMatchObject({
+      amount: 1_000_100,
+      soldCount: 1,
+      totalRaised: 1_000_000,
+    });
+    expect(after.totalRaised).toBe(before.totalRaised + 1_000_000);
+    expect(after.revision).toBe(before.revision + 1);
+    expect(after.placements).toEqual(before.placements);
+    expect(after.history).toEqual(before.history);
+    const mail = wrapEmails()[0];
+    expect(mail.to).toBe("operator@example.test");
+    expect(mail.subject).toContain("$10,000 custom wrap purchased");
+    expect(mail.text).toContain("2 released project videos");
+    expect(mail.text).toContain(`${checkout.sessionId}@example.test`);
+    expect(mail.text).toContain("Wrap test studio");
+    expect(mail.text).toContain(
+      `https://dashboard.stripe.com/payments/pi_${checkout.sessionId}`,
+    );
+    expect(mail.text).toContain("You can start working");
+    const confirmation = await (
+      await request("/api/custom-wrap/confirm", {
+        sessionId: checkout.sessionId,
+      })
+    ).json();
+    expect(confirmation as object).toMatchObject({
+      status: "paid",
+      orderNumber: 1,
+    });
+    expect(JSON.stringify(confirmation)).not.toMatch(
+      /buyer_email|session_id|payment_id|example.test/,
+    );
+    expect(JSON.stringify(after)).not.toContain(checkout.sessionId);
+    await pay(checkout.sessionId);
+    await testStub.testAlarm();
+    expect(wrapEmails()).toHaveLength(1);
+  });
+  it("refunds a simultaneous purchase at an old price without another increase or email", async () => {
+    const before = await snapshot();
+    const a = await wrapCheckout();
+    const b = await wrapCheckout();
+    const refundCount = refundRequests.length;
+    const mailCount = wrapEmails().length;
+    await Promise.all([pay(a.sessionId), pay(b.sessionId)]);
+    await testStub.testAlarm();
+    const rows = await testStub.testSql(
+      "SELECT status FROM wrap_orders WHERE session_id IN (?,?)",
+      a.sessionId,
+      b.sessionId,
+    );
+    expect(rows.map((row) => row.status).sort()).toEqual(["paid", "refunded"]);
+    expect((await snapshot()).customWrap.soldCount).toBe(
+      before.customWrap.soldCount + 1,
+    );
+    expect((await snapshot()).customWrap.amount).toBe(
+      before.customWrap.amount + 100,
+    );
+    expect(refundRequests.length).toBe(refundCount + 1);
+    expect(wrapEmails().length).toBe(mailCount + 1);
+    await Promise.all([pay(a.sessionId), pay(b.sessionId)]);
+    await testStub.testAlarm();
+    expect(refundRequests.length).toBe(refundCount + 1);
+    expect(wrapEmails().length).toBe(mailCount + 1);
+    expect((await request("/api/custom-wrap/checkout", a.input)).status).toBe(
+      409,
+    );
+  });
+  it("rejects authoritative Stripe mismatches without accepting the order", async () => {
+    const checkout = await wrapCheckout();
+    const session = sessions.get(checkout.sessionId)!;
+    const before = (await snapshot()).customWrap.soldCount;
+    const invalid: [string, unknown][] = [
+      ["amount_total", 10],
+      ["currency", "eur"],
+      ["mode", "subscription"],
+      ["client_reference_id", "some-other-order"],
+      ["livemode", false],
+      ["payment_intent", null],
+      ["id", "cs_test_anotherSession"],
+    ];
+    for (const [key, value] of invalid) {
+      const original = session[key];
+      session[key] = value;
+      const response =
+        key === "id"
+          ? await request("/api/custom-wrap/confirm", {
+              sessionId: checkout.sessionId,
+            })
+          : await pay(checkout.sessionId);
+      expect(response.status).toBe(400);
+      session[key] = original;
+    }
+    expect((await snapshot()).customWrap.soldCount).toBe(before);
+    session.status = "open";
+    session.payment_status = "unpaid";
+  });
+  it("recovers missed webhooks through the alarm and retries email after a restart", async () => {
+    const checkout = await wrapCheckout();
+    const mailCount = wrapEmails().length;
+    const session = sessions.get(checkout.sessionId)!;
+    session.status = "complete";
+    session.payment_status = "paid";
+    failEmail = true;
+    try {
+      expect(await testStub.testAlarm()).not.toBeNull();
+      expect(wrapEmails().length).toBe(mailCount);
+      const rows = await testStub.testSql(
+        "SELECT status, notification_status, notification_attempts FROM wrap_orders WHERE session_id = ?",
+        checkout.sessionId,
+      );
+      expect(rows[0]).toMatchObject({
+        status: "paid",
+        notification_status: "pending",
+      });
+      expect(Number(rows[0].notification_attempts)).toBeGreaterThan(0);
+      await mf.setOptions(mfOptions);
+      const namespace = await mf.getDurableObjectNamespace("AUCTION");
+      testStub = namespace.get(
+        namespace.idFromName("the-driving-fly-v1"),
+      ) as unknown as TestStub;
+      await testStub.testSql(
+        "UPDATE wrap_orders SET next_attempt_at = 0 WHERE session_id = ?",
+        checkout.sessionId,
+      );
+    } finally {
+      failEmail = false;
+    }
+    await testStub.testAlarm();
+    await expect.poll(() => wrapEmails().length).toBe(mailCount + 1);
+    await testStub.testAlarm();
+    expect(wrapEmails().length).toBe(mailCount + 1);
+  });
+  it("verifies payment when the buyer returns before a webhook", async () => {
+    const checkout = await wrapCheckout();
+    const session = sessions.get(checkout.sessionId)!;
+    session.status = "complete";
+    session.payment_status = "paid";
+    const before = (await snapshot()).customWrap;
+    expect(
+      (await (
+        await request("/api/custom-wrap/confirm", {
+          sessionId: checkout.sessionId,
+        })
+      ).json()) as object,
+    ).toMatchObject({ status: "paid", orderNumber: before.soldCount + 1 });
+    expect((await snapshot()).customWrap.amount).toBe(before.amount + 100);
+    await testStub.testAlarm();
+  });
+  it("does not describe pending or failed refunds as completed", async () => {
+    const a = await wrapCheckout();
+    const b = await wrapCheckout();
+    await pay(a.sessionId);
+    const session = sessions.get(b.sessionId)!;
+    const refundId = `re_${session.payment_intent}`;
+    refunds.set(refundId, { id: refundId, status: "pending" });
+    await testStub.testSql(
+      "UPDATE wrap_orders SET refund_id = ? WHERE session_id = ?",
+      refundId,
+      b.sessionId,
+    );
+    await pay(b.sessionId);
+    await testStub.testAlarm();
+    const status = async () =>
+      (
+        await testStub.testSql(
+          "SELECT status FROM wrap_orders WHERE session_id = ?",
+          b.sessionId,
+        )
+      )[0].status;
+    expect(await status()).toBe("refund_pending");
+    refunds.set(refundId, { id: refundId, status: "failed" });
+    await testStub.testAlarm();
+    expect(await status()).toBe("refund_pending");
+    refunds.set(refundId, { id: refundId, status: "succeeded" });
+    await testStub.testAlarm();
+    expect(await status()).toBe("refunded");
+  });
+  it("requires notification configuration and isolates sandbox alerts", async () => {
+    await testStub.testWrapConfig();
+    expect((await snapshot()).customWrap.checkoutEnabled).toBe(false);
+    expect(
+      (
+        await request("/api/custom-wrap/checkout", {
+          requestId: crypto.randomUUID(),
+          amount: (await snapshot()).customWrap.amount,
+          acceptedTerms: true,
+        })
+      ).status,
+    ).toBe(503);
+    testMode = true;
+    await testStub.testConfig(true);
+    await testStub.testWrapConfig("operator@example.test");
+    expect((await snapshot()).customWrap.checkoutEnabled).toBe(false);
+    await testStub.testWrapConfig(
+      "operator@example.test",
+      "wrap-sandbox@example.test",
+    );
+    try {
+      const checkout = await wrapCheckout();
+      await pay(checkout.sessionId);
+      await testStub.testAlarm();
+      const mail = wrapEmails().at(-1)!;
+      expect(mail.to).toBe("wrap-sandbox@example.test");
+      expect(mail.subject).toContain("[TEST]");
+      expect(mail.text).toContain("Do not begin production");
+      expect(mail.text).toContain("stripe.com/test/payments/");
+    } finally {
+      testMode = false;
+      await testStub.testConfig(false);
+      await testStub.testWrapConfig("operator@example.test");
+    }
   });
 });
