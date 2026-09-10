@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "the-driving-fly",
+  "main": "worker/api.ts",
+  "compatibility_date": "2026-09-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": { "SITE_URL": "http://localhost:3000" },
+  "durable_objects": {
+    "bindings": [{ "name": "AUCTION", "class_name": "Auction" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Auction"] }],
+  "r2_buckets": [
+    { "binding": "ARTWORK", "bucket_name": "the-driving-fly-artwork" },
+  ],
+}

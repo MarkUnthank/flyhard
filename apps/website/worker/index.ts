@@ -1,0 +1,24 @@
+// @ts-ignore OpenNext generates this entry point during build:worker.
+import next from "../.open-next/worker.js";
+import api from "./api";
+import type { Env } from "./env";
+export { Auction } from "./auction";
+
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+    const url = new URL(request.url);
+    if (url.hostname === "www.thedrivingfly.com") {
+      url.hostname = "thedrivingfly.com";
+      url.protocol = "https:";
+      return Response.redirect(url.href, 308);
+    }
+    if (url.pathname.startsWith("/api/")) return api.fetch(request, env);
+    const response = await next.fetch(request, env, ctx);
+    if (env.SITE_URL !== "https://thedrivingfly.com") {
+      const headers = new Headers(response.headers);
+      headers.set("X-Robots-Tag", "noindex, nofollow");
+      return new Response(response.body, { status: response.status, headers });
+    }
+    return response;
+  },
+} satisfies ExportedHandler<Env>;

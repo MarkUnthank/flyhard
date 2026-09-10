@@ -1,0 +1,61 @@
+{
+  "revision": 6,
+  "source": "https://thedrivingfly.com",
+  "exportedAt": "2026-09-10T04:51:16.998Z",
+  "sponsors": [
+    {
+      "slotId": "ad-54",
+      "brand": "Supertask",
+      "url": "https://supertask.net/",
+      "mesh": "ad-54__logo_surface",
+      "texture": "textures/ad-54.png",
+      "widthMetres": 0.88,
+      "heightMetres": 0.22
+    },
+    {
+      "slotId": "ad-01",
+      "brand": "We got a Fly in dis boy!",
+      "url": "https://thedrivingfly.com",
+      "mesh": "ad-01__logo_surface",
+      "texture": "textures/ad-01.png",
+      "widthMetres": 1.08,
+      "heightMetres": 0.29
+    },
+    {
+      "slotId": "ad-53",
+      "brand": "Flycoin on Pump",
+      "url": "https://pump.fun/coin/BjS3BdjLiknniv3LDRmJt6YzM7S9TihbeEaNr3VxcFLY",
+      "mesh": "ad-53__logo_surface",
+      "texture": "textures/ad-53.png",
+      "widthMetres": 0.4,
+      "heightMetres": 0.12
+    },
+    {
+      "slotId": "ad-59",
+      "brand": "Flycoin on Pump",
+      "url": "https://pump.fun/coin/BjS3BdjLiknniv3LDRmJt6YzM7S9TihbeEaNr3VxcFLY",
+      "mesh": "ad-59__logo_surface",
+      "texture": "textures/ad-59.png",
+      "widthMetres": 0.46,
+      "heightMetres": 0.09
+    },
+    {
+      "slotId": "ad-57",
+      "brand": "Flycoin on Pump",
+      "url": "https://pump.fun/coin/BjS3BdjLiknniv3LDRmJt6YzM7S9TihbeEaNr3VxcFLY",
+      "mesh": "ad-57__logo_surface",
+      "texture": "textures/ad-57.png",
+      "widthMetres": 0.34,
+      "heightMetres": 0.11
+    },
+    {
+      "slotId": "ad-56",
+      "brand": "Safemate",
+      "url": "https://safemate.help",
+      "mesh": "ad-56__logo_surface",
+      "texture": "textures/ad-56.png",
+      "widthMetres": 0.34,
+      "heightMetres": 0.11
+    }
+  ]
+}

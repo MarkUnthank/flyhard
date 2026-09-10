@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "the-driving-fly",
+  "account_id": "94f9d97fe2538adb3efe55c05b63637d",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "thedrivingfly.com", "custom_domain": true },
+    { "pattern": "www.thedrivingfly.com", "custom_domain": true },
+  ],
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
+  },
+  "observability": { "enabled": true },
+  "vars": { "SITE_URL": "https://thedrivingfly.com" },
+  "durable_objects": {
+    "bindings": [{ "name": "AUCTION", "class_name": "Auction" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Auction"] }],
+  "r2_buckets": [
+    { "binding": "ARTWORK", "bucket_name": "the-driving-fly-artwork" },
+  ],
+  "env": {
+    "staging": {
+      "name": "the-driving-fly-staging",
+      "workers_dev": true,
+      "preview_urls": false,
+      "routes": [],
+      "vars": {
+        "SITE_URL": "https://the-driving-fly-staging.mxunthank.workers.dev",
+      },
+      "durable_objects": {
+        "bindings": [{ "name": "AUCTION", "class_name": "Auction" }],
+      },
+      "r2_buckets": [
+        {
+          "binding": "ARTWORK",
+          "bucket_name": "the-driving-fly-artwork-staging",
+        },
+      ],
+    },
+  },
+}

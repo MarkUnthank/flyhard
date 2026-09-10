@@ -1,0 +1,26 @@
+{
+  "glb_bytes": 3144432,
+  "spots": 59,
+  "logo_panels": 59,
+  "nodes": 271,
+  "meshes": 212,
+  "materials": 20,
+  "images": 9,
+  "extensions": [
+    "KHR_draco_mesh_compression",
+    "KHR_materials_clearcoat",
+    "KHR_materials_transmission",
+    "KHR_materials_specular"
+  ],
+  "checks": [
+    "unique spot ids",
+    "matching inventory",
+    "one logo panel per spot",
+    "UV coordinates on every panel",
+    "studio excluded",
+    "no animation",
+    "GLB reimport: 59 spot groups and 59 logo surfaces",
+    "green paint retained in reimported GLB",
+    "front rear and top renders visually checked"
+  ]
+}

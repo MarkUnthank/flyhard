@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.open-next/
+.wrangler/
+.dev.vars*
+.env*
+!.env.example
+*.tsbuildinfo
+test-results/
+playwright-report/
+artifacts/
+output/playwright/
+.playwright-cli/
+exports/

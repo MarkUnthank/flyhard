@@ -1,0 +1,51 @@
+{
+  "name": "the-driving-fly",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "next build",
+    "build:worker": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "deploy:staging": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env staging",
+    "cf:types": "wrangler types worker-configuration.d.ts --env-interface CloudflareBindings --include-runtime=false --strict-vars=false",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test && npm run build:worker",
+    "assets": "node scripts/assets.mjs",
+    "format": "prettier --write src worker scripts tests *.ts *.mts *.json *.jsonc README.md",
+    "stripe:listen": "node scripts/stripe-listen.mjs",
+    "export:livery": "node scripts/export-livery.mjs",
+    "package:livery": "node scripts/package-livery.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@opennextjs/cloudflare": "1.20.6",
+    "fast-png": "^8.0.0",
+    "lucide-react": "^0.577.0",
+    "next": "16.3.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "stripe": "^22.6.1",
+    "three": "^0.183.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260908.1",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.183.0",
+    "esbuild": "^0.28.2",
+    "miniflare": "^4.0.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.0",
+    "wrangler": "^4.125.0"
+  },
+  "overrides": {
+    "undici": "^7.29.0",
+    "sharp": "^0.35.4"
+  }
+}
