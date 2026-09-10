@@ -628,20 +628,6 @@ input[type="checkbox"] {
   font-size: 12px;
   font-weight: 500;
 }
-.spot-swatch {
-  background: color-mix(in srgb, var(--spot-color) 38%, white);
-  border: 1px dashed color-mix(in srgb, var(--spot-color) 75%, #aaa);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 37px;
-  height: 33px;
-  font-size: 12px;
-  letter-spacing: 0.4px;
-  color: #646a5e;
-  flex-shrink: 0;
-}
 .spot-title small {
   font-size: 12px;
   display: block;
@@ -680,6 +666,7 @@ input[type="checkbox"] {
   align-items: flex-start;
   gap: 5px;
   min-width: 0;
+  max-width: 100%;
 }
 .advertiser-copy > strong {
   font-size: 16px;
@@ -2036,11 +2023,6 @@ fieldset {
     font-size: 12px;
     gap: 9px;
     max-width: 190px;
-  }
-  .spot-swatch {
-    width: 30px;
-    height: 29px;
-    font-size: 10px;
   }
   .spot-title small {
     font-size: 10px;
