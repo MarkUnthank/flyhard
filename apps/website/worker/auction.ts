@@ -14,6 +14,7 @@ import {
 import { checkoutEmail, emailErrorCode, outbidEmail } from "./outbid-email";
 import type { Env } from "./env";
 import { HttpError, json, readBody, readJson } from "./http";
+import { CustomWrapOrders } from "./custom-wrap";
 
 type BidRow = {
   id: string;
@@ -40,6 +41,7 @@ export class Auction extends DurableObject<Env> {
   private sql: SqlStorage;
   private notificationWork: Promise<void> | undefined;
   private refundWork: Promise<void> | undefined;
+  private wraps: CustomWrapOrders;
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.sql = ctx.storage.sql;
@@ -94,14 +96,22 @@ export class Auction extends DurableObject<Env> {
         this.sql.exec("UPDATE bids SET logo_token = artwork_token");
       }
     });
+    this.wraps = new CustomWrapOrders(
+      ctx,
+      env,
+      () => this.stripe(),
+      () => this.scheduleAlarm(),
+      () => this.broadcast(),
+    );
     // Recover queued notifications after a deployment or sender configuration change.
     if (
-      this.canSendOutbidEmails() &&
-      this.sql
-        .exec<{ count: number }>(
-          "SELECT COUNT(*) AS count FROM outbid_emails WHERE status = 'pending'",
-        )
-        .one().count
+      this.wraps.hasWork() ||
+      (this.canSendOutbidEmails() &&
+        this.sql
+          .exec<{ count: number }>(
+            "SELECT COUNT(*) AS count FROM outbid_emails WHERE status = 'pending'",
+          )
+          .one().count)
     )
       this.ctx.blockConcurrencyWhile(() => this.scheduleAlarm());
   }
@@ -165,6 +175,7 @@ export class Auction extends DurableObject<Env> {
         "SELECT * FROM bids WHERE published_at IS NOT NULL ORDER BY amount DESC, published_at ASC, id ASC LIMIT 50",
       )
       .toArray();
+    const customWrap = this.wraps.snapshot();
     return {
       activeSlotIds: activeSlots(
         Object.fromEntries(
@@ -181,8 +192,9 @@ export class Auction extends DurableObject<Env> {
       ),
       history: history.map((row) => this.placement(row)),
       highestBids: highestBids.map((row) => this.placement(row)),
-      totalRaised: totals.total,
-      totalPurchases: totals.count,
+      customWrap,
+      totalRaised: totals.total + customWrap.totalRaised,
+      totalPurchases: totals.count + customWrap.soldCount,
       online: this.ctx.getWebSockets().length,
       paymentsEnabled: Boolean(
         this.env.STRIPE_API_KEY && this.env.STRIPE_WEBHOOK_SECRET,
@@ -335,6 +347,10 @@ export class Auction extends DurableObject<Env> {
         if (path === "/api/checkout") return await this.checkout(request);
         if (path === "/api/checkout/confirm")
           return await this.confirm(request);
+        if (path === "/api/custom-wrap/checkout")
+          return await this.wraps.checkout(request);
+        if (path === "/api/custom-wrap/confirm")
+          return await this.wraps.confirm(request);
       }
       throw new HttpError(404, "Not found.");
     } catch (error) {
@@ -590,6 +606,8 @@ export class Auction extends DurableObject<Env> {
   }
 
   private async fulfill(session: Stripe.Checkout.Session) {
+    if (session.metadata?.custom_wrap_order_id)
+      return this.wraps.fulfill(session);
     if (session.payment_status !== "paid" || session.status !== "complete")
       return;
     const bidId = session.metadata?.bid_id;
@@ -898,6 +916,7 @@ export class Auction extends DurableObject<Env> {
   async alarm() {
     // Re-arm first: a failed remote call must not strand a paid checkout or refund.
     await this.ctx.storage.setAlarm(Date.now() + 60_000);
+    await this.wraps.reconcile();
     await this.refundPending();
     await this.notifyOutbid();
     const pending = this.sql
@@ -946,7 +965,7 @@ export class Auction extends DurableObject<Env> {
         "SELECT COUNT(*) AS count FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.bid_id IS NULL OR b.status IN ('pending','refund_pending','expired')",
       )
       .one().count;
-    if (!work) {
+    if (!work && !this.wraps.hasWork()) {
       const nextEmail = this.canSendOutbidEmails()
         ? this.sql
             .exec<{ due: number | null }>(

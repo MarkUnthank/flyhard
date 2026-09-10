@@ -4,7 +4,17 @@
   "main": "worker/api.ts",
   "compatibility_date": "2026-09-09",
   "compatibility_flags": ["nodejs_compat"],
-  "vars": { "SITE_URL": "http://localhost:3000" },
+  "vars": {
+    "SITE_URL": "http://localhost:3000",
+    "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
+    "CUSTOM_WRAP_EMAIL_TEST_TO": "mark@reallynice.company",
+  },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_sender_addresses": ["updates@notify.thedrivingfly.com"],
+    },
+  ],
   "durable_objects": {
     "bindings": [{ "name": "AUCTION", "class_name": "Auction" }],
   },

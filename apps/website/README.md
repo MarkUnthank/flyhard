@@ -32,15 +32,17 @@ The site is deployed with OpenNext to Cloudflare account `94f9d97fe2538adb3efe55
 
 Production owns both custom domains; `www.thedrivingfly.com` redirects to the apex while preserving the path and query. Staging pages send `X-Robots-Tag: noindex, nofollow`. Each environment has its own SQLite Durable Object and private R2 bucket (`the-driving-fly-artwork` and `the-driving-fly-artwork-staging`). Test purchases cannot change production placements.
 
-From this directory, authenticate Wrangler to the configured account and deploy:
+Production releases use a pull request targeting the latest `main`. Run the
+local checks, reconcile any live changes, and obtain merge authorization.
+Cloudflare Builds deploys the merged commit; verify that build and the live
+result. See the repository [release rules](../../AGENTS.md). Do not manually
+publish production Worker code or assets from a local checkout.
 
 ```sh
-npx wrangler whoami
-npm run deploy:staging
-npm run deploy
+npm run check
 ```
 
-Both commands build Next.js through OpenNext before deploying. The top-level Wrangler configuration is production; `--env staging` selects the isolated test environment. Refresh binding types with `npm run cf:types` after changing bindings.
+The top-level Wrangler configuration is production; `--env staging` selects the isolated test environment. Refresh binding types with `npm run cf:types` after changing bindings.
 
 Both environments already have `STRIPE_API_KEY` and `STRIPE_WEBHOOK_SECRET` installed as encrypted Worker secrets. Production uses the supplied live key; staging uses the supplied test key. To rotate them, use `wrangler secret put` (add `--env staging` for staging). Never put keys into `wrangler.jsonc` or source control. Local `.env` changes do not automatically update deployed secrets.
 
@@ -56,6 +58,10 @@ After deploying, verify `/api/auction` reports `paymentsEnabled: true` and the e
 The September 9, 2026 launch deployed production version `6344a20f-a162-4b0f-883c-85c2fb6663d7` and staging version `1bd5d26f-9d38-4b56-935f-9d701ae4ce9a`. Production began with all 59 spots unclaimed at $1. A real live-mode $1 Checkout session was created, verified, and expired without payment. A correctly signed completion request for that unpaid session returned HTTP 200 without publishing an ad. HTTPS, the homepage, API, model asset, and `www` redirect passed checks; the apex checks used public DNS resolution because the local OS still cached its earlier missing record.
 
 On the deployed staging Worker, a $1 sandbox purchase and a $2 replacement both completed through Stripe and delivered successful signed webhooks. An independent headless browser received the replacement over WebSockets and loaded its new R2 texture without a page refresh. These are test purchases only; no live charge was made.
+
+## Custom wrap package
+
+A full custom wrap and two videos start at $10,000, paid immediately through Stripe. Each confirmed purchase increases the next price by $1 and emails the operator. See [Custom wraps](CUSTOM-WRAPS.md) for production, notification configuration and recovery details.
 
 ## Payment rules and recovery
 

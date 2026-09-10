@@ -26,6 +26,7 @@ import SiteHeader from "./site-header";
 import SiteFooter from "./site-footer";
 import HistoricalBids from "./historical-bids";
 import BidDialog from "./bid-dialog";
+import CustomWrapOffer from "./custom-wrap-offer";
 import type { View } from "./car-viewer";
 
 const CarViewer = dynamic(() => import("./car-viewer"), {
@@ -115,6 +116,7 @@ export default function AuctionSite() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+    if (params.has("wrap")) return;
     if (params.get("checkout") === "cancelled") {
       setStatus("Checkout cancelled. Your card has not been charged.");
       return;
@@ -333,6 +335,8 @@ export default function AuctionSite() {
             {" "}<a className="text-link" href="/media">Watch the fly <ArrowDown size={13} /></a>
           </p>
         </section>
+
+        <CustomWrapOffer snapshot={snapshot} loaded={loaded} accept={accept} />
 
         <section className="auction-section section-wrap" id="live-auction">
           <div className="section-heading">

@@ -10,6 +10,8 @@ The actual CARLA Mini Cooper S 2021. **Layout 5 has seven advertising spaces:** 
 
 ## Files
 
+- [`custom-wrap/`](./custom-wrap/README.md) — downloadable bodywork paint texture and design starting points for custom-wrap buyers.
+
 - [`sponsors/`](./sponsors/README.md) — generated sponsor textures and models ready for the driving/video agent. Use this for paid artwork; the base model below contains the original inventory placeholders.
 
 - `the-driving-fly-mini.blend` — editable Blender 5.2 scene. Source textures are packed. The studio, car and ad spaces are separate collections.

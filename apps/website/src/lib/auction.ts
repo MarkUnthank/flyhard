@@ -1,5 +1,6 @@
 import inventory from "./ad-spaces.json";
 import { z } from "zod";
+import { emptyCustomWrap, type CustomWrapSnapshot } from "./custom-wrap";
 
 export const slots = inventory.slots;
 export const modelUrl = inventory.model_url;
@@ -53,6 +54,7 @@ export function rankPlacements(placements: Record<string, Placement>) {
   );
 }
 export type AuctionSnapshot = {
+  customWrap: CustomWrapSnapshot;
   activeSlotIds: string[];
   revision: number;
   placements: Record<string, Placement>;
@@ -65,6 +67,7 @@ export type AuctionSnapshot = {
   paymentMode: "live" | "test" | "unavailable";
 };
 export const emptySnapshot: AuctionSnapshot = {
+  customWrap: emptyCustomWrap,
   activeSlotIds: activeSlots({}).map((slot) => slot.id),
   revision: 0,
   placements: {},

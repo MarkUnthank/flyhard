@@ -7,11 +7,39 @@ export default function Terms() {
         <FlyMark />
         The Driving Fly.
       </Link>
-      <h1>Placement terms</h1>
+      <h1>Advertising terms</h1>
       <p>
         The Driving Fly is an independent project by Mark Unthank. Buying a spot
         supports the experiment and displays your artwork on a chosen surface of
         the interactive Mini on this website.
+      </p>
+      <h2 id="custom-wrap">Full custom wrap and two videos</h2>
+      <p>
+        The custom wrap package includes a full custom livery designed for your
+        brand on our simulated Mini, and two released project videos featuring
+        that wrap. This is a digital project vehicle, not a physical car wrap.
+        After payment, we email your checkout address with a meeting link and
+        the car’s paint texture. Book a meeting with Mark to discuss your brief
+        and artwork and start making your wrap. Projects enter production in
+        purchase order; payment does not instantly replace the website’s live
+        auction placements.
+      </p>
+      <p>
+        The first package costs US $10,000. After each confirmed purchase, the
+        next package becomes available immediately for US $1 more, even while
+        earlier projects are in production. You pay the full displayed amount
+        once, immediately through Stripe Checkout. There is no subscription or
+        later balance. Opening checkout does not reserve that price. If someone
+        else purchases it first, your competing payment is refunded in full;
+        bank processing times vary. We never charge a higher price without a new
+        checkout.
+      </p>
+      <p>
+        The package promises two project videos featuring your wrap, with no
+        guaranteed audience, views, clicks, or financial return. The artwork
+        rules below also apply to custom wraps. Contact us using your Stripe
+        receipt for production or payment questions. Nothing in these terms
+        limits your rights under applicable consumer law.
       </p>
       <h2>The live auction</h2>
       <p>

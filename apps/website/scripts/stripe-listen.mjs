@@ -17,7 +17,7 @@ const child = spawn(
     "--events",
     "checkout.session.completed,checkout.session.async_payment_succeeded",
     "--forward-to",
-    "http://localhost:8788/api/stripe/webhook",
+    `${process.env.AUCTION_API_URL || "http://localhost:8788"}/api/stripe/webhook`,
   ],
   {
     env: { ...process.env, STRIPE_API_KEY: stripeListenerKey() },

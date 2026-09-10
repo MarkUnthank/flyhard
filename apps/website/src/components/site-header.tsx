@@ -17,6 +17,7 @@ export default function SiteHeader({
       </a>
       <nav aria-label="Main navigation">
         <a href={`${home}#live-auction`}>Live auction</a>
+        <a href={`${home}#custom-wrap`}>Custom wrap</a>
         <a href={`${home}#leaderboard`}>Supporters</a>
         <a href={`${home}#how-it-works`}>How it works</a>
         <a
