@@ -1,0 +1,47 @@
+apps/website/src/app/privacy/page.tsx
+  s_193f6231e5e797::t_92852d6e14f38c 57-60
+apps/website/worker/auction.ts
+  s_193f6231e5e797::t_f5571ede235f14 3,43,66,218-220,223,227-231,238,243-245,251,261-262,267-270
+  s_193f6231e5e797::t_edf74af3f13dea 202-207,221-222,224-226,232-237,239-242,246-250,252-260,263-266
+apps/website/src/app/globals.css
+  s_193f6231e5e797::t_edf74af3f13dea 163-166,170-172
+  s_193f6231e5e797::t_f5571ede235f14 167-169,1840-1842
+apps/website/README.md
+  s_193f6231e5e797::t_934954083d398d 126-151
+apps/website/src/components/auction-site.tsx
+  s_193f6231e5e797::t_f5571ede235f14 213,222-223
+  s_193f6231e5e797::t_edf74af3f13dea 214-221,224-232,234-237
+  s_193f6231e5e797::t_934954083d398d 233
+apps/website/worker/index.ts
+  s_193f6231e5e797::t_f5571ede235f14 8,12
+  s_193f6231e5e797::t_edf74af3f13dea 9-11
+apps/website/wrangler.jsonc
+  s_193f6231e5e797::t_f5571ede235f14 19,45
+apps/website/src/lib/auction.ts
+  s_193f6231e5e797::t_f5571ede235f14 66,80
+apps/website/worker/env.ts
+  s_193f6231e5e797::t_f5571ede235f14 1-2,4-5
+apps/website/tests/page-views.test.ts
+  s_193f6231e5e797::t_274d1150dbe53f 1-15,20-25,32-34,39-41,47-49,54-55,78-86,91-95,104-108,113-121,125-127,133-142
+  s_193f6231e5e797::t_42be29cc245c9e 16-19,26-31,35,37-38,42-46,50-53,56-77,87-90,96-99,101-103,109-112,122-124,128-132
+  s_193f6231e5e797::t_531c6af3395449 100
+apps/website/worker/page-views.ts
+  s_193f6231e5e797::t_3dcd0736dc3d86 1-6,25-30,35-44,49-52,55-58,63-66
+  s_193f6231e5e797::t_edf74af3f13dea 7-24,31-34,45-48,53-54,59-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "9229368fe068f2434eccedacef671cfc6b9a2ee8",
+  "prompts": {},
+  "sessions": {
+    "s_193f6231e5e797": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b28-a7b4-7a50-a3c1-54b57912a9d6",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
