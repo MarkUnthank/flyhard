@@ -195,11 +195,19 @@ def compute_hourly(config):
 
 def launch(config_path):
     config = json.loads(Path(config_path).read_text())
+    limits = config.pop('budget', {})
+    seconds = int(limits.get('runtime_seconds', 6 * 3600))
+    reserve = float(limits.get('reserve_usd', 4.0))
+    spend_cap = float(limits.get('spend_cap_usd', 6.0))
+    hourly_limit = float(limits.get('max_hourly_usd', .90))
+    if not (120 <= seconds <= 21600 and reserve >= 4 and 0 < spend_cap <= 6
+            and 0 < hourly_limit <= 1.50):
+        raise RuntimeError('Invalid bounded budget: 120–21600 seconds, reserve >= $4, spend <= $6, hourly <= $1.50')
     if STATE.exists() and not json.loads(STATE.read_text()).get("closed"):
         raise RuntimeError("An existing session must be reconciled before any new launch")
     current = balance()
-    if current["clientBalance"] < 10:
-        raise RuntimeError("Pilot requires at least $10 existing credit; never tops up")
+    if current["clientBalance"] < reserve + spend_cap:
+        raise RuntimeError('Existing credit must cover the full spend cap plus reserve; never tops up')
     compute_price = compute_hourly(config)
     storage_gb = config.get("disk", 0) + config.get("mounts", {}).get("persistent", {}).get("size", 0)
     estimated_hourly = compute_price + storage_gb * 0.10 / (30 * 24)
@@ -213,12 +221,14 @@ def launch(config_path):
         config["dataCenterIds"] = [volume["dataCenter"]]
         estimated_hourly += volume["size"] * 0.07 / (30 * 24)
         config.setdefault("env", {})["FLYHARD_NETWORK_VOLUME_ID"] = network_id
-    if not 0 < estimated_hourly <= 0.90:
-        raise RuntimeError(f"Hourly cost ${estimated_hourly:.3f} exceeds this pilot's $0.90 limit")
+    if not 0 < estimated_hourly <= hourly_limit:
+        raise RuntimeError(f'Hourly cost ${estimated_hourly:.3f} exceeds the selected ${hourly_limit:.2f} limit')
+    if estimated_hourly * seconds / 3600 > spend_cap:
+        raise RuntimeError('Selected runtime can exceed the bounded spend cap')
     now = time.time()
-    state = {"name": config["name"], "requested_epoch": now, "deadline_epoch": now + 6 * 3600,
-             "initial_balance_usd": current["clientBalance"], "reserve_usd": 4.0,
-             "spend_cap_usd": 6.0, "estimated_hourly_usd": estimated_hourly,
+    state = {"name": config["name"], "requested_epoch": now, "deadline_epoch": now + seconds,
+             "initial_balance_usd": current["clientBalance"], "reserve_usd": reserve,
+             "spend_cap_usd": spend_cap, "estimated_hourly_usd": estimated_hourly,
              "network_volume_id": network_id,
              "auto_pay_verified_disabled": config.pop("auto_pay_verified_disabled", None),
              "closed": False}
@@ -237,7 +247,16 @@ def launch(config_path):
     # us diagnose bootstrap failures before the in-container sshd is installed.
     config["env"]["SSH_PUBLIC_KEY"] = config["env"]["PUBLIC_KEY"]
     config["env"]["FLYHARD_DEADLINE_EPOCH"] = str(state["deadline_epoch"])
-    pod = request("POST", "/v2/pods", config)
+    try:
+        pod = request("POST", "/v2/pods", config)
+    except RunpodError as exc:
+        # A definite rejected allocation can be closed after a name readback.
+        # Leave the watcher active after uncertain/server failures.
+        if 400 <= exc.status < 500 and resolve_pod(state) is None:
+            state['closed'] = True
+            state['allocation_rejected'] = True
+            save_state(state)
+        raise
     state["pod_id"] = pod["id"]
     state["created"] = safe_pod(pod)
     save_state(state)

@@ -31,13 +31,16 @@ class WheelRig:
     command_period = 0.005
     max_joint_target_rate = 3.0  # rad/s; generic joint servo limit, no wheel knowledge
 
-    def __init__(self, support_hand=False, indicator_stalk=False, parking_controls=False):
+    def __init__(self, support_hand=False, indicator_stalk=False, parking_controls=False, horn_control=False):
+        if horn_control and (support_hand or indicator_stalk or parking_controls):
+            raise ValueError('The horn uses the right foreleg independently of the other controls')
         if support_hand and indicator_stalk:
             raise ValueError("The right foreleg cannot grip both the wheel and stalk")
         if parking_controls and (support_hand or indicator_stalk):
             raise ValueError('Parking uses the right foreleg for the gear selector')
         self.stalk = None
         self.parking = None
+        self.horn = None
         self.support_hand = support_hand
         probe_fly = make_fly()
         probe_world = TetheredWorld()
@@ -51,6 +54,9 @@ class WheelRig:
         self.fly = make_fly()
         self.world = TetheredWorld()
         root = self.world.mjcf_root
+        if horn_control:
+            from flyhard.horn_rig import HornButton
+            self.horn = HornButton(root, probe.mj_data.body('nmf/rf_tarsus5').xpos.copy())
         if parking_controls:
             from flyhard.parking_rig import ParkingControls
             self.parking = ParkingControls(root, probe.mj_data)
@@ -131,6 +137,9 @@ class WheelRig:
         if self.parking is not None:
             self.parking.bind(self.model, self.data)
             mj.mj_forward(self.model, self.data)
+        if self.horn is not None:
+            self.horn.bind(self.model, self.data)
+            mj.mj_forward(self.model, self.data)
         self.ik_angles = None
 
     def reset(self, grip=True, stalk_grip=True):
@@ -143,6 +152,8 @@ class WheelRig:
         if self.parking is not None and hasattr(self.parking, 'model'):
             for control in self.parking.controls:
                 self.data.eq_active[control.grip_id] = grip
+        if self.horn is not None and hasattr(self.horn, 'model'):
+            self.data.eq_active[self.horn.grip_id] = grip
         mj.mj_forward(self.model,self.data)
 
     @property
@@ -156,8 +167,7 @@ class WheelRig:
         current = self.data.ctrl[self.actuators]
         delta = self.max_joint_target_rate*self.command_period
         self.data.ctrl[self.actuators] = current + np.clip(action-current,-delta,delta)
-        for _ in range(substeps or round(self.command_period/self.timestep)):
-            mj.mj_step(self.model,self.data)
+        mj.mj_step(self.model,self.data,nstep=substeps or round(self.command_period/self.timestep))
         assert np.isfinite(self.data.qpos).all() and abs(self.angle)<1
 
     def step_both(self, action):

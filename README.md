@@ -34,6 +34,13 @@ The measured connectivity topology is the starting architectural constraint. Tra
 
 ## Current experiments and next gate
 
+The [horn experiment](docs/horn-etiquette-2026-09-10.md) learns when to press a
+passive horn button from structured traffic-light history. At 60 Hz, 28/30 held-out
+positive trials produced one timely beep, and all 150 negative trials stayed quiet.
+The three CARLA demonstration scenes also passed, including silence when arriving
+at an already-green light. This is a narrow horn skill; approach and braking remain
+conventional controls.
+
 The September 10 source includes physical indicator control, roundabout capture,
 parallel-parking training/evaluation, and the video replay/edit pipeline. Start
 with the [source preservation guide](docs/source-preservation-2026-09-10.md) for

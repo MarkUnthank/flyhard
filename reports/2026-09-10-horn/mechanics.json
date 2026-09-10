@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "trials": [
+    {
+      "attached": true,
+      "target": 0.0,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": true,
+      "target": 0.95,
+      "measured": 0.8846189582762313,
+      "hold_error": 0.06538104306676462,
+      "pressed": true,
+      "passed": true
+    },
+    {
+      "attached": true,
+      "target": 0.0,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": true,
+      "target": 0.95,
+      "measured": 0.8846189582762313,
+      "hold_error": 0.06538104306676484,
+      "pressed": true,
+      "passed": true
+    },
+    {
+      "attached": true,
+      "target": 0.0,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": false,
+      "target": 0.0,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": false,
+      "target": 0.95,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": false,
+      "target": 0.0,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": false,
+      "target": 0.95,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    },
+    {
+      "attached": false,
+      "target": 0.0,
+      "measured": 0.0,
+      "hold_error": 0.0,
+      "pressed": false,
+      "passed": true
+    }
+  ],
+  "ik_max_error_mm": 6.363668476084136e-06,
+  "wall_seconds": 9.26214670803165,
+  "physics_timestep": 1.6666666666666667e-05,
+  "motor_period": 0.0033333333333333335,
+  "horn_has_actuator": false,
+  "coupling": "Engineered forefoot point grip",
+  "beep_source": "Measured passive button travel >= 55%"
+}

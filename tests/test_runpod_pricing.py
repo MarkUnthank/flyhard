@@ -41,3 +41,20 @@ def test_replaced_watcher_cannot_mutate_new_session(monkeypatch, tmp_path):
     monkeypatch.setattr(control, 'STATE', state)
     monkeypatch.setattr(control, 'resolve_pod', lambda *args: pytest.fail('Old watcher reached provider'))
     control.watch()
+
+
+@pytest.mark.parametrize('balance,seconds,price,message', [
+    (5.99,3600,.53,'credit'),
+    (8.,3600,1.6,'Hourly'),
+    (8.,21600,.53,'runtime'),
+])
+def test_bounded_launch_rejects_before_allocation(monkeypatch,tmp_path,balance,seconds,price,message):
+    config = tmp_path/'pod.json'
+    config.write_text(json.dumps({'name':'unit-test','gpu':{'id':'test'},'disk':100,
+        'budget':{'runtime_seconds':seconds,'reserve_usd':4,'spend_cap_usd':2,'max_hourly_usd':1.5}}))
+    monkeypatch.setattr(control,'STATE',tmp_path/'state.json')
+    monkeypatch.setattr(control,'balance',lambda:{'clientBalance':balance})
+    monkeypatch.setattr(control,'compute_hourly',lambda _:price)
+    monkeypatch.setattr(control,'request',lambda *a:pytest.fail('Rejected budget reached provider'))
+    with pytest.raises(RuntimeError,match=message):
+        control.launch(config)
