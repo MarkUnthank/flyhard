@@ -126,6 +126,11 @@ def watch():
         try:
             pod = resolve_pod(state)
             if pod is None:
+                if state.get("pod_id"):
+                    state["closed"] = True
+                    state["pod_absent_epoch"] = time.time()
+                    save_state(state)
+                    return
                 if time.time() > state["requested_epoch"] + 900:
                     print("No pilot found after 15 minutes; guard exiting", flush=True)
                     return

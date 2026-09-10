@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY pyproject.toml /opt/flyhard/pyproject.toml
 COPY requirements/ /opt/flyhard/requirements/
 COPY docker/install_environment.py /opt/flyhard/docker/install_environment.py
-RUN python /opt/flyhard/docker/install_environment.py
+RUN python -m pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cu128 'torch==2.8.0+cu128' \
+    && python /opt/flyhard/docker/install_environment.py
 
 COPY src/ /opt/flyhard/src/
 COPY scripts/ /opt/flyhard/scripts/
