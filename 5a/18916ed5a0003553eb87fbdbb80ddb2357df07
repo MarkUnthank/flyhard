@@ -1,0 +1,47 @@
+apps/website/src/app/globals.css
+  s_193f6231e5e797::t_edf74af3f13dea 163-166,170-172
+  s_193f6231e5e797::t_f5571ede235f14 167-169,1825-1827
+apps/website/src/components/auction-site.tsx
+  s_193f6231e5e797::t_edf74af3f13dea 209-216,219-227,229-232
+  s_193f6231e5e797::t_934954083d398d 228
+  s_193f6231e5e797::t_f5571ede235f14 208,217-218
+apps/website/worker/index.ts
+  s_193f6231e5e797::t_f5571ede235f14 8,12
+  s_193f6231e5e797::t_edf74af3f13dea 9-11
+apps/website/worker/env.ts
+  s_193f6231e5e797::t_f5571ede235f14 1-2,4-5
+apps/website/src/lib/auction.ts
+  s_193f6231e5e797::t_f5571ede235f14 64,77
+apps/website/worker/auction.ts
+  s_193f6231e5e797::t_f5571ede235f14 3,42,64,206-208,211,215-219,226,231-233,239,249-250,255-258
+  s_193f6231e5e797::t_edf74af3f13dea 190-195,209-210,212-214,220-225,227-230,234-238,240-248,251-254
+apps/website/tests/page-views.test.ts
+  s_193f6231e5e797::t_531c6af3395449 100
+  s_193f6231e5e797::t_274d1150dbe53f 1-15,20-25,32-34,39-41,47-49,54-55,78-86,91-95,104-108,113-121,125-127,133-142
+  s_193f6231e5e797::t_42be29cc245c9e 16-19,26-31,35,37-38,42-46,50-53,56-77,87-90,96-99,101-103,109-112,122-124,128-132
+apps/website/wrangler.jsonc
+  s_193f6231e5e797::t_f5571ede235f14 19,44
+apps/website/README.md
+  s_193f6231e5e797::t_934954083d398d 120-145
+apps/website/worker/page-views.ts
+  s_193f6231e5e797::t_3dcd0736dc3d86 1-6,25-30,35-44,49-52,55-58,63-66
+  s_193f6231e5e797::t_edf74af3f13dea 7-24,31-34,45-48,53-54,59-62
+apps/website/src/app/privacy/page.tsx
+  s_193f6231e5e797::t_92852d6e14f38c 46-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5a18916ed5a0003553eb87fbdbb80ddb2357df07",
+  "prompts": {},
+  "sessions": {
+    "s_193f6231e5e797": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b28-a7b4-7a50-a3c1-54b57912a9d6",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
