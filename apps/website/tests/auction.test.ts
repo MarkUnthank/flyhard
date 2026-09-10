@@ -3,7 +3,11 @@ import { build } from "esbuild";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { Miniflare, Response as WorkerResponse } from "miniflare";
+import {
+  Miniflare,
+  kCurrentWorker,
+  Response as WorkerResponse,
+} from "miniflare";
 import { decode, encode } from "fast-png";
 import Stripe from "stripe";
 import {
@@ -18,12 +22,27 @@ import {
 
 const secret = "whsec_local_integration_test_only";
 let mf: Miniflare;
+let mfOptions: ConstructorParameters<typeof Miniflare>[0];
 let directory: string;
 let requestNumber = 0;
 const sessions = new Map<string, Record<string, unknown>>();
 const sessionsByKey = new Map<string, string>();
 const refunds = new Map<string, Record<string, unknown>>();
 const refundRequests: string[] = [];
+const emails: EmailMessageBuilder[] = [];
+let failEmail = false;
+let testMode = false;
+let failSessionRead: string | undefined;
+let sessionReads: string[] = [];
+type TestStub = {
+  testSql(
+    query: string,
+    ...values: (string | number | null)[]
+  ): Promise<Record<string, unknown>[]>;
+  testAlarm(): Promise<number | null>;
+  testConfig(test: boolean, recipient?: string): Promise<void>;
+};
+let testStub: TestStub;
 const image = encode({
   width: 2,
   height: 2,
@@ -37,7 +56,7 @@ beforeAll(async () => {
   directory = await mkdtemp(join(tmpdir(), "drivingfly-test-"));
   const script = join(directory, "worker.mjs");
   await build({
-    entryPoints: ["worker/api.ts"],
+    entryPoints: ["tests/fixtures/auction-worker.ts"],
     bundle: true,
     format: "esm",
     platform: "browser",
@@ -49,6 +68,12 @@ beforeAll(async () => {
     ConstructorParameters<typeof Miniflare>[0]["outboundService"]
   > = async (request: import("miniflare").Request) => {
     const url = new URL(request.url);
+    if (url.origin === "https://email.test") {
+      if (failEmail)
+        return new WorkerResponse("Temporary failure", { status: 503 });
+      emails.push((await request.json()) as EmailMessageBuilder);
+      return WorkerResponse.json({ messageId: `email-${emails.length}` });
+    }
     if (url.origin !== "https://api.stripe.com")
       throw new Error(`Unexpected outbound request to ${url.origin}`);
     if (url.pathname === "/v1/checkout/sessions" && request.method === "POST") {
@@ -71,15 +96,24 @@ beforeAll(async () => {
           ),
           client_reference_id: form.get("client_reference_id"),
           metadata: { bid_id: form.get("metadata[bid_id]") },
-          livemode: false,
+          livemode: !testMode,
+          customer_details: { email: `${id}@example.test` },
           payment_intent: `pi_${id}`,
           url: `https://checkout.stripe.com/c/pay/${id}`,
         });
       }
       return WorkerResponse.json(sessions.get(id));
     }
-    if (/\/v1\/checkout\/sessions\/cs_test_\d+$/.test(url.pathname))
-      return WorkerResponse.json(sessions.get(url.pathname.split("/").at(-1)!));
+    if (/\/v1\/checkout\/sessions\/cs_test_\d+$/.test(url.pathname)) {
+      const id = url.pathname.split("/").at(-1)!;
+      sessionReads.push(id);
+      if (id === failSessionRead)
+        return WorkerResponse.json(
+          { error: { type: "api_error", message: "Temporary Stripe failure" } },
+          { status: 503 },
+        );
+      return WorkerResponse.json(sessions.get(id));
+    }
     if (url.pathname === "/v1/refunds" && request.method === "POST") {
       const form = new URLSearchParams(await request.text());
       const payment = form.get("payment_intent")!;
@@ -99,7 +133,10 @@ beforeAll(async () => {
       `Unexpected Stripe request: ${request.method} ${url.pathname}`,
     );
   };
-  mf = new Miniflare({
+  mfOptions = {
+    name: "auction-test",
+    durableObjectsPersist: join(directory, "do"),
+    r2Persist: join(directory, "r2"),
     modules: true,
     modulesRoot: directory,
     scriptPath: script,
@@ -108,13 +145,22 @@ beforeAll(async () => {
     durableObjects: { AUCTION: { className: "Auction", useSQLite: true } },
     r2Buckets: ["ARTWORK"],
     outboundService,
+    serviceBindings: {
+      EMAIL: { name: kCurrentWorker, entrypoint: "TestEmail" },
+    },
     bindings: {
       SITE_URL: "http://localhost:3000",
-      STRIPE_API_KEY: "sk_test_local_test_only",
+      STRIPE_API_KEY: "local_live_fixture",
+      OUTBID_EMAIL_FROM: "updates@notify.example.test",
       STRIPE_WEBHOOK_SECRET: secret,
     },
-  });
+  };
+  mf = new Miniflare(mfOptions);
   await mf.ready;
+  const namespace = await mf.getDurableObjectNamespace("AUCTION");
+  testStub = namespace.get(
+    namespace.idFromName("the-driving-fly-v1"),
+  ) as unknown as TestStub;
 }, 30_000);
 afterAll(async () => {
   await mf?.dispose();
@@ -523,5 +569,193 @@ describe("auction rules", () => {
     expect(
       (await request("/api/checkout", { ...input, logoToken })).status,
     ).toBe(200);
+  });
+});
+
+describe("outbid notifications", () => {
+  it("emails only the displaced owner, once across concurrent webhook redelivery", async () => {
+    // The earlier tests include unpaid, mismatched and refund-race checkouts.
+    await expect.poll(() => emails.length).toBe(1);
+    const first = emails[0];
+    expect(first.to).toBe("cs_test_1@example.test");
+    expect(first.text).toContain("confirmed $2 bid");
+    expect(first.text).toContain("starts at $3 USD");
+    expect(first.html).toContain("?spot=ad-01");
+    expect(first.subject).not.toContain("[TEST]");
+    const winner = [...sessions.values()].find(
+      (s) =>
+        (s.metadata as { bid_id: string }).bid_id ===
+        first.headers!["X-Outbid-Notification"],
+    );
+    expect(winner).toBeDefined();
+    const current = (await snapshot()).placements["ad-01"];
+    const currentSession = [...sessions.values()].find(
+      (s) => s.client_reference_id === current.id,
+    )!;
+    await Promise.all([
+      pay(String(currentSession.id)),
+      pay(String(currentSession.id)),
+    ]);
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(1);
+    const data = JSON.stringify(await snapshot());
+    expect(data).not.toContain("@example.test");
+    expect(data).not.toContain("buyer_email");
+    expect(data).not.toContain("session_id");
+    expect(data).not.toContain("message_id");
+  });
+
+  it("recovers existing sponsors' addresses from Stripe and retries email without blocking publication", async () => {
+    const owner = (await snapshot()).placements["ad-10"];
+    await testStub.testSql(
+      "UPDATE bids SET buyer_email = NULL WHERE id = ?",
+      owner.id,
+    );
+    sessionReads = [];
+    failEmail = true;
+    const replacement = await bid("ad-10", 300, "Replacement");
+    expect((await pay(replacement.sessionId)).status).toBe(200);
+    expect((await snapshot()).placements["ad-10"].amount).toBe(300);
+    await expect
+      .poll(
+        async () =>
+          (
+            await testStub.testSql(
+              "SELECT attempts FROM outbid_emails WHERE previous_bid_id = ?",
+              owner.id,
+            )
+          )[0]?.attempts,
+      )
+      .toBe(1);
+    expect(sessionReads).toContain("cs_test_2");
+    expect(emails).toHaveLength(1);
+    expect(await testStub.testAlarm()).not.toBeNull();
+    // The queue persists; make its next attempt due without waiting a minute.
+    failEmail = false;
+    await testStub.testSql(
+      "UPDATE outbid_emails SET next_attempt_at = 0 WHERE previous_bid_id = ?",
+      owner.id,
+    );
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(2);
+    expect(emails[1].to).toBe("cs_test_2@example.test");
+    expect(
+      await testStub.testSql(
+        "SELECT status, attempts, message_id FROM outbid_emails WHERE previous_bid_id = ?",
+        owner.id,
+      ),
+    ).toEqual([{ status: "sent", attempts: 2, message_id: "email-2" }]);
+    await pay(replacement.sessionId);
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(2);
+  });
+
+  it("does not notify an owner who raises their own bid", async () => {
+    const owner = (await snapshot()).placements["ad-10"];
+    const session = [...sessions.values()].find(
+      (s) => s.client_reference_id === owner.id,
+    )!;
+    const replacement = await bid("ad-10", 400, "Same owner");
+    sessions.get(replacement.sessionId)!.customer_details =
+      session.customer_details;
+    await pay(replacement.sessionId);
+    await expect
+      .poll(
+        async () =>
+          (
+            await testStub.testSql(
+              "SELECT status FROM outbid_emails WHERE previous_bid_id = ?",
+              owner.id,
+            )
+          )[0]?.status,
+      )
+      .toBe("skipped");
+    expect(emails).toHaveLength(2);
+  });
+
+  it("fails visibly for a missing Stripe email without affecting the new winner", async () => {
+    const owner = (await snapshot()).placements["ad-10"];
+    const session = [...sessions.values()].find(
+      (s) => s.client_reference_id === owner.id,
+    )!;
+    session.customer_details = null;
+    await testStub.testSql(
+      "UPDATE bids SET buyer_email = NULL WHERE id = ?",
+      owner.id,
+    );
+    const replacement = await bid("ad-10", 500);
+    await pay(replacement.sessionId);
+    await expect
+      .poll(
+        async () =>
+          (
+            await testStub.testSql(
+              "SELECT last_error FROM outbid_emails WHERE previous_bid_id = ?",
+              owner.id,
+            )
+          )[0]?.last_error,
+      )
+      .toBe("E_NO_CHECKOUT_EMAIL");
+    expect((await snapshot()).placements["ad-10"].amount).toBe(500);
+    expect(emails).toHaveLength(2);
+  });
+
+  it("keeps the email alarm alive and resumes pending delivery after a runtime restart", async () => {
+    const owner = (await snapshot()).placements["ad-10"];
+    // Remove unrelated abandoned-upload work so the email alone must keep the alarm alive.
+    await testStub.testSql(
+      "DELETE FROM uploads WHERE bid_id IS NULL OR bid_id IN (SELECT id FROM bids WHERE status IN ('pending','refund_pending','expired'))",
+    );
+    failEmail = true;
+    const replacement = await bid("ad-10", 600);
+    await pay(replacement.sessionId);
+    await expect
+      .poll(
+        async () =>
+          (
+            await testStub.testSql(
+              "SELECT attempts FROM outbid_emails WHERE previous_bid_id = ?",
+              owner.id,
+            )
+          )[0]?.attempts,
+      )
+      .toBe(1);
+    expect(await testStub.testAlarm()).not.toBeNull();
+    await mf.dispose();
+    mf = new Miniflare(mfOptions);
+    await mf.ready;
+    const ns = await mf.getDurableObjectNamespace("AUCTION");
+    testStub = ns.get(
+      ns.idFromName("the-driving-fly-v1"),
+    ) as unknown as TestStub;
+    failEmail = false;
+    await testStub.testSql(
+      "UPDATE outbid_emails SET next_attempt_at = 0 WHERE previous_bid_id = ?",
+      owner.id,
+    );
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(3);
+    await pay(replacement.sessionId);
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(3);
+  });
+
+  it("routes all sandbox email to the configured test recipient and fails closed without one", async () => {
+    testMode = true;
+    await testStub.testConfig(true);
+    const first = await bid("ad-59", 100);
+    const second = await bid("ad-59", 200);
+    await pay(first.sessionId);
+    await pay(second.sessionId);
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(3);
+    await testStub.testConfig(true, "operator@example.test");
+    await testStub.testAlarm();
+    expect(emails).toHaveLength(4);
+    expect(emails[3].to).toBe("operator@example.test");
+    expect(emails[3].subject).toMatch(/^\[TEST\]/);
+    expect(emails[3].text).toContain("No live ad was replaced");
+    testMode = false;
+    await testStub.testConfig(false);
   });
 });

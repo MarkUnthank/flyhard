@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import {
   ArrowDown,
@@ -50,7 +50,7 @@ const faqs = [
   ],
   [
     "What happens when someone outbids me?",
-    "Their artwork replaces yours when their payment is confirmed. Your brand remains in the recent supporter history. A placement that has already gone live isn’t refunded just because it is outbid.",
+    "Their artwork replaces yours when their payment is confirmed. We’ll email your Stripe checkout address with a link to bid again. Your brand remains in the recent supporter history. A placement that has already gone live isn’t refunded just because it is outbid.",
   ],
   [
     "What if two people pay at the same time?",
@@ -174,6 +174,20 @@ export default function AuctionSite() {
     // The return URL only asks the server to check payment; it never grants a spot.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const openedEmailSpot = useRef(false);
+  useEffect(() => {
+    if (!loaded || openedEmailSpot.current) return;
+    openedEmailSpot.current = true;
+    const url = new URL(location.href);
+    const slot = slots.find((s) => s.id === url.searchParams.get("spot"));
+    if (slot) {
+      setSelected(slot);
+      setManualView(slot.face as View);
+      url.searchParams.delete("spot");
+      history.replaceState({}, "", url.pathname + url.search + "#live-auction");
+    }
+  }, [loaded, slots]);
+
   function choose(id: string) {
     const slot = slots.find((s) => s.id === id);
     if (slot) {

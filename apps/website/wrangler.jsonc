@@ -17,7 +17,16 @@
     "run_worker_first": ["/api/*"],
   },
   "observability": { "enabled": true },
-  "vars": { "SITE_URL": "https://thedrivingfly.com" },
+  "vars": {
+    "SITE_URL": "https://thedrivingfly.com",
+    "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
+  },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_sender_addresses": ["updates@notify.thedrivingfly.com"],
+    },
+  ],
   "durable_objects": {
     "bindings": [{ "name": "AUCTION", "class_name": "Auction" }],
   },
@@ -33,7 +42,14 @@
       "routes": [],
       "vars": {
         "SITE_URL": "https://the-driving-fly-staging.mxunthank.workers.dev",
+        "OUTBID_EMAIL_FROM": "updates@notify.thedrivingfly.com",
       },
+      "send_email": [
+        {
+          "name": "EMAIL",
+          "allowed_sender_addresses": ["updates@notify.thedrivingfly.com"],
+        },
+      ],
       "durable_objects": {
         "bindings": [{ "name": "AUCTION", "class_name": "Auction" }],
       },

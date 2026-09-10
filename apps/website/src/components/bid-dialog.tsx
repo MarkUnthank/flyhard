@@ -374,6 +374,9 @@ export default function BidDialog({
                 )}
               </button>
               <p className="stripe-note">
+                We’ll email your Stripe checkout address if you’re outbid.
+              </p>
+              <p className="stripe-note">
                 <LockKeyhole size={12} /> Secure checkout with Stripe{" "}
                 {snapshot.paymentMode === "test" && "· Test mode"}
               </p>

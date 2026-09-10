@@ -10,6 +10,7 @@ import {
   type AuctionSnapshot,
   type Placement,
 } from "../src/lib/auction";
+import { checkoutEmail, emailErrorCode, outbidEmail } from "./outbid-email";
 import type { Env } from "./env";
 import { HttpError, json, readBody, readJson } from "./http";
 
@@ -26,6 +27,7 @@ type BidRow = {
   status: string;
   session_id: string | null;
   payment_id: string | null;
+  buyer_email: string | null;
   refund_id: string | null;
   created_at: number;
   published_at: number | null;
@@ -35,6 +37,7 @@ const DAY = 86_400_000;
 
 export class Auction extends DurableObject<Env> {
   private sql: SqlStorage;
+  private notificationWork: Promise<void> | undefined;
   private refundWork: Promise<void> | undefined;
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
@@ -53,6 +56,13 @@ export class Auction extends DurableObject<Env> {
       CREATE TABLE IF NOT EXISTS counters (name TEXT PRIMARY KEY, value INTEGER NOT NULL);
       INSERT OR IGNORE INTO counters VALUES ('revision', 0);
       CREATE TABLE IF NOT EXISTS limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, expires_at INTEGER NOT NULL);
+      CREATE TABLE IF NOT EXISTS outbid_emails (
+        previous_bid_id TEXT PRIMARY KEY, replacement_bid_id TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'pending', attempts INTEGER NOT NULL DEFAULT 0,
+        next_attempt_at INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL,
+        sent_at INTEGER, message_id TEXT, last_error TEXT
+      );
+      CREATE INDEX IF NOT EXISTS email_pending ON outbid_emails(status, next_attempt_at);
       CREATE INDEX IF NOT EXISTS bid_status ON bids(status);
       CREATE INDEX IF NOT EXISTS bid_publication ON bids(published_at);
     `);
@@ -64,6 +74,8 @@ export class Auction extends DurableObject<Env> {
         .map((column) => column.name),
     );
     this.ctx.storage.transactionSync(() => {
+      if (!columns.has("buyer_email"))
+        this.sql.exec("ALTER TABLE bids ADD COLUMN buyer_email TEXT");
       if (!columns.has("message"))
         this.sql.exec(
           "ALTER TABLE bids ADD COLUMN message TEXT NOT NULL DEFAULT ''",
@@ -75,6 +87,16 @@ export class Auction extends DurableObject<Env> {
         this.sql.exec("UPDATE bids SET logo_token = artwork_token");
       }
     });
+    // Recover queued notifications after a deployment or sender configuration change.
+    if (
+      this.canSendOutbidEmails() &&
+      this.sql
+        .exec<{ count: number }>(
+          "SELECT COUNT(*) AS count FROM outbid_emails WHERE status = 'pending'",
+        )
+        .one().count
+    )
+      this.ctx.blockConcurrencyWhile(() => this.scheduleAlarm());
   }
 
   private stripe() {
@@ -509,9 +531,10 @@ export class Auction extends DurableObject<Env> {
         )
         .toArray()[0];
       this.sql.exec(
-        "UPDATE bids SET session_id = ?, payment_id = ? WHERE id = ?",
+        "UPDATE bids SET session_id = ?, payment_id = ?, buyer_email = ? WHERE id = ?",
         session.id,
         paymentId,
+        checkoutEmail(session),
         bid.id,
       );
       if (bid.amount < minimumBid(current?.amount)) {
@@ -521,11 +544,20 @@ export class Auction extends DurableObject<Env> {
         );
         return;
       }
-      if (current)
+      if (current) {
         this.sql.exec(
           "UPDATE bids SET status = 'outbid' WHERE id = ?",
           current.id,
         );
+        // The notification and ownership change commit together. Never enqueue
+        // for a checkout that loses before its artwork has been published.
+        this.sql.exec(
+          "INSERT OR IGNORE INTO outbid_emails (previous_bid_id, replacement_bid_id, created_at) VALUES (?,?,?)",
+          current.id,
+          bid.id,
+          Date.now(),
+        );
+      }
       this.sql.exec(
         "UPDATE bids SET status = 'won', published_at = ? WHERE id = ?",
         Date.now(),
@@ -541,9 +573,184 @@ export class Auction extends DurableObject<Env> {
       );
       changed = true;
     });
-    if (changed) this.broadcast();
+    if (changed) {
+      this.broadcast();
+      // Durable alarm recovery is already armed; email cannot delay publication.
+      this.ctx.waitUntil(this.notifyOutbid());
+    }
     await this.refundPending();
   }
+  private async bidderEmail(bid: BidRow): Promise<string | null> {
+    if (bid.buyer_email) return bid.buyer_email;
+    if (!bid.session_id) return null;
+    // Existing sponsors predate email storage. Retrieve only the displaced
+    // owner's original paid Checkout, never take an address from the browser.
+    const session = await this.stripe().checkout.sessions.retrieve(
+      bid.session_id,
+    );
+    if (
+      session.client_reference_id !== bid.id ||
+      session.metadata?.bid_id !== bid.id ||
+      session.payment_status !== "paid" ||
+      session.status !== "complete" ||
+      session.amount_total !== bid.amount ||
+      session.currency !== "usd" ||
+      session.livemode !== !this.env.STRIPE_API_KEY?.includes("_test_")
+    )
+      throw new Error("Stored checkout identity mismatch");
+    const email = checkoutEmail(session);
+    if (email)
+      this.sql.exec(
+        "UPDATE bids SET buyer_email = ? WHERE id = ?",
+        email,
+        bid.id,
+      );
+    return email;
+  }
+
+  private async notifyOutbid() {
+    const work = (this.notificationWork ?? Promise.resolve())
+      .catch(() => {})
+      .then(() => this.processOutbidEmails());
+    this.notificationWork = work;
+    try {
+      await work;
+    } finally {
+      if (this.notificationWork === work) this.notificationWork = undefined;
+    }
+  }
+
+  private canSendOutbidEmails() {
+    return Boolean(
+      this.env.EMAIL &&
+      this.env.OUTBID_EMAIL_FROM &&
+      this.env.STRIPE_API_KEY &&
+      (!this.env.STRIPE_API_KEY.includes("_test_") ||
+        this.env.OUTBID_EMAIL_TEST_TO),
+    );
+  }
+
+  private async processOutbidEmails() {
+    // Local development has no email binding. Staging fails closed unless an
+    // explicit test recipient is configured; it never emails real sponsors.
+    if (!this.canSendOutbidEmails()) return;
+    const test = Boolean(this.env.STRIPE_API_KEY?.includes("_test_"));
+    const jobs = this.sql
+      .exec<{
+        previous_bid_id: string;
+        replacement_bid_id: string;
+        attempts: number;
+      }>(
+        "SELECT * FROM outbid_emails WHERE status = 'pending' AND next_attempt_at <= ? ORDER BY created_at LIMIT 20",
+        Date.now(),
+      )
+      .toArray();
+    for (const job of jobs) {
+      try {
+        const previous = this.sql
+          .exec<BidRow>("SELECT * FROM bids WHERE id = ?", job.previous_bid_id)
+          .one();
+        const replacement = this.sql
+          .exec<BidRow>(
+            "SELECT * FROM bids WHERE id = ?",
+            job.replacement_bid_id,
+          )
+          .one();
+        const recipient = await this.bidderEmail(previous);
+        if (!recipient) {
+          this.finishNotification(
+            job.previous_bid_id,
+            "failed",
+            "E_NO_CHECKOUT_EMAIL",
+          );
+          continue;
+        }
+        const replacementEmail = await this.bidderEmail(replacement);
+        const current = this.sql
+          .exec<BidRow>(
+            "SELECT b.* FROM placements p JOIN bids b ON b.id = p.bid_id WHERE p.slot_id = ?",
+            previous.slot_id,
+          )
+          .one();
+        if (
+          replacementEmail?.toLowerCase() === recipient.toLowerCase() ||
+          current.buyer_email?.toLowerCase() === recipient.toLowerCase()
+        ) {
+          this.finishNotification(
+            job.previous_bid_id,
+            "skipped",
+            "E_OWNER_RETAINED_SPOT",
+          );
+          continue;
+        }
+        this.sql.exec(
+          "UPDATE outbid_emails SET attempts = attempts + 1 WHERE previous_bid_id = ?",
+          job.previous_bid_id,
+        );
+        const result = await this.env.EMAIL!.send({
+          from: { name: "The Driving Fly", email: this.env.OUTBID_EMAIL_FROM! },
+          to: test ? this.env.OUTBID_EMAIL_TEST_TO! : recipient,
+          headers: {
+            "X-Outbid-Notification": job.previous_bid_id,
+            "Auto-Submitted": "auto-generated",
+          },
+          ...outbidEmail({
+            siteUrl: this.env.SITE_URL,
+            slotId: previous.slot_id,
+            slotName:
+              slots.find((slot) => slot.id === previous.slot_id)?.name ??
+              previous.slot_id,
+            brand: previous.brand,
+            previousAmount: previous.amount,
+            replacementAmount: replacement.amount,
+            currentAmount: current.amount,
+            test,
+          }),
+        });
+        this.sql.exec(
+          "UPDATE outbid_emails SET status = 'sent', sent_at = ?, message_id = ?, last_error = NULL WHERE previous_bid_id = ?",
+          Date.now(),
+          result.messageId,
+          job.previous_bid_id,
+        );
+        console.info(
+          "Outbid email accepted",
+          job.previous_bid_id,
+          result.messageId,
+        );
+      } catch (error) {
+        const code = emailErrorCode(error);
+        if (code === "E_RECIPIENT_SUPPRESSED") {
+          this.finishNotification(job.previous_bid_id, "failed", code);
+        } else {
+          const delay = Math.min(
+            3_600_000,
+            60_000 * 2 ** Math.min(job.attempts, 6),
+          );
+          this.sql.exec(
+            "UPDATE outbid_emails SET attempts = ?, next_attempt_at = ?, last_error = ? WHERE previous_bid_id = ?",
+            job.attempts + 1,
+            Date.now() + delay,
+            code,
+            job.previous_bid_id,
+          );
+          console.error("Outbid email will retry", job.previous_bid_id, code);
+        }
+      }
+    }
+  }
+
+  private finishNotification(id: string, status: string, code: string) {
+    this.sql.exec(
+      "UPDATE outbid_emails SET status = ?, last_error = ? WHERE previous_bid_id = ?",
+      status,
+      code,
+      id,
+    );
+    if (status === "failed")
+      console.error("Outbid email needs attention", id, code);
+  }
+
   private async refundPending() {
     // Webhooks can interleave while a Stripe request is in flight. Serialize
     // refund scans within this instance; Stripe idempotency covers restarts.
@@ -597,6 +804,7 @@ export class Auction extends DurableObject<Env> {
     // Re-arm first: a failed remote call must not strand a paid checkout or refund.
     await this.ctx.storage.setAlarm(Date.now() + 60_000);
     await this.refundPending();
+    await this.notifyOutbid();
     const pending = this.sql
       .exec<BidRow>(
         "SELECT * FROM bids WHERE status = 'pending' AND session_id IS NOT NULL AND created_at < ? ORDER BY checked_at LIMIT 20",
@@ -643,7 +851,20 @@ export class Auction extends DurableObject<Env> {
         "SELECT COUNT(*) AS count FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.bid_id IS NULL OR b.status IN ('pending','refund_pending','expired')",
       )
       .one().count;
-    if (!work) await this.ctx.storage.deleteAlarm();
+    if (!work) {
+      const nextEmail = this.canSendOutbidEmails()
+        ? this.sql
+            .exec<{ due: number | null }>(
+              "SELECT MIN(next_attempt_at) AS due FROM outbid_emails WHERE status = 'pending'",
+            )
+            .one().due
+        : null;
+      if (nextEmail === null) await this.ctx.storage.deleteAlarm();
+      else
+        await this.ctx.storage.setAlarm(
+          Math.max(Date.now() + 60_000, nextEmail),
+        );
+    }
   }
   webSocketMessage(socket: WebSocket, message: string | ArrayBuffer) {
     if (message === "snapshot") socket.send(JSON.stringify(this.snapshot()));

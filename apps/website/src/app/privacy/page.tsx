@@ -28,6 +28,15 @@ export default function Privacy() {
         artwork references, and payment status to verify purchases, prevent
         duplicates, and handle refunds.
       </p>
+      <h2>Outbid notifications</h2>
+      <p>
+        We use the email address from your confirmed Stripe checkout to tell you
+        when another paid bid replaces your placement. We store it privately
+        with your purchase and send these transactional updates through
+        Cloudflare Email Service. Your address is never included in public
+        auction data or shared with other bidders. This does not subscribe you
+        to marketing emails.
+      </p>
       <h2>Hosting and connection data</h2>
       <p>
         Cloudflare hosts the site, artwork, and auction state. Short-lived

@@ -69,6 +69,10 @@ On the deployed staging Worker, a $1 sandbox purchase and a $2 replacement both 
 - Abandoned uploads and expired-checkout artwork are removed after 24 hours. Public data excludes Stripe identifiers and billing details.
 - Manual refunds, disputes, ad moderation, and account-support requests need operator handling. This version does not include an admin console or automatically remove previously published ads for chargebacks. The public policy text and receipt support contact should be reviewed before launch.
 
+## Outbid emails
+
+Confirmed replacements now notify the previous owner using their private Stripe Checkout email. Cloudflare Email Service delivers the message; the auction's SQLite outbox and alarm recover temporary failures. Existing sponsors are supported by retrieving their original paid Checkout when displaced. Emails link directly to the spot's current bid form. See [OUTBID-NOTIFICATIONS.md](./OUTBID-NOTIFICATIONS.md) for configuration, sandbox isolation, delivery guarantees and operator checks.
+
 ## Live texture workflow
 
 For recording-ready PNGs and a sponsor-textured Blender/glTF model, run `npm run export:livery` and follow [LIVERY-EXPORT.md](./LIVERY-EXPORT.md). Every export freezes one revision; it never modifies the live auction.
