@@ -217,10 +217,25 @@ input[type="checkbox"] {
   font-size: 12px;
   color: var(--muted);
 }
-.stat-denominator {
-  color: #65715e;
-  font-weight: 400;
-  font-size: 19px;
+.entry-bid-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.entry-bid-link > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.entry-bid-link strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.entry-bid-link:hover:not(:disabled) strong {
+  color: var(--green);
 }
 .stat-divider {
   width: 1px;
@@ -1843,9 +1858,6 @@ fieldset {
   }
   .hero-stats > div > span {
     font-size: 12px;
-  }
-  .stat-denominator {
-    font-size: 15px;
   }
   .hero-stats > div {
     gap: 5px;
