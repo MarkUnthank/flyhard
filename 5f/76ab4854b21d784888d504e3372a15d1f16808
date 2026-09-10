@@ -1,0 +1,41 @@
+apps/website/src/app/terms/page.tsx
+  s_7d70d58a0d1841::t_fe459ea271fa54 21-23
+apps/website/src/app/privacy/page.tsx
+  s_7d70d58a0d1841::t_8ee11603424ed4 47-49
+  s_7d70d58a0d1841::t_fe459ea271fa54 44-46
+apps/mini-livery/custom-wrap/README.md
+  s_7d70d58a0d1841::t_fe459ea271fa54 1-16
+apps/website/CUSTOM-WRAPS.md
+  s_7d70d58a0d1841::t_d11c55f6b90ad6 9,11-13,19,21-23,33
+  s_7d70d58a0d1841::t_09f09009a69946 43-44
+apps/website/src/components/custom-wrap-offer.tsx
+  s_7d70d58a0d1841::t_fe459ea271fa54 70,81-86
+apps/website/tests/auction.test.ts
+  s_7d70d58a0d1841::t_8ee11603424ed4 14-16,80-84,132-134,136-141,565-572,968-970,1113-1115,1238-1273,1279-1282,1370-1372
+  s_7d70d58a0d1841::t_c669526f63c5b9 1,39,79,86,129-131,135,142,971-972,975-985,1032,1074,1104-1112,1116-1121,1138,1162,1211,1218-1219,1226,1236-1237,1274-1278,1283-1290,1366-1369,1373-1375
+apps/website/worker/custom-wrap-email.ts
+  s_7d70d58a0d1841::t_8ee11603424ed4 36-38
+  s_7d70d58a0d1841::t_12cf325071667c 1-35,39-56
+apps/website/worker/custom-wrap.ts
+  s_7d70d58a0d1841::t_12cf325071667c 13,28-31,55,58-66,101,169,193,295,300-303,421-422,431-432,458-460,463,468,471,475,480
+  s_7d70d58a0d1841::t_8ee11603424ed4 329-332,335-338,369-372,427-430,433-455,477
+  s_7d70d58a0d1841::t_c669526f63c5b9 317,322-328,333-334,348-353,359-368,373-375
+apps/mini-livery/README.md
+  s_7d70d58a0d1841::t_fe459ea271fa54 13-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5f76ab4854b21d784888d504e3372a15d1f16808",
+  "prompts": {},
+  "sessions": {
+    "s_7d70d58a0d1841": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b0e-7c66-7260-8541-8384f02a3b25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
