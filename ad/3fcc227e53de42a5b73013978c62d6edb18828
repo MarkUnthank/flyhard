@@ -1,0 +1,19 @@
+apps/website/src/components/auction-site.tsx
+  s_a6271bbbf334c5::t_a083dd6d10f9de 88-91,101,104,112,395-401,404,415,420,434,567,573-575
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ad3fcc227e53de42a5b73013978c62d6edb18828",
+  "prompts": {},
+  "sessions": {
+    "s_a6271bbbf334c5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b3f-e411-7460-9402-0a0649e13134",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
