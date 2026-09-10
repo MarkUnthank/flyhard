@@ -21,13 +21,18 @@ def main():
     from OpenGL import GL
     gpu=GL.glGetString(GL.GL_RENDERER).decode();assert 'NVIDIA' in gpu
     wanted={0,min(100,len(frames)-1),min(200,len(frames)-1),min(400,len(frames)-1),len(frames)-1}
-    rgb_reader=imageio.get_reader(root/'carla-camera.mp4',input_params=['-threads','1'])
-    depth_reader=imageio.get_reader(root/'native-depth.mkv',input_params=['-threads','1'])
+    cached=args.preview_only and all((root/f'depth-preview-{i:04}.png').exists() and
+                                    (root/f'carla-preview-{i:04}.png').exists() for i in wanted)
+    rgb_reader=None if cached else imageio.get_reader(root/'carla-camera.mp4',input_params=['-threads','1'])
+    depth_reader=None if cached else imageio.get_reader(root/'native-depth.mkv',input_params=['-threads','1'])
     writer=None if args.preview_only else imageio.get_writer(out/'road.mp4',fps=60,codec='libx264',macro_block_size=1,
         ffmpeg_params=['-crf','14','-preset','fast','-profile:v','baseline','-bf','0','-refs','1','-threads','2'])
     visible=[];started=time.monotonic()
     try:
-        for i,(raw,encoded) in enumerate(zip(rgb_reader,depth_reader)):
+        samples=((i,np.asarray(Image.open(root/f'carla-preview-{i:04}.png')),
+                     np.asarray(Image.open(root/f'depth-preview-{i:04}.png'))) for i in sorted(wanted)) if cached else (
+                     (i,raw,encoded) for i,(raw,encoded) in enumerate(zip(rgb_reader,depth_reader)))
+        for i,raw,encoded in samples:
             if args.preview_only and i not in wanted:continue
             row=frames[i];encoded=encoded.astype(np.float32)
             depth=(encoded[:,:,0]+256*encoded[:,:,1]+65536*encoded[:,:,2])*(1000/16777215)
@@ -37,7 +42,8 @@ def main():
             if writer:writer.append_data(road)
         assert i+1==len(frames)
     finally:
-        rgb_reader.close();depth_reader.close()
+        if rgb_reader:rgb_reader.close()
+        if depth_reader:depth_reader.close()
         if writer:writer.close()
         view.close()
     result={'status':'previewed' if args.preview_only else 'rendered','frames':len(frames),
@@ -46,6 +52,7 @@ def main():
             'asset_manifest_sha256':sha(Path(args.asset)/'manifest.json'),
             'revision':manifest['revision'],'layout':manifest['layoutVersion'],
             'minimum_sponsor_pixels':min(visible),'gpu':gpu,'wall_seconds':time.monotonic()-started}
+    result['exact_preview_cache']=cached
     if writer:result['video_sha256']=sha(out/'road.mp4')
     (out/('preview-metrics.json' if args.preview_only else 'metrics.json')).write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2),flush=True)

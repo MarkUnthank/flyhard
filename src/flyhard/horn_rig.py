@@ -10,13 +10,20 @@ from flyhard.parking_rig import PassiveSlider
 
 class HornButton(PassiveSlider):
     press_threshold = .55
+    release_threshold = .45
 
     def __init__(self, root, foot):
         super().__init__(root, foot, 'horn_button', 'rf')
+        self._contact_closed = False
 
     @property
     def pressed(self):
-        return self.value >= self.press_threshold
+        # A physical switch closes at 55% and opens below 45% travel. This fixed
+        # contact hysteresis suppresses threshold chatter; it cannot initiate a
+        # beep without a measured 55% press and contains no task information.
+        threshold = self.release_threshold if self._contact_closed else self.press_threshold
+        self._contact_closed = self.value >= threshold
+        return self._contact_closed
 
 
 def make_horn_rig():
@@ -38,5 +45,12 @@ def make_horn_rig():
                 raise ValueError('Horn controller must supply seven finite leg targets')
             self.horn.apply(action, self.max_joint_target_rate * self.command_period)
             self.step(self.wheel_hold)
+
+        def step_controls(self, targets):
+            action = np.asarray(targets)
+            if action.shape != (14,) or not np.isfinite(action).all():
+                raise ValueError('Joint steering/horn control needs fourteen finite leg targets')
+            self.horn.apply(action[7:], self.max_joint_target_rate*self.command_period)
+            self.step(action[:7])
 
     return HornRig(horn_control=True)

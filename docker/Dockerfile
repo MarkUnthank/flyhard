@@ -49,6 +49,7 @@ COPY apps/website/LIVERY-EXPORT.md /opt/flyhard/apps/website/LIVERY-EXPORT.md
 COPY apps/mini-livery/README.md apps/mini-livery/BarlowCondensed-OFL.txt /opt/flyhard/apps/mini-livery/
 COPY AGENTS.md /opt/flyhard/AGENTS.md
 COPY assets/fonts/ /opt/flyhard/assets/fonts/
+COPY assets/audio/ /opt/flyhard/assets/audio/
 COPY docker/ /opt/flyhard/docker/
 COPY LICENSE THIRD_PARTY.md README.md /opt/flyhard/
 # Keep changing source provenance out of the expensive dependency cache keys.
