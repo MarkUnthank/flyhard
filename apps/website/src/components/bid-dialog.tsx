@@ -41,12 +41,7 @@ export default function BidDialog({
   const current = snapshot.placements[slot.id];
   const minimum = minimumBid(current?.amount);
   const [amount, setAmount] = useState(
-    (
-      (initialAmount && initialAmount >= minimum ? initialAmount : minimum) /
-      100
-    )
-      .toFixed(2)
-      .replace(/\.00$/, ""),
+    ((initialAmount ?? minimum) / 100).toFixed(2).replace(/\.00$/, ""),
   );
   const [brand, setBrand] = useState("");
   const [message, setMessage] = useState("");
@@ -408,9 +403,11 @@ export default function BidDialog({
                     </div>
                   </div>
                   <p id="bid-help" className="field-help">
-                    {current
-                      ? "Bid at least $1 more than the current owner."
-                      : "Start at $1, or pay any amount you like."}{" "}
+                    {cents !== null && cents < minimum
+                      ? `The minimum is now ${money(minimum)}. Update your bid to continue.`
+                      : current
+                        ? "Bid at least $1 more than the current owner."
+                        : "Start at $1, or pay any amount you like."}{" "}
                     All prices in USD.
                   </p>
                   <div

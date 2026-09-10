@@ -222,7 +222,7 @@ export default function AuctionSite() {
             data.status === "refunded"
           ) {
             setStatus(paymentMessages[data.status] || "Payment checked.");
-            if (data.status !== "refund_pending")
+            if (data.status !== "refund_pending" && sessionId === returnSession)
               history.replaceState({}, "", "/#live-auction");
           }
         }

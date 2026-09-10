@@ -147,7 +147,7 @@ try {
   ]);
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
-    if (message.type() === "error") console.log("Browser:", message.text());
+    if (message.type() === "error") errors.push(message.text());
   });
   await page.setRequestInterception(true);
   page.on("request", async (request) => {
@@ -318,6 +318,10 @@ try {
   await page.screenshot({ path: join(output, "03-artwork-desktop.png") });
   const observerContext = await browser.createBrowserContext();
   const observer = await observerContext.newPage();
+  observer.on("pageerror", (error) => errors.push(error.message));
+  observer.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
   await observer.goto(site);
   await page.bringToFront();
   await page.$eval(".checkout-button", (el) =>
@@ -352,6 +356,68 @@ try {
     "Verified artwork publication, recovery, and independent live updates.",
   );
 
+  // Let an older refund confirmation arrive before the initial auction
+  // snapshot. It must not erase the cancelled checkout's spot and amount.
+  Object.assign(sessions.get(cancelled), {
+    status: "complete",
+    payment_status: "paid",
+  });
+  assert.equal(
+    await page.evaluate(
+      (sessionId) =>
+        Object.keys(localStorage).some((key) => key.endsWith(sessionId)),
+      cancelled,
+    ),
+    true,
+    "The cancelled checkout remains saved for payment recovery.",
+  );
+  const delayedSnapshots = await page.evaluateOnNewDocument(() => {
+    const originalFetch = window.fetch.bind(window);
+    const ready = new Promise((resolve) => {
+      window.releaseAuctionSnapshots = resolve;
+    });
+    window.fetch = async (...args) => {
+      if (args[0] === "/api/auction") await ready;
+      return originalFetch(...args);
+    };
+    const OriginalWebSocket = window.WebSocket;
+    window.WebSocket = class extends OriginalWebSocket {
+      set onmessage(handler) {
+        if (new URL(this.url).pathname !== "/api/live") {
+          super.onmessage = handler;
+          return;
+        }
+        super.onmessage = (event) => {
+          void ready.then(() => handler?.call(this, event));
+        };
+      }
+    };
+  });
+  await page.goto(checkouts.get(cancelled).get("cancel_url"));
+  await page.waitForSelector("#bid-amount");
+  assert.equal(await page.$eval("#bid-amount", (el) => el.value), "2");
+  assert.equal(await page.$eval("#bid-amount", (el) => el.min), "3");
+  assert.equal(await page.$eval(".checkout-button", (el) => el.disabled), true);
+  assert.match(
+    await page.$eval("#bid-help", (el) => el.textContent),
+    /minimum is now \$3\. Update your bid/,
+  );
+  await page.waitForFunction(() =>
+    document.body.innerText.includes("Your payment has been refunded."),
+  );
+  await page.evaluate(() => window.releaseAuctionSnapshots());
+  await page.removeScriptToEvaluateOnNewDocument(delayedSnapshots.identifier);
+  await readyDialog();
+  await page.click('[aria-label="Increase bid by one dollar"]');
+  assert.equal(await page.$eval("#bid-amount", (el) => el.value), "3");
+  assert.equal(
+    await page.$eval(".checkout-button", (el) => el.disabled),
+    false,
+  );
+  console.log(
+    "Verified refund recovery preserves a cancelled bid below the new minimum.",
+  );
+
   await page.setViewport({
     width: 390,
     height: 844,
@@ -379,6 +445,8 @@ try {
         verified: [
           "amount-only checkout",
           "cancel preserves bid",
+          "cancel preserves bid after a price increase",
+          "background refunds preserve checkout return links",
           "paid return opens details",
           "paid details survive dismissal and reload",
           "artwork preview",
@@ -404,6 +472,8 @@ try {
       await activePage
         .evaluate(() => ({
           url: location.href,
+          storageKeys: Object.keys(localStorage),
+          status: document.querySelector(".checkout-status")?.textContent,
           dialog: document.querySelector("dialog")?.innerText,
           errors: [...document.querySelectorAll(".form-error")].map(
             (el) => el.textContent,
@@ -417,6 +487,7 @@ try {
       "Auction state:",
       await (await mf.dispatchFetch(`${site}/api/auction`)).json(),
     );
+  console.log("Browser errors:", errors);
   throw error;
 } finally {
   await browser?.close();
