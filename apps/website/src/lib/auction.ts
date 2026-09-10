@@ -54,6 +54,7 @@ export type AuctionSnapshot = {
   revision: number;
   placements: Record<string, Placement>;
   history: Placement[];
+  highestBids: Placement[];
   totalRaised: number;
   totalPurchases: number;
   online: number;
@@ -65,6 +66,7 @@ export const emptySnapshot: AuctionSnapshot = {
   revision: 0,
   placements: {},
   history: [],
+  highestBids: [],
   totalRaised: 0,
   totalPurchases: 0,
   online: 0,

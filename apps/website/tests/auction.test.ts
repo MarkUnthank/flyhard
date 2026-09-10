@@ -524,6 +524,10 @@ describe("auction rules", () => {
     expect(live.placements["ad-01"].id).not.toBe(first.id);
     expect(live.placements["ad-01"].textureUrl).not.toBe(first.textureUrl);
     expect(live.history.some((p) => p.id === first.id)).toBe(true);
+    expect(live.highestBids.find((p) => p.id === first.id)).toEqual(first);
+    expect(live.highestBids.map((p) => p.amount)).toEqual(
+      live.highestBids.map((p) => p.amount).sort((a, b) => b - a),
+    );
     expect(live.totalRaised).toBe(before.totalRaised + 200);
     expect(refundRequests).toHaveLength(3);
   });
@@ -757,5 +761,54 @@ describe("outbid notifications", () => {
     expect(emails[3].text).toContain("No live ad was replaced");
     testMode = false;
     await testStub.testConfig(false);
+  });
+  it("keeps old high bids beyond recent history, preserves links, and excludes unpaid bids", async () => {
+    const ids: string[] = [];
+    const insert = async (
+      id: string,
+      amount: number,
+      publishedAt: number | null,
+    ) => {
+      ids.push(id);
+      await testStub.testSql(
+        "INSERT INTO bids (id, request_id, slot_id, amount, brand, url, artwork_token, logo_token, created_at, published_at, status) VALUES (?, ?, 'ad-01', ?, 'Historical supporter', ?, 'history-artwork', 'history-logo', 1, ?, ?)",
+        id,
+        id,
+        amount,
+        "https://example.com/original?ref=sponsor",
+        publishedAt,
+        publishedAt === null ? "pending" : "outbid",
+      );
+    };
+    try {
+      await insert("history-old-b", 9000, 1);
+      await insert("history-old-a", 9000, 1);
+      for (let i = 0; i < 55; i++)
+        await insert(`history-recent-${i}`, 500, Date.now() + i);
+      await insert("history-unpaid", 999999, null);
+      const live = await snapshot();
+      expect(live.history.some((p) => p.id === "history-old-a")).toBe(false);
+      expect(live.highestBids).toHaveLength(50);
+      expect(live.highestBids.slice(0, 2).map((p) => p.id)).toEqual([
+        "history-old-a",
+        "history-old-b",
+      ]);
+      expect(live.highestBids[0]).toMatchObject({
+        amount: 9000,
+        url: "https://example.com/original?ref=sponsor",
+        logoUrl: "/api/artwork/history-logo.png",
+      });
+      expect(live.highestBids.some((p) => p.id === "history-unpaid")).toBe(
+        false,
+      );
+      expect(
+        live.highestBids.every(
+          (p) => !("buyer_email" in p) && !("session_id" in p),
+        ),
+      ).toBe(true);
+    } finally {
+      for (const id of ids)
+        await testStub.testSql("DELETE FROM bids WHERE id = ?", id);
+    }
   });
 });

@@ -65,6 +65,7 @@ export class Auction extends DurableObject<Env> {
       CREATE INDEX IF NOT EXISTS email_pending ON outbid_emails(status, next_attempt_at);
       CREATE INDEX IF NOT EXISTS bid_status ON bids(status);
       CREATE INDEX IF NOT EXISTS bid_publication ON bids(published_at);
+      CREATE INDEX IF NOT EXISTS bid_ranking ON bids(amount DESC, published_at ASC, id ASC) WHERE published_at IS NOT NULL;
     `);
     // Migrate stored purchases before serving the new advertiser profiles.
     const columns = new Set(
@@ -139,6 +140,11 @@ export class Auction extends DurableObject<Env> {
         "SELECT COALESCE(SUM(amount),0) AS total, COUNT(*) AS count FROM bids WHERE published_at IS NOT NULL",
       )
       .one();
+    const highestBids = this.sql
+      .exec<BidRow>(
+        "SELECT * FROM bids WHERE published_at IS NOT NULL ORDER BY amount DESC, published_at ASC, id ASC LIMIT 50",
+      )
+      .toArray();
     return {
       activeSlotIds: activeSlots(
         Object.fromEntries(
@@ -154,6 +160,7 @@ export class Auction extends DurableObject<Env> {
         current.map((row) => [row.slot_id, this.placement(row)]),
       ),
       history: history.map((row) => this.placement(row)),
+      highestBids: highestBids.map((row) => this.placement(row)),
       totalRaised: totals.total,
       totalPurchases: totals.count,
       online: this.ctx.getWebSockets().length,

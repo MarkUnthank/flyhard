@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { ArrowUpRight, LockKeyhole, X } from "lucide-react";
+import { ArrowUpRight, LockKeyhole, Minus, Plus, X } from "lucide-react";
 import {
   dollarsToCents,
   minimumBid,
@@ -50,6 +50,16 @@ export default function BidDialog({
     logoToken?: string;
   }>({ signature: "", requestId: "" });
   const cents = dollarsToCents(amount);
+  const maximum = 99_999_999;
+  function stepAmount(direction: -1 | 1) {
+    if (busy || minimum > maximum) return;
+    const next =
+      cents === null
+        ? minimum
+        : Math.min(maximum, Math.max(minimum, cents + direction * 100));
+    setAmount((next / 100).toFixed(next % 100 ? 2 : 0));
+  }
+
   const previewPlacements = useMemo(
     () =>
       preview
@@ -253,12 +263,46 @@ export default function BidDialog({
                 <span>$</span>
                 <input
                   id="bid-amount"
+                  type="number"
+                  min={minimum / 100}
+                  max={maximum / 100}
+                  step="0.01"
+                  onKeyDown={(event) => {
+                    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+                      event.preventDefault();
+                      stepAmount(event.key === "ArrowUp" ? 1 : -1);
+                    }
+                  }}
                   inputMode="decimal"
                   value={amount}
                   onChange={(event) => setAmount(event.target.value)}
                   required
                   aria-describedby="bid-help"
                 />
+                <div className="amount-controls">
+                  <button
+                    type="button"
+                    aria-label="Decrease bid by one dollar"
+                    aria-controls="bid-amount"
+                    disabled={
+                      minimum > maximum || cents === null || cents <= minimum
+                    }
+                    onClick={() => stepAmount(-1)}
+                  >
+                    <Minus size={18} aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Increase bid by one dollar"
+                    aria-controls="bid-amount"
+                    disabled={
+                      minimum > maximum || (cents !== null && cents >= maximum)
+                    }
+                    onClick={() => stepAmount(1)}
+                  >
+                    <Plus size={18} aria-hidden="true" />
+                  </button>
+                </div>
               </div>
               <p id="bid-help" className="field-help">
                 {current

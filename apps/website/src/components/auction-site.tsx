@@ -8,7 +8,6 @@ import {
   Check,
   ChevronDown,
   Search,
-  Trophy,
   X,
 } from "lucide-react";
 import {
@@ -25,6 +24,7 @@ import FlyMark from "./fly-mark";
 import MediaSection from "./media-section";
 import SiteHeader from "./site-header";
 import SiteFooter from "./site-footer";
+import HistoricalBids from "./historical-bids";
 import BidDialog from "./bid-dialog";
 import type { View } from "./car-viewer";
 
@@ -107,12 +107,13 @@ export default function AuctionSite() {
   );
   const displayed =
     showAll || filter !== "all" || query ? filtered : filtered.slice(0, 12);
-  const leaders = rankPlacements(snapshot.placements).slice(0, 5);
-  const highestBid = leaders[0];
+  const highestBid = rankPlacements(snapshot.placements)[0];
+  const fundingTarget = 100_000;
+  const fundingPercent = (snapshot.totalRaised / fundingTarget) * 100;
+  const fundingLabel = `${Number(fundingPercent.toFixed(1))}%`;
   const leadingSlot = slots.find((slot) => slot.id === highestBid?.slotId);
   const openingView: View = (leadingSlot?.face as View) ?? "perspective";
   const view = manualView ?? openingView;
-  const openingLabel = views.find((option) => option.id === openingView)!.label;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -223,7 +224,7 @@ export default function AuctionSite() {
             </span>
           </div>
           <h1>
-            Your brand. A car. <span>A fly.</span>
+            Your brand on <span>the fly’s car.</span>
           </h1>
           <p className="hero-description">
             We’re teaching a fly to drive. Your logo can come along for the
@@ -251,6 +252,30 @@ export default function AuctionSite() {
               <strong>{loaded ? money(entryBid) : "—"}</strong>
               <span>current minimum to get on the car</span>
             </div>
+            <span className="stat-divider" />
+            <div className="highest-bid-stat">
+              <strong>{highestBid ? money(highestBid.amount) : "—"}</strong>
+              <span>highest bid</span>
+            </div>
+          </div>
+          <div className="funding-progress">
+            <div className="funding-progress-label">
+              <span>{money(fundingTarget)} experiment goal</span>
+              <strong>
+                {loaded ? `${fundingPercent >= 100 ? "Goal reached · " : ""}${fundingLabel}` : "—"}
+              </strong>
+            </div>
+            <div
+              className="funding-progress-track"
+              role="progressbar"
+              aria-label="Experiment funding"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={loaded ? Math.min(100, fundingPercent) : undefined}
+              aria-valuetext={loaded ? `${money(snapshot.totalRaised)} raised of ${money(fundingTarget)} goal, ${fundingLabel}` : "Loading funding progress"}
+            >
+              <div style={{ width: `${loaded ? Math.min(100, fundingPercent) : 0}%` }} />
+            </div>
           </div>
           <div
             className="view-selector"
@@ -269,22 +294,17 @@ export default function AuctionSite() {
             ))}
           </div>
           <div className="opening-view-note" id="opening-view-note">
-            <span>
-              <Trophy size={14} /> Highest bid gets the first look.
-            </span>
             {highestBid ? (
               <span
                 className="opening-view-leader"
-                title="The opening angle follows the highest current placement. Equal bids favor the earlier purchase. Reset returns to this side."
+                title="The current highest bid on the car."
               >
-                Opens on {openingLabel.toLowerCase()} ·{" "}
-                <strong>{highestBid.brand}</strong> · {money(highestBid.amount)}
+                Highest bid · <strong>{highestBid.brand}</strong> ·{" "}
+                {money(highestBid.amount)}
               </span>
             ) : (
               <span>
-                {loaded
-                  ? "The first bid will set the opening angle."
-                  : "Finding the highest bid…"}
+                {loaded ? "Drag to take a closer look." : "Loading the live livery…"}
               </span>
             )}
           </div>
@@ -540,98 +560,11 @@ export default function AuctionSite() {
           </div>
         </section>
 
-        <section className="supporter-section section-wrap" id="leaderboard">
-          <div className="supporter-column">
-            <div className="eyebrow">THE PASSENGER SEAT</div>
-            <h2>Big love for the little fly.</h2>
-            <p>The brands helping this experiment get somewhere.</p>
-            {leaders.length ? (
-              <ol className="leader-list">
-                {leaders.map((placement, index) => (
-                  <li key={placement.id}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <img src={placement.logoUrl} alt="" />
-                    <a
-                      href={placement.url}
-                      target="_blank"
-                      rel="noopener noreferrer sponsored"
-                    >
-                      {placement.brand}
-                      <ArrowUpRight size={13} />
-                    </a>
-                    <strong>{money(placement.amount)}</strong>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <div className="empty-leaders">
-                <div className="empty-podium">
-                  <span>02</span>
-                  <span>
-                    <FlyMark size={28} />
-                    01
-                  </span>
-                  <span>03</span>
-                </div>
-                <strong>A small car. Room for the first big believer.</strong>
-                <a href="#live-auction">
-                  Be the first on board <ArrowRight size={15} />
-                </a>
-              </div>
-            )}
-          </div>
-          <div className="activity-column">
-            <div className="activity-title">
-              <h3>Fresh tire tracks</h3>
-              <span className="live-tag">
-                <span className={connected ? "tiny-dot" : "tiny-dot muted"} />
-                {connected ? "Live" : "Reconnecting"}
-              </span>
-            </div>
-            {snapshot.history.length ? (
-              <ul className="activity-list">
-                {snapshot.history.slice(0, 6).map((placement) => (
-                  <li key={placement.id}>
-                    <span className="activity-dot" />
-                    <div>
-                      <a
-                        href={placement.url}
-                        target="_blank"
-                        rel="noopener noreferrer sponsored"
-                      >
-                        {placement.brand}
-                      </a>{" "}
-                      claimed{" "}
-                      <strong>
-                        {slots.find((s) => s.id === placement.slotId)?.name}
-                      </strong>
-                      <small>
-                        {new Date(placement.publishedAt).toLocaleDateString(
-                          "en-US",
-                          { month: "short", day: "numeric" },
-                        )}{" "}
-                        · {money(placement.amount)}
-                      </small>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="empty-activity">
-                <span className="activity-line" />
-                <p>
-                  No tire tracks just yet.
-                  <br />
-                  <span>The first claim starts the story.</span>
-                </p>
-              </div>
-            )}
-            <div className="activity-footer">
-              {snapshot.totalPurchases} paid placements and counting
-              <ArrowUpRight size={15} />
-            </div>
-          </div>
-        </section>
+        <HistoricalBids
+          bids={snapshot.highestBids}
+          placements={snapshot.placements}
+          loaded={loaded}
+        />
 
         <section className="how-section section-wrap" id="how-it-works">
           <div className="eyebrow">THE RULES OF THE ROAD</div>
