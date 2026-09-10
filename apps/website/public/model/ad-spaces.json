@@ -957,19 +957,19 @@
     },
     {
       "id": "ad-59",
-      "name": "roof headline",
+      "name": "roof billboard \u00b7 both sides",
       "status": "available",
-      "node": "AD-59__roof_headline",
+      "node": "AD-59__roof_billboard_\u00b7_both_sides",
       "panel": "ad-59__logo_surface",
-      "width_m": 1.16,
-      "height_m": 0.95,
+      "width_m": 1.3532,
+      "height_m": 0.3587,
       "color": "#eaff69",
       "position": [
-        -0.4499858319759369,
-        1.6776022911071777,
-        7.986213313415647e-05
+        -0.3499999940395355,
+        2.0439999103546143,
+        -0.06714999675750732
       ],
-      "face": "top",
+      "face": "left",
       "position_order": 5
     },
     {
@@ -1010,8 +1010,8 @@
   "coordinate_system": "glTF right-handed, Y-up; positions are in metres",
   "asset": "the-driving-fly-mini.glb",
   "decoder": "KHR_draco_mesh_compression",
-  "layout_version": 4,
-  "model_url": "/model/the-driving-fly-mini-v4.glb",
+  "layout_version": 5,
+  "model_url": "/model/the-driving-fly-mini-v5.glb",
   "active_slot_ids": [
     "ad-01",
     "ad-10",
@@ -1020,5 +1020,13 @@
     "ad-59",
     "ad-53",
     "ad-54"
-  ]
+  ],
+  "artwork_crops": {
+    "/api/artwork/2901c451-64f6-4621-88f6-b476ad7bcd09.png": [
+      0,
+      0.33823767227076984,
+      1,
+      0.3235246554584604
+    ]
+  }
 }

@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const slots = inventory.slots;
 export const modelUrl = inventory.model_url;
+export const artworkCrops: Record<string, number[]> = inventory.artwork_crops;
 export type Slot = (typeof slots)[number];
 export type Placement = {
   id: string;

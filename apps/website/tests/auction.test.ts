@@ -246,7 +246,7 @@ describe("auction rules", () => {
         current.filter((s) => s.face === face).length,
       ]),
     );
-    expect(counts).toEqual({ left: 2, right: 1, top: 2, front: 1, back: 1 });
+    expect(counts).toEqual({ left: 3, right: 1, top: 1, front: 1, back: 1 });
     const previous: Record<string, [number, number]> = {
       "ad-01": [1.38, 0.3705555556],
       "ad-10": [1.08, 0.31],
@@ -268,8 +268,8 @@ describe("auction rules", () => {
       height_m: 0.68,
     });
     expect(current.find((s) => s.id === "ad-59")).toMatchObject({
-      width_m: 1.16,
-      height_m: 0.95,
+      width_m: 1.3532,
+      height_m: 0.3587,
     });
   });
   it("offers seven spots and preserves purchases outside the preferred inventory", () => {

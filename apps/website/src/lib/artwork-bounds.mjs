@@ -3,8 +3,17 @@
  * @param {ArrayLike<number>} rgba
  * @param {number} width
  * @param {number} height
+ * @param {number[]} [cropRule]
  */
-export function artworkBounds(rgba, width, height) {
+export function artworkBounds(rgba, width, height, cropRule) {
+  // A reviewed placement move can retain an exact crop of its current artwork.
+  // The caller selects a rule by immutable texture URL; future buyers use full UVs.
+  if (cropRule) {
+    const [x, y, w, h] = cropRule;
+    const left = Math.round(x * width), top = Math.round(y * height);
+    return { left, top, width: Math.min(width - left, Math.round(w * width)),
+      height: Math.min(height - top, Math.round(h * height)) };
+  }
   let left = width,
     top = height,
     right = -1,
