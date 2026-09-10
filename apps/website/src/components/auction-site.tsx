@@ -210,19 +210,31 @@ export default function AuctionSite() {
       <main>
         <section className="hero">
           <div className="live-indicator">
-            <span className={connected ? "tiny-dot" : "tiny-dot muted"} />
-            {snapshot.paymentMode === "test"
-              ? "Test drive · no real payments"
-              : connected
-                ? "The auction is always live"
-                : loaded
-                  ? "Reconnecting live updates"
-                  : "Connecting to the garage"}
-            <span className="muted-separator">·</span>
-            <span>
-              {connected && snapshot.online > 0
-                ? `${snapshot.online} online now`
-                : `${slots.length} spots. One tiny driver.`}
+            <span className="live-status">
+              <span className={connected ? "tiny-dot" : "tiny-dot muted"} />
+              {snapshot.paymentMode === "test"
+                ? "Test drive · no real payments"
+                : connected
+                  ? "The auction is always live"
+                  : loaded
+                    ? "Reconnecting live updates"
+                    : "Connecting to the garage"}
+            </span>
+            <span className="audience-counts">
+              <span className="muted-separator">·</span>
+              <span>
+                {connected && snapshot.online > 0
+                  ? `${snapshot.online} online now`
+                  : `${slots.length} spots. One tiny driver.`}
+              </span>
+              {snapshot.totalViews != null && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <span title="Page views recorded by Cloudflare Web Analytics since tracking began; known bots excluded. Updated every five minutes.">
+                    {snapshot.totalViews.toLocaleString("en-US")} total views
+                  </span>
+                </>
+              )}
             </span>
           </div>
           <h1>

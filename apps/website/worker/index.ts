@@ -5,6 +5,11 @@ import type { Env } from "./env";
 export { Auction } from "./auction";
 
 export default {
+  async scheduled(_event: ScheduledController, env: Env) {
+    await env.AUCTION.get(
+      env.AUCTION.idFromName("the-driving-fly-v1"),
+    ).syncPageViews();
+  },
   async fetch(request: Request, env: Env, ctx: ExecutionContext) {
     const url = new URL(request.url);
     if (url.hostname === "www.thedrivingfly.com") {

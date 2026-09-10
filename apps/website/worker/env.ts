@@ -1,7 +1,8 @@
-export interface Env extends Pick<
-  CloudflareBindings,
-  "AUCTION" | "ARTWORK" | "ASSETS" | "SITE_URL"
-> {
+import type { Auction } from "./auction";
+
+export interface Env extends Pick<CloudflareBindings, "ARTWORK" | "ASSETS" | "SITE_URL"> {
+  AUCTION: DurableObjectNamespace<Auction>;
+  CLOUDFLARE_ANALYTICS_TOKEN?: string;
   EMAIL?: SendEmail;
   OUTBID_EMAIL_FROM?: string;
   /** Required for test-mode Stripe: all test mail is redirected here. */
