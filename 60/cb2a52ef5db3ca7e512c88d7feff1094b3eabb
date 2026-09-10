@@ -1,0 +1,24 @@
+apps/website/tests/viewer-size.test.ts
+  s_85aea2179d88e0::t_473f0510e9a656 1-7,14-19,23-25,30-31
+  s_85aea2179d88e0::t_be2f3c5fae8717 8-13,20-22,26-29,32-43
+apps/website/src/components/car-viewer.tsx
+  s_85aea2179d88e0::t_473f0510e9a656 11,309
+apps/website/src/lib/viewer-size.ts
+  s_85aea2179d88e0::t_473f0510e9a656 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "60cb2a52ef5db3ca7e512c88d7feff1094b3eabb",
+  "prompts": {},
+  "sessions": {
+    "s_85aea2179d88e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b38-f160-7051-8335-97bfb96471d5",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
