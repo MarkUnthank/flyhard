@@ -1,0 +1,19 @@
+apps/website/src/components/custom-wrap-offer.tsx
+  s_7d70d58a0d1841::t_6f5089706c2437 269-270
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "4fba23b156ab6ee56c25352bf04f0ca49a843675",
+  "prompts": {},
+  "sessions": {
+    "s_7d70d58a0d1841": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b0e-7c66-7260-8541-8384f02a3b25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
