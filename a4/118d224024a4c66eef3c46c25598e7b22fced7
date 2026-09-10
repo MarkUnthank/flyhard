@@ -1,0 +1,36 @@
+apps/website/scripts/export-livery.mjs
+  ai_agent 55-57,63-64
+apps/website/tests/model-assets.test.ts
+  s_30dd7cdd84a7a5::t_e26072c6b1fccf 10-12
+  s_30dd7cdd84a7a5::t_d134e4f8e3d0e0 1-9,13-16
+apps/website/src/lib/artwork-bounds.mjs
+  ai_agent 6,8-16
+apps/website/src/lib/auction.ts
+  s_30dd7cdd84a7a5::t_ea1dd2695b7664 6
+apps/website/tests/auction.test.ts
+  s_30dd7cdd84a7a5::t_94f25eef8655c6 249,271-272
+apps/website/public/model/ad-spaces.json
+  ai_agent 960,962,964-965,968-970,972,1013-1014,1023-1031
+apps/website/src/lib/ad-spaces.json
+  ai_agent 16-18,33-35,50-52,67-69,84-86,100-104,117-121,135-137,152-154,168-172,185-189,203-205,220-222,236-240,253-257,270-274,288-290,305-307,321-325,338-342,355-359,372-376,390-392,406-410,423-427,441-443,457-461,474-478,492-494,509-511,525-529,542-546,559-563,576-580,593-597,611-613,627-631,645-647,661-665,679-681,695-699,712-716,729-733,747-749,764-766,781-783,797-801,814-818,831-835,849-851,865-869,883-885,900-902,917-919,934-936,951-953,960,962,964-965,968-970,972,984-988,1002-1004,1013-1014,1023-1031
+apps/website/src/components/car-viewer.tsx
+  s_30dd7cdd84a7a5::t_ea1dd2695b7664 16,279-280,520,522,524-525
+apps/website/tests/artwork-bounds.test.ts
+  ai_agent 4-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a4118d224024a4c66eef3c46c25598e7b22fced7",
+  "prompts": {},
+  "sessions": {
+    "s_30dd7cdd84a7a5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08ac9-f5b9-7e01-b19f-00bd604f78a1",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
