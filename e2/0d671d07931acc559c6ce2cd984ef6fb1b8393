@@ -1,0 +1,35 @@
+apps/website/src/app/privacy/page.tsx
+  s_193f6231e5e797::t_1a8eb452289dbf 58-60
+apps/website/src/lib/auction.ts
+  s_193f6231e5e797::t_1a8eb452289dbf 66,80
+apps/website/tests/request-counts.test.ts
+  s_193f6231e5e797::t_52bbc52430b490 23,55-57,97-98
+  s_193f6231e5e797::t_1a8eb452289dbf 15,54,58,68,70,72,93,95,103,107-111,113,120,122,125-128,130-131,135,138-139,142,147-148,151-152
+  s_193f6231e5e797::t_2622f1d953a0c5 99-102
+apps/website/README.md
+  s_193f6231e5e797::t_1a8eb452289dbf 127-151
+apps/website/worker/index.ts
+  s_193f6231e5e797::t_1a8eb452289dbf 11
+apps/website/src/components/auction-site.tsx
+  s_193f6231e5e797::t_1a8eb452289dbf 230,233-234
+apps/website/worker/auction.ts
+  s_193f6231e5e797::t_1a8eb452289dbf 3,43,66,202,205,219,222-225,228,230,235,238,246,252,254,256,259,265
+apps/website/worker/request-counts.ts
+  s_193f6231e5e797::t_1a8eb452289dbf 10,13,15,17,29-32,34,43-47,51-52,56-57,60,65,68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "e20d671d07931acc559c6ce2cd984ef6fb1b8393",
+  "prompts": {},
+  "sessions": {
+    "s_193f6231e5e797": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b28-a7b4-7a50-a3c1-54b57912a9d6",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
