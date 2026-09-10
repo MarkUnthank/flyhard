@@ -8,6 +8,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import { artworkBounds } from "@/lib/artwork-bounds.mjs";
+import styles from "./car-ad-preview.module.css";
 import {
   slots,
   activeSlots,
@@ -148,6 +149,37 @@ export default function CarViewer({
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const previewFocused = useRef(false);
+  const previewPointer = useRef(false);
+  function keepPreview() {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTimer.current = null;
+  }
+  function dismissPreview() {
+    keepPreview();
+    previewFocused.current = false;
+    previewPointer.current = false;
+    setHovered(null);
+  }
+  function leavePreview() {
+    if (hoverTimer.current || previewFocused.current || previewPointer.current)
+      return;
+    hoverTimer.current = setTimeout(() => {
+      hoverTimer.current = null;
+      if (!previewFocused.current && !previewPointer.current) setHovered(null);
+    }, 350);
+  }
+  useEffect(() => {
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") dismissPreview();
+    };
+    document.addEventListener("keydown", onEscape);
+    return () => {
+      keepPreview();
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, []);
   const [progress, setProgress] = useState(0);
   const [textureError, setTextureError] = useState(false);
 
@@ -296,17 +328,21 @@ export default function CarViewer({
     };
     let down = { x: 0, y: 0 };
     const onDown = (event: PointerEvent) => {
+      dismissPreview();
       down = { x: event.clientX, y: event.clientY };
       state.destination = null;
       state.targetDestination = null;
     };
     const onMove = (event: PointerEvent) => {
       if (event.buttons) {
-        setHovered(null);
+        dismissPreview();
         return;
       }
       const id = find(event);
-      setHovered(id);
+      if (id) {
+        keepPreview();
+        setHovered(id);
+      } else leavePreview();
       renderer.domElement.style.cursor = id ? "pointer" : "grab";
     };
     const onUp = (event: PointerEvent) => {
@@ -315,7 +351,7 @@ export default function CarViewer({
         if (id) select.current(id);
       }
     };
-    const onLeave = () => setHovered(null);
+    const onLeave = leavePreview;
     renderer.domElement.addEventListener("pointerdown", onDown);
     renderer.domElement.addEventListener("pointermove", onMove);
     renderer.domElement.addEventListener("pointerup", onUp);
@@ -584,6 +620,7 @@ export default function CarViewer({
     state.destination = offset.add(state.controls.target);
   }
   const hoveredSlot = slots.find((s) => s.id === hovered);
+  const hoveredAd = hoveredSlot && placements[hoveredSlot.id];
   return (
     <div className={`viewer-shell${focusOnSelected ? " focused-viewer" : ""}`}>
       <div className="viewer-corner">
@@ -620,23 +657,76 @@ export default function CarViewer({
         </div>
       )}
       {hoveredSlot && !focusOnSelected && (
-        <div className="model-tooltip">
-          <span className="slot-number">{hoveredSlot.id.slice(3)}</span>
-          <span>
-            {hoveredSlot.name}
-            <small>
-              Claim from {money(minimumBid(placements[hoveredSlot.id]?.amount))}{" "}
-              ↗
-            </small>
-          </span>
-        </div>
+        <aside
+          className={styles.preview}
+          aria-label="Advertiser preview"
+          data-slot-id={hoveredSlot.id}
+          onPointerEnter={() => {
+            previewPointer.current = true;
+            keepPreview();
+          }}
+          onPointerLeave={() => {
+            previewPointer.current = false;
+            leavePreview();
+          }}
+          onFocus={() => {
+            previewFocused.current = true;
+            keepPreview();
+          }}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              previewFocused.current = false;
+              leavePreview();
+            }
+          }}
+        >
+          <div className={styles.position}>
+            <span className="slot-number">{hoveredSlot.id.slice(3)}</span>
+            <span>{hoveredSlot.name}</span>
+          </div>
+          {hoveredAd ? (
+            <>
+              <div className={styles.artwork}>
+                <img
+                  src={hoveredAd.textureUrl}
+                  alt={`${hoveredAd.brand} artwork`}
+                />
+              </div>
+              <strong className={styles.brand}>{hoveredAd.brand}</strong>
+              {hoveredAd.message && (
+                <p className={styles.message}>{hoveredAd.message}</p>
+              )}
+              <a
+                className={styles.website}
+                href={hoveredAd.url}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+              >
+                {hoveredAd.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                <span aria-hidden="true">↗</span>
+              </a>
+              <div className={styles.bid}>
+                Current bid <strong>{money(hoveredAd.amount)}</strong>
+              </div>
+            </>
+          ) : (
+            <p className={styles.message}>Your ad could be here.</p>
+          )}
+          <button
+            className={styles.claim}
+            onClick={() => select.current(hoveredSlot.id)}
+          >
+            Claim this spot for {money(minimumBid(hoveredAd?.amount))} or more{" "}
+            <span aria-hidden="true">↗</span>
+          </button>
+        </aside>
       )}
       <div className="viewer-bottom">
         <span className="drag-hint">
           <RotateCcw size={14} /> Drag to spin <span>·</span> Scroll to zoom{" "}
           {!focusOnSelected && (
             <>
-              <span>·</span> Click a spot
+              <span>·</span> Hover to see ads <span>·</span> Click a spot
             </>
           )}
         </span>
