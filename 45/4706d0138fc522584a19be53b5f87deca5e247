@@ -1,0 +1,54 @@
+apps/website/src/components/bid-dialog.tsx
+  s_30dd7cdd84a7a5::t_0955ed7ac5aac9 4,53-55,60-62,266-275,282-286,290-297,301-305
+  s_30dd7cdd84a7a5::t_85c9f309282b94 56-59,287-289,298-300
+apps/website/tests/auction.test.ts
+  s_30dd7cdd84a7a5::t_4ed8b46a59a74e 765-813
+  s_30dd7cdd84a7a5::t_84ecfa04c6557d 527-530
+apps/website/worker/auction.ts
+  s_30dd7cdd84a7a5::t_8fd6370223bc2c 68,143-147,163
+apps/website/src/app/globals.css
+  s_30dd7cdd84a7a5::t_0bc27678d1d38f 1371-1372
+  s_30dd7cdd84a7a5::t_0955ed7ac5aac9 1360-1370,1373-1398
+  s_30dd7cdd84a7a5::t_29456e2e530b93 1780-1783,1790,1798-1800,1802
+  s_30dd7cdd84a7a5::t_fa71cc1e779c13 230-259
+apps/website/src/lib/auction.ts
+  s_30dd7cdd84a7a5::t_8fd6370223bc2c 57,69
+apps/website/src/components/historical-bids.tsx
+  s_30dd7cdd84a7a5::t_06f783665d18a7 109-111
+  s_30dd7cdd84a7a5::t_81d6449f27a1a5 1-4,17,19-22,56,59,95-108,112-122
+  s_30dd7cdd84a7a5::t_8fd6370223bc2c 5-16,23-55,57-58,60-64,66-68,71-85,89-94,123-133,135,137-141
+  s_30dd7cdd84a7a5::t_aa4d7a70821bd4 18,65,69-70
+apps/website/src/components/historical-bids.module.css
+  s_30dd7cdd84a7a5::t_81d6449f27a1a5 89-109,111-117,144-147
+  s_30dd7cdd84a7a5::t_8fd6370223bc2c 1-36,38-54,56,65-75,77-88,110,118-143,148-149
+  s_30dd7cdd84a7a5::t_aa4d7a70821bd4 37,55,57-64,76
+apps/website/src/components/auction-site.tsx
+  s_30dd7cdd84a7a5::t_d32de24d53b414 27,563-567
+  s_30dd7cdd84a7a5::t_ec4a29d75c800a 110
+  s_30dd7cdd84a7a5::t_1e7ffe9cfa1931 111
+  s_30dd7cdd84a7a5::t_cdc3935da46546 227
+  s_30dd7cdd84a7a5::t_29456e2e530b93 255-258,278
+  s_30dd7cdd84a7a5::t_2f07c0521508ad 300,302-303,307
+  s_30dd7cdd84a7a5::t_d2f05c8e86611c 112-113,259-277
+apps/website/README.md
+  s_30dd7cdd84a7a5::t_a699e5249948f3 89
+  s_30dd7cdd84a7a5::t_932ab321378816 82
+  s_30dd7cdd84a7a5::t_a6693a55a69f6d 88
+  s_30dd7cdd84a7a5::t_b1bbfd2c51b89d 90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "454706d0138fc522584a19be53b5f87deca5e247",
+  "prompts": {},
+  "sessions": {
+    "s_30dd7cdd84a7a5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08ac9-f5b9-7e01-b19f-00bd604f78a1",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
