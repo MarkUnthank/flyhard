@@ -1,0 +1,149 @@
+.section {
+  border-top: 1px solid var(--line);
+  margin-top: 54px;
+  padding-top: 55px;
+  padding-bottom: 64px;
+  scroll-margin-top: 90px;
+}
+.section h2 {
+  font-size: 30px;
+  font-weight: 550;
+  letter-spacing: -1px;
+  margin-top: 12px;
+}
+.section > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 12px;
+  max-width: 580px;
+}
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-top: 28px;
+  font-size: 14px;
+  text-align: left;
+}
+.table th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.table td {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.table .rank {
+  width: 48px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.table .amount {
+  width: 90px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table strong {
+  font-weight: 550;
+}
+.supporter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+.supporter svg {
+  flex-shrink: 0;
+  color: #4a653c;
+}
+.supporter:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.supporter:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 5px;
+  border-radius: 4px;
+}
+.detail {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  align-items: center;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+}
+.pagination button:hover:not(:disabled) {
+  background: var(--soft);
+}
+.pagination button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+.pagination button:disabled {
+  cursor: default;
+}
+.empty {
+  padding: 28px 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.empty a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: #4a653c;
+}
+@media (max-width: 640px) {
+  .section {
+    margin-top: 34px;
+    padding-top: 36px;
+    padding-bottom: 37px;
+  }
+  .section h2 {
+    font-size: 27px;
+  }
+  .table .rank {
+    width: 30px;
+  }
+  .table .amount {
+    width: 65px;
+  }
+  .pagination {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
