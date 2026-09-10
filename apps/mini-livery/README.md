@@ -1,6 +1,10 @@
 # The Driving Fly — Mini advertising livery
 
-The actual CARLA Mini Cooper S 2021, with **59 individually addressable advertising spaces**. The layout combines large headline placements, small stickers, narrow strips and miniature mirror ads. Every space has a dashed border and placeholder lettering.
+The actual CARLA Mini Cooper S 2021. **Layout 2 has 12 larger active advertising spaces:** three on each side, two on top, two at the front and two at the rear. Paid spot IDs and artwork aspect ratios are preserved. The source retains all 59 historical IDs; the website hides inactive groups and the sponsor exporter removes them.
+
+## Rebuild the active layout
+
+`layout-v2.json` defines the panel locations and sizes in Blender Z-up coordinates. Run `blender --background --python-exit-code 1 --python apps/mini-livery/rebuild-layout.py -- apps/mini-livery`, then `cd apps/website && npm run assets`. The script reprojects panels and placeholder lettering onto the original car, verifies surface coverage, and regenerates the Blender model, compressed GLB and glTF Y-up inventory. `layout-v2-checks.json` records the checks.
 
 ## Files
 

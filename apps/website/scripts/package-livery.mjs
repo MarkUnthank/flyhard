@@ -13,8 +13,15 @@ const manifest = JSON.parse(
 );
 if (!Number.isSafeInteger(manifest.revision) || manifest.revision < 0)
   throw new Error("Invalid revision");
+if (!Number.isSafeInteger(manifest.layoutVersion))
+  throw new Error("Invalid layout version");
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
-const output = join(root, "mini-livery", "sponsors", `r${manifest.revision}`);
+const output = join(
+  root,
+  "mini-livery",
+  "sponsors",
+  `r${manifest.revision}-layout${manifest.layoutVersion}`,
+);
 const checksums = JSON.parse(
   await readFile(join(source, "sha256.json"), "utf8"),
 );
@@ -54,6 +61,7 @@ await writeFile(
   JSON.stringify(
     {
       revision: manifest.revision,
+      layoutVersion: manifest.layoutVersion,
       source: manifest.source,
       exportedAt: manifest.fetchedAt,
       sponsors,

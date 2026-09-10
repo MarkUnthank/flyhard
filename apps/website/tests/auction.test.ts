@@ -192,6 +192,38 @@ async function snapshot() {
 }
 
 describe("auction rules", () => {
+  it("balances the larger layout and preserves paid artwork proportions", () => {
+    const current = activeSlots({});
+    const counts = Object.fromEntries(
+      ["left", "right", "top", "front", "back"].map((face) => [
+        face,
+        current.filter((s) => s.face === face).length,
+      ]),
+    );
+    expect(counts).toEqual({ left: 3, right: 3, top: 2, front: 2, back: 2 });
+    const previous: Record<string, [number, number]> = {
+      "ad-01": [1.08, 0.29],
+      "ad-10": [0.6, 0.23],
+      "ad-16": [1.08, 0.29],
+      "ad-25": [0.6, 0.23],
+      "ad-31": [0.66, 0.22],
+      "ad-38": [0.82, 0.64],
+      "ad-48": [0.86, 0.115],
+      "ad-53": [0.4, 0.12],
+      "ad-54": [0.88, 0.22],
+      "ad-56": [0.34, 0.11],
+      "ad-57": [0.34, 0.11],
+      "ad-59": [0.46, 0.09],
+    };
+    for (const slot of current) {
+      const [width, height] = previous[slot.id];
+      expect(slot.width_m * slot.height_m).toBeGreaterThan(width * height);
+      if (
+        ["ad-01", "ad-53", "ad-54", "ad-56", "ad-57", "ad-59"].includes(slot.id)
+      )
+        expect(slot.width_m / slot.height_m).toBeCloseTo(width / height, 6);
+    }
+  });
   it("offers twelve spots and preserves purchases outside the preferred inventory", () => {
     const placement = (slotId: string) => ({
       id: slotId,
@@ -217,12 +249,12 @@ describe("auction rules", () => {
     const ordered = active.sort((a, b) => compareSlots(a, b, placements));
     expect(ordered.slice(0, 7).map((s) => s.id)).toEqual([
       "ad-01",
-      "ad-02",
-      "ad-53",
-      "ad-54",
       "ad-56",
+      "ad-54",
       "ad-57",
+      "ad-53",
       "ad-59",
+      "ad-02",
     ]);
     expect(ordered.slice(7).map((s) => s.id)).toEqual([
       "ad-10",

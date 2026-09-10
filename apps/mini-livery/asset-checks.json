@@ -1,10 +1,11 @@
 {
-  "glb_bytes": 3144432,
-  "spots": 59,
-  "logo_panels": 59,
-  "nodes": 271,
-  "meshes": 212,
-  "materials": 20,
+  "glb_bytes": 4397704,
+  "layout_version": 2,
+  "active_spots": 12,
+  "source_slots": 59,
+  "nodes": 257,
+  "meshes": 198,
+  "materials": 21,
   "images": 9,
   "extensions": [
     "KHR_draco_mesh_compression",
@@ -13,14 +14,11 @@
     "KHR_materials_specular"
   ],
   "checks": [
-    "unique spot ids",
-    "matching inventory",
-    "one logo panel per spot",
-    "UV coordinates on every panel",
-    "studio excluded",
-    "no animation",
-    "GLB reimport: 59 spot groups and 59 logo surfaces",
-    "green paint retained in reimported GLB",
-    "front rear and top renders visually checked"
+    "Every active spot enlarged",
+    "Paid panel aspect ratios preserved",
+    "Three left, three right, two top, two front, two rear",
+    "Projected surface coverage at least 98 percent",
+    "Studio excluded",
+    "All five views rendered and visually checked"
   ]
 }

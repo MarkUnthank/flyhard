@@ -20,7 +20,7 @@ Use Blender 4.2 or newer. This creates `sponsored-mini.blend` and `sponsored-min
 
 ## Publish assets in the repository
 
-After generating the models, run `npm run package:livery -- /absolute/path/to/export`. This prepares `apps/mini-livery/sponsors/r<revision>/` with the two models, six (or the current number of) panel PNGs, a public-only sponsor manifest and checksums. Review and commit that directory. The raw export, logs, payment IDs and local configuration stay excluded. Each revision is immutable; the command refuses to overwrite an existing release.
+After generating the models, run `npm run package:livery -- /absolute/path/to/export`. This prepares `apps/mini-livery/sponsors/r<revision>-layout<version>/` with the two models, six (or the current number of) panel PNGs, a public-only sponsor manifest and checksums. Review and commit that directory. The raw export, logs, payment IDs and local configuration stay excluded. Each revision/layout pair is immutable; the command refuses to overwrite an existing release.
 
 The repository's [sponsor asset handoff](../mini-livery/sponsors/README.md) identifies the checked-in revision ready for the CARLA agent.
 

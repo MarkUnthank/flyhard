@@ -45,10 +45,7 @@ for (const placement of Object.values(snapshot.placements)) {
   await save(logo, await download(placement.logoUrl));
   placements.push({ ...placement, slot, texture, logo });
 }
-await save(
-  "source-mini.glb",
-  await download("/model/the-driving-fly-mini.glb"),
-);
+await save("source-mini.glb", await download(inventory.model_url));
 await save("inventory.json", JSON.stringify(inventory, null, 2));
 await save("snapshot.json", JSON.stringify(snapshot, null, 2));
 await save(
@@ -58,6 +55,7 @@ await save(
       source: origin,
       fetchedAt: new Date().toISOString(),
       revision: snapshot.revision,
+      layoutVersion: inventory.layout_version,
       activeSlotIds: snapshot.activeSlotIds,
       placements,
     },
@@ -90,5 +88,5 @@ console.log(
   ),
 );
 console.log(
-  `Build the textured model: blender --background --python "${join(output, "apply-livery.py")}" -- "${output}"`,
+  `Build the textured model: blender --background --python-exit-code 1 --python "${join(output, "apply-livery.py")}" -- "${output}"`,
 );

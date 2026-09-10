@@ -9,15 +9,16 @@
       "status": "available",
       "node": "AD-01__left_door_headline",
       "panel": "ad-01__logo_surface",
-      "width_m": 1.08,
-      "height_m": 0.29,
+      "width_m": 1.38,
+      "height_m": 0.3705555556,
       "color": "#ffb47d",
       "position": [
-        -0.10000278800725937,
-        0.8202400207519531,
-        -1.0295923948287964
+        -0.060001350939273834,
+        0.7800124883651733,
+        -1.0293104648590088
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 1
     },
     {
       "id": "ad-02",
@@ -33,7 +34,8 @@
         1.1086012125015259,
         -0.8859798312187195
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 102
     },
     {
       "id": "ad-03",
@@ -49,7 +51,8 @@
         0.5644298791885376,
         -1.0192257165908813
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 103
     },
     {
       "id": "ad-04",
@@ -65,7 +68,8 @@
         0.5644349455833435,
         -1.0191023349761963
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 104
     },
     {
       "id": "ad-05",
@@ -81,7 +85,8 @@
         0.5644339323043823,
         -1.0190573930740356
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 105
     },
     {
       "id": "ad-06",
@@ -97,7 +102,8 @@
         0.8503780961036682,
         -1.0270823240280151
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 106
     },
     {
       "id": "ad-07",
@@ -113,7 +119,8 @@
         1.0832542181015015,
         -0.9242701530456543
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 107
     },
     {
       "id": "ad-08",
@@ -129,23 +136,25 @@
         0.8553453683853149,
         -1.0247241258621216
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 108
     },
     {
       "id": "ad-10",
-      "name": "left rear quarter window",
+      "name": "left front window",
       "status": "available",
-      "node": "AD-10__left_rear_quarter_window",
+      "node": "AD-10__left_front_window",
       "panel": "ad-10__logo_surface",
-      "width_m": 0.6,
-      "height_m": 0.23,
+      "width_m": 1.08,
+      "height_m": 0.31,
       "color": "#bfadff",
       "position": [
-        -1.3500862121582031,
-        1.3423752784729004,
-        -0.7481571435928345
+        -0.15999053418636322,
+        1.336802363395691,
+        -0.7429012060165405
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 2
     },
     {
       "id": "ad-11",
@@ -161,7 +170,8 @@
         0.9935663938522339,
         -0.9812775254249573
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 111
     },
     {
       "id": "ad-12",
@@ -177,7 +187,8 @@
         0.8553122878074646,
         -1.0201799869537354
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 112
     },
     {
       "id": "ad-13",
@@ -193,7 +204,8 @@
         0.3040527403354645,
         -1.032716155052185
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 113
     },
     {
       "id": "ad-14",
@@ -209,7 +221,8 @@
         0.30398857593536377,
         -1.0326738357543945
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 114
     },
     {
       "id": "ad-15",
@@ -225,23 +238,25 @@
         1.189895749092102,
         -1.0963770151138306
       ],
-      "face": "left"
+      "face": "left",
+      "position_order": 115
     },
     {
       "id": "ad-16",
-      "name": "right door headline",
+      "name": "right front window",
       "status": "available",
-      "node": "AD-16__right_door_headline",
+      "node": "AD-16__right_front_window",
       "panel": "ad-16__logo_surface",
       "width_m": 1.08,
-      "height_m": 0.29,
+      "height_m": 0.31,
       "color": "#ffb47d",
       "position": [
-        -0.10000278055667877,
-        0.8202400207519531,
-        1.0295919179916382
+        -0.15999053418636322,
+        1.336802363395691,
+        0.7429012060165405
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 5
     },
     {
       "id": "ad-17",
@@ -257,7 +272,8 @@
         1.1086010932922363,
         0.8859798312187195
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 117
     },
     {
       "id": "ad-18",
@@ -273,7 +289,8 @@
         0.5644298791885376,
         1.0192261934280396
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 118
     },
     {
       "id": "ad-19",
@@ -289,7 +306,8 @@
         0.5644349455833435,
         1.0191028118133545
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 119
     },
     {
       "id": "ad-20",
@@ -305,7 +323,8 @@
         0.5644339323043823,
         1.0190578699111938
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 120
     },
     {
       "id": "ad-21",
@@ -321,7 +340,8 @@
         0.8503780961036682,
         1.027081847190857
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 121
     },
     {
       "id": "ad-22",
@@ -337,7 +357,8 @@
         1.0832542181015015,
         0.9242701530456543
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 122
     },
     {
       "id": "ad-23",
@@ -353,23 +374,25 @@
         0.8553453683853149,
         1.0247241258621216
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 123
     },
     {
       "id": "ad-25",
-      "name": "right rear quarter window",
+      "name": "rear window headline",
       "status": "available",
-      "node": "AD-25__right_rear_quarter_window",
+      "node": "AD-25__rear_window_headline",
       "panel": "ad-25__logo_surface",
-      "width_m": 0.6,
-      "height_m": 0.23,
+      "width_m": 1.1,
+      "height_m": 0.28,
       "color": "#bfadff",
       "position": [
-        -1.3500862121582031,
-        1.3423752784729004,
-        0.7481566667556763
+        -1.8794714212417603,
+        1.3575172424316406,
+        -9.595400115358643e-06
       ],
-      "face": "right"
+      "face": "back",
+      "position_order": 11
     },
     {
       "id": "ad-26",
@@ -385,7 +408,8 @@
         0.9935663938522339,
         0.9812775254249573
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 126
     },
     {
       "id": "ad-27",
@@ -401,7 +425,8 @@
         0.8553122878074646,
         1.0201799869537354
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 127
     },
     {
       "id": "ad-28",
@@ -417,7 +442,8 @@
         0.3040529191493988,
         1.0327167510986328
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 128
     },
     {
       "id": "ad-29",
@@ -433,7 +459,8 @@
         0.303988516330719,
         1.0326733589172363
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 129
     },
     {
       "id": "ad-30",
@@ -449,7 +476,8 @@
         1.1898958683013916,
         1.096377968788147
       ],
-      "face": "right"
+      "face": "right",
+      "position_order": 130
     },
     {
       "id": "ad-31",
@@ -457,15 +485,16 @@
       "status": "available",
       "node": "AD-31__bonnet_headline",
       "panel": "ad-31__logo_surface",
-      "width_m": 0.66,
-      "height_m": 0.22,
+      "width_m": 1.1,
+      "height_m": 0.68,
       "color": "#ffb47d",
       "position": [
-        1.310389757156372,
-        1.143565058708191,
-        2.5859852030407637e-05
+        1.2803118228912354,
+        1.1449146270751953,
+        2.0687883079517633e-05
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 7
     },
     {
       "id": "ad-32",
@@ -481,7 +510,8 @@
         0.9953349828720093,
         -1.1839944818348158e-05
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 132
     },
     {
       "id": "ad-33",
@@ -497,7 +527,8 @@
         1.1403237581253052,
         0.5102021098136902
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 133
     },
     {
       "id": "ad-34",
@@ -513,7 +544,8 @@
         1.0822678804397583,
         0.5102764368057251
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 134
     },
     {
       "id": "ad-35",
@@ -529,7 +561,8 @@
         1.1403237581253052,
         -0.5102021098136902
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 135
     },
     {
       "id": "ad-36",
@@ -545,7 +578,8 @@
         1.0822678804397583,
         -0.5102764368057251
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 136
     },
     {
       "id": "ad-37",
@@ -561,7 +595,8 @@
         1.1161178350448608,
         5.11975958943367e-05
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 137
     },
     {
       "id": "ad-38",
@@ -569,15 +604,16 @@
       "status": "available",
       "node": "AD-38__roof_headline",
       "panel": "ad-38__logo_surface",
-      "width_m": 0.82,
-      "height_m": 0.64,
+      "width_m": 1.16,
+      "height_m": 0.95,
       "color": "#ffb47d",
       "position": [
-        -0.44998228549957275,
-        1.6786015033721924,
-        9.982766641769558e-05
+        -0.4499858319759369,
+        1.6776022911071777,
+        7.986213313415647e-05
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 8
     },
     {
       "id": "ad-39",
@@ -593,7 +629,8 @@
         1.6434788703918457,
         7.0605194196105e-05
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 139
     },
     {
       "id": "ad-40",
@@ -609,7 +646,8 @@
         1.6576273441314697,
         -0.26530760526657104
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 140
     },
     {
       "id": "ad-41",
@@ -625,7 +663,8 @@
         1.6576287746429443,
         0.2653076946735382
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 141
     },
     {
       "id": "ad-42",
@@ -641,7 +680,8 @@
         1.648510217666626,
         -0.5211915969848633
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 142
     },
     {
       "id": "ad-43",
@@ -657,7 +697,8 @@
         1.648510217666626,
         0.5211915969848633
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 143
     },
     {
       "id": "ad-44",
@@ -673,7 +714,8 @@
         1.647271990776062,
         0.3804890513420105
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 144
     },
     {
       "id": "ad-45",
@@ -689,7 +731,8 @@
         1.659929633140564,
         8.6616026237607e-05
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 145
     },
     {
       "id": "ad-46",
@@ -705,7 +748,8 @@
         1.647271990776062,
         -0.3804890513420105
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 146
     },
     {
       "id": "ad-47",
@@ -721,23 +765,25 @@
         1.6764473915100098,
         0.00010094595927512273
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 147
     },
     {
       "id": "ad-48",
-      "name": "front bumper centre",
+      "name": "front lower bumper",
       "status": "available",
-      "node": "AD-48__front_bumper_centre",
+      "node": "AD-48__front_lower_bumper",
       "panel": "ad-48__logo_surface",
-      "width_m": 0.86,
-      "height_m": 0.115,
+      "width_m": 1.15,
+      "height_m": 0.15,
       "color": "#f9f4df",
       "position": [
-        2.1658053398132324,
-        0.6511467099189758,
-        0.00018538303265813738
+        2.215336799621582,
+        0.3501568138599396,
+        1.3166599366343235e-08
       ],
-      "face": "front"
+      "face": "front",
+      "position_order": 10
     },
     {
       "id": "ad-49",
@@ -753,7 +799,8 @@
         0.6010191440582275,
         0.6919943690299988
       ],
-      "face": "front"
+      "face": "front",
+      "position_order": 149
     },
     {
       "id": "ad-50",
@@ -769,7 +816,8 @@
         0.6010191440582275,
         -0.6919943690299988
       ],
-      "face": "front"
+      "face": "front",
+      "position_order": 150
     },
     {
       "id": "ad-51",
@@ -785,7 +833,8 @@
         0.26021018624305725,
         0.41031453013420105
       ],
-      "face": "front"
+      "face": "front",
+      "position_order": 151
     },
     {
       "id": "ad-52",
@@ -801,39 +850,42 @@
         0.26021018624305725,
         -0.41031453013420105
       ],
-      "face": "front"
+      "face": "front",
+      "position_order": 152
     },
     {
       "id": "ad-53",
-      "name": "boot headline",
+      "name": "front grille headline",
       "status": "available",
-      "node": "AD-53__boot_headline",
+      "node": "AD-53__front_grille_headline",
       "panel": "ad-53__logo_surface",
-      "width_m": 0.4,
-      "height_m": 0.12,
+      "width_m": 1.1,
+      "height_m": 0.33,
       "color": "#ffb47d",
       "position": [
-        -2.14310359954834,
-        1.0524314641952515,
-        0.3901005983352661
+        2.140123128890991,
+        0.7811201214790344,
+        4.646331581170671e-05
       ],
-      "face": "back"
+      "face": "front",
+      "position_order": 9
     },
     {
       "id": "ad-54",
-      "name": "rear window headline",
+      "name": "right door headline",
       "status": "available",
-      "node": "AD-54__rear_window_headline",
+      "node": "AD-54__right_door_headline",
       "panel": "ad-54__logo_surface",
-      "width_m": 0.88,
-      "height_m": 0.22,
+      "width_m": 1.38,
+      "height_m": 0.345,
       "color": "#bfadff",
       "position": [
-        -1.8761992454528809,
-        1.3631465435028076,
-        -1.1994249689450953e-05
+        -0.060001347213983536,
+        0.7800124883651733,
+        1.029310941696167
       ],
-      "face": "back"
+      "face": "right",
+      "position_order": 4
     },
     {
       "id": "ad-55",
@@ -849,39 +901,42 @@
         0.8091925382614136,
         -0.00010038384061772376
       ],
-      "face": "back"
+      "face": "back",
+      "position_order": 155
     },
     {
       "id": "ad-56",
-      "name": "rear bumper sticker 1",
+      "name": "left rear window",
       "status": "available",
-      "node": "AD-56__rear_bumper_sticker_1",
+      "node": "AD-56__left_rear_window",
       "panel": "ad-56__logo_surface",
-      "width_m": 0.34,
-      "height_m": 0.11,
+      "width_m": 0.7,
+      "height_m": 0.2264705882,
       "color": "#f9f4df",
       "position": [
-        -2.261831521987915,
-        0.6000210046768188,
-        0.560154378414154
+        -1.340069055557251,
+        1.3419002294540405,
+        -0.747472882270813
       ],
-      "face": "back"
+      "face": "left",
+      "position_order": 3
     },
     {
       "id": "ad-57",
-      "name": "rear bumper sticker 2",
+      "name": "right rear window",
       "status": "available",
-      "node": "AD-57__rear_bumper_sticker_2",
+      "node": "AD-57__right_rear_window",
       "panel": "ad-57__logo_surface",
-      "width_m": 0.34,
-      "height_m": 0.11,
+      "width_m": 0.7,
+      "height_m": 0.2264705882,
       "color": "#83e7ff",
       "position": [
-        -2.261831521987915,
-        0.6000210046768188,
-        -0.560154378414154
+        -1.340069055557251,
+        1.3419002294540405,
+        0.7474733591079712
       ],
-      "face": "back"
+      "face": "right",
+      "position_order": 6
     },
     {
       "id": "ad-58",
@@ -897,23 +952,25 @@
         0.5403457880020142,
         6.083035623305477e-05
       ],
-      "face": "back"
+      "face": "back",
+      "position_order": 158
     },
     {
       "id": "ad-59",
-      "name": "rear upper bumper",
+      "name": "rear boot headline",
       "status": "available",
-      "node": "AD-59__rear_upper_bumper",
+      "node": "AD-59__rear_boot_headline",
       "panel": "ad-59__logo_surface",
-      "width_m": 0.46,
-      "height_m": 0.09,
+      "width_m": 1.12,
+      "height_m": 0.2191304348,
       "color": "#eaff69",
       "position": [
-        -2.2401978969573975,
-        0.6645199060440063,
-        -4.793211701326072e-06
+        -2.1664562225341797,
+        0.8602880239486694,
+        -0.0
       ],
-      "face": "back"
+      "face": "back",
+      "position_order": 12
     },
     {
       "id": "ad-60",
@@ -929,7 +986,8 @@
         1.6327359676361084,
         0.3503979444503784
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 160
     },
     {
       "id": "ad-61",
@@ -945,10 +1003,13 @@
         1.6327359676361084,
         -0.3503979444503784
       ],
-      "face": "top"
+      "face": "top",
+      "position_order": 161
     }
   ],
   "coordinate_system": "glTF right-handed, Y-up; positions are in metres",
   "asset": "the-driving-fly-mini.glb",
-  "decoder": "KHR_draco_mesh_compression"
+  "decoder": "KHR_draco_mesh_compression",
+  "layout_version": 2,
+  "model_url": "/model/the-driving-fly-mini-v2.glb"
 }

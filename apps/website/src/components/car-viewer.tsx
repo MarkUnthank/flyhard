@@ -10,6 +10,7 @@ import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import {
   slots,
   activeSlots,
+  modelUrl,
   money,
   minimumBid,
   type Placement,
@@ -235,7 +236,7 @@ export default function CarViewer({
     const draco = new DRACOLoader().setDecoderPath("/draco/");
     const loader = new GLTFLoader().setDRACOLoader(draco);
     loader.load(
-      "/model/the-driving-fly-mini.glb",
+      modelUrl,
       (gltf) => {
         if (state.disposed) return;
         state.model = gltf.scene;

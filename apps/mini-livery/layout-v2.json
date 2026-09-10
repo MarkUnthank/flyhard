@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "slots": [
+    {"id":"ad-01","name":"left door headline","face":"left","center":[-0.06,1.04,0.78],"width":1.38,"height":0.3705555556},
+    {"id":"ad-10","name":"left front window","face":"left","center":[-0.16,0.84,1.335],"width":1.08,"height":0.31},
+    {"id":"ad-56","name":"left rear window","face":"left","center":[-1.34,0.82,1.34],"width":0.70,"height":0.2264705882},
+    {"id":"ad-54","name":"right door headline","face":"right","center":[-0.06,-1.04,0.78],"width":1.38,"height":0.345},
+    {"id":"ad-16","name":"right front window","face":"right","center":[-0.16,-0.84,1.335],"width":1.08,"height":0.31},
+    {"id":"ad-57","name":"right rear window","face":"right","center":[-1.34,-0.82,1.34],"width":0.70,"height":0.2264705882},
+    {"id":"ad-31","name":"bonnet headline","face":"top","center":[1.28,0,1.20],"width":1.10,"height":0.68},
+    {"id":"ad-38","name":"roof headline","face":"top","center":[-0.45,0,1.70],"width":1.16,"height":0.95},
+    {"id":"ad-53","name":"front grille headline","face":"front","center":[2.25,0,0.78],"width":1.10,"height":0.33},
+    {"id":"ad-48","name":"front lower bumper","face":"front","center":[2.25,0,0.35],"width":1.15,"height":0.15},
+    {"id":"ad-25","name":"rear window headline","face":"back","center":[-2.1,0,1.355],"width":1.10,"height":0.28},
+    {"id":"ad-59","name":"rear boot headline","face":"back","center":[-2.25,0,0.86],"width":1.12,"height":0.2191304348}
+  ]
+}

@@ -2,6 +2,7 @@ import inventory from "./ad-spaces.json";
 import { z } from "zod";
 
 export const slots = inventory.slots;
+export const modelUrl = inventory.model_url;
 export type Slot = (typeof slots)[number];
 export type Placement = {
   id: string;
@@ -50,7 +51,7 @@ export function compareSlots(
     (byPrice
       ? (placements[b.id]?.amount || 0) - (placements[a.id]?.amount || 0)
       : 0) ||
-    Number(a.id.slice(3)) - Number(b.id.slice(3))
+    a.position_order - b.position_order
   );
 }
 export function rankPlacements(placements: Record<string, Placement>) {
