@@ -94,14 +94,43 @@ export default function MediaPage() {
                 </video>
                 <figcaption id={`${entry.id}-caption`}>
                   <span>
-                    {entry.category} · {entry.duration} · Silent · Normal
-                    simulation speed
+                    {entry.category} · {entry.duration} · Silent · {entry.playback}
                   </span>
                   <a href={`#${entry.id}`}>
                     Link to this film <ArrowUpRight size={13} />
                   </a>
                 </figcaption>
               </figure>
+              {entry.stills && (
+                <div
+                  className="journal-stills"
+                  aria-label={`Stills from ${entry.title}`}
+                >
+                  {entry.stills.map((still) => (
+                    <figure key={still.file}>
+                      <a
+                        href={`/media/${still.file}`}
+                        download
+                        aria-label={`Download: ${still.caption}`}
+                      >
+                        <img
+                          src={`/media/${still.file}`}
+                          alt={still.caption}
+                          width={1920}
+                          height={1080}
+                          loading="lazy"
+                        />
+                      </a>
+                      <figcaption>
+                        {still.caption}
+                        <a href={`/media/${still.file}`} download>
+                          Download still <ArrowDownToLine size={13} />
+                        </a>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              )}
               <div className="journal-story">
                 <div className="journal-prose">
                   {entry.paragraphs.map((paragraph) => (

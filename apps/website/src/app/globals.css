@@ -2766,3 +2766,37 @@ fieldset {
     display: inline-flex;
   }
 }
+
+.journal-stills {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+.journal-stills figure {
+  margin: 0;
+}
+.journal-stills img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 7px;
+}
+.journal-stills figcaption {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.journal-stills figcaption a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--green);
+  min-height: 32px;
+}
+@media (max-width: 640px) {
+  .journal-stills {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "status": "verified",
+  "full_decode": "passed",
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "frames": 1500,
+  "duration_seconds": 25,
+  "native_motion_frames": 1380,
+  "repeated_adjacent_road_frames": 0,
+  "repeated_adjacent_body_frames": 0,
+  "minimum_body_pose_step": 0.00032496085613056835,
+  "maximum_native_position_error_m": 0.04944365345060591,
+  "road_frame_mean_absolute_differences_quantiles": [
+    1.6441951566951567,
+    2.4089387464387464,
+    4.770032051282051,
+    8.07940170940171,
+    119.81766381766381
+  ],
+  "neural_states_are_held_original_samples": true,
+  "livery_revision": 11,
+  "livery_layout": 4,
+  "sponsor_count": 7,
+  "video_sha256": "e5a5110a13a66fb9af119c15a459942509518518b51a5de021a3854e334ee0b2"
+}

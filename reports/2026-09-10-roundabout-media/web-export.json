@@ -1,0 +1,33 @@
+{
+  "source_sha256": "e5a5110a13a66fb9af119c15a459942509518518b51a5de021a3854e334ee0b2",
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "frames": 1500,
+    "duration_seconds": 25,
+    "full_decode": "passed"
+  },
+  "files": {
+    "roundabout-cabin.jpg": {
+      "bytes": 296464,
+      "sha256": "81797cabf81d1fbf2c508c6b8f042e918c5000f2dda621da2bdd5d139968e485"
+    },
+    "roundabout.mp4": {
+      "bytes": 10625496,
+      "sha256": "d09e01ba27292cafd97e9e949e5b398472b598a5e1d0b550539f2556a178cb11"
+    },
+    "roundabout-indicator.jpg": {
+      "bytes": 280900,
+      "sha256": "6c807e597427afb13fc27007bc8935c9773aeff6b5e73e0f62b62fea3d9f74c6"
+    },
+    "roundabout.jpg": {
+      "bytes": 287689,
+      "sha256": "87a07cf4553a85f49c7e32b352fdd4987830ae13f14622e9b21b6012980126bc"
+    },
+    "roundabout-arrival.jpg": {
+      "bytes": 279697,
+      "sha256": "5b2c3b3a3929e54cf026919ef35f5470cd1c00f754ed6856c95a71a7d9339b22"
+    }
+  }
+}
