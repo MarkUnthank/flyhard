@@ -1,0 +1,21 @@
+apps/website/src/components/artwork-editor.tsx
+  s_968d37ddad9a26::t_05bf72e3993164 3,5,46-47,131,174-200,202-209,233-240,245-247,253-263
+apps/website/src/components/artwork-editor.module.css
+  s_968d37ddad9a26::t_05bf72e3993164 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2c61cf205fb4cddd2bbfc685a456ca2dee82f4ce",
+  "prompts": {},
+  "sessions": {
+    "s_968d37ddad9a26": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08788-a1a6-7af0-8c0f-a7245d4bd831",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
