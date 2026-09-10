@@ -1,0 +1,19 @@
+apps/website/src/components/car-viewer.tsx
+  s_5db427be1d2bac::t_28e957da99fa27 105-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6b5328c7694b34c8ca1646b4b5c7a5a8286df218",
+  "prompts": {},
+  "sessions": {
+    "s_5db427be1d2bac": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08ba1-5098-7831-ac15-e10b37dd5ca1",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
