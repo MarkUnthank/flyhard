@@ -5,6 +5,8 @@ import { z } from "zod";
 import { decode, encode } from "fast-png";
 import {
   bidSchema,
+  checkoutSessionSchema,
+  placementDetailsSchema,
   minimumBid,
   money,
   slots,
@@ -108,10 +110,15 @@ export class Auction extends DurableObject<Env> {
       () => this.scheduleAlarm(),
       () => this.broadcast(),
     );
-    this.social = new SocialImages(this.sql, env, () =>
-      this.sql.exec<{ value: number }>(
-        "SELECT value FROM counters WHERE name = 'revision'",
-      ).one().value,
+    this.social = new SocialImages(
+      this.sql,
+      env,
+      () =>
+        this.sql
+          .exec<{ value: number }>(
+            "SELECT value FROM counters WHERE name = 'revision'",
+          )
+          .one().value,
     );
     // Recover pending background work after a deployment or configuration change.
     if (
@@ -306,6 +313,7 @@ export class Auction extends DurableObject<Env> {
       .safeParse(await readJson(request));
     if (!parsed.success) throw new HttpError(400, "Invalid credit request.");
     const input = parsed.data;
+    await this.scheduleAlarm();
     this.ctx.storage.transactionSync(() => {
       const existing = this.sql
         .exec<{ bid_id: string; amount: number; reason: string }>(
@@ -350,6 +358,8 @@ export class Auction extends DurableObject<Env> {
         "UPDATE counters SET value = value + 1 WHERE name = 'revision'",
       );
     });
+    this.refundUnpublishedBids();
+    await this.refundPending();
     this.broadcast();
     return json(this.snapshot());
   }
@@ -387,7 +397,10 @@ export class Auction extends DurableObject<Env> {
         return json(this.social.status());
       if (request.method === "POST" && path === "/api/social/publish")
         return await this.social.publish(request);
-      if ((request.method === "GET" || request.method === "HEAD") && path.startsWith("/api/social/"))
+      if (
+        (request.method === "GET" || request.method === "HEAD") &&
+        path.startsWith("/api/social/")
+      )
         return await this.social.image(request);
       if (request.method === "POST" && path === "/api/admin/credits")
         return await this.grantCredit(request);
@@ -424,6 +437,8 @@ export class Auction extends DurableObject<Env> {
         if (path === "/api/checkout") return await this.checkout(request);
         if (path === "/api/checkout/confirm")
           return await this.confirm(request);
+        if (path === "/api/checkout/details")
+          return await this.completeDetails(request);
         if (path === "/api/custom-wrap/checkout")
           return await this.wraps.checkout(request);
         if (path === "/api/custom-wrap/confirm")
@@ -513,15 +528,7 @@ export class Auction extends DurableObject<Env> {
       .exec<BidRow>("SELECT * FROM bids WHERE request_id = ?", input.requestId)
       .toArray()[0];
     if (bid) {
-      if (
-        bid.slot_id !== input.slotId ||
-        bid.amount !== input.amount ||
-        bid.brand !== input.brand ||
-        bid.message !== input.message ||
-        bid.url !== input.url ||
-        bid.artwork_token !== input.artworkToken ||
-        bid.logo_token !== input.logoToken
-      )
+      if (bid.slot_id !== input.slotId || bid.amount !== input.amount)
         throw new HttpError(
           409,
           "This checkout changed. Start a new checkout.",
@@ -544,36 +551,15 @@ export class Auction extends DurableObject<Env> {
           409,
           `This spot changed. The new minimum is ${money(minimumBid(current?.amount))}.`,
         );
-      const tokens = new Set([input.artworkToken, input.logoToken]);
-      for (const token of tokens) {
-        const upload = this.sql
-          .exec<UploadRow>("SELECT * FROM uploads WHERE token = ?", token)
-          .toArray()[0];
-        if (!upload || upload.bid_id || upload.created_at < Date.now() - DAY)
-          throw new HttpError(400, "Please upload your artwork again.");
-      }
       const id = crypto.randomUUID();
-      this.ctx.storage.transactionSync(() => {
-        this.sql.exec(
-          "INSERT INTO bids (id,request_id,slot_id,amount,brand,message,url,artwork_token,logo_token,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)",
-          id,
-          input.requestId,
-          input.slotId,
-          input.amount,
-          input.brand,
-          input.message,
-          input.url,
-          input.artworkToken,
-          input.logoToken,
-          Date.now(),
-        );
-        for (const token of tokens)
-          this.sql.exec(
-            "UPDATE uploads SET bid_id = ? WHERE token = ?",
-            id,
-            token,
-          );
-      });
+      this.sql.exec(
+        "INSERT INTO bids (id,request_id,slot_id,amount,brand,message,url,artwork_token,logo_token,created_at) VALUES (?,?,?,?,'','','','','',?)",
+        id,
+        input.requestId,
+        input.slotId,
+        input.amount,
+        Date.now(),
+      );
       bid = this.sql.exec<BidRow>("SELECT * FROM bids WHERE id = ?", id).one();
     }
     await this.scheduleAlarm();
@@ -593,7 +579,7 @@ export class Auction extends DurableObject<Env> {
                   product_data: {
                     name: `The Driving Fly · ${slots.find((s) => s.id === bid.slot_id)!.name}`,
                     description:
-                      "Your artwork goes live after payment and stays until someone pays at least $1 more. No fixed display time. A later outbid is not refunded.",
+                      "Pay now, then return to add your brand and artwork. Your ad goes live when you publish it and stays until someone pays at least $1 more and publishes their ad.",
                   },
                 },
               },
@@ -602,7 +588,7 @@ export class Auction extends DurableObject<Env> {
             metadata: { bid_id: bid.id },
             payment_intent_data: { metadata: { bid_id: bid.id } },
             success_url: `${this.env.SITE_URL}/?checkout=success&session_id={CHECKOUT_SESSION_ID}#live-auction`,
-            cancel_url: `${this.env.SITE_URL}/?checkout=cancelled#live-auction`,
+            cancel_url: `${this.env.SITE_URL}/?checkout=cancelled&spot=${bid.slot_id}&amount=${bid.amount}#live-auction`,
             expires_at: Math.floor(bid.created_at / 1000) + 31 * 60,
             custom_text: {
               submit: {
@@ -628,29 +614,122 @@ export class Auction extends DurableObject<Env> {
   }
 
   private async confirm(request: Request) {
-    const input = await readJson(request);
-    if (
-      typeof input.sessionId !== "string" ||
-      !/^cs_(test_|live_)?[A-Za-z0-9]+$/.test(input.sessionId) ||
-      input.sessionId.length > 250
-    )
-      throw new HttpError(400, "Invalid checkout session.");
+    const parsed = checkoutSessionSchema.safeParse(await readJson(request));
+    if (!parsed.success) throw new HttpError(400, "Invalid checkout session.");
+    const input = parsed.data;
     const bid = this.sql
       .exec<BidRow>("SELECT * FROM bids WHERE session_id = ?", input.sessionId)
       .toArray()[0];
     if (!bid) throw new HttpError(404, "Checkout not found.");
-    if (bid.status === "pending")
-      await this.fulfill(
-        await this.stripe().checkout.sessions.retrieve(input.sessionId),
+    if (bid.status === "pending") {
+      const session = await this.stripe().checkout.sessions.retrieve(
+        input.sessionId,
       );
+      await this.fulfill(session);
+      if (session.status === "expired")
+        this.sql.exec(
+          "UPDATE bids SET status = 'expired' WHERE id = ? AND status = 'pending'",
+          bid.id,
+        );
+    }
+    await this.scheduleAlarm();
+    this.refundUnpublishedBids();
+    await this.refundPending();
+    return this.checkoutResult(bid.id);
+  }
+  private checkoutResult(id: string) {
     const updated = this.sql
-      .exec<BidRow>("SELECT * FROM bids WHERE id = ?", bid.id)
+      .exec<BidRow>("SELECT * FROM bids WHERE id = ?", id)
       .one();
     return json({
       status: updated.status,
       slotId: updated.slot_id,
+      amount: updated.amount,
       snapshot: this.snapshot(),
     });
+  }
+  private async completeDetails(request: Request) {
+    const parsed = placementDetailsSchema.safeParse(await readJson(request));
+    if (!parsed.success)
+      throw new HttpError(400, parsed.error.issues[0].message);
+    const input = parsed.data;
+    // The private Stripe return session is the bearer credential for this purchase.
+    // Public bid IDs, slot IDs, and browser-supplied payment claims grant no access.
+    const bid = this.sql
+      .exec<BidRow>("SELECT * FROM bids WHERE session_id = ?", input.sessionId)
+      .toArray()[0];
+    if (!bid) throw new HttpError(404, "Checkout not found.");
+    await this.scheduleAlarm();
+    let changed = false;
+    this.ctx.storage.transactionSync(() => {
+      const latest = this.sql
+        .exec<BidRow>("SELECT * FROM bids WHERE id = ?", bid.id)
+        .one();
+      if (latest.status === "won" || latest.status === "outbid") {
+        if (
+          latest.brand !== input.brand ||
+          latest.message !== input.message ||
+          latest.url !== input.url ||
+          latest.artwork_token !== input.artworkToken ||
+          latest.logo_token !== input.logoToken
+        )
+          throw new HttpError(
+            409,
+            "The details for this payment have already been published.",
+          );
+        return;
+      }
+      if (latest.status === "refund_pending" || latest.status === "refunded")
+        return;
+      if (latest.status !== "awaiting_details" || !latest.payment_id)
+        throw new HttpError(
+          409,
+          "Payment must be confirmed before you can publish your details.",
+        );
+      const tokens = new Set([input.artworkToken, input.logoToken]);
+      for (const token of tokens) {
+        const upload = this.sql
+          .exec<UploadRow>("SELECT * FROM uploads WHERE token = ?", token)
+          .toArray()[0];
+        if (!upload || upload.bid_id || upload.created_at < Date.now() - DAY)
+          throw new HttpError(400, "Please upload your artwork again.");
+      }
+      this.sql.exec(
+        "UPDATE bids SET brand = ?, message = ?, url = ?, artwork_token = ?, logo_token = ? WHERE id = ?",
+        input.brand,
+        input.message,
+        input.url,
+        input.artworkToken,
+        input.logoToken,
+        bid.id,
+      );
+      for (const token of tokens)
+        this.sql.exec(
+          "UPDATE uploads SET bid_id = ? WHERE token = ?",
+          bid.id,
+          token,
+        );
+      changed = this.publish(bid.id);
+      this.refundUnpublishedBids();
+    });
+    if (changed) {
+      this.broadcast();
+      this.ctx.waitUntil(this.notifyOutbid());
+      this.ctx.waitUntil(this.social.dispatch());
+    }
+    await this.refundPending();
+    return this.checkoutResult(bid.id);
+  }
+
+  private refundUnpublishedBids() {
+    this.sql.exec(`
+      UPDATE bids SET status = 'refund_pending'
+      WHERE status = 'awaiting_details' AND EXISTS (
+        SELECT 1 FROM placements p JOIN bids winner ON winner.id = p.bid_id
+        WHERE p.slot_id = bids.slot_id AND bids.amount < winner.amount + 100 +
+          (SELECT COALESCE(SUM(amount),0) FROM complimentary_credits WHERE bid_id = winner.id)
+      )
+    `);
   }
   private async webhook(request: Request) {
     if (!this.env.STRIPE_WEBHOOK_SECRET)
@@ -708,7 +787,6 @@ export class Auction extends DurableObject<Env> {
         : session.payment_intent.id;
     // Establish a durable recovery alarm before the transaction creates refund work.
     await this.scheduleAlarm();
-    let changed = false;
     this.ctx.storage.transactionSync(() => {
       const latest = this.sql
         .exec<BidRow>("SELECT * FROM bids WHERE id = ?", bid.id)
@@ -721,7 +799,7 @@ export class Auction extends DurableObject<Env> {
         )
         .toArray()[0];
       this.sql.exec(
-        "UPDATE bids SET session_id = ?, payment_id = ?, buyer_email = ? WHERE id = ?",
+        "UPDATE bids SET session_id = ?, payment_id = ?, buyer_email = ?, status = 'awaiting_details' WHERE id = ?",
         session.id,
         paymentId,
         checkoutEmail(session),
@@ -734,43 +812,58 @@ export class Auction extends DurableObject<Env> {
         );
         return;
       }
-      if (current) {
-        this.sql.exec(
-          "UPDATE bids SET status = 'outbid' WHERE id = ?",
-          current.id,
-        );
-        // The notification and ownership change commit together. Never enqueue
-        // for a checkout that loses before its artwork has been published.
-        this.sql.exec(
-          "INSERT OR IGNORE INTO outbid_emails (previous_bid_id, replacement_bid_id, created_at) VALUES (?,?,?)",
-          current.id,
-          bid.id,
-          Date.now(),
-        );
-      }
-      this.sql.exec(
-        "UPDATE bids SET status = 'won', published_at = ? WHERE id = ?",
-        Date.now(),
-        bid.id,
-      );
-      this.sql.exec(
-        "INSERT INTO placements VALUES (?,?) ON CONFLICT(slot_id) DO UPDATE SET bid_id = excluded.bid_id",
-        bid.slot_id,
-        bid.id,
-      );
-      this.sql.exec(
-        "UPDATE counters SET value = value + 1 WHERE name = 'revision'",
-      );
-      this.social.queue();
-      changed = true;
     });
-    if (changed) {
-      this.broadcast();
-      // Durable alarm recovery is already armed; email cannot delay publication.
-      this.ctx.waitUntil(this.notifyOutbid());
-      this.ctx.waitUntil(this.social.dispatch());
-    }
     await this.refundPending();
+  }
+
+  // Called inside the details transaction: payment, complete artwork, and the
+  // latest price must all agree before any public placement changes.
+  private publish(id: string): boolean {
+    const bid = this.sql
+      .exec<BidRow>("SELECT * FROM bids WHERE id = ?", id)
+      .one();
+    const current = this.sql
+      .exec<BidRow>(
+        "SELECT b.* FROM placements p JOIN bids b ON b.id = p.bid_id WHERE p.slot_id = ?",
+        bid.slot_id,
+      )
+      .toArray()[0];
+    if (bid.amount < minimumBid(this.effectiveAmount(current))) {
+      this.sql.exec(
+        "UPDATE bids SET status = 'refund_pending' WHERE id = ?",
+        bid.id,
+      );
+      return false;
+    }
+    if (current) {
+      this.sql.exec(
+        "UPDATE bids SET status = 'outbid' WHERE id = ?",
+        current.id,
+      );
+      // The notification and ownership change commit together. Never enqueue
+      // for a checkout that loses before its artwork has been published.
+      this.sql.exec(
+        "INSERT OR IGNORE INTO outbid_emails (previous_bid_id, replacement_bid_id, created_at) VALUES (?,?,?)",
+        current.id,
+        bid.id,
+        Date.now(),
+      );
+    }
+    this.sql.exec(
+      "UPDATE bids SET status = 'won', published_at = ? WHERE id = ?",
+      Date.now(),
+      bid.id,
+    );
+    this.sql.exec(
+      "INSERT INTO placements VALUES (?,?) ON CONFLICT(slot_id) DO UPDATE SET bid_id = excluded.bid_id",
+      bid.slot_id,
+      bid.id,
+    );
+    this.sql.exec(
+      "UPDATE counters SET value = value + 1 WHERE name = 'revision'",
+    );
+    this.social.queue();
+    return true;
   }
   private async bidderEmail(bid: BidRow): Promise<string | null> {
     if (bid.buyer_email) return bid.buyer_email;
@@ -996,6 +1089,7 @@ export class Auction extends DurableObject<Env> {
     // Re-arm first: a failed remote call must not strand a paid checkout or refund.
     await this.ctx.storage.setAlarm(Date.now() + 60_000);
     await this.wraps.reconcile();
+    this.refundUnpublishedBids();
     await this.refundPending();
     await this.notifyOutbid();
     const pending = this.sql
@@ -1030,7 +1124,7 @@ export class Auction extends DurableObject<Env> {
     );
     const abandoned = this.sql
       .exec<UploadRow>(
-        "SELECT u.* FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.created_at < ? AND (u.bid_id IS NULL OR b.status = 'expired') LIMIT 100",
+        "SELECT u.* FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.created_at < ? AND (u.bid_id IS NULL OR b.status IN ('expired','refunded')) LIMIT 100",
         Date.now() - DAY,
       )
       .toArray();
@@ -1042,7 +1136,7 @@ export class Auction extends DurableObject<Env> {
     await this.social.dispatch();
     const work = this.sql
       .exec<{ count: number }>(
-        "SELECT COUNT(*) AS count FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.bid_id IS NULL OR b.status IN ('pending','refund_pending','expired')",
+        "SELECT (SELECT COUNT(*) FROM bids WHERE status IN ('pending','refund_pending')) + (SELECT COUNT(*) FROM uploads u LEFT JOIN bids b ON b.id = u.bid_id WHERE u.bid_id IS NULL OR b.status IN ('expired','refunded')) AS count",
       )
       .one().count;
     if (!work && !this.wraps.hasWork()) {

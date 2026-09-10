@@ -26,7 +26,8 @@
     "presocial:render": "npm run social:build",
     "social:render": "node scripts/update-social.mjs",
     "presocial:update": "npm run social:build",
-    "social:update": "node scripts/update-social.mjs --publish"
+    "social:update": "node scripts/update-social.mjs --publish",
+    "test:checkout": "npm run social:build && node scripts/verify-checkout.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
