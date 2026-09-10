@@ -528,7 +528,7 @@ export default function AuctionSite() {
                       </td>
                       <td>
                         <button
-                          className="claim-button"
+                          className="primary claim-button"
                           onClick={() => choose(slot.id)}
                           disabled={!loaded}
                         >
