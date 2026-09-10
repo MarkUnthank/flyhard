@@ -1,0 +1,85 @@
+name: Refresh sponsor social images
+
+on:
+  schedule:
+    - cron: "2-59/5 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - apps/website/**
+      - .github/workflows/social-images.yml
+  pull_request:
+    paths:
+      - apps/website/**
+      - .github/workflows/social-images.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: social-images-${{ github.event.pull_request.number || 'production' }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check whether the wrap needs new images
+        id: status
+        run: |
+          pending=$(curl --fail --silent --show-error --max-time 30 --retry 3 https://thedrivingfly.com/api/social | jq -er '.pending | tostring')
+          case "$pending" in true|false) ;; *) exit 1 ;; esac
+          echo "pending=$pending" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        if: steps.status.outputs.pending == 'true'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        if: steps.status.outputs.pending == 'true'
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/website/package-lock.json
+      - name: Install the renderer
+        if: steps.status.outputs.pending == 'true'
+        working-directory: apps/website
+        run: npm ci
+      - name: Render, publish and verify the current wrap
+        if: steps.status.outputs.pending == 'true'
+        working-directory: apps/website
+        run: npm run social:update
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && steps.status.outputs.pending == 'true'
+        with:
+          name: sponsor-social-images
+          path: apps/website/artifacts/social/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  verify:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/website/package-lock.json
+      - run: npm ci
+        working-directory: apps/website
+      - run: npm run check
+        working-directory: apps/website
+      - name: Verify Chromium can render the current sponsors
+        run: npm run social:render
+        working-directory: apps/website
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: social-image-preview
+          path: apps/website/artifacts/social/
+          retention-days: 7

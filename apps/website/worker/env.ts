@@ -13,3 +13,7 @@ export interface Env extends Pick<CloudflareBindings, "ARTWORK" | "ASSETS" | "SI
   STRIPE_WEBHOOK_SECRET?: string;
   AUCTION_ADMIN_TOKEN?: string;
 }
+
+declare global {
+  interface CloudflareEnv extends CloudflareBindings {}
+}

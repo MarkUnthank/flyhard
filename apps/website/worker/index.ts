@@ -18,6 +18,13 @@ export default {
       return Response.redirect(url.href, 308);
     }
     if (url.pathname.startsWith("/api/")) return api.fetch(request, env);
+    // Previously shared image URLs resolve to the latest complete render when
+    // fetched again. Third-party copies already cached cannot be revoked here.
+    const oldSocial = /^\/social\/driving-fly-(wide|square)-v\d+\.jpg$/.exec(url.pathname);
+    if (oldSocial && (request.method === "GET" || request.method === "HEAD")) {
+      url.pathname = `/api/social/${oldSocial[1]}.jpg`;
+      return api.fetch(new Request(url, request), env);
+    }
     const response = await next.fetch(request, env, ctx);
     if (env.SITE_URL !== "https://thedrivingfly.com") {
       const headers = new Headers(response.headers);

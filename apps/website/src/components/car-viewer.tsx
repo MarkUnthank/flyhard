@@ -32,6 +32,7 @@ type Props = {
   onResetView?: () => void;
   focusOnSelected?: boolean;
   previewing?: boolean;
+  capture?: boolean;
 };
 type Runtime = {
   scene: THREE.Scene;
@@ -43,6 +44,7 @@ type Runtime = {
   textures: Map<string, THREE.Texture>;
   loaded: Map<string, string>;
   pending: Map<string, string>;
+  appliedPlacements?: Record<string, Placement>;
   destination: THREE.Vector3 | null;
   targetDestination: THREE.Vector3 | null;
   disposed: boolean;
@@ -139,6 +141,7 @@ export default function CarViewer({
   onResetView,
   focusOnSelected = false,
   previewing = false,
+  capture = false,
 }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const runtime = useRef<Runtime | null>(null);
@@ -203,6 +206,7 @@ export default function CarViewer({
         antialias: true,
         alpha: true,
         powerPreference: "high-performance",
+        preserveDrawingBuffer: capture,
       });
     } catch {
       setError(true);
@@ -224,7 +228,8 @@ export default function CarViewer({
     camera.position.set(...angles[framing.current.view]);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0.82, 0);
-    controls.enableDamping = true;
+    controls.enableDamping = !capture;
+    controls.enabled = !capture;
     controls.enablePan = false;
     controls.minDistance = 3.2;
     controls.maxDistance = 11;
@@ -374,14 +379,14 @@ export default function CarViewer({
       const delta = Math.min((time - previousTime) / 1000, 0.1);
       previousTime = time;
       if (state.destination) {
-        camera.position.lerp(state.destination, motion.matches ? 1 : 0.09);
+        camera.position.lerp(state.destination, capture || motion.matches ? 1 : 0.09);
         if (camera.position.distanceTo(state.destination) < 0.01)
           state.destination = null;
       }
       if (state.targetDestination) {
         controls.target.lerp(
           state.targetDestination,
-          motion.matches ? 1 : 0.09,
+          capture || motion.matches ? 1 : 0.09,
         );
         if (controls.target.distanceTo(state.targetDestination) < 0.001)
           state.targetDestination = null;
@@ -394,8 +399,22 @@ export default function CarViewer({
         !state.destination &&
         !state.targetDestination;
       controls.update(delta);
-      renderer.render(scene, camera);
-      animation = requestAnimationFrame(render);
+      // Captures must wait for a drawn frame with every confirmed texture and
+      // the final camera pose, including the empty-livery case.
+      const complete =
+        !!state.model &&
+          state.appliedPlacements === currentPlacements.current &&
+          !state.destination &&
+          !state.targetDestination &&
+          Object.values(currentPlacements.current).every(
+            (placement) => state.loaded.get(placement.slotId) === placement.textureUrl,
+          );
+      // Still captures need one complete frame with all confirmed artwork.
+      if (!capture || complete) renderer.render(scene, camera);
+      const renderReady = String(complete);
+      if (renderer.domElement.dataset.renderReady !== renderReady)
+        renderer.domElement.dataset.renderReady = renderReady;
+      if (!capture || !complete) animation = requestAnimationFrame(render);
     };
     render();
     return () => {
@@ -606,6 +625,7 @@ export default function CarViewer({
         },
       );
     }
+    state.appliedPlacements = placements;
   }, [placements, ready]);
 
   useEffect(() => {
@@ -647,6 +667,7 @@ export default function CarViewer({
   return (
     <div
       className={`viewer-shell${focusOnSelected ? " focused-viewer" : ""}`}
+      data-render-error={error || textureError || undefined}
       onPointerDownCapture={stopRotation}
       onWheelCapture={stopRotation}
       onKeyDownCapture={stopRotation}

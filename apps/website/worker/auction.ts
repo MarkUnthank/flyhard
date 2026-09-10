@@ -16,6 +16,7 @@ import { checkoutEmail, emailErrorCode, outbidEmail } from "./outbid-email";
 import type { Env } from "./env";
 import { HttpError, json, readBody, readJson } from "./http";
 import { CustomWrapOrders } from "./custom-wrap";
+import { SocialImages } from "./social-images";
 
 type BidRow = {
   id: string;
@@ -41,6 +42,7 @@ const DAY = 86_400_000;
 export class Auction extends DurableObject<Env> {
   private sql: SqlStorage;
   private viewsWork: Promise<void> | undefined;
+  private social: SocialImages;
   private notificationWork: Promise<void> | undefined;
   private refundWork: Promise<void> | undefined;
   private wraps: CustomWrapOrders;
@@ -106,6 +108,7 @@ export class Auction extends DurableObject<Env> {
       () => this.scheduleAlarm(),
       () => this.broadcast(),
     );
+    this.social = new SocialImages(this.sql, env, () => this.snapshot());
     // Recover queued notifications after a deployment or sender configuration change.
     if (
       this.wraps.hasWork() ||
@@ -375,6 +378,12 @@ export class Auction extends DurableObject<Env> {
     try {
       const url = new URL(request.url);
       const path = url.pathname;
+      if (request.method === "GET" && path === "/api/social")
+        return json(this.social.status());
+      if (request.method === "POST" && path === "/api/social/publish")
+        return await this.social.publish(request);
+      if ((request.method === "GET" || request.method === "HEAD") && path.startsWith("/api/social/"))
+        return await this.social.image(request);
       if (request.method === "POST" && path === "/api/admin/credits")
         return await this.grantCredit(request);
       if (request.method === "GET" && path === "/api/live") {

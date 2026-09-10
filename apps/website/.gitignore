@@ -1,6 +1,8 @@
 node_modules/
 .next/
 .open-next/
+.social/
+public/social/renderer/
 .wrangler/
 .dev.vars*
 .env*
