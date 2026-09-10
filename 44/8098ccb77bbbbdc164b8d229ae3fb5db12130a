@@ -1,0 +1,32 @@
+scripts/capture_dynamic_horn.py
+  s_4cf9d98cda6aae::t_5d22142745b26a 75-87,106,113-114,166-170,180-182
+scripts/render_dynamic_horn.py
+  s_4cf9d98cda6aae::t_50eaed435198df 229
+  s_4cf9d98cda6aae::t_315fa282167325 20,117-128,132-133,149-159,184-187,197-199,205
+  s_4cf9d98cda6aae::t_0aa693afc6fa5d 48,105-106
+docs/dynamic-horn-2026-09-10.md
+  s_4cf9d98cda6aae::t_f5250f02705830 63-64,111-117
+  s_4cf9d98cda6aae::t_5513d2e19580d2 56-59
+  s_4cf9d98cda6aae::t_0aa693afc6fa5d 108-110
+scripts/verify_dynamic_horn_video.py
+  s_4cf9d98cda6aae::t_07bcd3ec4722d0 50-53,64
+  s_4cf9d98cda6aae::t_0aa693afc6fa5d 33,37-38,66
+src/flyhard/dynamic_horn_world.py
+  s_4cf9d98cda6aae::t_6087f8e91a82ee 112-120,130-138,251-252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "448098ccb77bbbbdc164b8d229ae3fb5db12130a",
+  "prompts": {},
+  "sessions": {
+    "s_4cf9d98cda6aae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08669-29bf-7070-b678-37c10fddd4ea",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
