@@ -102,7 +102,12 @@ function panelOutline(geometry: THREE.BufferGeometry) {
 }
 
 function frameCamera(state: Runtime, view: View, focus: string | null) {
-  const slot = focus ? slots.find((slot) => slot.id === focus) : undefined;
+  // The roof billboard is vertical: frame its artwork instead of looking down
+  // at its narrow top edge. Explicit placement previews keep their own focus.
+  const focusedSlot = focus ?? (view === "top" ? "ad-59" : null);
+  const slot = focusedSlot
+    ? slots.find((slot) => slot.id === focusedSlot)
+    : undefined;
   const panel = slot && state.model?.getObjectByName(slot.panel);
   const target = panel
     ? new THREE.Box3().setFromObject(panel).getCenter(new THREE.Vector3())
