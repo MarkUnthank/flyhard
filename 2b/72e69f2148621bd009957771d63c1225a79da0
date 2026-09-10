@@ -1,0 +1,19 @@
+apps/website/src/components/auction-site.tsx
+  s_ee191bdbcd94fb::t_5f385404f131ad 531
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2b72e69f2148621bd009957771d63c1225a79da0",
+  "prompts": {},
+  "sessions": {
+    "s_ee191bdbcd94fb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b6d-62ed-7de2-9c17-4226545c2aa0",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
