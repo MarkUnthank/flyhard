@@ -14,6 +14,7 @@ from PIL import Image, ImageDraw, ImageFont
 from OpenGL import GL
 
 from flyhard.cockpit import WheelRig
+from flyhard.live_livery import verify_live_livery, verify_layer_livery
 from flyhard.interior_view import InteriorFlyView
 from flyhard.steering_hud import draw_steering_readout
 from flyhard.video_branding import draw_site_brand
@@ -28,8 +29,11 @@ def depth_image(path):
 def main():
     p = argparse.ArgumentParser(); p.add_argument('--run', required=True)
     p.add_argument('--previews', action='store_true')
+    p.add_argument('--asset', required=True, help='Fresh live sponsor export')
     p.add_argument('--cabin-only', action='store_true', help='Check cabin placement before sponsor rendering')
     args = p.parse_args(); root = Path(args.run)
+    manifest = verify_live_livery(args.asset, root)
+    if not args.cabin_only: verify_layer_livery(args.asset, root / 'sponsor-shots')
     frames = json.loads((root / 'frames.json').read_text())
     config = json.loads((root / 'config.json').read_text())
     plan = json.loads((root / 'edit-plan.json').read_text())
@@ -56,7 +60,7 @@ def main():
     output = root / 'flyhard-directed-16x9.mp4'
     writer = None if args.previews else imageio.get_writer(output, fps=fps, codec='libx264', macro_block_size=1,
         ffmpeg_params=['-crf', '17', '-preset', 'fast', '-movflags', '+faststart', '-threads', '4',
-        '-metadata', 'comment=Sponsor livery r6 layout3. CARLA 0.9.16, CVC, Universitat Autonoma de Barcelona. Camera-matched MuJoCo fly composite.'])
+        '-metadata', f"comment=Sponsor livery r{manifest['revision']} layout{manifest['layoutVersion']}. CARLA 0.9.16, CVC, Universitat Autonoma de Barcelona. Camera-matched MuJoCo fly composite."])
     on, off = plan['signal_on_frame'], plan['signal_off_frame']
     wanted = {0, 25, max(0, on - 15), on + 3, on + 24, on + 45,
               min(len(frames)-1, on+80), off, min(len(frames)-1, off+22)}
@@ -136,7 +140,7 @@ def main():
             credit = Image.new('RGB', (1920, 1080), 'black'); draw = ImageDraw.Draw(credit)
             lines = ['Vehicle: CARLA 0.9.16 · CVC, Universitat Autònoma de Barcelona',
                      'Connectome: MaleCNS / Janelia · Fly: NeuroMechFly / FlyGym, EPFL',
-                     'Sponsor livery: revision 6 · layout 3',
+                     f"Sponsor livery: revision {manifest['revision']} · layout {manifest['layoutVersion']}",
                      'Cabin fly and sponsor surfaces composited using native camera depth']
             for j, line in enumerate(lines):
                 draw.text((960, 440 + j * 50), line, anchor='mm', font=fonts[24], fill='#ddd')
@@ -151,7 +155,7 @@ def main():
     metrics = {'status': 'previewed' if args.previews else 'rendered', 'source_frames': len(frames),
                'fps': fps, 'width': 1920, 'height': 1080, 'duration_seconds': len(frames) / fps + 2,
                'gpu': gpu, 'same_episode': True, 'playback_speed': 1, 'cuts': changes, 'frame_map': samples,
-               'cabin_fly_pixels': fly_pixels, 'native_fly': False, 'sponsor_revision': 6, 'sponsor_layout': 3,
+               'cabin_fly_pixels': fly_pixels, 'native_fly': False, 'sponsor_revision': manifest['revision'], 'sponsor_layout': manifest['layoutVersion'],
                'body_sha256': sha(root / 'body-trace.npz'), 'neural_sha256': sha(root / 'neural-trace.npz'),
                'frames_sha256': sha(root / 'frames.json'), 'edit_plan_sha256': sha(root / 'edit-plan.json'),
                'renderer_sha256': sha(__file__), 'wall_seconds': time.perf_counter() - started}

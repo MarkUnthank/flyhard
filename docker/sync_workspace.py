@@ -11,7 +11,10 @@ import shutil
 import time
 
 SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'deploy', 'assets/fonts',
-                'pyproject.toml', 'README.md', 'LICENSE', 'THIRD_PARTY.md']
+                'pyproject.toml', 'README.md', 'LICENSE', 'THIRD_PARTY.md', 'AGENTS.md',
+                'apps/website/scripts/export-livery.mjs', 'apps/website/scripts/apply-livery.py',
+                'apps/website/src/lib/artwork-bounds.mjs', 'apps/website/LIVERY-EXPORT.md',
+                'apps/mini-livery/README.md', 'apps/mini-livery/BarlowCondensed-OFL.txt']
 
 
 def digest(path):

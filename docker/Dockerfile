@@ -1,5 +1,12 @@
 # syntax=docker/dockerfile:1
+FROM node:24-bookworm-slim@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553 AS livery-node
+WORKDIR /opt/livery
+RUN npm install --omit=dev --ignore-scripts --package-lock=false --no-save sharp@0.35.4
+
 FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404@sha256:4d1721e62b56d345c83b4fd6090664be6daf9312caab5b2e76f23d8231941851
+
+COPY --from=livery-node /usr/local/bin/node /usr/local/bin/node
+COPY --from=livery-node /opt/livery/node_modules /opt/flyhard/node_modules
 
 ENV DEBIAN_FRONTEND=noninteractive \
     MUJOCO_GL=egl PYOPENGL_PLATFORM=egl \
@@ -35,6 +42,11 @@ COPY src/ /opt/flyhard/src/
 COPY scripts/ /opt/flyhard/scripts/
 COPY tests/ /opt/flyhard/tests/
 COPY deploy/seed_runtime_volume.py /opt/flyhard/deploy/seed_runtime_volume.py
+COPY apps/website/scripts/export-livery.mjs apps/website/scripts/apply-livery.py /opt/flyhard/apps/website/scripts/
+COPY apps/website/src/lib/artwork-bounds.mjs /opt/flyhard/apps/website/src/lib/artwork-bounds.mjs
+COPY apps/website/LIVERY-EXPORT.md /opt/flyhard/apps/website/LIVERY-EXPORT.md
+COPY apps/mini-livery/README.md apps/mini-livery/BarlowCondensed-OFL.txt /opt/flyhard/apps/mini-livery/
+COPY AGENTS.md /opt/flyhard/AGENTS.md
 COPY assets/fonts/ /opt/flyhard/assets/fonts/
 COPY docker/ /opt/flyhard/docker/
 COPY LICENSE THIRD_PARTY.md README.md /opt/flyhard/
@@ -42,6 +54,7 @@ COPY LICENSE THIRD_PARTY.md README.md /opt/flyhard/
 ARG SOURCE_REVISION=unknown
 ENV FLYHARD_SOURCE_REVISION=${SOURCE_REVISION}
 RUN python -m pip install --no-deps --no-cache-dir -e /opt/flyhard \
+    && node -e "require('/opt/flyhard/node_modules/sharp')({create:{width:2,height:2,channels:4,background:'#ffffff'}}).png().toBuffer().then(b=>{if(b.length<20)process.exit(1)})" \
     && PYTHONPATH=/opt/flyhard/src python -m pytest -q /opt/flyhard/tests \
     && PYTHONPATH=/opt/flyhard/src python -c 'from flyhard.cockpit import WheelRig; r=WheelRig(support_hand=True); assert r.model.nbody == 54' \
     && python -m pip freeze > /opt/flyhard/environment.lock.txt \

@@ -14,6 +14,7 @@ from OpenGL import GL
 from PIL import Image, ImageDraw, ImageFont
 
 from flyhard.cockpit import WheelRig
+from flyhard.live_livery import verify_live_livery, verify_layer_livery
 from flyhard.steering_hud import draw_steering_readout
 from flyhard.video_branding import draw_site_brand
 from train_roundabout import sha
@@ -23,9 +24,12 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--run", required=True)
     p.add_argument("--sponsors", required=True)
+    p.add_argument("--asset", required=True, help="Fresh live sponsor export")
     p.add_argument("--preview-only", action="store_true")
     args = p.parse_args()
     root, sponsor_root = Path(args.run), Path(args.sponsors)
+    manifest = verify_live_livery(args.asset, root)
+    verify_layer_livery(args.asset, sponsor_root)
     config = json.loads((root / "config.json").read_text())
     frames = json.loads((root / "frames.json").read_text())
     assert json.loads((root / "metrics.json").read_text())["status"] == "capture_complete"
@@ -33,7 +37,7 @@ def main():
     layer_depth = np.load(sponsor_root / "sponsor-depth.npy")
     assert layers.shape == (960, 1248, 4)
     sponsor_metrics = json.loads((sponsor_root / "metrics.json").read_text())
-    assert (sponsor_metrics["revision"], sponsor_metrics["layout"]) == (6, 3)
+    assert (sponsor_metrics["revision"], sponsor_metrics["layout"]) == (manifest["revision"], manifest["layoutVersion"])
     assert np.allclose(sponsor_metrics["camera_relative_matrix"], config["camera_relative_matrix"])
     assert sponsor_metrics["fov_degrees"] == config["fov_degrees"]
     cns_command = [sys.executable, "scripts/render_cns.py", "--run", str(root), "--geometry", "data/cns-geometry-v1/geometry.npz"]
@@ -63,7 +67,7 @@ def main():
     cns_reader = None if args.preview_only else imageio.get_reader(root / "cns-layer.mp4")
     writer = None if args.preview_only else imageio.get_writer(root / "flyhard-16x9.mp4", fps=config["fps"],
         codec="libx264", macro_block_size=1, ffmpeg_params=["-crf", "17", "-preset", "slow", "-movflags", "+faststart",
-        "-metadata", "comment=Sponsor livery revision 6, layout 3. Vehicle: CARLA 0.9.16, CVC, Universitat Autonoma de Barcelona."])
+        "-metadata", f"comment=Sponsor livery revision {manifest['revision']}, layout {manifest['layoutVersion']}. Vehicle: CARLA 0.9.16, CVC, Universitat Autonoma de Barcelona."])
     wanted = {0, min(100, len(frames) - 1), min(200, len(frames) - 1), min(400, len(frames) - 1), len(frames) - 1}
     occlusion, depth_deltas = [], []
     started = time.perf_counter()
@@ -119,7 +123,7 @@ def main():
             draw = ImageDraw.Draw(credit)
             lines = ["Vehicle: CARLA 0.9.16", "Computer Vision Center (CVC), Universitat Autònoma de Barcelona",
                      "Connectome: MaleCNS / Janelia · Fly body: NeuroMechFly / FlyGym, EPFL",
-                     "Sponsor livery: revision 6 · layout 3"]
+                     f"Sponsor livery: revision {manifest['revision']} · layout {manifest['layoutVersion']}"]
             for j, line in enumerate(lines):
                 draw.text((960, 448 + j * 50), line, anchor="mm", font=fonts[28] if j == 0 else fonts[24], fill="#ddd")
             draw_site_brand(credit)
@@ -135,7 +139,7 @@ def main():
                "fps": config["fps"], "source_frames": len(frames), "frames": len(frames) + config["fps"] * 2,
                "duration_seconds": len(frames) / config["fps"] + 2, "credit_seconds": 2,
                "playback_speed": 1., "same_episode": True, "mujoco_gpu": gpu,
-               "sponsor_revision": 6, "sponsor_layout": 3, "sponsor_layer_sha256": sha(sponsor_root / "sponsor-layer.png"),
+               "sponsor_revision": manifest["revision"], "sponsor_layout": manifest["layoutVersion"], "sponsor_layer_sha256": sha(sponsor_root / "sponsor-layer.png"),
                "native_depth_occlusion": True, "mean_occluded_sponsor_fraction": float(np.mean(occlusion)),
                "native_depth_margin_metres": .03, "renderer_sha256": sha(__file__),
                "depth_alignment_quantiles": depth_deltas,

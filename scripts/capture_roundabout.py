@@ -14,6 +14,7 @@ from PIL import Image
 import torch
 
 from flyhard.cockpit import WheelRig
+from flyhard.live_livery import verify_live_livery
 from flyhard.indicator_policy import encode_context
 from flyhard.roundabout import DT, RoundaboutWorld, route_metadata, set_signal
 from train_roundabout import load_policy, sha
@@ -33,6 +34,7 @@ def next_image(inbox, frame):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--checkpoint", required=True)
+    p.add_argument("--asset", required=True, help="Fresh live sponsor export from refresh_live_livery.py")
     p.add_argument("--out", required=True)
     p.add_argument("--mode", choices=["indicators", "combined"], default="indicators")
     p.add_argument("--route", default="entry2-exit3")
@@ -45,6 +47,7 @@ def main():
     p.add_argument("--directed", action="store_true", help="Also capture orbit, indicator and cabin cameras")
     args = p.parse_args()
     out = Path(args.out); out.mkdir(parents=True, exist_ok=False)
+    manifest = verify_live_livery(args.asset, out)
     (out / "depth").mkdir()
     torch.set_num_threads(4)
     policy, saved = load_policy(args.checkpoint)
@@ -94,7 +97,7 @@ def main():
     recorder_result = env.client.start_recorder(recorder_path, True)
     config = {**vars(args), "fps": 20, "width": 1248, "height": 960,
               "checkpoint_sha256": sha(args.checkpoint), "checkpoint_step": saved["step"],
-              "route": route_metadata(route), "livery_revision": 6, "livery_layout": 3,
+              "route": route_metadata(route), "livery_revision": manifest["revision"], "livery_layout": manifest["layoutVersion"],
               "camera_relative_matrix": camera_pose.get_matrix(), "fov_degrees": 65,
               "vehicle_blueprint": env.ego.type_id,
               "ego_actor_id": env.ego.id, "world_recorder": recorder_path,

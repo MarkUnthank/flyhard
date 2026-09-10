@@ -36,6 +36,11 @@ def main():
     if not environment.exists():environment.symlink_to('/opt/flyhard-env',target_is_directory=True)
     if environment.resolve() != Path('/opt/flyhard-env'):
         raise RuntimeError('Workspace .venv differs from the packaged environment; use a fresh workspace.')
+    node_modules = project/'node_modules'
+    if not node_modules.exists():
+        node_modules.symlink_to('/opt/flyhard/node_modules', target_is_directory=True)
+    if node_modules.resolve() != Path('/opt/flyhard/node_modules'):
+        raise RuntimeError('Workspace node_modules differs from the packaged livery environment')
     runtime = project/'work/runtime'; runtime.mkdir(parents=True,exist_ok=True)
     ready = runtime/'ready.json'; ready.unlink(missing_ok=True)
     receipt = {'status':'starting','container_started_epoch':started,

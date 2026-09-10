@@ -23,15 +23,16 @@ import numpy as np
 p = argparse.ArgumentParser()
 p.add_argument("--run")
 p.add_argument("--out", required=True)
-p.add_argument("--asset", default="apps/mini-livery/sponsors/r6-layout3")
+p.add_argument("--asset", required=True, help="Fresh live sponsor export")
 p.add_argument("--qa-only", action="store_true")
 p.add_argument("--shots", help="JSON list of camera poses for a directed cut")
 args = p.parse_args(sys.argv[sys.argv.index("--") + 1:])
 started = time.perf_counter()
 asset, out = Path(args.asset).resolve(), Path(args.out).resolve()
 out.mkdir(parents=True, exist_ok=True)
-manifest = json.loads((asset / "manifest.json").read_text())
-assert manifest["revision"] == 6 and manifest["layoutVersion"] == 3 and len(manifest["sponsors"]) == 6
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from flyhard.live_livery import verify_live_livery
+manifest = verify_live_livery(asset, out)
 bpy.ops.wm.open_mainfile(filepath=str(asset / "sponsored-mini.blend"))
 scene = bpy.context.scene
 prefs = bpy.context.preferences.addons["cycles"].preferences
@@ -177,7 +178,7 @@ if not args.qa_only:
             print(json.dumps({"sponsor_view": i + 1, "total": len(shot_list), "key": shot["key"]}), flush=True)
     else:
         render_projection(config["camera_relative_matrix"], fov, out)
-metrics = {"revision": 6, "layout": 3, "surfaces": [s["mesh"] for s in manifest["sponsors"]],
+metrics = {"revision": manifest["revision"], "layout": manifest["layoutVersion"], "surfaces": [s["mesh"] for s in manifest["sponsors"]],
            "source_blend_sha256": hashlib.sha256((asset / "sponsored-mini.blend").read_bytes()).hexdigest(),
            "source_bounds_blender_metres": [minimum.tolist(), maximum.tolist()],
            "vehicle_origin_translation_metres": offset.tolist(), "gpu_devices": devices,

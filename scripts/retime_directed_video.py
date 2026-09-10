@@ -11,6 +11,7 @@ import time
 import imageio.v2 as imageio
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
+from flyhard.live_livery import verify_live_livery
 
 
 def sha(path):
@@ -21,10 +22,18 @@ def sha(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input', type=Path, required=True)
+    parser.add_argument('--asset', type=Path, required=True, help='Fresh live sponsor export')
+    parser.add_argument('--source-receipt', type=Path, required=True, help='Receipt proving the source video uses the same livery')
     parser.add_argument('--plan', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--encoder', choices=['h264_nvenc', 'libx264'], default='h264_nvenc')
     args = parser.parse_args()
+    manifest = verify_live_livery(args.asset, args.output.parent)
+    source_receipt = json.loads(args.source_receipt.read_text())
+    if (source_receipt['sponsor_revision'], source_receipt['sponsor_layout']) != (manifest['revision'], manifest['layoutVersion']):
+        raise RuntimeError('Source video contains stale sponsors: render from the 3D episode with the fresh livery')
+    if source_receipt['video_sha256'] != sha(args.input):
+        raise RuntimeError('Source receipt belongs to a different video')
     plan = json.loads(args.plan.read_text())
     assert sha(args.input) == plan['source_sha256'], 'Edit plan belongs to another source video'
     assert args.input.resolve() != args.output.resolve()
@@ -63,7 +72,7 @@ def main():
     else:
         command += ['-preset', 'fast', '-crf', '17', '-threads', '4']
     command += ['-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-metadata',
-                'comment=Retimed synchronized CARLA/fly/CNS replay. Slow motion labelled. Sponsor livery r6 layout3. Vehicle: CARLA 0.9.16, CVC, Universitat Autonoma de Barcelona.', str(args.output)]
+                f"comment=Retimed synchronized CARLA/fly/CNS replay. Slow motion labelled. Sponsor livery r{manifest['revision']} layout{manifest['layoutVersion']}. Vehicle: CARLA 0.9.16, CVC, Universitat Autonoma de Barcelona.", str(args.output)]
     started = time.perf_counter()
     process = subprocess.Popen(command, stdin=subprocess.PIPE)
     emitted = 0
@@ -96,7 +105,7 @@ def main():
                'script_sha256': sha(__file__), 'video_sha256': sha(args.output),
                'cuts': cuts, 'frame_map': timeline, 'full_decode': 'passed',
                'interpolated_frames': False, 'all_panels_share_source_frame': True,
-               'sponsor_revision': 6, 'sponsor_layout': 3,
+               'sponsor_revision': manifest['revision'], 'sponsor_layout': manifest['layoutVersion'],
                'wall_seconds': time.perf_counter() - started}
     args.output.with_suffix('.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps({k: v for k, v in receipt.items() if k != 'frame_map'}, indent=2))
