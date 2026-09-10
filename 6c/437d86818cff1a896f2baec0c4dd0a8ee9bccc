@@ -1,0 +1,33 @@
+apps/mini-livery/sponsors/r6-layout3/BarlowCondensed-OFL.txt
+  s_968d37ddad9a26::t_c29c7b02613963 1-93
+apps/mini-livery/sponsors/r6-layout3/sha256.json
+  s_968d37ddad9a26::t_c29c7b02613963 1-11
+apps/website/public/model/ad-spaces.json
+  s_968d37ddad9a26::t_b0bec8a312dc35 382,384,386-387,390-392,394-395,875,877,879-880,883-885,887-888,1013-1014
+apps/website/src/lib/ad-spaces.json
+  s_968d37ddad9a26::t_b0bec8a312dc35 16-18,33-35,50-52,67-69,84-86,100-104,117-121,135-137,152-154,168-172,185-189,203-205,220-222,236-240,253-257,270-274,288-290,305-307,321-325,338-342,355-359,372-376,382,384,386-387,390-392,394-395,406-410,423-427,441-443,457-461,474-478,492-494,509-511,525-529,542-546,559-563,576-580,593-597,611-613,627-631,645-647,661-665,679-681,695-699,712-716,729-733,747-749,764-766,781-783,797-801,814-818,831-835,849-851,865-869,875,877,879-880,883-885,887-888,900-902,916-920,933-937,951-953,967-971,984-988,1002-1004,1013-1014
+apps/mini-livery/sponsors/README.md
+  s_968d37ddad9a26::t_9bad386f645bb6 3,7-11,13,21
+apps/mini-livery/asset-checks.json
+  s_968d37ddad9a26::t_f753421952cc14 2-3,21
+apps/mini-livery/sponsors/r6-layout3/manifest.json
+  s_968d37ddad9a26::t_c29c7b02613963 1-62
+apps/mini-livery/README.md
+  s_968d37ddad9a26::t_f753421952cc14 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6c437d86818cff1a896f2baec0c4dd0a8ee9bccc",
+  "prompts": {},
+  "sessions": {
+    "s_968d37ddad9a26": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08788-a1a6-7af0-8c0f-a7245d4bd831",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
