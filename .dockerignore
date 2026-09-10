@@ -1,6 +1,8 @@
 **
 !docker/
 !docker/**
+!deploy/
+!deploy/seed_runtime_volume.py
 !requirements/
 !requirements/**
 !src/

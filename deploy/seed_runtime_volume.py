@@ -53,12 +53,24 @@ def seed(root, name, spec, downloads):
         raise RuntimeError(f'Unverified asset directory already exists: {destination}')
     archive = downloads/(name+spec['suffix'])
     if not archive.exists() or sha256(archive) != spec['sha256']:
-        subprocess.run(['curl', '--fail', '--location', '--retry', '3',
-                        '--user-agent', 'Mozilla/5.0 Flyhard runtime',
-                        '--output', str(archive), spec['url']], check=True)
+        if shutil.which('aria2c'):
+            subprocess.run(['aria2c', '--max-connection-per-server=16', '--split=16',
+                            '--min-split-size=1M', '--file-allocation=none',
+                            '--continue=true',
+                            '--allow-overwrite=true', '--auto-file-renaming=false',
+                            '--summary-interval=30', '--console-log-level=warn',
+                            '--user-agent=Mozilla/5.0 Flyhard runtime',
+                            '--dir='+str(downloads), '--out='+archive.name,
+                            '--checksum=sha-256='+spec['sha256'], spec['url']], check=True)
+        else:
+            subprocess.run(['curl', '--fail', '--location', '--retry', '3',
+                            '--user-agent', 'Mozilla/5.0 Flyhard runtime',
+                            '--output', str(archive), spec['url']], check=True)
     if sha256(archive) != spec['sha256']:
         raise RuntimeError(f'Archive checksum mismatch: {name}')
     staging = Path(tempfile.mkdtemp(prefix=name+'.partial-', dir=root))
+    # mkdtemp defaults to 0700, but CARLA runs as ubuntu rather than root.
+    staging.chmod(0o755)
     try:
         subprocess.run(['tar', '--no-same-owner', '-xf', str(archive),
                         '-C', str(staging)], check=True)
@@ -80,8 +92,9 @@ def seed(root, name, spec, downloads):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path('/workspace/flyhard-runtime'))
-    parser.add_argument('--downloads', type=Path, default=Path('/tmp/flyhard-runtime-downloads'))
+    parser.add_argument('--downloads', type=Path, help='Defaults to ROOT/downloads; partial transfers survive Pod deletion')
     args = parser.parse_args()
+    args.downloads = args.downloads or args.root/'downloads'
     args.root.mkdir(parents=True, exist_ok=True)
     args.downloads.mkdir(parents=True, exist_ok=True)
     started = time.time()

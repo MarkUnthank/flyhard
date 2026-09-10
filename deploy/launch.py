@@ -129,7 +129,7 @@ def main():
         if (not release['validated'] and not args.validate_candidate) or not re.fullmatch(
                 r'ghcr\.io/markunthank/flyhard@sha256:[0-9a-f]{64}', release['image']):
             raise RuntimeError('The release must identify a GPU-validated immutable image.')
-        duration = args.runtime_seconds or release['runtime_seconds']
+        duration = release['runtime_seconds'] if args.runtime_seconds is None else args.runtime_seconds
         if not 120 <= duration <= (3600 if args.validate_candidate else 21600):
             raise ValueError('Runtime must be 120-21600 seconds; candidates are capped at one hour')
         if release.get('runtime_layout') == 'network-volume' and not args.network_volume:

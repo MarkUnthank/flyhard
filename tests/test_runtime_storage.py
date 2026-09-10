@@ -2,6 +2,8 @@
 import importlib.util
 from pathlib import Path
 import json
+import io
+import tarfile
 
 import pytest
 
@@ -68,3 +70,48 @@ def test_image_removal_preserves_retired_source(tmp_path):
     receipt = sync.sync_workspace(bundle, workspace, 'two')
     assert not (workspace/'src/old.py').exists()
     assert (Path(receipt['backup'])/'src/old.py').read_text() == 'old source'
+
+
+def test_seeded_asset_is_traversable_by_unprivileged_simulator(tmp_path):
+    seed = load('seed', 'deploy/seed_runtime_volume.py')
+    root, downloads = tmp_path/'volume', tmp_path/'downloads'
+    root.mkdir(); downloads.mkdir()
+    archive = downloads/'fixture.tar.gz'
+    with tarfile.open(archive, 'w:gz') as output:
+        member = tarfile.TarInfo('simulator.sh')
+        data = b'#!/bin/sh\nexit 0\n'
+        member.size = len(data); member.mode = 0o755
+        output.addfile(member, io.BytesIO(data))
+    spec = {'url': 'https://unused.example/fixture.tar.gz', 'suffix': '.tar.gz',
+            'binary': 'simulator.sh', 'sha256': seed.sha256(archive)}
+    seed.seed(root, 'fixture', spec, downloads)
+    assert (root/'fixture').stat().st_mode & 0o005 == 0o005
+    assert (root/'fixture/simulator.sh').stat().st_mode & 0o005 == 0o005
+    assert seed.seed(root, 'fixture', spec, downloads)['cached']
+
+
+def test_restart_records_added_source_that_can_shadow_packaged_code(tmp_path):
+    sync = load('sync', 'docker/sync_workspace.py')
+    bundle, workspace = tmp_path/'image', tmp_path/'workspace'
+    (bundle/'src/flyhard').mkdir(parents=True)
+    (bundle/'src/flyhard/__init__.py').write_text('')
+    sync.sync_workspace(bundle, workspace, 'one')
+    (workspace/'src/flyhard.py').write_text('shadowed = True')
+    receipt = sync.sync_workspace(bundle, workspace, 'one')
+    assert receipt['added'] == ['src/flyhard.py']
+    assert receipt['locally_modified'] == ['src/flyhard.py']
+    assert 'src/flyhard.py' in receipt['workspace_sha256']
+
+
+def test_restart_retains_and_records_intentional_source_deletion(tmp_path):
+    sync = load('sync', 'docker/sync_workspace.py')
+    bundle, workspace = tmp_path/'image', tmp_path/'workspace'
+    (bundle/'scripts').mkdir(parents=True)
+    (bundle/'scripts/experiment.py').write_text('old experiment')
+    sync.sync_workspace(bundle, workspace, 'one')
+    (workspace/'scripts/experiment.py').unlink()
+    receipt = sync.sync_workspace(bundle, workspace, 'one')
+    assert not (workspace/'scripts/experiment.py').exists()
+    assert receipt['missing'] == ['scripts/experiment.py']
+    assert receipt['locally_modified'] == ['scripts/experiment.py']
+    assert receipt['backup'] is None

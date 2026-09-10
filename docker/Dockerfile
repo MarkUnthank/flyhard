@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH=/opt/flyhard-env/bin:${PATH}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      libegl1 libgl1 libopengl0 libgles2 libvulkan1 vulkan-tools \
+      libegl1 libgl1 libopengl0 libgles2 libvulkan1 libglu1-mesa vulkan-tools \
       mesa-utils xvfb rsync ffmpeg git ca-certificates curl tini \
     && rm -rf /var/lib/apt/lists/* \
     && python3 -m venv --system-site-packages /opt/flyhard-env
@@ -34,6 +34,7 @@ RUN python /opt/flyhard/docker/install_environment.py
 COPY src/ /opt/flyhard/src/
 COPY scripts/ /opt/flyhard/scripts/
 COPY tests/ /opt/flyhard/tests/
+COPY deploy/seed_runtime_volume.py /opt/flyhard/deploy/seed_runtime_volume.py
 COPY assets/fonts/ /opt/flyhard/assets/fonts/
 COPY docker/ /opt/flyhard/docker/
 COPY LICENSE THIRD_PARTY.md README.md /opt/flyhard/

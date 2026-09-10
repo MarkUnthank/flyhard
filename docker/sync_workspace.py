@@ -10,12 +10,19 @@ from pathlib import Path
 import shutil
 import time
 
-SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'assets/fonts',
+SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'deploy', 'assets/fonts',
                 'pyproject.toml', 'README.md', 'LICENSE', 'THIRD_PARTY.md']
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_hashes(root):
+    return {str(p.relative_to(root)): digest(p)
+            for name in SOURCE_PATHS
+            for p in ([root/name] if (root/name).is_file() else (root/name).rglob('*'))
+            if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc'}
 
 
 def sync_workspace(bundled, project, revision):
@@ -26,15 +33,14 @@ def sync_workspace(bundled, project, revision):
     # During a restart of the same image, retain intentional iteration edits.
     refresh = previous.get('image_source_revision') != revision
     backup = project/'work/source-backups'/str(time.time_ns())
-    packaged = {str(p.relative_to(bundled)): digest(p)
-                for name in SOURCE_PATHS
-                for p in ([bundled/name] if (bundled/name).is_file() else (bundled/name).rglob('*'))
-                if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc'}
+    packaged = source_hashes(bundled)
     replaced = []
     for name, expected in packaged.items():
         target = project/name
+        if not refresh:
+            continue
         if target.exists():
-            if not refresh or digest(target) == expected:
+            if digest(target) == expected:
                 continue
             saved = backup/name
             saved.parent.mkdir(parents=True, exist_ok=True)
@@ -51,9 +57,12 @@ def sync_workspace(bundled, project, revision):
                 saved.parent.mkdir(parents=True, exist_ok=True)
                 target.rename(saved)
                 replaced.append(name)
-    actual = {name: digest(project/name) for name in packaged}
+    actual = source_hashes(project)
     receipt = {'image_source_revision': revision, 'packaged_sha256': packaged,
-               'workspace_sha256': actual, 'locally_modified': [n for n in actual if actual[n] != packaged[n]],
+               'workspace_sha256': actual,
+               'locally_modified': sorted(n for n in actual.keys() | packaged.keys() if actual.get(n) != packaged.get(n)),
+               'added': sorted(actual.keys()-packaged.keys()),
+               'missing': sorted(packaged.keys()-actual.keys()),
                'backup': str(backup) if replaced else None, 'backed_up_files': replaced,
                'observed_epoch': time.time()}
     receipt_path.write_text(json.dumps(receipt, indent=2)+'\n')
