@@ -266,8 +266,8 @@ export default function CustomWrapOffer({
             </li>
           </ol>
           <p className={styles.footer}>
-            A custom livery for our simulated Mini. Production follows purchase,
-            with timing arranged by email. The next spot opens immediately.
+            A custom livery for our simulated Mini. Production follows purchase.
+            The next spot opens immediately.
           </p>
           {message && (
             <div className={styles.status} role="status">
