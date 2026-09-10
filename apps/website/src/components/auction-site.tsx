@@ -89,6 +89,9 @@ export default function AuctionSite() {
   const entryBid = Math.min(
     ...slots.map((slot) => minimumBid(snapshot.placements[slot.id]?.amount)),
   );
+  const entrySlot = slots.find(
+    (slot) => minimumBid(snapshot.placements[slot.id]?.amount) === entryBid,
+  );
   const filtered = useMemo(
     () =>
       slots
@@ -240,16 +243,16 @@ export default function AuctionSite() {
             </div>
             <span className="stat-divider" />
             <div>
-              <strong>
-                {loaded ? taken : "—"}
-                <span className="stat-denominator"> / {slots.length}</span>
-              </strong>
-              <span>spots claimed</span>
-            </div>
-            <span className="stat-divider" />
-            <div>
-              <strong>{loaded ? money(entryBid) : "—"}</strong>
-              <span>current minimum to get on the car</span>
+              <button
+                type="button"
+                className="entry-bid-link"
+                disabled={!loaded || !entrySlot}
+                aria-haspopup="dialog"
+                onClick={() => entrySlot && choose(entrySlot.id)}
+              >
+                <strong>{loaded ? money(entryBid) : "—"}</strong>
+                <span>current minimum to get on the car</span>
+              </button>
             </div>
             <span className="stat-divider" />
             <div className="highest-bid-stat">
