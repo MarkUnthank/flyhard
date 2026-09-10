@@ -13,6 +13,7 @@ import {
   slots,
   activeSlots,
   modelUrl,
+  artworkCrops,
   money,
   minimumBid,
   type Placement,
@@ -275,8 +276,8 @@ export default function CarViewer({
         state.model = gltf.scene;
         gltf.scene.traverse((object) => {
           if (object instanceof THREE.Mesh) {
-            object.castShadow = !object.userData.slot_id;
-            object.receiveShadow = !object.userData.slot_id;
+            object.castShadow = !object.userData.slot_id || object.userData.role === "billboard_structure";
+            object.receiveShadow = !object.userData.slot_id || object.userData.role === "billboard_structure";
             state.materials.set(object, object.material);
           }
         });
@@ -516,10 +517,12 @@ export default function CarViewer({
               sourceContext.getImageData(0, 0, image.width, image.height).data,
               image.width,
               image.height,
+              artworkCrops[placement.textureUrl],
             );
+            const inset = artworkCrops[placement.textureUrl] ? 1 : 0.9;
             const scale = Math.min(
-              (canvas.width * 0.9) / crop.width,
-              (canvas.height * 0.9) / crop.height,
+              (canvas.width * inset) / crop.width,
+              (canvas.height * inset) / crop.height,
             );
             const width = crop.width * scale;
             const height = crop.height * scale;

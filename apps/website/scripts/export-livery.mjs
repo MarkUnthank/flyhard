@@ -52,14 +52,16 @@ for (const placement of Object.values(snapshot.placements)) {
       .ensureAlpha()
       .raw()
       .toBuffer({ resolveWithObject: true });
-    const crop = artworkBounds(data, info.width, info.height);
+    const cropRule = inventory.artwork_crops?.[placement.textureUrl];
+    const crop = artworkBounds(data, info.width, info.height, cropRule);
+    const inset = cropRule ? 1 : 0.9;
     const width = 1024,
       height = Math.round(1024 / aspect);
     const fitted = await sharp(artwork)
       .extract(crop)
       .resize({
-        width: Math.round(width * 0.9),
-        height: Math.round(height * 0.9),
+        width: Math.round(width * inset),
+        height: Math.round(height * inset),
         fit: "inside",
       })
       .png()
