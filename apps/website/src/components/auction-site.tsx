@@ -85,6 +85,10 @@ export default function AuctionSite() {
     () => activeSlots(snapshot.placements),
     [snapshot.placements],
   );
+  const openSlots = useMemo(
+    () => slots.filter((slot) => !snapshot.placements[slot.id]),
+    [slots, snapshot.placements],
+  );
   const taken = Object.keys(snapshot.placements).length;
   const entryBid = Math.min(
     ...slots.map((slot) => minimumBid(snapshot.placements[slot.id]?.amount)),
@@ -94,12 +98,10 @@ export default function AuctionSite() {
   );
   const filtered = useMemo(
     () =>
-      slots
+      openSlots
         .filter(
           (slot) =>
-            (filter === "all" ||
-              slot.face === filter ||
-              (filter === "available" && !snapshot.placements[slot.id])) &&
+            (filter === "all" || slot.face === filter) &&
             `${slot.name} ${slot.id} ${snapshot.placements[slot.id]?.brand || ""} ${snapshot.placements[slot.id]?.url || ""} ${snapshot.placements[slot.id]?.message || ""}`
               .toLowerCase()
               .includes(query.toLowerCase()),
@@ -107,7 +109,7 @@ export default function AuctionSite() {
         .sort((a, b) =>
           compareSlots(a, b, snapshot.placements, sort === "price"),
         ),
-    [filter, query, sort, snapshot.placements, slots],
+    [filter, openSlots, query, sort, snapshot.placements],
   );
   const displayed =
     showAll || filter !== "all" || query ? filtered : filtered.slice(0, 12);
@@ -390,11 +392,16 @@ export default function AuctionSite() {
               latest auction state loads.
             </p>
           )}
-          <div className="auction-toolbar">
+          {!openSlots.length && (
+            <div className="empty-search">
+              All seven spots are currently riding with us. Choose one on the
+              car above to outbid its current owner.
+            </div>
+          )}
+          <div className="auction-toolbar" hidden={!openSlots.length}>
             <div className="spot-filters" aria-label="Filter spots">
               {[
-                { id: "all", label: "All spots" },
-                { id: "available", label: "Unclaimed" },
+                { id: "all", label: "Open spots" },
                 ...views
                   .filter((v) => v.id !== "perspective")
                   .map((v) => ({ id: v.id, label: v.label })),
@@ -405,12 +412,12 @@ export default function AuctionSite() {
                   aria-pressed={filter === item.id}
                   onClick={() => {
                     setFilter(item.id);
-                    if (item.id !== "all" && item.id !== "available")
+                    if (item.id !== "all")
                       setManualView(item.id as View);
                   }}
                 >
                   {item.label}
-                  {item.id === "all" && <span>{slots.length}</span>}
+                  {item.id === "all" && <span>{openSlots.length}</span>}
                 </button>
               ))}
             </div>
@@ -424,7 +431,7 @@ export default function AuctionSite() {
               />
             </div>
           </div>
-          <div className="table-container">
+          <div className="table-container" hidden={!openSlots.length}>
             <table className="spots-table">
               <thead>
                 <tr>
@@ -557,13 +564,15 @@ export default function AuctionSite() {
               </div>
             )}
           </div>
-          <div className="table-footer">
+          <div className="table-footer" hidden={!openSlots.length}>
             <span>
               Showing {displayed.length} of {filtered.length} spots
             </span>
             {filter === "all" && !query && (
               <button onClick={() => setShowAll(!showAll)}>
-                {showAll ? "Show fewer spots" : `See all ${slots.length} spots`}
+                {showAll
+                  ? "Show fewer spots"
+                  : `See all ${openSlots.length} spots`}
                 <ChevronDown
                   size={15}
                   style={{ transform: showAll ? "rotate(180deg)" : undefined }}
