@@ -1,0 +1,38 @@
+.dropTarget {
+  position: relative;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.dropTarget[data-file-over="true"] {
+  border-color: #648444;
+  background: #eaf3df;
+  box-shadow: 0 0 0 2px #648444;
+}
+
+.dropTarget[aria-disabled="true"] {
+  cursor: default;
+}
+
+.dropOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  border-radius: inherit;
+  background: rgb(234 243 223 / 94%);
+  color: #354d23;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropTarget {
+    transition: none;
+  }
+}

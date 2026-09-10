@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type DragEvent } from "react";
 import { ImagePlus, Move, RotateCcw } from "lucide-react";
+import styles from "./artwork-editor.module.css";
 
 export type PreparedArtwork = { blob: Blob | null; logo?: Blob; url?: string };
 type Transform = { scale: number; rotation: number; x: number; y: number };
@@ -42,6 +43,8 @@ export default function ArtworkEditor({
     name: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [fileOver, setFileOver] = useState(false);
+  const fileDragDepth = useRef(0);
   const [transparent, setTransparent] = useState(true);
   const [background, setBackground] = useState("#ffffff");
   const [transform, setTransform] = useState<Transform>(initialTransform);
@@ -125,6 +128,7 @@ export default function ArtworkEditor({
   }, [source, loading, ratio, transparent, background, transform]);
 
   async function chooseFile(file: File) {
+    if (disabled || loading) return;
     if (
       !["image/png", "image/jpeg", "image/webp"].includes(file.type) ||
       file.size > 10_000_000
@@ -167,6 +171,42 @@ export default function ArtworkEditor({
     setTransform((current) => ({ ...current, [key]: value }));
   }
 
+  const dropHandlers = {
+    onDragEnter(event: DragEvent<HTMLElement>) {
+      if (!event.dataTransfer.types.includes("Files")) return;
+      event.preventDefault();
+      fileDragDepth.current++;
+      if (!disabled && !loading) setFileOver(true);
+    },
+    onDragOver(event: DragEvent<HTMLElement>) {
+      if (!event.dataTransfer.types.includes("Files")) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = disabled || loading ? "none" : "copy";
+    },
+    onDragLeave(event: DragEvent<HTMLElement>) {
+      if (!event.dataTransfer.types.includes("Files")) return;
+      fileDragDepth.current = Math.max(0, fileDragDepth.current - 1);
+      if (!fileDragDepth.current) setFileOver(false);
+    },
+    onDrop(event: DragEvent<HTMLElement>) {
+      if (!event.dataTransfer.types.includes("Files")) return;
+      event.preventDefault();
+      event.stopPropagation();
+      fileDragDepth.current = 0;
+      setFileOver(false);
+      if (disabled || loading) return;
+      const files = event.dataTransfer.files;
+      if (files.length !== 1) {
+        callbacks.current.onError(
+          "Drop one PNG, JPG, or WebP image at a time.",
+        );
+        return;
+      }
+      void chooseFile(files[0]);
+    },
+  };
+  const showDropTarget = fileOver && !disabled && !loading;
+
   return (
     <div className="artwork-editor">
       <div className="field-heading artwork-heading">
@@ -190,18 +230,37 @@ export default function ArtworkEditor({
         }}
       />
       {!source ? (
-        <label className="upload-area" htmlFor="artwork-file">
+        <label
+          className={`upload-area ${styles.dropTarget}`}
+          htmlFor="artwork-file"
+          data-file-over={showDropTarget}
+          aria-disabled={disabled || loading}
+          aria-busy={loading}
+          {...dropHandlers}
+        >
           <ImagePlus size={25} strokeWidth={1.4} />
           <strong>
             {loading
               ? "Preparing your artwork…"
-              : "Give your logo a place on the car"}
+              : showDropTarget
+                ? "Drop your image here"
+                : "Drag an image here, or click to browse"}
           </strong>
           <span>PNG, JPG, or WebP · Up to 10 MB</span>
         </label>
       ) : (
         <>
-          <div className="artwork-stage" aria-busy={loading}>
+          <div
+            className={`artwork-stage ${styles.dropTarget}`}
+            data-file-over={showDropTarget}
+            aria-busy={loading}
+            {...dropHandlers}
+          >
+            {showDropTarget && (
+              <span className={styles.dropOverlay}>
+                Drop to replace your artwork
+              </span>
+            )}
             <canvas
               ref={canvas}
               className="logo-position-canvas"
