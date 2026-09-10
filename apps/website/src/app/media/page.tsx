@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { ArrowDownToLine, ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 import FlyMark from "@/components/fly-mark";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 import { mediaEntries } from "@/lib/media";
 
 export const metadata: Metadata = {
@@ -37,17 +39,7 @@ export default function MediaPage() {
       <a href="#recordings" className="skip-link">
         Skip to recordings
       </a>
-      <header className="site-header journal-header">
-        <a className="wordmark" href="/">
-          <FlyMark size={31} />
-          <span>
-            The Driving Fly<span className="wordmark-period">.</span>
-          </span>
-        </a>
-        <a className="text-link" href="/">
-          Back to the car <ArrowUpRight size={16} />
-        </a>
-      </header>
+      <SiteHeader currentPage="media" />
       <main className="media-journal">
         <header className="journal-intro">
           <div className="eyebrow">THE DRIVING FLY / FIELD NOTES</div>
@@ -149,13 +141,15 @@ export default function MediaPage() {
           ))}
         </div>
       </main>
-      <footer className="journal-footer">
-        <a href="/" className="text-link">
-          <ArrowLeft size={16} /> Back to the car
+      <section className="final-cta" aria-labelledby="media-sponsor-title">
+        <FlyMark size={40} />
+        <h2 id="media-sponsor-title">Help the fly go further.</h2>
+        <p>Put your brand on the Mini and help fund the next experiment.</p>
+        <a href="/#live-auction" className="primary">
+          Get a spot on the car <ArrowUpRight size={17} />
         </a>
-        <span>Six legs. One experiment. More to come.</span>
-        <a href="/credits">Credits</a>
-      </footer>
+      </section>
+      <SiteFooter />
     </>
   );
 }

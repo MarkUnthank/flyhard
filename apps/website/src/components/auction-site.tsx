@@ -23,6 +23,8 @@ import {
 import { useAuction } from "./use-auction";
 import FlyMark from "./fly-mark";
 import MediaSection from "./media-section";
+import SiteHeader from "./site-header";
+import SiteFooter from "./site-footer";
 import BidDialog from "./bid-dialog";
 import type { View } from "./car-viewer";
 
@@ -201,24 +203,7 @@ export default function AuctionSite() {
       <a href="#live-auction" className="skip-link">
         Skip to ad spaces
       </a>
-      <header className="site-header">
-        <a className="wordmark" href="/">
-          <FlyMark size={31} />
-          <span>
-            The Driving Fly<span className="wordmark-period">.</span>
-          </span>
-        </a>
-        <nav aria-label="Main navigation">
-          <a href="#live-auction">Live auction</a>
-          <a href="#leaderboard">Supporters</a>
-          <a href="#how-it-works">How it works</a>
-          <a href="/media">Videos &amp; data</a>
-          <a href="#the-experiment">The experiment</a>
-        </nav>
-        <a className="primary header-cta" href="#live-auction">
-          Get a spot <ArrowUpRight size={16} />
-        </a>
-      </header>
+      <SiteHeader />
       <main>
         <section className="hero">
           <div className="live-indicator">
@@ -749,53 +734,7 @@ export default function AuctionSite() {
           </a>
         </section>
       </main>
-      <footer className="site-footer">
-        <div>
-          <a className="wordmark" href="/">
-            <FlyMark size={25} />
-            <span>The Driving Fly.</span>
-          </a>
-          <p className="company-credit">
-            A{" "}
-            <a
-              href="https://reallynice.company"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Really Nice
-            </a>{" "}
-            project.
-          </p>
-        </div>
-        <div className="footer-links">
-          <a href="/media">Videos &amp; data</a>
-          <a
-            className="footer-social"
-            href="https://x.com/alright_mark"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="@alright_mark on X"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="14"
-              height="14"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932 6.064-6.933Zm-1.29 19.49h2.039L6.487 3.24H4.3l13.31 17.403Z" />
-            </svg>
-            @alright_mark
-          </a>
-          <a href="/terms">Placement terms</a>
-          <a href="/privacy">Privacy</a>
-          <a href="/credits">Credits</a>
-        </div>
-        <p className="footer-disclaimer">
-          Vehicle model adapted from CARLA 0.9.16 (CVC, Universitat Autònoma de
-          Barcelona), CC BY. The Driving Fly is an independent project.
-        </p>
-      </footer>
+      <SiteFooter />
       {selected && (
         <BidDialog
           key={selected.id}
