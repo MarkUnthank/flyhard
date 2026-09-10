@@ -1,0 +1,36 @@
+apps/website/src/components/bid-dialog.tsx
+  s_ea105b809a09db::t_46bac7dd830ec2 44
+  s_ea105b809a09db::t_14b4f7881db07f 406-410
+apps/website/src/components/auction-site.tsx
+  s_ea105b809a09db::t_14b4f7881db07f 225
+apps/website/src/lib/checkout-recovery.ts
+  s_ea105b809a09db::t_63e64fd419d1f1 5
+  s_ea105b809a09db::t_2dd21371a352be 1-4,6-7,13-20,26,28-29,35,37
+apps/website/tests/checkout-recovery.test.ts
+  s_ea105b809a09db::t_2dd21371a352be 1-97,104-141
+  s_ea105b809a09db::t_63e64fd419d1f1 98-103
+apps/website/scripts/verify-checkout.mjs
+  s_ea105b809a09db::t_46bac7dd830ec2 413-419
+  ai_agent 367-368
+  s_ea105b809a09db::t_a3da570167005d 359-364,374-385,390-412,420,448-449
+  s_ea105b809a09db::t_e79e466ddd7709 365-366,369-373,386-389,475-476,490
+  s_ea105b809a09db::t_14b4f7881db07f 150,321-324
+apps/website/src/app/terms/page.tsx
+  s_ea105b809a09db::t_46bac7dd830ec2 54-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "b3c90ac233defd1d239c91ecc3ff2b1a3e153ac7",
+  "prompts": {},
+  "sessions": {
+    "s_ea105b809a09db": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08bda-188e-74c3-99d6-1638a1246c38",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
