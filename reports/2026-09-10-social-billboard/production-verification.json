@@ -1,0 +1,23 @@
+{
+  "images": [
+    "https://thedrivingfly.com/social/driving-fly-wide-v4.jpg",
+    "https://thedrivingfly.com/social/driving-fly-square-v4.jpg",
+    "https://thedrivingfly.com/social/driving-fly-wide-v4.jpg"
+  ],
+  "assets": [
+    {
+      "path": "/social/driving-fly-wide-v4.jpg",
+      "bytes": 87544,
+      "sha256": "d7938e7061f1c120dbb0e48567f08e78eac2d36d71a1f451d96a10b7e4b1286b"
+    },
+    {
+      "path": "/social/driving-fly-square-v4.jpg",
+      "bytes": 113447,
+      "sha256": "0341962e91b5e20a6216a1fd882f137e70f102f28d9b2bb901fdb88de4243e52"
+    }
+  ],
+  "mediaRestored": true,
+  "revision": 12,
+  "highestBid": 600,
+  "featuredMinimum": 700
+}

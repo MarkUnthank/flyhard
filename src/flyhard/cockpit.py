@@ -31,7 +31,13 @@ class WheelRig:
     command_period = 0.005
     max_joint_target_rate = 3.0  # rad/s; generic joint servo limit, no wheel knowledge
 
-    def __init__(self, support_hand=False):
+    def __init__(self, support_hand=False, indicator_stalk=False, parking_controls=False):
+        if support_hand and indicator_stalk:
+            raise ValueError("The right foreleg cannot grip both the wheel and stalk")
+        if parking_controls and (support_hand or indicator_stalk):
+            raise ValueError('Parking uses the right foreleg for the gear selector')
+        self.stalk = None
+        self.parking = None
         self.support_hand = support_hand
         probe_fly = make_fly()
         probe_world = TetheredWorld()
@@ -45,6 +51,12 @@ class WheelRig:
         self.fly = make_fly()
         self.world = TetheredWorld()
         root = self.world.mjcf_root
+        if parking_controls:
+            from flyhard.parking_rig import ParkingControls
+            self.parking = ParkingControls(root, probe.mj_data)
+        if indicator_stalk:
+            from flyhard.stalk import Stalk
+            self.stalk = Stalk(root, probe.mj_data.body('nmf/rf_tarsus5').xpos.copy(), leg='rf')
         wheel = root.worldbody.add_body(name='wheel', pos=self.center)
         wheel.add_joint(name='wheel_hinge', type=mj.mjtJoint.mjJNT_HINGE, axis=[1,0,0],
                         limited=True, range=[-0.65,0.65], damping=0.10, stiffness=0.02)
@@ -113,13 +125,24 @@ class WheelRig:
         assert self.wheel_joint not in self.model.actuator_trnid[:,0]
         self.reset()
         self.neutral_actions = self.data.ctrl[self.actuators].copy()
+        if self.stalk is not None:
+            self.stalk.bind(self.model, self.data)
+            mj.mj_forward(self.model, self.data)
+        if self.parking is not None:
+            self.parking.bind(self.model, self.data)
+            mj.mj_forward(self.model, self.data)
         self.ik_angles = None
 
-    def reset(self, grip=True):
+    def reset(self, grip=True, stalk_grip=True):
         self.sim.reset()
         self.data.eq_active[self.grip_id] = grip
         if self.support_grip_id is not None:
             self.data.eq_active[self.support_grip_id] = grip
+        if self.stalk is not None and hasattr(self.stalk, 'grip_id'):
+            self.data.eq_active[self.stalk.grip_id] = stalk_grip
+        if self.parking is not None and hasattr(self.parking, 'model'):
+            for control in self.parking.controls:
+                self.data.eq_active[control.grip_id] = grip
         mj.mj_forward(self.model,self.data)
 
     @property
@@ -136,6 +159,14 @@ class WheelRig:
         for _ in range(substeps or round(self.command_period/self.timestep)):
             mj.mj_step(self.model,self.data)
         assert np.isfinite(self.data.qpos).all() and abs(self.angle)<1
+
+    def step_both(self, action):
+        """Fourteen foreleg targets, advanced on one shared physical clock."""
+        action = np.asarray(action)
+        assert self.stalk is not None and action.shape == (14,)
+        self.stalk.apply(action[7:], self.max_joint_target_rate * self.command_period)
+        self.step(action[:7])
+        assert abs(self.stalk.angle) < .7
 
     def prepare_diagnostic_ik(self):
         """Offline kinematic targets; never modifies the live physical state."""

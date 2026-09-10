@@ -1,0 +1,8 @@
+# Patch context and upstream license text must retain their original whitespace.
+*.patch -whitespace
+apps/mini-livery/sponsors/r8-layout4/BarlowCondensed-OFL.txt -whitespace
+reports/2026-09-10-parking/benchmark/all-trials.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Keep large generated frame maps collapsible in code review.
+reports/**/render-receipt.json linguist-generated=true
+reports/2026-09-10-directed-25s/flyhard-roundabout-directed-25s-16x9.json linguist-generated=true

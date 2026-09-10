@@ -1,0 +1,85 @@
+{
+  "status": "cache_complete; startup_validation_incomplete",
+  "source_revision": "75452b1ceb0831bc1f6f97036b450ae423537e5a",
+  "image": "ghcr.io/markunthank/flyhard@sha256:5f217b4f29b26c07def7f35463b2d131e8d98c2ef663f4908dcea1822a3de4ec",
+  "workflow_run_id": "34453309123",
+  "image_build": "passed",
+  "cuda_carla_validated": false,
+  "new_default_selected": false,
+  "compressed_layer_bytes": 5373569874,
+  "previous_compressed_layer_bytes": 19564890470,
+  "size_reduction_percent": 72.53462838322754,
+  "startup_speedup_measured": false,
+  "boot_requested_epoch": 1789029259.102782,
+  "last_provider_image_fetch_epoch": 1789029720,
+  "image_fetch_still_incomplete_after_seconds": 460.8972179889679,
+  "reason_stopped": "Conservative account-wide spending bound reached; temporary validator deleted without waiting beyond cap.",
+  "cache": {
+    "status": "complete",
+    "carla_version": "0.9.16",
+    "carla_archive_sha256": "09e3ebb28df17962f0c997e66f4b914ad5ea6f1d6a6dbbf13c9f87eb38346d57",
+    "blender_version": "5.2.1",
+    "blender_archive_sha256": "a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9",
+    "asset_directory_du_human": "24G",
+    "completed_epoch": 1789028716.8603146,
+    "graph_anatomy_checkpoint_world_sha256": {
+      "data/graph-traced-v1/graph.npz": {
+        "bytes": 309401316,
+        "sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+        "verified": true
+      },
+      "data/cns-geometry-v1/geometry.npz": {
+        "bytes": 112701537,
+        "sha256": "49d69883966a8bc2d7b587123456c854a2b229913a2dc4ff0d2340013784fc27",
+        "verified": true
+      },
+      "runs/roundabout-policy-v2/selected.pt.gz": {
+        "bytes": 13304665,
+        "sha256": "2ed14a581da098ebcaa342a67f40d935de1f34c42fc5c2cb9ca707497a94eb2a",
+        "verified": true
+      },
+      "runs/roundabout-directed-v1/world-recorder.log": {
+        "bytes": 730547,
+        "sha256": "d88df50f8e8eec87140023b58c7a60228b8c3661ed0871862957968c89f89544",
+        "verified": true
+      }
+    },
+    "replay_files": {
+      "body-trace.npz": {
+        "bytes": 208369,
+        "sha256": "fa4ba6676597a36fa4907fadff37a18b89ff8e2a7a3d9037b803864a9d1ea842"
+      },
+      "frames.json": {
+        "bytes": 4597102,
+        "sha256": "a63bb5123ec96428ac8ef9898354558ea6fcee47655b3886fb1ca5672427fab9"
+      },
+      "config.json": {
+        "bytes": 2713,
+        "sha256": "2218d796e431f865e56a131695f9f38f5b53fe6af164ec9aaf9a476b18e44e7b"
+      },
+      "edit-plan.json": {
+        "bytes": 44094,
+        "sha256": "12e49996c1c5ed787846ee5ca8bfabb48fcbb92a738f8e303fac80a4c8016126"
+      },
+      "cns-layer.mp4": {
+        "bytes": 1592830,
+        "sha256": "ac0e1a668a3ffb1124962fe8e6866d1172a147d32ca33f190b273ed3c358d702"
+      }
+    },
+    "full_neural_trace": "not copied; original remains local and current replay uses verified CNS video"
+  },
+  "checks": {
+    "storage_regressions": {
+      "passed": 8,
+      "failed": 0
+    },
+    "temporary_validator_deleted": true,
+    "network_volume_survived": true,
+    "main_A40_running": true,
+    "component_smoke_test": "not run; no ready container"
+  },
+  "checked_epoch": 1789029737.8049421,
+  "storage_monthly_usd": 3.5,
+  "storage_gb": 50,
+  "next_required_check": "Launch the candidate with the existing seeded network volume and complete CUDA/CARLA readiness plus renderer/live-livery component check before promoting the image."
+}

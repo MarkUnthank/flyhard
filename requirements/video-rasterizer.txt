@@ -1,0 +1,5 @@
+# Installed with --no-deps: pyrender's 2021 metadata pins PyOpenGL==3.1.0,
+# but the tested EGL runtime uses PyOpenGL==3.1.10 for all renderers.
+pyrender==0.1.45
+pyglet==1.5.31
+freetype-py==2.5.1

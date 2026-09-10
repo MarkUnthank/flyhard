@@ -1,6 +1,6 @@
 # Optional demo: a fly that uses its indicators
 
-Status: added to the plan on 2026-09-09. Proposed and untested. Full body-driven CARLA driving remains the main goal; this is a smaller fallback and a useful skill to add to the eventual driving demo.
+Status: added to the plan on 2026-09-09. Native lamp and mechanical stalk preflight began on 2026-09-10; learned selection and scenario timing remain untested. See `indicator-episode.md` for the staged follow-up. Full body-driven CARLA driving remains the main goal; this is a smaller fallback and a useful skill to add to the eventual driving demo.
 
 The intended punchline is: **“We taught a fly to use its indicators.”**
 
@@ -38,4 +38,4 @@ This reduces the learned behavior to selecting and timing one three-position con
 
 For the video, show the worn green Flyat approaching a junction, the visible navigation cue, a close view of the fly moving the stalk, and the matching exterior lamp. Finish with cancellation and an evaluation tally. Keep the scripted-route disclosure visible in the standalone version. The humour should survive an accurate description of what the model controls.
 
-No GPU run or implementation is started by adding this plan. The next concrete chunk, if this branch is pursued, is the local I00 stalk/contact diagnostic.
+The 2026-09-10 preflight scripts are `scripts/preflight_indicators.py` and `scripts/indicator_experiment.py`. The stalk uses an explicit point-grip constraint and a physically counterbalanced spring-centred hinge, with no latch or stalk actuator. It is isolated from the wheel for I00. Learning and combined steering/stalk operation require further experiments; the preflight is not evidence of a trained indicator policy.

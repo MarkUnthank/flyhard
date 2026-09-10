@@ -1,0 +1,119 @@
+{
+  "output": "~/Desktop/Flyhard-parking-Mozart-fast-edit.mp4",
+  "sha256": "b7fd18abae2e7a390f3ac46b5ea80eeadf07e9fe7daec94f7a1d3c4bc28d754e",
+  "duration_seconds": 30,
+  "frames": 1800,
+  "fps": 60,
+  "max_grid_at_seconds": 6.4,
+  "shots": [
+    {
+      "kind": "grid",
+      "count": 1,
+      "start": 0.4,
+      "duration": 1.6,
+      "timeline_start": 0
+    },
+    {
+      "kind": "grid",
+      "count": 4,
+      "start": 8.3,
+      "duration": 1.6,
+      "timeline_start": 1.6
+    },
+    {
+      "kind": "grid",
+      "count": 8,
+      "start": 16.1,
+      "duration": 1.6,
+      "timeline_start": 3.2
+    },
+    {
+      "kind": "grid",
+      "count": 16,
+      "start": 24.5,
+      "duration": 1.6,
+      "timeline_start": 4.800000000000001
+    },
+    {
+      "kind": "grid",
+      "count": 32,
+      "start": 32.0,
+      "duration": 3.2,
+      "timeline_start": 6.4
+    },
+    {
+      "kind": "solo",
+      "seed": 34024,
+      "start": 25.0,
+      "duration": 3.2,
+      "timeline_start": 9.600000000000001
+    },
+    {
+      "kind": "grid",
+      "count": 32,
+      "start": 36.2,
+      "duration": 2.4,
+      "timeline_start": 12.8
+    },
+    {
+      "kind": "solo",
+      "seed": 34048,
+      "start": 4.1,
+      "duration": 2.4,
+      "timeline_start": 15.200000000000001
+    },
+    {
+      "kind": "grid",
+      "count": 8,
+      "start": 21.8,
+      "duration": 1.6,
+      "timeline_start": 17.6
+    },
+    {
+      "kind": "grid",
+      "count": 32,
+      "start": 33.5,
+      "duration": 3.2,
+      "timeline_start": 19.200000000000003
+    },
+    {
+      "kind": "solo",
+      "seed": 34049,
+      "start": 25.0,
+      "duration": 2.4,
+      "timeline_start": 22.400000000000002
+    },
+    {
+      "kind": "grid",
+      "count": 32,
+      "start": 36.3,
+      "duration": 3.2,
+      "timeline_start": 24.8
+    },
+    {
+      "kind": "card",
+      "duration": 2.0,
+      "timeline_start": 28.0
+    }
+  ],
+  "fly": "Crop of existing original take, looped independently. Labelled Fly replay; not synchronized to each trial.",
+  "driving": "Existing recorded video excerpts only; no resimulation, no added steering or new viewpoints.",
+  "artwork": "Preserved r20 under user instruction; no refresh or 3D regeneration.",
+  "sources": {
+    "~/Desktop/Flyhard-parking-2026-09-10/Flyhard-50-parking-attempts-Mozart-r20.mp4": "ed5a0fa119d2da7f24028965aa53388906bbe5a959498e8a9abd9aca29971413",
+    "~/Desktop/Flyhard-parking-2026-09-10/Flyhard-parallel-parking-r20-25s.mp4": "8364c7b40bc1d4555e3c8a668cef0ef01cd46c1a51a9cb55ca1e590c068beb84",
+    "assets/music/mozart-k525/allegro.ogg": "c0bd9e48d7b7c60ead7ebad4d147f8dbe1e1a9f8ba4a89cde97966cc8afd5394",
+    "work/parking-punchy-edit/34024/camera.mp4": "ecf475bc23f76441add71209eafb006719b8fd4fe3194be8f77ceb1fd1b09540",
+    "work/parking-punchy-edit/34048/camera.mp4": "0cc82587f8f4ef9c841a5b4e6109daa213940444e5a816684daeeef33f521301",
+    "work/parking-punchy-edit/34049/camera.mp4": "00b31a32dcd26d67f51aa4f23e3dbeee664a88ae753dfc491b2d7a5a51a98933"
+  },
+  "profile": "Constrained Baseline",
+  "verified": {
+    "frames": 1800,
+    "duration": 30,
+    "fps": 60,
+    "source_videos_preserved": true,
+    "music_correlation_min": 0.9923169676745456,
+    "sampled_frame_630_single_and_multithread_decode_match": true
+  }
+}

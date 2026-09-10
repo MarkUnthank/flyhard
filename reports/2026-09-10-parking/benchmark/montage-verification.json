@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "duration_seconds": 45.75,
+  "frames": 2745,
+  "fps": 60,
+  "size": [
+    1920,
+    1080
+  ],
+  "audio_codec": "AAC",
+  "audio_source_correlation_min": 0.9578397148711104,
+  "grid_counts": [
+    1,
+    4,
+    8,
+    16,
+    32
+  ],
+  "unique_trials": 50,
+  "sponsor_revision": 20,
+  "video_sha256": "ed5a0fa119d2da7f24028965aa53388906bbe5a959498e8a9abd9aca29971413"
+}

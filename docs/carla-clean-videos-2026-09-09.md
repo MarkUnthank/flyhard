@@ -1,6 +1,8 @@
 # Flyhard: calm and faster recordings
 
-These recordings update the first connected steering demo with a minimal black 16:9 layout: CARLA on the left, anatomical neural activity above the physical fly on the right. The overlay contains only the panel labels and measured vehicle speed. The calm run was recorded first, followed by a faster, more frequent steering sequence. Both play at normal simulation speed.
+These recordings update the first connected steering demo with a minimal black 16:9 layout: CARLA on the left, anatomical neural activity above the physical fly on the right. The initial clean exports showed panel labels and measured vehicle speed. The calm run was recorded first, followed by a faster, more frequent steering sequence. Both play at normal simulation speed.
+
+The renderer now also keeps a compact steering strip visible: left/right request indicators, target angle, measured wheel angle and applied CARLA steering. The active request is highlighted; both indicators are inactive when the target rounds to zero degrees. The target comes from the last recorded neural decision, while wheel angle and steering come from the matching camera-frame record. This applies to both the split-screen and fly-shoulder presentation renders. Existing video hashes below describe the earlier exports until they are rendered again.
 
 ## What changed
 

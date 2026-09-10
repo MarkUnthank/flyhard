@@ -1,0 +1,12 @@
+{
+  "image": "ghcr.io/markunthank/flyhard@sha256:5f217b4f29b26c07def7f35463b2d131e8d98c2ef663f4908dcea1822a3de4ec",
+  "template_name": "Flyhard / durable CARLA 0.9.16",
+  "source_revision": "75452b1ceb0831bc1f6f97036b450ae423537e5a",
+  "runtime_layout": "network-volume",
+  "validated": false,
+  "validation_report": "reports/2026-09-10-durable-runtime/validation.json",
+  "default_gpu": "NVIDIA RTX 6000 Ada Generation",
+  "container_disk_gb": 20,
+  "workspace_gb": 50,
+  "runtime_seconds": 3600
+}
