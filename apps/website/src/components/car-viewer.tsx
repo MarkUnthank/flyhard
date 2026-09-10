@@ -8,6 +8,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import { artworkBounds } from "@/lib/artwork-bounds.mjs";
+import { resizeViewer } from "@/lib/viewer-size";
 import styles from "./car-ad-preview.module.css";
 import {
   artworkCrops,
@@ -305,10 +306,7 @@ export default function CarViewer({
     );
     const resize = () => {
       const { width, height } = element.getBoundingClientRect();
-      renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.fov = width < 600 ? 45 : 34;
-      camera.updateProjectionMatrix();
+      if (!resizeViewer(camera, renderer, width, height)) return;
       frameCamera(state, framing.current.view, framing.current.focus);
     };
     const observer = new ResizeObserver(resize);
