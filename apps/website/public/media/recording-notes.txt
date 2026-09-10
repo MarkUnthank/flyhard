@@ -1,0 +1,29 @@
+THE DRIVING FLY — STEERING RECORDINGS, 9 SEPTEMBER 2026
+
+Calm: 24 seconds, 600 frames at 25 fps. Faster: the first 14 seconds
+(350 consecutive frames) of a 24-second run; the stationary tail is omitted.
+Web copies are silent H.264 at 1280 x 720, played at normal simulation speed.
+Screenshots are full-resolution frames at 4 seconds in each original recording.
+Both web videos and screenshots carry thedrivingfly.com in the black bottom margin.
+
+The connectome-based model controls the left foreleg. An assisted grip transmits
+force to a passive wheel; its measured angle determines CARLA steering. The
+right foreleg follows through a passive grip. Speed and turn requests are
+scripted. There is no camera input or learned road awareness in these runs.
+The faster clip includes contact with a motorcycle and then a pole.
+
+The anatomical display shows 512 neurons from a model retaining 165,122 neurons.
+Orange/blue are positive/negative computed states, not biological spikes.
+Brightness is normalized per neuron and cannot be compared across neurons/runs.
+
+CALM CSV: all 600 camera frames, in original order. index is zero-based;
+camera_time and body_time are elapsed simulation seconds; requested_angle,
+wheel_angle and wheel_read_angle are radians; speed_m_s is metres per second;
+applied_steer is CARLA's normalized steering input; throttle/brake are normalized.
+wheel_read_angle is sampled at the interval start and sets applied_steer;
+wheel_angle is measured at its end. Do not compare these as simultaneous values.
+
+The JSON validation includes the matched grip-disabled intervention and fresh
+physics replay. It validates this recorded steering sequence, not autonomous driving.
+Source runs: carla-calm-v2 and carla-new-yorker-v1.
+Attribution and third-party terms: attribution.md (included alongside these files).

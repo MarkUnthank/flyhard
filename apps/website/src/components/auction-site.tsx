@@ -22,6 +22,7 @@ import {
 } from "@/lib/auction";
 import { useAuction } from "./use-auction";
 import FlyMark from "./fly-mark";
+import MediaSection from "./media-section";
 import BidDialog from "./bid-dialog";
 import type { View } from "./car-viewer";
 
@@ -211,6 +212,7 @@ export default function AuctionSite() {
           <a href="#live-auction">Live auction</a>
           <a href="#leaderboard">Supporters</a>
           <a href="#how-it-works">How it works</a>
+          <a href="/media">Videos &amp; data</a>
           <a href="#the-experiment">The experiment</a>
         </nav>
         <a className="primary header-cta" href="#live-auction">
@@ -325,7 +327,10 @@ export default function AuctionSite() {
             </a>
           </div>
           <p className="hero-footnote">
-            Six legs. One steering wheel. A questionable business model.
+            Six legs. One steering wheel. A questionable business model.{" "}
+            <a className="text-link" href="/media">
+              Watch the fly <ArrowDown size={13} />
+            </a>
           </p>
         </section>
 
@@ -712,6 +717,8 @@ export default function AuctionSite() {
           </div>
         </section>
 
+        <MediaSection />
+
         <section className="faq-section section-wrap" id="faq">
           <div>
             <div className="eyebrow">FAIR QUESTIONS</div>
@@ -761,6 +768,7 @@ export default function AuctionSite() {
           </p>
         </div>
         <div className="footer-links">
+          <a href="/media">Videos &amp; data</a>
           <a
             className="footer-social"
             href="https://x.com/alright_mark"
