@@ -1,0 +1,47 @@
+A little change of direction.
+Three-point turn | 22.8 seconds
+Sound: Boccherini.
+
+The full successful validation take plays once, without skipping ahead: 20.3 seconds of driving, followed by a short hold on the finish. The fly chooses steering, speed and gear from structured road and goal geometry. Fixed motor helpers move its legs; the measured wheel, pedals and selector operate CARLA.
+
+This take finishes 25.4 cm from its target and 0.755° from the intended heading, with no collision. In eight separate held-out tests, six met the full stopping target. All eight completed the forward–reverse–forward sequence without contact or crossing the marked road boundary; two stopped just outside the position tolerance.
+
+These are small, scoped tests. There is no camera-based road understanding, and the model is an engineering interpretation of measured fly connectivity. Boccherini’s Minuet and Trio accompanies the complete attempt.
+
+Small fly. Big feelings.
+Horn experiment | 20 seconds
+Sound: Recorded car horn.
+
+The fly passes one car, collides with the next, and keeps holding the horn as a third joins the pile-up. Interior cuts show the recorded foreleg movement operating the button. The real horn recording is timed to measured button presses.
+
+This is a failed take, kept because the failure is part of the experiment. The source travelled 60.04 metres and produced two horn onsets, missing the test’s required 90 metres and three onsets. Its longest physical press lasted 16 seconds. The impacts and continuing hold remain in the edit; four seconds of waiting are removed.
+
+Traffic, route, speed and erratic steering requests are directed. The model supplies the measured wheel and horn actuation. The cabin fly is composited from the same recorded body motion; this is not a demonstration of autonomous driving.
+
+Green means go. Apparently.
+Horn experiment | 37.5 seconds
+Sound: Recorded car horn.
+
+Cars arrive at the lights, wait, and pull away. The fly honks 0.117 seconds after the light turns green behind a waiting car. It drives through an already-green light quietly, then meets cars pulling out at a T-junction and a crossroads. Interior shots show it holding the horn.
+
+The empty-road scene includes a brief, 83-millisecond false chirp. We kept it. None of these five source takes recorded an ego-vehicle collision, but a separate ten-case structured diagnostic passed only three of four positive horn cases and all six quiet cases. That small diagnostic does not guarantee quiet driving in CARLA.
+
+The learned controller operates the fly’s forelegs and physical horn button using structured inputs. Approaches, traffic, route and speed remain directed. The cabin body is a synchronized composite, and the recorded horn sound follows measured button contact.
+
+Fifty ways to miss a parking space.
+Parking experiment | 30 seconds
+Sound: Mozart.
+
+The edit builds to 32 views by 6.4 seconds, then jumps between individual attempts and the grid. All 50 trials appear as excerpts. The grid footage runs at 6× speed; the fly alongside is a separately looped replay, labelled in the film, and is not synchronized to each car.
+
+The result is 0/50 successful parks, with collision flags in ten trials. Resetting the learned core also produces 0/50, with twelve flagged trials. Flags include virtual-curb and vehicle-bound overlap as well as native collisions; they are not a count of individual crashes.
+
+The policy chooses steering, speed and gear from structured relative geometry, with fixed motor helpers moving the body. The measured controls drive CARLA. Lower final-position error than the reset comparison is useful evidence, but it does not establish successful parking. The original sponsor snapshot is preserved.
+
+A small indication of progress.
+Indicator experiment | 25 seconds
+Sound: Silent.
+
+A new close-up edit of the recorded roundabout sequence follows the fly pulling the indicator stalk, the Mini’s native bumper lamp flashing, and the stalk returning as the signal switches off.
+
+The saved body motion and vehicle poses are replayed for this 60 fps slow-motion presentation. Navigation and speed remain engineered inputs. This is an inspection of the recorded control sequence, not a newly learned road-navigation result.
