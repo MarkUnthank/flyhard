@@ -134,6 +134,35 @@
   margin: 0;
   line-height: 1.6;
 }
+.profile {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 64px;
+  margin: 0 0 20px;
+  padding: 42px 40px;
+  border-radius: 10px;
+  background: var(--soft);
+}
+.profile h2 {
+  margin-bottom: 0;
+}
+.profileBody {
+  padding-top: 4px;
+}
+.profileBody p {
+  margin: 0 0 17px;
+  color: #50564c;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.profileBody .profileLead {
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.6;
+}
+.profileBody .textLink {
+  margin-top: 2px;
+}
 .section {
   padding: 60px 0;
   border-top: 1px solid var(--line);
@@ -299,6 +328,36 @@
   border-radius: 7px;
   background: #151715;
 }
+.videoTranscript {
+  margin-top: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.videoTranscript summary {
+  padding: 10px 0;
+  color: var(--green);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  list-style-position: outside;
+}
+.videoTranscript summary::marker {
+  color: var(--green);
+}
+.videoTranscript > div {
+  padding: 0 0 10px 17px;
+}
+.videoTranscript p {
+  margin: 0 0 10px;
+}
+.videoTranscript p:last-child {
+  margin-bottom: 0;
+}
+.videoTranscript strong {
+  color: var(--ink);
+}
 .experimentVideoMeta {
   padding-top: 16px;
 }
@@ -429,6 +488,10 @@
   .story {
     gap: 40px;
   }
+  .profile {
+    gap: 34px;
+    padding: 34px 30px;
+  }
   .results {
     gap: 24px;
   }
@@ -467,6 +530,12 @@
     grid-template-columns: 1fr;
     gap: 22px;
     padding-bottom: 40px;
+  }
+  .profile {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 0;
+    padding: 28px 24px;
   }
   .section {
     padding: 38px 0;

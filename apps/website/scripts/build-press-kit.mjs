@@ -94,7 +94,7 @@ try {
   );
   await writeFile(
     join(press, "press-notes.txt"),
-    `THE DRIVING FLY — PRESS KIT\nUpdated ${kit.updated}\nhttps://thedrivingfly.com/press\nPress contact: Mark Unthank, ${kit.contact}\n\nPROJECT SUMMARY\n${kit.summary}\n\nBACKGROUND\n${kit.boilerplate}\n\nA NOTE FROM MARK UNTHANK\n“${kit.quote}”\n\nSOCIAL PROOF\n${kit.socialViews}\n${socialPosts}\n\nQUICK FACTS\n${kit.facts.map((fact) => `${fact.label}: ${fact.value}`).join("\n")}\n\nFILMS & CONTEXT\n${filmNotes}\nCREDITS\n${credits}`,
+    `THE DRIVING FLY — PRESS KIT\nUpdated ${kit.updated}\nhttps://thedrivingfly.com/press\nPress contact: Mark Unthank, ${kit.contact}\n\nPROJECT SUMMARY\n${kit.summary}\n\nBACKGROUND\n${kit.boilerplate}\n\nABOUT MARK\n${kit.aboutMark.headline}\n${kit.aboutMark.paragraphs.join("\n\n")}\n${kit.aboutMark.linkLabel}: ${kit.aboutMark.linkUrl}\n\nA NOTE FROM MARK UNTHANK\n“${kit.quote}”\n\nSOCIAL PROOF\n${kit.socialViews}\n${socialPosts}\n\nQUICK FACTS\n${kit.facts.map((fact) => `${fact.label}: ${fact.value}`).join("\n")}\n\nFILMS & CONTEXT\n${filmNotes}\nCREDITS\n${credits}`,
   );
   await writeFile(
     join(press, "captions.txt"),
@@ -102,6 +102,16 @@ try {
       .map(
         (still) =>
           `${still.file}\n${still.title}\n${still.caption}\nCredit: The Driving Fly / Mark Unthank. See credits.txt for third-party attributions.\n`,
+      )
+      .join("\n"),
+  );
+  await writeFile(
+    join(press, "video-transcripts.txt"),
+    mediaEntries
+      .slice(0, 5)
+      .map(
+        (film) =>
+          `${film.title}\n${film.category} | ${film.duration}\nSound: ${film.audio}.\n\n${film.paragraphs.join("\n\n")}\n`,
       )
       .join("\n"),
   );

@@ -135,6 +135,31 @@ export default function PressPage() {
           </dl>
         </section>
 
+        <section className={styles.profile} aria-labelledby="about-mark-title">
+          <div className={styles.profileIntro}>
+            <div className="eyebrow">ABOUT MARK</div>
+            <h2 id="about-mark-title">{kit.aboutMark.headline}</h2>
+          </div>
+          <div className={styles.profileBody}>
+            {kit.aboutMark.paragraphs.map((paragraph, index) => (
+              <p
+                className={index === 0 ? styles.profileLead : undefined}
+                key={paragraph}
+              >
+                {paragraph}
+              </p>
+            ))}
+            <a
+              className={styles.textLink}
+              href={kit.aboutMark.linkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {kit.aboutMark.linkLabel} <ArrowUpRight size={15} />
+            </a>
+          </div>
+        </section>
+
         <section className={styles.section} aria-labelledby="results-title">
           <div className={styles.sectionHeading}>
             <div>
@@ -236,6 +261,13 @@ export default function PressPage() {
             <div className="eyebrow">WATCH THE EVIDENCE</div>
             <h3>The experiments, in motion.</h3>
             <p>Play the latest recordings here, then read the full notes.</p>
+            <a
+              className={styles.textLink}
+              href="/press/video-transcripts.txt"
+              download
+            >
+              Download all video transcripts <ArrowDownToLine size={15} />
+            </a>
           </div>
           <div className={styles.experimentVideos}>
             {mediaEntries.slice(0, 5).map((film) => (
@@ -246,10 +278,25 @@ export default function PressPage() {
                   preload="none"
                   poster={`/media/${film.id}.jpg`}
                   aria-label={film.title}
+                  aria-describedby={`${film.id}-transcript`}
                 >
                   <source src={`/media/${film.id}.mp4`} type="video/mp4" />
                   <a href={`/media/${film.id}.mp4`}>Download this recording</a>
                 </video>
+                <details
+                  id={`${film.id}-transcript`}
+                  className={styles.videoTranscript}
+                >
+                  <summary>Transcript &amp; audio description</summary>
+                  <div>
+                    <p>
+                      <strong>Sound:</strong> {film.audio}.
+                    </p>
+                    {film.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </details>
                 <div className={styles.experimentVideoMeta}>
                   <span className="eyebrow">
                     {film.category} · {film.duration}
