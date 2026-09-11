@@ -26,8 +26,9 @@ def test_blank_or_absent_key_is_reported_missing(tmp_path, monkeypatch):
     monkeypatch.setattr(control, "ROOT", tmp_path)
     with pytest.raises(RuntimeError, match="RUNPOD_API_KEY missing"):
         control.api_key()
-    (tmp_path / ".env").write_text("RUNPOD_API_KEY=\n")
-    with pytest.raises(RuntimeError, match="RUNPOD_API_KEY missing"):
-        control.api_key()
+    for blank in ("RUNPOD_API_KEY=\n", 'RUNPOD_API_KEY=""\n', "RUNPOD_API_KEY=''\n"):
+        (tmp_path / ".env").write_text(blank)
+        with pytest.raises(RuntimeError, match="RUNPOD_API_KEY missing"):
+            control.api_key()
     (tmp_path / ".env").write_text("RUNPOD_API_KEY='abc'  # local\n")
     assert control.api_key() == "abc"

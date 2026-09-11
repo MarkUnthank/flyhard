@@ -37,7 +37,7 @@ def api_key():
         if line.strip().startswith("RUNPOD_API_KEY="):
             # .env.example ships the key blank; treat that as missing.
             values = shlex.split(line.split("=", 1)[1], comments=True)
-            if values:
+            if values and values[0].strip():
                 return values[0]
     raise RuntimeError("RUNPOD_API_KEY missing")
 
