@@ -141,7 +141,6 @@
   margin: 0;
   padding: 36px 0 42px;
   border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
 }
 .profile h2 {
   margin: 12px 0 0;
