@@ -147,7 +147,7 @@ export default function CustomWrapOffer({
 
   return (
     <section
-      className={styles.section}
+      className={`${styles.section} ${styles.floating}`}
       id="custom-wrap"
       aria-labelledby="custom-wrap-title"
       ref={shell}

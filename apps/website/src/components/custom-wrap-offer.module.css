@@ -391,3 +391,313 @@
     transition: none;
   }
 }
+
+/* Keep the premium offer visible as a teaser, then return to the full card on hover. */
+.floating {
+  position: fixed;
+  z-index: 20;
+  right: 24px;
+  bottom: 24px;
+  display: grid;
+  grid-template-rows: minmax(440px, 0fr);
+  width: min(300px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 0;
+  scroll-margin-top: 0;
+  transition:
+    width var(--duration-expand) var(--ease-smooth),
+    grid-template-rows var(--duration-expand) var(--ease-smooth);
+}
+.floating .shell {
+  height: 100%;
+  min-height: 0;
+  padding: 4px;
+  border-radius: 28px;
+  box-shadow: var(--shadow-elevated);
+}
+.floating .card {
+  height: 100%;
+  min-height: 0;
+  padding: 26px 24px 22px;
+  border-radius: 23px;
+  overflow: hidden;
+}
+.floating .topline {
+  align-items: flex-start;
+  gap: 8px;
+}
+.floating .badge {
+  max-width: 100%;
+  padding: 8px 10px;
+  gap: 6px;
+  overflow: hidden;
+  font-size: 8px;
+  letter-spacing: 1.1px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.floating .badge svg {
+  width: 12px;
+  flex-shrink: 0;
+}
+.floating .edition,
+.floating .pitch > p,
+.floating .signature,
+.floating .purchase .currency,
+.floating .includes,
+.floating .nextPrice,
+.floating .terms,
+.floating .notice,
+.floating .process,
+.floating .footer,
+.floating .status {
+  display: none;
+}
+.floating .content {
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 28px 0 22px;
+}
+.floating .pitch h2 {
+  font-size: 42px;
+  letter-spacing: -2.2px;
+}
+.floating .purchaseShell {
+  padding: 3px;
+  border-radius: 20px;
+}
+.floating .purchase {
+  padding: 18px 16px 15px;
+  border-radius: 17px;
+}
+.floating .priceLabel {
+  font-size: 8px;
+  letter-spacing: 1.4px;
+}
+.floating .price {
+  margin-top: 8px;
+  font-size: 48px;
+  letter-spacing: -2.5px;
+}
+.floating .cta {
+  margin-top: 20px;
+  padding: 7px 8px 7px 14px;
+  font-size: 12px;
+}
+.floating .cta > span {
+  width: 32px;
+  height: 32px;
+}
+.floating:is(:hover, :focus-within) {
+  width: min(1120px, calc(100vw - 48px));
+  grid-template-rows: minmax(440px, 1fr);
+}
+.floating:is(:hover, :focus-within) .card {
+  height: 100%;
+  min-height: 0;
+  padding: 38px 44px 28px;
+  border-radius: 30px;
+}
+.floating:is(:hover, :focus-within) .topline {
+  align-items: center;
+  gap: 20px;
+}
+.floating:is(:hover, :focus-within) .badge {
+  max-width: none;
+  padding: 9px 13px;
+  gap: 9px;
+  overflow: visible;
+  font-size: 10px;
+  letter-spacing: 1.7px;
+  white-space: normal;
+  text-overflow: clip;
+}
+.floating:is(:hover, :focus-within) .badge svg {
+  width: 14px;
+}
+.floating:is(:hover, :focus-within) .edition,
+.floating:is(:hover, :focus-within) .pitch > p,
+.floating:is(:hover, :focus-within) .signature,
+.floating:is(:hover, :focus-within) .purchase .currency,
+.floating:is(:hover, :focus-within) .includes,
+.floating:is(:hover, :focus-within) .nextPrice,
+.floating:is(:hover, :focus-within) .terms,
+.floating:is(:hover, :focus-within) .notice,
+.floating:is(:hover, :focus-within) .process,
+.floating:is(:hover, :focus-within) .footer,
+.floating:is(:hover, :focus-within) .status {
+  display: block;
+}
+.floating:is(:hover, :focus-within) .edition {
+  flex-shrink: 0;
+}
+.floating:is(:hover, :focus-within) .pitch > p {
+  max-width: 395px;
+  margin-top: 25px;
+  font-size: 16px;
+}
+.floating:is(:hover, :focus-within) .signature {
+  margin-top: 30px;
+}
+.floating:is(:hover, :focus-within) .includes {
+  display: grid;
+}
+.floating:is(:hover, :focus-within) .process {
+  display: flex;
+  gap: 28px;
+  padding: 27px 0 0;
+}
+.floating:is(:hover, :focus-within) .status {
+  display: flex;
+}
+.floating:is(:hover, :focus-within) .content {
+  grid-template-columns: 1.2fr 1fr;
+  gap: 54px;
+  align-items: center;
+  padding: 48px 0 52px;
+}
+.floating:is(:hover, :focus-within) .pitch h2 {
+  font-size: clamp(40px, 5vw, 66px);
+  letter-spacing: -3.4px;
+}
+.floating:is(:hover, :focus-within) .purchaseShell {
+  padding: 5px;
+  border-radius: 27px;
+}
+.floating:is(:hover, :focus-within) .purchase {
+  padding: 29px 28px 23px;
+  border-radius: 22px;
+}
+.floating:is(:hover, :focus-within) .priceLabel {
+  font-size: 10px;
+  letter-spacing: 1.9px;
+}
+.floating:is(:hover, :focus-within) .price {
+  font-size: clamp(42px, 5.1vw, 66px);
+  letter-spacing: -3.5px;
+}
+.floating:is(:hover, :focus-within) .cta {
+  margin-top: 0;
+  padding: 9px 10px 9px 22px;
+  font-size: 15px;
+}
+.floating:is(:hover, :focus-within) .cta > span {
+  width: 35px;
+  height: 35px;
+}
+.floating:is(:hover, :focus-within) .currency {
+  font-size: 11px;
+  margin-top: 8px;
+}
+.floating:is(:hover, :focus-within) .includes {
+  gap: 12px;
+  margin: 25px 0;
+  font-size: 12px;
+}
+.floating:is(:hover, :focus-within) .nextPrice {
+  margin-top: 17px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.floating:is(:hover, :focus-within) .terms {
+  margin-top: 15px;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.floating:is(:hover, :focus-within) .notice {
+  margin-top: 12px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.floating:is(:hover, :focus-within) .footer {
+  margin-top: 26px;
+  font-size: 10px;
+  line-height: 1.7;
+}
+.floating:is(:hover, :focus-within) .status {
+  gap: 12px;
+  padding: 18px;
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .floating {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    grid-template-rows: minmax(410px, 0fr);
+    width: min(280px, calc(100vw - 24px));
+  }
+  .floating .card {
+    padding: 20px 18px 18px;
+  }
+  .floating .content {
+    gap: 20px;
+    padding: 22px 0 18px;
+  }
+  .floating .pitch h2 {
+    font-size: 36px;
+    letter-spacing: -1.8px;
+  }
+  .floating:is(:hover, :focus-within) {
+    width: min(960px, calc(100vw - 24px));
+    grid-template-rows: minmax(410px, 1fr);
+  }
+  .floating:is(:hover, :focus-within) .card {
+    padding: 26px 20px 24px;
+    border-radius: 25px;
+  }
+  .floating:is(:hover, :focus-within) .content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 30px 0;
+  }
+  .floating:is(:hover, :focus-within) .pitch h2 {
+    font-size: clamp(38px, 9.5vw, 58px);
+    letter-spacing: -2px;
+  }
+  .floating:is(:hover, :focus-within) .pitch > p {
+    margin-top: 18px;
+    font-size: 14px;
+  }
+  .floating:is(:hover, :focus-within) .signature {
+    margin-top: 20px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+  .floating:is(:hover, :focus-within) .purchase {
+    padding: 25px 21px;
+  }
+  .floating:is(:hover, :focus-within) .price {
+    font-size: clamp(46px, 13vw, 64px);
+    letter-spacing: -2.5px;
+  }
+  .floating:is(:hover, :focus-within) .process {
+    flex-direction: column;
+    gap: 22px;
+    padding-top: 24px;
+  }
+  .floating:is(:hover, :focus-within) .process li {
+    gap: 16px;
+  }
+  .floating:is(:hover, :focus-within) .process strong {
+    font-size: 13px;
+  }
+  .floating:is(:hover, :focus-within) .process p {
+    font-size: 12px;
+  }
+  .floating:is(:hover, :focus-within) .footer {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating,
+  .floating .cta,
+  .floating .cta > span {
+    transition: none;
+  }
+}

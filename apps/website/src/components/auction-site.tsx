@@ -446,14 +446,20 @@ export default function AuctionSite() {
               <ArrowDown size={14} />
             </a>
           </div>
-          <p className="hero-footnote">
-            We do not directly endorse any of the sponsors featured here. We do
-            not receive any ongoing benefits from any of the featured sponsors
-            and are not associated with any cryptocurrencies or coins.{" "}
+          <aside className="hero-disclaimer" aria-label="Sponsor disclaimer">
+            <span className="hero-disclaimer-label">SPONSOR DISCLAIMER</span>
+            <p>
+              We do not directly endorse any of the sponsors featured here. We
+              do not receive any ongoing benefits from any of the featured
+              sponsors and are{" "}
+              <strong>
+                not associated with any cryptocurrencies or coins.
+              </strong>
+            </p>
             <a className="text-link" href="/media">
               Watch the fly <ArrowDown size={13} />
             </a>
-          </p>
+          </aside>
         </section>
 
         <CustomWrapOffer snapshot={snapshot} loaded={loaded} accept={accept} />
