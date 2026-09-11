@@ -1,0 +1,23 @@
+scripts/prepare_crossing_data.py
+  s_7e690e84d597d0::t_4afb3d67117128 1-114
+src/flyhard/crossing_world.py
+  s_7e690e84d597d0::t_cf8beaa13956dd 1-245
+scripts/train_crossing.py
+  s_7e690e84d597d0::t_113b25128c4030 1-155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "59b0a2f4505ec2932bebb5af3f634574ce81b587",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
