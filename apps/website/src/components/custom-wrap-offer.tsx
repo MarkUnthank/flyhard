@@ -21,6 +21,32 @@ export default function CustomWrapOffer({
   const [error, setError] = useState("");
   const request = useRef<{ id: string; amount: number } | null>(null);
   const shell = useRef<HTMLElement>(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  // The teaser card greets the top of the page, then gets out of the way.
+  useEffect(() => {
+    const update = () => setCollapsed(window.scrollY > 120);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: Event) => {
+      if (!shell.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", close);
+    document.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", close);
+      document.removeEventListener("keydown", escape);
+    };
+  }, [open]);
 
   useEffect(() => {
     const element = shell.current;
@@ -151,7 +177,24 @@ export default function CustomWrapOffer({
       id="custom-wrap"
       aria-labelledby="custom-wrap-title"
       ref={shell}
+      data-collapsed={collapsed ? "true" : "false"}
+      data-open={open ? "true" : "false"}
     >
+      <button
+        type="button"
+        className={styles.pill}
+        aria-expanded={open}
+        aria-label="Open the full custom wrap offer"
+        onClick={() => setOpen(true)}
+      >
+        <span className={styles.pillLabel}>
+          <Sparkles size={13} strokeWidth={1.4} /> Custom wrap
+        </span>
+        <span className={styles.pillPrice}>
+          {loaded ? money(offer.amount) : "$10,000"}
+          <ArrowUpRight size={13} />
+        </span>
+      </button>
       <div className={styles.shell}>
         <div className={styles.card}>
           <div className={styles.sheen} aria-hidden="true" />

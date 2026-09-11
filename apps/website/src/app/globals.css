@@ -208,12 +208,64 @@ input[type="checkbox"] {
   margin-top: 21px;
   letter-spacing: -0.1px;
 }
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+.hero-cta-button {
+  gap: 11px;
+  padding: 18px 34px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  border-radius: 44px;
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  box-shadow:
+    0 2px 5px #1f3b1d2b,
+    0 12px 28px #1f3b1d33;
+  transition:
+    background var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+.hero-cta-button svg {
+  transition: transform var(--duration-base) var(--ease-smooth);
+}
+.hero-cta-button:hover:not(:disabled) {
+  background: #3c7238;
+  border-color: #3c7238;
+  color: #fff;
+  box-shadow:
+    0 3px 8px #1f3b1d33,
+    0 18px 40px #1f3b1d40;
+  transform: translateY(-2px);
+}
+.hero-cta-button:hover:not(:disabled) svg {
+  transform: translate(3px, -3px);
+}
+.hero-cta-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 3px #1f3b1d33,
+    0 6px 16px #1f3b1d2b;
+}
+.hero-cta-note {
+  font-size: 13px;
+  color: #65715e;
+  font-variant-numeric: tabular-nums;
+}
 .hero-stats {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 35px;
-  margin: 35px 0 32px;
+  margin: 32px 0;
 }
 .hero-stats > div {
   display: flex;
@@ -774,10 +826,41 @@ input[type="checkbox"] {
 }
 .claim-button {
   font-size: 12px;
+  font-weight: 600;
   gap: 8px;
-  padding: 8px 12px;
-  border-radius: 7px;
+  padding: 9px 15px;
+  border-radius: 8px;
   white-space: nowrap;
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  box-shadow:
+    0 1px 2px #1f3b1d26,
+    0 4px 12px #1f3b1d24;
+  transition:
+    background var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+.claim-button svg {
+  transition: transform var(--duration-base) var(--ease-smooth);
+}
+.claim-button:hover:not(:disabled) {
+  background: #3c7238;
+  border-color: #3c7238;
+  color: #fff;
+  box-shadow:
+    0 2px 4px #1f3b1d2e,
+    0 8px 20px #1f3b1d38;
+  transform: translateY(-1px);
+}
+.claim-button:hover:not(:disabled) svg {
+  transform: translate(2px, -2px);
+}
+.claim-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px #1f3b1d33;
 }
 .sort-button {
   display: inline-flex;
@@ -1634,8 +1717,40 @@ fieldset {
 }
 .checkout-button {
   width: 100%;
-  font-size: 12px;
   margin-top: 9px;
+  padding: 15px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  box-shadow:
+    0 1px 2px #1f3b1d26,
+    0 8px 20px #1f3b1d2e;
+  transition:
+    background var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+.checkout-button svg {
+  transition: transform var(--duration-base) var(--ease-smooth);
+}
+.checkout-button:hover:not(:disabled) {
+  background: #3c7238;
+  border-color: #3c7238;
+  color: #fff;
+  box-shadow:
+    0 2px 4px #1f3b1d2e,
+    0 12px 28px #1f3b1d3d;
+  transform: translateY(-1px);
+}
+.checkout-button:hover:not(:disabled) svg {
+  transform: translate(2px, -2px);
+}
+.checkout-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px #1f3b1d33;
 }
 .stripe-note {
   display: flex;
@@ -1865,6 +1980,19 @@ fieldset {
     line-height: 1.8;
     margin: 14px auto 0;
     max-width: 285px;
+  }
+  .hero-cta {
+    margin-top: 22px;
+    gap: 10px;
+  }
+  .hero-cta-button {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 26px;
+    font-size: 15px;
+  }
+  .hero-cta-note {
+    font-size: 11px;
   }
   .hero-stats {
     display: grid;
