@@ -3,8 +3,10 @@ import FlyMark from "./fly-mark";
 
 export default function SiteHeader({
   currentPage = "home",
+  onQuickBuy,
 }: {
   currentPage?: "home" | "media" | "press";
+  onQuickBuy?: () => void;
 }) {
   const home = currentPage === "home" ? "" : "/";
   return (
@@ -34,9 +36,20 @@ export default function SiteHeader({
           Press kit
         </a>
       </nav>
-      <a className="primary header-cta" href={`${home}#live-auction`}>
-        Get a spot <ArrowUpRight size={16} />
-      </a>
+      {onQuickBuy ? (
+        <button
+          type="button"
+          className="primary header-cta"
+          aria-haspopup="dialog"
+          onClick={onQuickBuy}
+        >
+          Get a spot <ArrowUpRight size={16} />
+        </button>
+      ) : (
+        <a className="primary header-cta" href={`${home}#live-auction`}>
+          Get a spot <ArrowUpRight size={16} />
+        </a>
+      )}
     </header>
   );
 }
