@@ -283,10 +283,11 @@ export default function PressPage() {
                   <source src={`/media/${film.id}.mp4`} type="video/mp4" />
                   <a href={`/media/${film.id}.mp4`}>Download this recording</a>
                 </video>
-                <details
-                  id={`${film.id}-transcript`}
-                  className={styles.videoTranscript}
-                >
+                <div id={`${film.id}-transcript`} className="sr-only">
+                  Transcript and audio description. Sound: {film.audio}.{" "}
+                  {film.paragraphs.join(" ")}
+                </div>
+                <details className={styles.videoTranscript}>
                   <summary>Transcript &amp; audio description</summary>
                   <div>
                     <p>

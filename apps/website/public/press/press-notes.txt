@@ -10,10 +10,10 @@ BACKGROUND
 The Driving Fly is an independent experiment by Mark Unthank at Really Nice. It uses measured fruit-fly neural connectivity as the structure for a trained model, connects that model to a simulated fly body, and uses the body’s measured controls to drive a Mini in CARLA. The project documents steering, indicators, horn use, parking attempts and three-point turns through films and open results. Current tasks use structured inputs or scripted requests, with engineered motor assistance; they do not demonstrate driving from vision. Sponsorship placements on the virtual Mini help fund the experiment. The code project is also known as Flyhard.
 
 ABOUT MARK
-He quit a $500k/year AI job to build something of his own.
+He quit a $500k/year AI job to build Really Nice.
 Mark Unthank is the founder of Really Nice and the creator of The Driving Fly.
 
-He left a $500k/year job in AI to build Really Nice full-time. Before that, he worked at Amazon Prime Video.
+Before starting Really Nice, he worked at Amazon Prime Video.
 
 The Driving Fly is the kind of project he wants to make in public: a strange, ambitious experiment with the evidence left in. The films show the wins, the failures and the next problem to solve.
 Visit Really Nice: https://reallynice.company
