@@ -1,0 +1,41 @@
+tests/test_crossing.py
+  s_7e690e84d597d0::t_d1bcf81c314532 142-161
+  s_7e690e84d597d0::t_4ca38cade6a93f 1-83,85,88-134,162-176
+  s_7e690e84d597d0::t_eb21c0cd544ebb 84,86-87,135-141
+src/flyhard/crossing_policy.py
+  s_7e690e84d597d0::t_00ef64697a7136 1-49
+tests/test_clips.py
+  s_7e690e84d597d0::t_d849d4ebf9a859 16,42,45,52,58,71,89,92,94,102-104,117,126
+  s_7e690e84d597d0::t_c9c010bde907c3 1-15,17-41,43-44,46-51,53-57,59-70,72-88,90-91,93,95-101,105-116,118-125,127-128
+src/flyhard/crossing.py
+  s_7e690e84d597d0::t_e39283978bcc55 1-23,26-165,168,171-174,176-181,190-191,203,205
+  s_7e690e84d597d0::t_dd8faf95195193 166-167,170,175,187-189,192-193,196-202
+  s_7e690e84d597d0::t_c44f2dc3086610 24-25,169,204
+  s_7e690e84d597d0::t_471922f82f1e92 182-186,194-195
+src/flyhard/crossing_teacher.py
+  s_7e690e84d597d0::t_e13de461d98a6f 1-16,24-27,30-85
+  s_7e690e84d597d0::t_7d7652e96eef00 17-23,28-29
+src/flyhard/clips.py
+  s_7e690e84d597d0::t_d849d4ebf9a859 15-16
+  s_7e690e84d597d0::t_a011bbb327f4d7 1-14,17-142
+src/flyhard/scenario_cameras.py
+  s_7e690e84d597d0::t_8817eb0f09e938 1-125
+scripts/assemble_film.py
+  s_7e690e84d597d0::t_622300d9056ce8 1-151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "95b8f153ab24b72071b34eecf9cb78acc5adac72",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
