@@ -1,0 +1,19 @@
+three-point-turn.jpg
+The three-point turn
+The Mini reverses during the complete successful validation take. The model state and simulated body appear alongside the road view.
+Credit: The Driving Fly / Mark Unthank. See credits.txt for third-party attributions.
+
+horn-etiquette-cabin.jpg
+Behind the wheel
+The fly’s recorded body motion composited into the CARLA cabin during a physical horn press.
+Credit: The Driving Fly / Mark Unthank. See credits.txt for third-party attributions.
+
+road-rage-detail.jpg
+The road-rage experiment
+A failed take retains the real pile-up and continuing horn press. Traffic and steering requests are directed.
+Credit: The Driving Fly / Mark Unthank. See credits.txt for third-party attributions.
+
+parallel-parking-detail.jpg
+Fifty parking attempts
+Edited excerpts of the parking benchmark. No trial passed; the fly panel is an independent replay, not synchronized to each car.
+Credit: The Driving Fly / Mark Unthank. See credits.txt for third-party attributions.

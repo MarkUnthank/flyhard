@@ -1,0 +1,26 @@
+THE DRIVING FLY — CREDITS
+Updated 11 September 2026
+
+Project & images
+The Driving Fly / Mark Unthank. Credit the project and link to thedrivingfly.com when covering these experiments. Sponsor logos remain the property of their owners.
+https://thedrivingfly.com/
+
+Measured connectivity
+MaleCNS collaboration: HHMI Janelia FlyEM, University of Cambridge, MRC Laboratory of Molecular Biology and Google Research. Data: CC BY 4.0. The trained model uses engineered dynamics; its displayed activity is computed, not a recording of biological spikes.
+https://male-cns.janelia.org/download/
+
+Body & vehicle
+NeuroMechFly / FlyGym (EPFL), Apache 2.0; CARLA 0.9.16 vehicle assets, CVC / Universitat Autònoma de Barcelona, CC BY. Sponsor surfaces and the cabin fly are composited for the films. No endorsement by these projects, MINI or BMW is implied.
+https://thedrivingfly.com/media/attribution.md
+
+Three-point-turn music
+Boccherini, Minuet and Trio from String Quintet in E major, Op. 11 No. 5, G. 275. Recording: Rafael Krux, via FreePD / Wikimedia Commons; CC0 1.0. Excerpt with fades.
+https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg
+
+Parking music
+Mozart, Eine kleine Nachtmusik, K. 525: I. Allegro. Musopen European Archive recording, identified as public domain by Wikimedia Commons; performing ensemble unspecified. Edited excerpt.
+https://commons.wikimedia.org/wiki/File:Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg
+
+Horn recording
+05 Horn.wav by 15HPanska_Ruttner_Jan, CC0 1.0. The recording is cropped, looped and faded to follow measured horn-button presses.
+https://freesound.org/people/15HPanska_Ruttner_Jan/sounds/461679/

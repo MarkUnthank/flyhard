@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "press:build": "node scripts/build-press-kit.mjs",
     "social:build": "node scripts/build-social-renderer.mjs",
     "predev": "npm run social:build",
     "prebuild": "npm run social:build",

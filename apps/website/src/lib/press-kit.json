@@ -1,0 +1,69 @@
+{
+  "updated": "11 September 2026",
+  "date": "2026-09-11",
+  "summary": "A neural model built from a fruit fly’s measured brain connections learns to operate a simulated body at the wheel of a car.",
+  "boilerplate": "The Driving Fly is an independent experiment by Mark Unthank at Really Nice. It uses measured fruit-fly neural connectivity as the structure for a trained model, connects that model to a simulated fly body, and uses the body’s measured controls to drive a Mini in CARLA. The project documents steering, indicators, horn use, parking attempts and three-point turns through films and open results. Current tasks use structured inputs or scripted requests, with engineered motor assistance; they do not demonstrate driving from vision. Sponsorship placements on the virtual Mini help fund the experiment. The code project is also known as Flyhard.",
+  "contact": "mark@reallynice.company",
+  "facts": [
+    { "label": "Project", "value": "The Driving Fly / Flyhard" },
+    { "label": "Created by", "value": "Mark Unthank · Really Nice" },
+    { "label": "Model", "value": "165,122 traced MaleCNS neurons" },
+    { "label": "Simulation", "value": "CARLA + MuJoCo / NeuroMechFly" },
+    { "label": "Status", "value": "Independent experimental prototype" },
+    { "label": "Funding", "value": "Sponsor placements on the virtual Mini" }
+  ],
+  "stills": [
+    {
+      "file": "three-point-turn.jpg",
+      "title": "The three-point turn",
+      "caption": "The Mini reverses during the complete successful validation take. The model state and simulated body appear alongside the road view."
+    },
+    {
+      "file": "horn-etiquette-cabin.jpg",
+      "title": "Behind the wheel",
+      "caption": "The fly’s recorded body motion composited into the CARLA cabin during a physical horn press."
+    },
+    {
+      "file": "road-rage-detail.jpg",
+      "title": "The road-rage experiment",
+      "caption": "A failed take retains the real pile-up and continuing horn press. Traffic and steering requests are directed."
+    },
+    {
+      "file": "parallel-parking-detail.jpg",
+      "title": "Fifty parking attempts",
+      "caption": "Edited excerpts of the parking benchmark. No trial passed; the fly panel is an independent replay, not synchronized to each car."
+    }
+  ],
+  "credits": [
+    {
+      "title": "Project & images",
+      "text": "The Driving Fly / Mark Unthank. Credit the project and link to thedrivingfly.com when covering these experiments. Sponsor logos remain the property of their owners.",
+      "url": "https://thedrivingfly.com"
+    },
+    {
+      "title": "Measured connectivity",
+      "text": "MaleCNS collaboration: HHMI Janelia FlyEM, University of Cambridge, MRC Laboratory of Molecular Biology and Google Research. Data: CC BY 4.0. The trained model uses engineered dynamics; its displayed activity is computed, not a recording of biological spikes.",
+      "url": "https://male-cns.janelia.org/download/"
+    },
+    {
+      "title": "Body & vehicle",
+      "text": "NeuroMechFly / FlyGym (EPFL), Apache 2.0; CARLA 0.9.16 vehicle assets, CVC / Universitat Autònoma de Barcelona, CC BY. Sponsor surfaces and the cabin fly are composited for the films. No endorsement by these projects, MINI or BMW is implied.",
+      "url": "/media/attribution.md"
+    },
+    {
+      "title": "Three-point-turn music",
+      "text": "Boccherini, Minuet and Trio from String Quintet in E major, Op. 11 No. 5, G. 275. Recording: Rafael Krux, via FreePD / Wikimedia Commons; CC0 1.0. Excerpt with fades.",
+      "url": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg"
+    },
+    {
+      "title": "Parking music",
+      "text": "Mozart, Eine kleine Nachtmusik, K. 525: I. Allegro. Musopen European Archive recording, identified as public domain by Wikimedia Commons; performing ensemble unspecified. Edited excerpt.",
+      "url": "https://commons.wikimedia.org/wiki/File:Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg"
+    },
+    {
+      "title": "Horn recording",
+      "text": "05 Horn.wav by 15HPanska_Ruttner_Jan, CC0 1.0. The recording is cropped, looped and faded to follow measured horn-button presses.",
+      "url": "https://freesound.org/people/15HPanska_Ruttner_Jan/sounds/461679/"
+    }
+  ]
+}

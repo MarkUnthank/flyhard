@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: "/media",
     images: [
       {
-        url: "/media/calm-steering.jpg",
+        url: "/media/three-point-turn.jpg",
         width: 1920,
         height: 1080,
         alt: "The simulated fly, its neural activity, and the car it steers",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "From the lab — The Driving Fly",
     description:
       "The films, the experiments, and the data behind the tiny driver.",
-    images: ["/media/calm-steering.jpg"],
+    images: ["/media/three-point-turn.jpg"],
   },
 };
 
@@ -52,6 +52,9 @@ export default function MediaPage() {
             The films, the experiments, and the occasional collision. Follow the
             fly’s progress, and look under the bonnet at the data behind it.
           </p>
+          <a className="journal-press-link" href="/press">
+            Covering the story? Get the press kit <ArrowUpRight size={16} />
+          </a>
           <nav className="journal-index" aria-label="Recordings">
             {mediaEntries.map((entry) => (
               <a key={entry.id} href={`#${entry.id}`}>
@@ -94,7 +97,8 @@ export default function MediaPage() {
                 </video>
                 <figcaption id={`${entry.id}-caption`}>
                   <span>
-                    {entry.category} · {entry.duration} · Silent · {entry.playback}
+                    {entry.category} · {entry.duration} · {entry.audio} ·{" "}
+                    {entry.playback}
                   </span>
                   <a href={`#${entry.id}`}>
                     Link to this film <ArrowUpRight size={13} />
@@ -153,7 +157,8 @@ export default function MediaPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Explore the data on GitHub <ArrowUpRight size={16} />
+                    {entry.evidenceLink ?? "Explore the data on GitHub"}{" "}
+                    <ArrowUpRight size={16} />
                     <small>{entry.evidenceLabel}</small>
                   </a>
                   <div className="journal-downloads">
@@ -163,6 +168,11 @@ export default function MediaPage() {
                     <a href={`/media/${entry.id}.jpg`} download>
                       <ArrowDownToLine size={15} /> Download screenshot
                     </a>
+                    {entry.downloads?.map((download) => (
+                      <a key={download.file} href={download.file} download>
+                        <ArrowDownToLine size={15} /> {download.label}
+                      </a>
+                    ))}
                   </div>
                 </aside>
               </div>

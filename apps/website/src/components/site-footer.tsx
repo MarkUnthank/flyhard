@@ -22,6 +22,7 @@ export default function SiteFooter() {
       </div>
       <div className="footer-links">
         <a href="/media">Videos &amp; data</a>
+        <a href="/press">Press kit</a>
         <a
           className="footer-social"
           href="https://x.com/alright_mark"

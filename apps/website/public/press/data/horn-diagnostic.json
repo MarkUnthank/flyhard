@@ -1,0 +1,27 @@
+{
+  "scope": "Small structured-state held-out diagnostic, one seed per kind; not a randomized CARLA benchmark",
+  "checkpoint_sha256": "b529a3623a42bf1b34fe9ccc42e6d1839bcbe5d1878ec53d49fd50888e4e8f88",
+  "conditions": {
+    "learned": {
+      "positive_horn_passes": 3,
+      "positive_cases": 4,
+      "quiet_negative_cases": 6,
+      "negative_cases": 6,
+      "mean_wheel_error_rad": 0.05433025897332877
+    },
+    "reset_core": {
+      "positive_horn_passes": 0,
+      "positive_cases": 4,
+      "quiet_negative_cases": 6,
+      "negative_cases": 6,
+      "mean_wheel_error_rad": 0.22537637375185823
+    },
+    "disconnected": {
+      "positive_horn_passes": 0,
+      "positive_cases": 4,
+      "quiet_negative_cases": 6,
+      "negative_cases": 6,
+      "mean_wheel_error_rad": 0.09822147195193334
+    }
+  }
+}

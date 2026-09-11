@@ -4,7 +4,7 @@ import FlyMark from "./fly-mark";
 export default function SiteHeader({
   currentPage = "home",
 }: {
-  currentPage?: "home" | "media";
+  currentPage?: "home" | "media" | "press";
 }) {
   const home = currentPage === "home" ? "" : "/";
   return (
@@ -27,6 +27,12 @@ export default function SiteHeader({
           Videos &amp; data
         </a>
         <a href={`${home}#the-experiment`}>The experiment</a>
+        <a
+          href="/press"
+          aria-current={currentPage === "press" ? "page" : undefined}
+        >
+          Press kit
+        </a>
       </nav>
       <a className="primary header-cta" href={`${home}#live-auction`}>
         Get a spot <ArrowUpRight size={16} />

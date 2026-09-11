@@ -2,6 +2,29 @@
 
 Next.js 16, OpenNext for Cloudflare Workers, Three.js, Stripe Checkout, one SQLite-backed Durable Object, and R2. All application code lives here; the source model remains in `../mini-livery`.
 
+## Media and press kit
+
+`/media` reads the newest-first film catalogue in `src/lib/media.ts`. Each film
+has its own audio and playback description, downloadable stills and evidence.
+Keep each published film ID stable. The September 11 update preserves the five
+latest finished cuts alongside the three earlier films; superseded edits are not
+presented as the latest take. Recorded sponsor artwork is historical.
+
+`/press` uses `src/lib/press-kit.json` for background, contact, facts, captions
+and credits. Selected original result files and public recording notes live in
+`public/press/data`; report links use immutable Git commits even while the
+simulation work is in draft PRs. Keep failure counts, structured inputs,
+engineered assistance and the parking montage's independent fly replay explicit.
+
+Run `npm run press:build` after changing the kit copy, film descriptions, selected
+stills or data. It uses the existing Puppeteer/React tools and Python 3's standard
+ZIP writer to regenerate the downloadable brand assets, text files and ZIP.
+Commit the generated outputs; this helper only packages local files. The ZIP
+contains stills, logos, captions, credits and evidence, with direct video links.
+MP4s download separately. Every static file must remain below Cloudflare's
+25 MiB limit. Website exports retain full film duration, frame count and audio;
+`public/press/data/web-exports.json` records source and web checksums.
+
 ## Run locally
 
 ```sh
