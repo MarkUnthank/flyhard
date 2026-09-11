@@ -1,0 +1,31 @@
+src/flyhard/crossing.py
+  s_7e690e84d597d0::t_d74fb4e15ffa52 222,227-230
+  s_7e690e84d597d0::t_64a696988c2351 20-29,152-163,165-169,171-175
+src/flyhard/crossing_teacher.py
+  s_7e690e84d597d0::t_0d85c84cfadd50 10-11,49,58,66-68,70
+  s_7e690e84d597d0::t_6a29321b7a0b38 12,45-47,50-55,57,61-65,69
+src/flyhard/crossing_world.py
+  s_7e690e84d597d0::t_4dea25b2a40115 24-34,221,223-224,245-247
+  s_7e690e84d597d0::t_cc3eadd9d3fc28 3-6,59
+scripts/evaluate_crossing.py
+  s_7e690e84d597d0::t_cc3eadd9d3fc28 57
+  s_7e690e84d597d0::t_b8019a3521266f 1-56,58-194
+tests/test_crossing.py
+  s_7e690e84d597d0::t_822755a729ab11 95,97-104,150-153,159-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a43339040c6e71e3cd7eac1d700de3e46849ed22",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
