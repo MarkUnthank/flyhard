@@ -474,10 +474,34 @@ input[type="checkbox"] {
 .under-car > a {
   color: #515f45;
 }
-.hero-footnote {
-  font-size: 13px;
-  color: #65715e;
-  margin-top: 15px;
+.hero-disclaimer {
+  width: min(100%, 900px);
+  margin: 18px auto 0;
+  padding: 14px 18px 15px;
+  border: 1px solid #cbd8c3;
+  border-left: 4px solid var(--green);
+  border-radius: 10px;
+  background: #eff5e7;
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 1px 3px #27321b0d;
+}
+.hero-disclaimer-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+.hero-disclaimer p {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+.hero-disclaimer p strong {
+  color: #284b26;
+  font-weight: 700;
 }
 .section-wrap {
   max-width: 1100px;
@@ -1918,9 +1942,27 @@ fieldset {
     gap: 4px;
     white-space: nowrap;
   }
-  .hero-footnote {
-    font-size: 10px;
+  .hero-disclaimer {
+    width: 100%;
     margin-top: 12px;
+    padding: 12px 12px 13px;
+  }
+  .hero-disclaimer-label {
+    margin-bottom: 5px;
+    font-size: 9px;
+    letter-spacing: 1.1px;
+  }
+  .hero-disclaimer p {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .hero-disclaimer .text-link {
+    font-size: 12px;
+    margin-top: 9px;
+  }
+  .hero-disclaimer .text-link svg {
+    width: 12px;
+    height: 12px;
   }
   .section-wrap {
     margin-left: 20px;
@@ -2739,11 +2781,11 @@ fieldset {
 .media-teaser .primary {
   flex-shrink: 0;
 }
-.hero-footnote .text-link {
+.hero-disclaimer .text-link {
   display: inline-flex;
   gap: 4px;
   font-size: inherit;
-  margin-left: 6px;
+  margin-left: 0;
 }
 .media-journal {
   max-width: 1200px;
