@@ -1,0 +1,2593 @@
+{
+  "status": "verified",
+  "duration_seconds": 25.0,
+  "frames": 500,
+  "fps": 20,
+  "width": 1920,
+  "height": 1080,
+  "encoder": "h264_nvenc",
+  "source_sha256": "129a1a4310e267e5dffae237165e78225da143a26004348bca330e4ec05b19ec",
+  "plan_sha256": "1e72acbca35aa091a605ab64370c0c420421e6ced6ac74655808186b939c1c50",
+  "script_sha256": "79427690b541aa95fefe23d5b3ab2409c9a08aab60315f358b7930b26d0f0a76",
+  "video_sha256": "c7fcc59ddce19288bff77760b55918aa5ae6d9bb463af9443a6072a062b32914",
+  "cuts": [
+    {
+      "name": "Arrival",
+      "source_start": 0,
+      "source_end": 47,
+      "output_frames": 70,
+      "slow_motion": true,
+      "start_seconds": 0.0,
+      "duration_seconds": 3.5,
+      "playback_speed": 0.6714285714285714
+    },
+    {
+      "name": "Fly pulls the stalk",
+      "source_start": 47,
+      "source_end": 92,
+      "output_frames": 100,
+      "slow_motion": true,
+      "start_seconds": 3.5,
+      "duration_seconds": 5.0,
+      "playback_speed": 0.45
+    },
+    {
+      "name": "Right indicator",
+      "source_start": 92,
+      "source_end": 132,
+      "output_frames": 80,
+      "slow_motion": true,
+      "start_seconds": 8.5,
+      "duration_seconds": 4.0,
+      "playback_speed": 0.5
+    },
+    {
+      "name": "Steering and indicating",
+      "source_start": 132,
+      "source_end": 203,
+      "output_frames": 100,
+      "slow_motion": true,
+      "start_seconds": 12.5,
+      "duration_seconds": 5.0,
+      "playback_speed": 0.71
+    },
+    {
+      "name": "Fly cancels the signal",
+      "source_start": 203,
+      "source_end": 239,
+      "output_frames": 70,
+      "slow_motion": true,
+      "start_seconds": 17.5,
+      "duration_seconds": 3.5,
+      "playback_speed": 0.5142857142857142
+    },
+    {
+      "name": "Exit",
+      "source_start": 239,
+      "source_end": 271,
+      "output_frames": 40,
+      "slow_motion": true,
+      "start_seconds": 21.0,
+      "duration_seconds": 2.0,
+      "playback_speed": 0.8
+    },
+    {
+      "name": "Attribution",
+      "source_start": 271,
+      "source_end": 311,
+      "output_frames": 40,
+      "slow_motion": false,
+      "start_seconds": 23.0,
+      "duration_seconds": 2.0,
+      "playback_speed": 1.0
+    }
+  ],
+  "frame_map": [
+    {
+      "source_frame": 0,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 0,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 1,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 2,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 2,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 3,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 4,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 4,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 5,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 6,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 6,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 7,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 8,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 8,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 9,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 10,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 10,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 11,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 12,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 12,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 13,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 14,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 14,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 15,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 16,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 16,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 17,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 18,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 18,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 19,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 20,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 20,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 21,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 22,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 22,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 23,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 24,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 24,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 25,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 26,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 26,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 27,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 28,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 28,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 29,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 30,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 30,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 31,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 32,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 32,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 33,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 34,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 34,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 35,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 36,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 36,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 37,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 38,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 38,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 39,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 40,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 40,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 41,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 42,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 42,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 43,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 44,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 44,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 45,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 46,
+      "shot": "Arrival",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 47,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 47,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 47,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 48,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 48,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 49,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 49,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 50,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 50,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 51,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 51,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 51,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 52,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 52,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 53,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 53,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 54,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 54,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 55,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 55,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 56,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 56,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 56,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 57,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 57,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 58,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 58,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 59,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 59,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 60,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 60,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 60,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 61,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 61,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 62,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 62,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 63,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 63,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 64,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 64,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 65,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 65,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 65,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 66,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 66,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 67,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 67,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 68,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 68,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 69,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 69,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 69,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 70,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 70,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 71,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 71,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 72,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 72,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 73,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 73,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 74,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 74,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 74,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 75,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 75,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 76,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 76,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 77,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 77,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 78,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 78,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 78,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 79,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 79,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 80,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 80,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 81,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 81,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 82,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 82,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 83,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 83,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 83,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 84,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 84,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 85,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 85,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 86,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 86,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 87,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 87,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 87,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 88,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 88,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 89,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 89,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 90,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 90,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 91,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 91,
+      "shot": "Fly pulls the stalk",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 92,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 92,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 93,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 93,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 94,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 94,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 95,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 95,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 96,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 96,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 97,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 97,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 98,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 98,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 99,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 99,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 100,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 100,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 101,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 101,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 102,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 102,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 103,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 103,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 104,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 104,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 105,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 105,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 106,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 106,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 107,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 107,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 108,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 108,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 109,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 109,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 110,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 110,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 111,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 111,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 112,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 112,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 113,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 113,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 114,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 114,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 115,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 115,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 116,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 116,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 117,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 117,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 118,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 118,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 119,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 119,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 120,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 120,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 121,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 121,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 122,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 122,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 123,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 123,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 124,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 124,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 125,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 125,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 126,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 126,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 127,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 127,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 128,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 128,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 129,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 129,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 130,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 130,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 131,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 131,
+      "shot": "Right indicator",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 132,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 132,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 133,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 134,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 134,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 135,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 136,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 136,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 137,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 138,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 139,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 139,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 140,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 141,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 141,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 142,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 143,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 144,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 144,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 145,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 146,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 146,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 147,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 148,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 149,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 149,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 150,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 151,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 151,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 152,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 153,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 154,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 154,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 155,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 156,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 156,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 157,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 158,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 158,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 159,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 160,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 161,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 161,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 162,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 163,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 163,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 164,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 165,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 166,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 166,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 167,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 168,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 168,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 169,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 170,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 171,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 171,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 172,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 173,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 173,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 174,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 175,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 176,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 176,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 177,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 178,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 178,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 179,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 180,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 180,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 181,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 182,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 183,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 183,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 184,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 185,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 185,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 186,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 187,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 188,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 188,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 189,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 190,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 190,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 191,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 192,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 193,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 193,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 194,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 195,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 195,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 196,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 197,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 198,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 198,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 199,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 200,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 200,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 201,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 202,
+      "shot": "Steering and indicating",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 203,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 203,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 204,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 204,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 205,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 205,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 206,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 206,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 207,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 207,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 208,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 208,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 209,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 209,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 210,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 210,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 211,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 211,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 212,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 212,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 213,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 213,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 214,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 214,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 215,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 215,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 216,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 216,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 217,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 217,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 218,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 218,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 219,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 219,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 220,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 221,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 221,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 222,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 222,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 223,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 223,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 224,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 224,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 225,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 225,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 226,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 226,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 227,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 227,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 228,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 228,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 229,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 229,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 230,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 230,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 231,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 231,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 232,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 232,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 233,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 233,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 234,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 234,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 235,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 235,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 236,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 236,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 237,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 237,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 238,
+      "shot": "Fly cancels the signal",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 239,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 239,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 240,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 241,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 242,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 243,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 243,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 244,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 245,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 246,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 247,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 247,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 248,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 249,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 250,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 251,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 251,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 252,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 253,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 254,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 255,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 255,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 256,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 257,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 258,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 259,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 259,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 260,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 261,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 262,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 263,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 263,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 264,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 265,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 266,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 267,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 267,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 268,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 269,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 270,
+      "shot": "Exit",
+      "slow_motion": true
+    },
+    {
+      "source_frame": 271,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 272,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 273,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 274,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 275,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 276,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 277,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 278,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 279,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 280,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 281,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 282,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 283,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 284,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 285,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 286,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 287,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 288,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 289,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 290,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 291,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 292,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 293,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 294,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 295,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 296,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 297,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 298,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 299,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 300,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 301,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 302,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 303,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 304,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 305,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 306,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 307,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 308,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 309,
+      "shot": "Attribution",
+      "slow_motion": false
+    },
+    {
+      "source_frame": 310,
+      "shot": "Attribution",
+      "slow_motion": false
+    }
+  ],
+  "full_decode": "passed",
+  "interpolated_frames": false,
+  "all_panels_share_source_frame": true,
+  "sponsor_revision": 6,
+  "sponsor_layout": 3,
+  "wall_seconds": 23.400575697422028
+}

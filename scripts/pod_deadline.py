@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 """Independent on-Pod stop timer using Runpod's own injected Pod API key.
 
-No account key is uploaded. The ordinary volume remains for recovery after stop.
+No account key is uploaded. Ordinary volumes remain after stop; network volumes
+remain after Pod deletion (Runpod does not support stopping those Pods).
 The local budget guard separately polls credit and enforces the spending cap.
 """
 import argparse
 import json
+import os
 from pathlib import Path
 import time
 import urllib.request
 
 
 def pod_environment():
-    return {k.decode(): v.decode() for entry in Path('/proc/1/environ').read_bytes().split(b'\0')
-            if b'=' in entry for k, v in [entry.split(b'=', 1)]}
+    initial = {k.decode(): v.decode() for entry in Path('/proc/1/environ').read_bytes().split(b'\0')
+               if b'=' in entry for k, v in [entry.split(b'=', 1)]}
+    # sshd can scrub its own environment after exec. A timer started before
+    # that exec still has the provider-injected variables in its own process.
+    return {**initial, **os.environ}
 
 
 def request(method, path, payload=None):
@@ -37,12 +42,20 @@ def main():
     assert p['id'] == pod_id
     print(json.dumps({'pod_id': pod_id, 'status': p['status'], 'deadline_epoch': args.deadline,
                       'credential': 'provider-injected pod key'}), flush=True)
+    network = p.get('mounts', {}).get('network', [])
+    durable = len(network) == 1 and network[0].get('path') == '/workspace' and network[0].get('volumeId')
+    if network and not durable:
+        raise RuntimeError('Network Pod must put durable project data in /workspace')
     if args.check:
         return
     while time.time() < args.deadline:
         time.sleep(min(30, max(0, args.deadline - time.time())))
     while True:
         try:
+            if durable:
+                request('DELETE', '/v2/pods/' + pod_id)
+                print('Deadline reached; Pod deleted, network volume retained', flush=True)
+                return
             request('POST', '/v2/pods/' + pod_id + '/action', {'action': 'stop'})
             print('Deadline reached; stop requested', flush=True)
         except Exception as e:

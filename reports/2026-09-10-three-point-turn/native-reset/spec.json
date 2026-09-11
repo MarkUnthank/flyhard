@@ -1,0 +1,41 @@
+{
+  "checkpoint": "runs/three-point-policy-v2/checkpoint.pt.gz",
+  "data": "runs/three-point-data-v2",
+  "out": "runs/three-point-native-reset",
+  "native": true,
+  "reset_core": true,
+  "split": "heldout",
+  "count": 2,
+  "seconds": 35,
+  "asset": "work/live-livery/20260910T220110925300Z",
+  "cases": [
+    {
+      "seed": 71000,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": 0.023742116195599905,
+      "start_y": -2.178542104145644,
+      "start_yaw": 0.02630234039904747,
+      "goal_x": -5.848567323854108,
+      "goal_y": 2.168518340989319
+    },
+    {
+      "seed": 71001,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": -0.10257660547820152,
+      "start_y": -2.1735732349784516,
+      "start_yaw": -0.016092052667458282,
+      "goal_x": -5.763478219355677,
+      "goal_y": 1.874772880173952
+    }
+  ],
+  "checkpoint_sha256": "32ad3ab136737256747f9c341832405aa1e6ae33cb1a7625b03ca09ab4c3f4a9",
+  "gate": "Stationary 0.5s within 0.6m/12deg of opposite-heading target, forward/reverse/forward with exactly two direction changes, no contact or boundary crossing",
+  "environment": "native CARLA with measured wheel/pedals/selector",
+  "source_sha256": {
+    "src/flyhard/three_point.py": "11739476ff356f49291c73f90b9379dec9a1525d5201a5dfea3c25f2cbc0154a",
+    "src/flyhard/three_point_policy.py": "2d710a83c996516beb0edf0a3090d61914efd2cff6f379f92a72c4d6c24596cd",
+    "/workspace/flyhard/scripts/evaluate_three_point.py": "abf5d37af8f436a7b4b56c0bd0b09651fdd4e7ade550938eb4ff622e36806c65"
+  }
+}

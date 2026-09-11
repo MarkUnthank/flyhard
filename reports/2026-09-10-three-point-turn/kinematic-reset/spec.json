@@ -1,0 +1,101 @@
+{
+  "checkpoint": "runs/three-point-policy-v2/checkpoint.pt.gz",
+  "data": "runs/three-point-data-v2",
+  "out": "runs/three-point-kinematic-reset",
+  "native": false,
+  "reset_core": true,
+  "split": "heldout",
+  "count": 8,
+  "seconds": 35,
+  "asset": null,
+  "cases": [
+    {
+      "seed": 71000,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": 0.023742116195599905,
+      "start_y": -2.178542104145644,
+      "start_yaw": 0.02630234039904747,
+      "goal_x": -5.848567323854108,
+      "goal_y": 2.168518340989319
+    },
+    {
+      "seed": 71001,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": -0.10257660547820152,
+      "start_y": -2.1735732349784516,
+      "start_yaw": -0.016092052667458282,
+      "goal_x": -5.763478219355677,
+      "goal_y": 1.874772880173952
+    },
+    {
+      "seed": 71002,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": -0.14251705099341883,
+      "start_y": -1.9684388587555237,
+      "start_yaw": -0.00824709833317317,
+      "goal_x": -5.916783758228012,
+      "goal_y": 2.1908998564226847
+    },
+    {
+      "seed": 71003,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": -0.041433250787572484,
+      "start_y": -1.9622060944014856,
+      "start_yaw": -0.0036108824019325425,
+      "goal_x": -5.77844113648733,
+      "goal_y": 2.1482929309481276
+    },
+    {
+      "seed": 71004,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": 0.14360105380654747,
+      "start_y": -2.1468455140426332,
+      "start_yaw": 0.03189452579904667,
+      "goal_x": -5.836604066679552,
+      "goal_y": 1.9838275590435182
+    },
+    {
+      "seed": 71005,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": 0.22349351267442352,
+      "start_y": -2.1935161732063224,
+      "start_yaw": 0.02247497370557448,
+      "goal_x": -6.075424528964601,
+      "goal_y": 1.8886515267936228
+    },
+    {
+      "seed": 71006,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": 0.03029911135312907,
+      "start_y": -1.934224930879587,
+      "start_yaw": -0.004365878746012522,
+      "goal_x": -5.825753582702736,
+      "goal_y": 2.0673113133307788
+    },
+    {
+      "seed": 71007,
+      "split": "heldout",
+      "width": 10.0,
+      "start_x": -0.008118013598792995,
+      "start_y": -1.9304934053177822,
+      "start_yaw": 0.010542105642569917,
+      "goal_x": -5.844437631849836,
+      "goal_y": 2.1531195813162967
+    }
+  ],
+  "checkpoint_sha256": "32ad3ab136737256747f9c341832405aa1e6ae33cb1a7625b03ca09ab4c3f4a9",
+  "gate": "Stationary 0.5s within 0.6m/12deg of opposite-heading target, forward/reverse/forward with exactly two direction changes, no contact or boundary crossing",
+  "environment": "kinematic bicycle diagnostic; no body or CARLA claim",
+  "source_sha256": {
+    "src/flyhard/three_point.py": "11739476ff356f49291c73f90b9379dec9a1525d5201a5dfea3c25f2cbc0154a",
+    "src/flyhard/three_point_policy.py": "2d710a83c996516beb0edf0a3090d61914efd2cff6f379f92a72c4d6c24596cd",
+    "/workspace/flyhard/scripts/evaluate_three_point.py": "374667e9061910906ae04f1e6a13b095acc75c388c502fb6d36237a2b4a1ea1d"
+  }
+}

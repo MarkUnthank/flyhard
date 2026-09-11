@@ -1,0 +1,78 @@
+{
+  "status": "verified",
+  "sha256": {
+    "dynamic-empty-final": {
+      "frames.json": "fff85f5cc19ac117bf73f4ca06d87ed411f052c8177dee56cd6a353748b60651",
+      "body-trace.npz": "5d2588ceb47eb8ee4f35ee3184b0df8e44374bfbd02cc01227a543ec3b5e0ae4",
+      "neural-trace.npz": "1417656e9140ffda7eae59bd2315cf1ac326fd47358ffd00ebbb11bd7e463bb0",
+      "carla-camera.mp4": "77331e9cf32f26edf87dbe1fd11f45ef9ff86a684c22afe605b62df73725ce66",
+      "native-depth.mkv": "79804ce81ce271a592c712cb51dbc0a248bc1403a47155ba89641b5046301aef",
+      "world-recorder.log": "cecba5c218d909a854c21b843cb1f328096c27f6c4598c298550e1299d875292",
+      "config.json": "6a2f00b6e633a4c6ea038905a7b5f02331e8cc9eb40ea87ef43ab031d379b2fe",
+      "metrics.json": "a49d7be01356ebc1ad99885e24038500febdc46cd6b199e962dada87731d3e0b",
+      "traffic-light.mp4": "8a334a2d1f759ec4de81bb0f49f25b340f3843c8cab97d2751fa8d89fb9b28b2"
+    },
+    "dynamic-wait-green-final": {
+      "frames.json": "82108f3032c447e948280bf4783a0975cd090f020f6bdc34faccb1b56ce6e701",
+      "body-trace.npz": "9f2060807290a4aa5ba1162e9a13ee13b36505e3c1c9aad3d00d37bce9cbef30",
+      "neural-trace.npz": "56207635de2347419b5579140ea87cc524bc3a2b098251956dd0e840fe883c20",
+      "carla-camera.mp4": "ed211f7d82b9a7891fe618f83daa1bcbbfb6f3478942d4308db3cd98d1cc37be",
+      "native-depth.mkv": "f3db6b682681f7f49bceb8889e0f8232ca9b983275cad2b9cafb7823d2282778",
+      "world-recorder.log": "af15fe80254101ecf0776799fc71ac3052e94b7a5793bb78ff9a4818469b4481",
+      "config.json": "7ce7f501fb67f5a373c269883971dd9574485c578438d7f5cf9e99940a43fc3d",
+      "metrics.json": "193dbd18222fce41825d47b40553f5d05e45b1d1415b6f488c28be5b87dd9905",
+      "traffic-light.mp4": "56806a72ae04cbc3ff84b0c672067305082e04cf94582aee330786ffc4f46139"
+    },
+    "dynamic-arrive-green-final": {
+      "frames.json": "b1238212f7122cee1be92a6830180eb0493905c0f61738467e43349cd2216b37",
+      "body-trace.npz": "0e306b9bcb46268ce18731f460869834484b189f1ca7477fadd2c2d99fc422da",
+      "neural-trace.npz": "9197e290b152de7cce3ad00a694171890706a5f07e5700757b9543dface2b796",
+      "carla-camera.mp4": "9b02301c3bb95b561b6e3fde68b54ebbc2408fffadddd81de681132658fef380",
+      "native-depth.mkv": "a269ab8f4a9330434055cc4c4cec3f0c58f21933ac105692b19f6a5a720bbfdd",
+      "world-recorder.log": "e6a09688eddb5d5a5b22be926fcb5c70c0261c4a60dffd2dbdff460d77421d7a",
+      "config.json": "3e7e55f221a615a508747112942530104f485d9fb72e636494a2cf5b6691ca98",
+      "metrics.json": "48f29ac33f5f171d9ca77775f35d26e096e75f9a9e12d0e54a6747069ac274ae",
+      "traffic-light.mp4": "bde514b8edcb3fdf839329148e9c94694f2a27263cd3e1439ee741544aabd6b5"
+    },
+    "dynamic-cut-in-t-signal-fixed": {
+      "frames.json": "714682f3384ed3543c707b223d21a6bfde05174f5d05e59a53db6a086fe644c2",
+      "body-trace.npz": "c8331c9173b4a01bd0a9fad3ad7106eaf288c8f73676fa4fba0a7aa336a32af3",
+      "neural-trace.npz": "3a66f7014103c1f6afc1824d82bf39b11f41cf065a2f304e96c1b67a35b0fd64",
+      "carla-camera.mp4": "9b7116baaa5bba0b769f3641eb583b1733238192a7b91b6f825a76ce892dba11",
+      "native-depth.mkv": "e25327b544a42d41b9ff0a2a2360f1d279007b1bbf8ff01fc404a773748ba35d",
+      "cabin-rgb.mp4": "dace4103a6c71c8b6e4927a7159a4ea51e89567f8fb76f4e206a8cfa1648ffe6",
+      "cabin-depth.mkv": "cf8a1ff2717b80b2ce994efbd4dff3ffd91b8b1f885aff363f0fc9e244537345",
+      "world-recorder.log": "716905b36631c21a5f206fb265463a56888e72b4a662b9efa99392fe0884ed73",
+      "config.json": "88fd68bc83cc6857c68c24b7284c09f50b8c2ae14f21092341b51cd89686ab32",
+      "metrics.json": "1f0e3d18fb2d3aacf1929159ef78b2c82267f07f4f2b026819ba2cf982293f88",
+      "traffic-light.mp4": "1dac435fde33ace2e98a70b2304d6c560d72171690950ff4fd8ea95bd153f1ab"
+    },
+    "dynamic-cut-in-cross-signal-fixed": {
+      "frames.json": "ac8475113cba0a8874c79ec86ca96f10671b3ba22371935dd15ba048e28b67e2",
+      "body-trace.npz": "4cc25464745d020da7ef6ab719ba4b6222b6fac597b611eaffebb4fbc3682097",
+      "neural-trace.npz": "9b09be514af2364adf28ff095ca243fdd20dd3a9afb1364d00a900ce58e70ba9",
+      "carla-camera.mp4": "d911cdcb9e9937660164d2df5aeab6aced6647cce84cb81948bcde7ba3762c3b",
+      "native-depth.mkv": "d64ec39b791ca629c12c82dfe8e7c33e55c8a2bc7b8bc19579d8e3e4895492a0",
+      "cabin-rgb.mp4": "311ccc415ca789fa3c50c5df606afcb03cfb9f7dc177266a479bf6d8f6637aab",
+      "cabin-depth.mkv": "11afebabadcfcd60e326454aa4264b2e7dbceefc8e266a15c7251904761b792c",
+      "world-recorder.log": "685cea38168795e6bf8426cd5c222e3b3c232d2955e9c380afc80be95fac805c",
+      "config.json": "59d1cd888a5c2d0c7c45637116bcd5daa2dee99497c7618555a9daa9ca9463b7",
+      "metrics.json": "ca89c97078aa13d4c9ee905c26c50c24022865b0563ea23deba2a6d7ac5bae11",
+      "traffic-light.mp4": "4f3fb56e22175323c59a36683f96763b7943bc30220fa89b92875ea5165dae88"
+    },
+    "dynamic-road-rage-signal-fixed": {
+      "frames.json": "97816e55ed8e3f0e43438810bd27551182b97d88108e76f1011011b069b60823",
+      "body-trace.npz": "de8b374d0808d7d58b8ba0dc8ea3412a3d41809e42853c450372cf550ba25224",
+      "neural-trace.npz": "e4395de7a0a7c1271bd4a1906e0c2aa0d3d88eae4cc58fe70b16ad34ae9b2576",
+      "carla-camera.mp4": "8aa1a56168b48bcdf8973598016bcbdcf7ed7ee41b97758d2b3c08de914d5ed1",
+      "native-depth.mkv": "6e6bc7aacb98942ed23a18e30f698bdaeaac0037edb50e64f37d7b9ba5b449f0",
+      "cabin-rgb.mp4": "1d3f2beef0ad544d9cbbca181f9bd359586d4d1fda6a9828655dd370e3d70e80",
+      "cabin-depth.mkv": "eace78f9ac0a17263896e675d856c02a2ae8c98f28b8bcf5c9e4a4fd2a6f4fb0",
+      "world-recorder.log": "1a2ebee27d21963877fdda7b982e1079db03da5c18c0eecc1a673a7814d1c80d",
+      "config.json": "84877d6729baa5078151af46cfb73d33aa16f17772914677b04a85860b98d48c",
+      "metrics.json": "3d9566e07de3a9972d028e6a346a42e0952cf22581bd7e04666301753c9f36c2",
+      "traffic-light.mp4": "373cc2ca090981ea9175c14f2027534094b4b0d02c9077446532adfc5f968553"
+    }
+  },
+  "checkpoint_sha256": "b529a3623a42bf1b34fe9ccc42e6d1839bcbe5d1878ec53d49fd50888e4e8f88"
+}

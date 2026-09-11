@@ -1,0 +1,63 @@
+{
+  "status": "verified",
+  "video": "Flyhard-road-rage.mp4",
+  "sha256": "f9b56edb8dd71d09fafb07b3a53a188967bdc73841248dc8f132b14980d74fcf",
+  "full_decode": "passed",
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "frames": 1200,
+  "duration_seconds": 20.0,
+  "native_source_frames": 1320,
+  "source_camera_frames_consecutive": true,
+  "max_clock_error_seconds": 1.146985489697272e-06,
+  "interior_frames": 288,
+  "checkpoint_sha256": "b529a3623a42bf1b34fe9ccc42e6d1839bcbe5d1878ec53d49fd50888e4e8f88",
+  "behaviour_scores": {
+    "runs/dynamic-road-rage-signal-fixed": {
+      "kind": "road_rage",
+      "beep_count": 2,
+      "beep_onsets_seconds": [
+        0.716666704043746,
+        5.816666970029473
+      ],
+      "pressed_seconds": 19.3,
+      "distance_m": 60.042736848658905,
+      "peak_speed_m_s": 9.026251792907715,
+      "longest_hold_seconds": 16.0,
+      "red_stop_frames": 0,
+      "green_time": 0.01666666753590107,
+      "moving_after_green": true,
+      "collision_free_claim": false,
+      "encounters": [
+        {
+          "car_id": 234,
+          "honked_while_near": true
+        },
+        {
+          "car_id": 235,
+          "honked_while_near": true
+        },
+        {
+          "car_id": 236,
+          "honked_while_near": true
+        }
+      ],
+      "wheel_angle_range": 0.4471177904979264,
+      "passed": false
+    }
+  },
+  "audio_silent_outside_measured_press": true,
+  "recorded_audio_source": {
+    "title": "05 Horn.wav",
+    "author": "15HPanska_Ruttner_Jan",
+    "source": "https://freesound.org/people/15HPanska_Ruttner_Jan/sounds/461679/",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Car_Horn.wav",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "f44a161267e00c374ea6670292e70491e18f7c49a9448fc3a96960525adcfeb6",
+    "recorded": "2019-02-28"
+  },
+  "livery_revision": 21,
+  "livery_layout": 5
+}

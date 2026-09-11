@@ -1,0 +1,8 @@
+{
+  "verified_native_frames": 7346,
+  "recomputed_decisions": 140,
+  "max_body_clock_error_seconds": 7.660929668418248e-10,
+  "max_applied_control_error": 2.9797130540742955e-08,
+  "max_recomputed_neural_state_error": 4.76837158203125e-07,
+  "backup_verified_files": 152
+}

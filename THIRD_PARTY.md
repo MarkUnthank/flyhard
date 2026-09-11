@@ -28,8 +28,33 @@ The minimal video overlay uses Geist, sourced from the [Google Fonts repository]
 
 MuJoCo 3.9.0 provides body/contact physics; PyTorch 2.8.0+cu128 provides the trained graph. They are installed dependencies, not vendored source. Preserve their distributed licenses if bundling them.
 
-CARLA 0.9.16 is downloaded from its official release server. [CARLA source](https://github.com/carla-simulator/carla/blob/0.9.16/LICENSE) is MIT licensed; Unreal Engine and distributed content have their own terms. The simulator and stock vehicle assets are not included in this repository or relicensed as Flyhard code. The current clips use a stock green Mini Cooper proxy, not the eventual Flyat.
+CARLA 0.9.16 is downloaded from its official release server. [CARLA source](https://github.com/carla-simulator/carla/blob/0.9.16/LICENSE) is MIT licensed; Unreal Engine and distributed content have their own terms. The simulator is not included in this repository. The Mini model and derived sponsor/billboard assets under `apps/mini-livery/` retain the CARLA content attribution and terms documented in that directory; they are not relicensed as Flyhard code. The current clips use a green Mini Cooper proxy, not the eventual Flyat.
 
 ## Flyat
 
 The user-supplied stock photograph is a design reference only and is not included in the repository. No Panda mesh, stock texture, logo, or likeness asset has been acquired or redistributed. The final worn green Panda-inspired shell remains to be built with documented asset provenance.
+
+## Native integration patches
+
+`deploy/native/carla-native.patch` and `carla-movable-props.patch` modify CARLA's
+MIT-licensed source. Its copyright/license notice is retained in
+`deploy/native/CARLA-LICENSE`. The full simulator, Unreal source tree, editor
+binaries, content archives and private build workspace remain outside Git.
+
+`deploy/native/engine-lifecycle.patch` is a small Unreal Engine patch snippet
+(16 code/context lines) supplied for supporting the FBX shutdown fix. The one-line
+USD startup guard in `patch_editor_python.py` is also an engine-specific patch.
+These snippets retain Epic's rights and are not covered by Flyhard's MIT grant.
+Applying or building them requires separately licensed access to the pinned
+engine. See [Unreal Engine EULA, section 5(a)(ii)](https://www.unrealengine.com/eula/unreal).
+Native import, cooking and simulator validation remain unfinished.
+
+## Mozart recording and sponsor artwork
+
+The Mozart recording in `assets/music/mozart-k525/` includes its source, public-domain
+status and checksum in that directory. The recording status was checked separately
+from the composition. Sponsor names and artwork remain their owners' property;
+owner-approved inclusion does not relicense them under MIT or imply endorsement.
+Historical model snapshots are retained for provenance; refresh the live livery
+before a new recording unless the user explicitly requests an edit of existing
+footage with its original artwork.

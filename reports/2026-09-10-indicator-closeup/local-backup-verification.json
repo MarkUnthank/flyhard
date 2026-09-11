@@ -1,0 +1,34 @@
+{
+  "status": "verified",
+  "files": {
+    "native-depth.tar": {
+      "bytes": 716339200,
+      "sha256": "abdca4d0b9498cac739606a22532832236d6174ddfd305f17bf25dec69fedc7e"
+    },
+    "native-camera-60fps.mp4": {
+      "bytes": 73379458,
+      "sha256": "1d209c2b8e44da047b72ac3a119aad78307f6683fe655c4501576af00f43253f"
+    },
+    "rendered-body.npz": {
+      "bytes": 245833,
+      "sha256": "9c10d4239131281fe605f8641ee664f3259e7c9b8bf80d7663d976b532471e9d"
+    },
+    "render-receipt.json": {
+      "bytes": 947684,
+      "sha256": "a96d50e1225944bdef793b4a0752181b7a7e0e70eb51357f6cb301154b0422b0"
+    },
+    "livery-preflight.json": {
+      "bytes": 1081,
+      "sha256": "fa4ab2e27a76533a79c2c094dc016b4070b56896675a968faa14a9d5c22b6874"
+    },
+    "livery-manifest.json": {
+      "bytes": 1881,
+      "sha256": "b5315b74805e74bf5fd088367354ec0948702448421d6c5d1781f2608abf5065"
+    },
+    "verification.json": {
+      "bytes": 1154,
+      "sha256": "e036253e5ac86391e804077fdc8ab91f6c9c8f8b48c858da50875ac1563477aa"
+    }
+  },
+  "native_depth_frames": 1380
+}

@@ -14,6 +14,7 @@ from OpenGL import GL
 
 from flyhard.cockpit import WheelRig
 from flyhard.interior_view import InteriorFlyView
+from flyhard.steering_hud import draw_steering_readout
 
 
 def sha(path):
@@ -33,6 +34,10 @@ def main():
     capture = json.loads((root/'metrics.json').read_text())
     assert capture['status'] == 'complete'
     frames = json.loads((root/'frames.json').read_text())
+    action_source = json.loads((root/'action-source.json').read_text())
+    assert sha(root/'actions.npz') == action_source['extract_sha256']
+    with np.load(root/'actions.npz') as archive:
+        requested_angles,decision_times = archive['requested_angle'],archive['time']
     with np.load(root/'body-trace.npz') as archive:body = {k:archive[k] for k in archive.files}
     rig = WheelRig(support_hand=config['support_hand']); data = mj.MjData(rig.model)
     view = InteriorFlyView(rig,config['width'],config['height'],frames[0]['camera_car_matrix'],
@@ -52,6 +57,7 @@ def main():
             record = frames[index]; bi = record['body_index']
             assert record['frame'] == record['rgb_frame'] == record['depth_frame']
             assert int(body['decision_index'][bi]) == record['decision_index']
+            assert decision_times[record['decision_index']] <= record['body_time']+1e-10
             rgb = np.asarray(Image.open(root/'rgb'/f'{index:04}.png'))
             packed = np.asarray(Image.open(root/'depth'/f'{index:04}.png'),dtype=np.float32)
             depth = (packed[:,:,0]+256*packed[:,:,1]+65536*packed[:,:,2])*(1000/(256**3-1))
@@ -65,6 +71,8 @@ def main():
             composite = Image.fromarray(result); draw = ImageDraw.Draw(composite)
             draw.rectangle((16,16,356,50),fill='#080808')
             draw.text((26,22),'Camera preview / composited fly',font=font,fill='#eeeeee')
+            draw_steering_readout(composite,requested_angle=requested_angles[record['decision_index']],
+                wheel_angle=record['wheel_angle'],applied_steer=record['applied_steer'])
             videos['native-cabin'].append_data(rgb)
             videos['fly-shoulder-preview'].append_data(np.asarray(composite))
             if index in {start_index,start_index+50,len(frames)-1}:
@@ -86,6 +94,9 @@ def main():
         'max_pose_restore_error':qpos_error,'max_camera_body_clock_error_s':clock_error,
         'source_body_trace_sha256':sha(root/'body-trace.npz'),'frames_sha256':sha(root/'frames.json'),
         'script_sha256':sha(__file__),'view_sha256':sha('src/flyhard/interior_view.py'),
+        'steering_hud_sha256':sha('src/flyhard/steering_hud.py'),
+        'source_actions_sha256':sha(root/'actions.npz'),
+        'steering_readout':'Left/right request and target from the recorded neural decision; measured wheel angle and applied CARLA steer from the same camera-frame record.',
         'wall_seconds':time.monotonic()-started,
         'videos':{name:sha(root/f'{name}.mp4') for name in videos},'frame_map':samples,
         'limitations':['Fly is composited from MuJoCo, not an actor in CARLA.',

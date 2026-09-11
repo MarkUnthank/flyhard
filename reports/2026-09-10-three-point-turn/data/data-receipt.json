@@ -1,0 +1,15 @@
+{
+  "heldout_labels_generated": false,
+  "teacher": "rsplan 1.0.10; training only",
+  "splits": {
+    "train": {
+      "rows": 23103,
+      "no_feasible_teacher": []
+    },
+    "validation": {
+      "rows": 2849,
+      "no_feasible_teacher": []
+    }
+  },
+  "seconds": 1.053877750004176
+}

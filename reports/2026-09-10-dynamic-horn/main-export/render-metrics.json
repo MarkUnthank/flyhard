@@ -1,0 +1,236 @@
+{
+  "status": "rendered",
+  "sources": [
+    {
+      "source": "runs/dynamic-wait-green-final",
+      "score": {
+        "kind": "wait_green",
+        "beep_count": 1,
+        "beep_onsets_seconds": [
+          6.416667001321912
+        ],
+        "pressed_seconds": 0.5166666666666667,
+        "distance_m": 29.475997824942368,
+        "peak_speed_m_s": 6.031451225280762,
+        "longest_hold_seconds": 0.5166666666666667,
+        "red_stop_frames": 110,
+        "green_time": 6.300000328570604,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "reaction_seconds": 0.11666667275130749,
+        "passed": true
+      },
+      "minimum_sponsor_pixels": 10003,
+      "frames_sha256": "82108f3032c447e948280bf4783a0975cd090f020f6bdc34faccb1b56ce6e701",
+      "body_sha256": "9f2060807290a4aa5ba1162e9a13ee13b36505e3c1c9aad3d00d37bce9cbef30",
+      "neural_sha256": "56207635de2347419b5579140ea87cc524bc3a2b098251956dd0e840fe883c20",
+      "cabin_windows_frames": []
+    },
+    {
+      "source": "runs/dynamic-empty-final",
+      "score": {
+        "kind": "empty",
+        "beep_count": 1,
+        "beep_onsets_seconds": [
+          5.033333595842123
+        ],
+        "pressed_seconds": 0.08333333333333333,
+        "distance_m": 40.37875861735856,
+        "peak_speed_m_s": 6.038787841796875,
+        "longest_hold_seconds": 0.08333333333333333,
+        "red_stop_frames": 50,
+        "green_time": 4.866666920483112,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "passed": false
+      },
+      "minimum_sponsor_pixels": 10004,
+      "frames_sha256": "fff85f5cc19ac117bf73f4ca06d87ed411f052c8177dee56cd6a353748b60651",
+      "body_sha256": "5d2588ceb47eb8ee4f35ee3184b0df8e44374bfbd02cc01227a543ec3b5e0ae4",
+      "neural_sha256": "1417656e9140ffda7eae59bd2315cf1ac326fd47358ffd00ebbb11bd7e463bb0",
+      "cabin_windows_frames": []
+    },
+    {
+      "source": "runs/dynamic-arrive-green-final",
+      "score": {
+        "kind": "arrive_green",
+        "beep_count": 0,
+        "beep_onsets_seconds": [],
+        "pressed_seconds": 0.0,
+        "distance_m": 36.745523777883186,
+        "peak_speed_m_s": 6.0180463790893555,
+        "longest_hold_seconds": 0.0,
+        "red_stop_frames": 0,
+        "green_time": 0.01666666753590107,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "passed": true
+      },
+      "minimum_sponsor_pixels": 10004,
+      "frames_sha256": "b1238212f7122cee1be92a6830180eb0493905c0f61738467e43349cd2216b37",
+      "body_sha256": "0e306b9bcb46268ce18731f460869834484b189f1ca7477fadd2c2d99fc422da",
+      "neural_sha256": "9197e290b152de7cce3ad00a694171890706a5f07e5700757b9543dface2b796",
+      "cabin_windows_frames": []
+    },
+    {
+      "source": "runs/dynamic-cut-in-t-signal-fixed",
+      "score": {
+        "kind": "cut_in_t",
+        "beep_count": 2,
+        "beep_onsets_seconds": [
+          5.6166669595986605,
+          6.116666985675693
+        ],
+        "pressed_seconds": 2.8666666666666667,
+        "distance_m": 66.64425739745434,
+        "peak_speed_m_s": 6.032169342041016,
+        "longest_hold_seconds": 2.466666666666667,
+        "red_stop_frames": 0,
+        "green_time": 0.01666666753590107,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "lead_entry_seconds": [
+          5.466666951775551
+        ],
+        "maximum_brake": 0.0,
+        "passed": true
+      },
+      "minimum_sponsor_pixels": 0,
+      "frames_sha256": "714682f3384ed3543c707b223d21a6bfde05174f5d05e59a53db6a086fe644c2",
+      "body_sha256": "c8331c9173b4a01bd0a9fad3ad7106eaf288c8f73676fa4fba0a7aa336a32af3",
+      "neural_sha256": "3a66f7014103c1f6afc1824d82bf39b11f41cf065a2f304e96c1b67a35b0fd64",
+      "cabin_windows_frames": [
+        [
+          375,
+          514
+        ]
+      ]
+    },
+    {
+      "source": "runs/dynamic-cut-in-cross-signal-fixed",
+      "score": {
+        "kind": "cut_in_cross",
+        "beep_count": 3,
+        "beep_onsets_seconds": [
+          6.516667006537318,
+          6.716667016968131,
+          7.416667053475976
+        ],
+        "pressed_seconds": 2.2,
+        "distance_m": 66.55228772320142,
+        "peak_speed_m_s": 6.062478065490723,
+        "longest_hold_seconds": 2.0,
+        "red_stop_frames": 0,
+        "green_time": 0.01666666753590107,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "lead_entry_seconds": [
+          6.3500003311783075
+        ],
+        "maximum_brake": 0.0,
+        "passed": true
+      },
+      "minimum_sponsor_pixels": 9593,
+      "frames_sha256": "ac8475113cba0a8874c79ec86ca96f10671b3ba22371935dd15ba048e28b67e2",
+      "body_sha256": "4cc25464745d020da7ef6ab719ba4b6222b6fac597b611eaffebb4fbc3682097",
+      "neural_sha256": "9b09be514af2364adf28ff095ca243fdd20dd3a9afb1364d00a900ce58e70ba9",
+      "cabin_windows_frames": [
+        [
+          453,
+          564
+        ]
+      ]
+    }
+  ],
+  "fps": 60,
+  "frames": 2250,
+  "duration_seconds": 37.5,
+  "livery_revision": 21,
+  "livery_layout": 5,
+  "gpu": "NVIDIA RTX A6000/PCIe/SSE2",
+  "audio_intervals": [
+    [
+      4.4,
+      4.916666666666667
+    ],
+    [
+      12.516666666666667,
+      12.600000000000001
+    ],
+    [
+      24.1,
+      24.5
+    ],
+    [
+      24.6,
+      27.066666666666666
+    ],
+    [
+      31.0,
+      31.099999999999998
+    ],
+    [
+      31.2,
+      31.3
+    ],
+    [
+      31.9,
+      33.9
+    ]
+  ],
+  "source_sha256": {
+    "/workspace/flyhard/scripts/render_dynamic_horn.py": "06f7eeb26a20f96048d60b6a24482047da7a7d4c6bb24b42d098dab817241d2f",
+    "src/flyhard/interior_view.py": "1b007542eee50b1981f3d0df76b9de7ef506df18a0679d53c128c5b038727a89",
+    "src/flyhard/horn_rig.py": "a582167e2b4ac6b2e693745aa8882bfe4cdb14a8c4bf5685445d5ad745b7d12c",
+    "src/flyhard/recorded_horn_audio.py": "1b6d9bb698ebf129d6bb938f9408460adfecf3f1c539744719ad762478bae057"
+  },
+  "claim": "Single learned core operates both forelegs. Directed route, speed, traffic and rage mode; measured steering and horn. Recorded neural and body states share one clock.",
+  "sponsor_note": "Exact live sponsor meshes composited with native CARLA camera and depth; not native Unreal materials.",
+  "audio": {
+    "source": {
+      "title": "05 Horn.wav",
+      "author": "15HPanska_Ruttner_Jan",
+      "source": "https://freesound.org/people/15HPanska_Ruttner_Jan/sounds/461679/",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Car_Horn.wav",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "f44a161267e00c374ea6670292e70491e18f7c49a9448fc3a96960525adcfeb6",
+      "recorded": "2019-02-28"
+    },
+    "sample_rate": 48000,
+    "samples": 1800000,
+    "duration_seconds": 37.5,
+    "intervals": [
+      [
+        4.4,
+        4.916666666666667
+      ],
+      [
+        12.516666666666667,
+        12.600000000000001
+      ],
+      [
+        24.1,
+        24.5
+      ],
+      [
+        24.6,
+        27.066666666666666
+      ],
+      [
+        31.0,
+        31.099999999999998
+      ],
+      [
+        31.2,
+        31.3
+      ],
+      [
+        31.9,
+        33.9
+      ]
+    ],
+    "editing": "Recorded attack and crossfaded steady recording; gated exclusively by measured button travel"
+  },
+  "video_sha256": "8ef75db167044b8071f3c304158c5651cbfab2bda0d29d02d9f56fdb72ce176b"
+}

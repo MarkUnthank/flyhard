@@ -1,0 +1,16 @@
+{
+  "gpu": "NVIDIA RTX A6000",
+  "image": "ghcr.io/markunthank/flyhard@sha256:ef0ddbb27f76cc148059d928de897d16652666c67bdbaf4f0a15392a82b0f032",
+  "cached_workspace_resumed": true,
+  "runtime_cap_seconds": 1800,
+  "session_spend_cap_usd": 1,
+  "credit_reserve_usd": 4,
+  "simulator_redownloaded": false,
+  "training_seconds": 136.8831124305725,
+  "native_scene": "14 m contiguous driving lanes; virtual 10 m test corridor; native map recorded in scene.json",
+  "runtime_repairs": [
+    "Recreate NVIDIA EGL vendor and EGL-based Vulkan ICD files after restart",
+    "Use actual contiguous driving-lane geometry, including opposing lanes"
+  ],
+  "livery_transfer": "Fresh immutable export decompressed to tar, rsync delta against retained archive, SHA-256 verified before extraction; no stale sponsor fallback"
+}

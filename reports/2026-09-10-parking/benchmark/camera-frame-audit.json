@@ -1,0 +1,257 @@
+{
+  "status": "passed",
+  "trials": 50,
+  "frames": 40959,
+  "per_trial": [
+    {
+      "seed": 34000,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34001,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34002,
+      "frames": 640,
+      "camera_decoded_frames": 640
+    },
+    {
+      "seed": 34003,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34004,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34005,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34006,
+      "frames": 663,
+      "camera_decoded_frames": 663
+    },
+    {
+      "seed": 34007,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34008,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34009,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34010,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34011,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34012,
+      "frames": 432,
+      "camera_decoded_frames": 432
+    },
+    {
+      "seed": 34013,
+      "frames": 466,
+      "camera_decoded_frames": 466
+    },
+    {
+      "seed": 34014,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34015,
+      "frames": 457,
+      "camera_decoded_frames": 457
+    },
+    {
+      "seed": 34016,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34017,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34018,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34019,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34020,
+      "frames": 397,
+      "camera_decoded_frames": 397
+    },
+    {
+      "seed": 34021,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34022,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34023,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34024,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34025,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34026,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34027,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34028,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34029,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34030,
+      "frames": 362,
+      "camera_decoded_frames": 362
+    },
+    {
+      "seed": 34031,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34032,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34033,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34034,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34035,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34036,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34037,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34038,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34039,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34040,
+      "frames": 776,
+      "camera_decoded_frames": 776
+    },
+    {
+      "seed": 34041,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34042,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34043,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34044,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34045,
+      "frames": 396,
+      "camera_decoded_frames": 396
+    },
+    {
+      "seed": 34046,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34047,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    },
+    {
+      "seed": 34048,
+      "frames": 370,
+      "camera_decoded_frames": 370
+    },
+    {
+      "seed": 34049,
+      "frames": 900,
+      "camera_decoded_frames": 900
+    }
+  ]
+}

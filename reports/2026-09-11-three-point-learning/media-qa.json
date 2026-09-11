@@ -1,0 +1,29 @@
+{
+  "file": "Flyhard-three-point-turn-Mozart.mp4",
+  "sha256": "3a4cfe93381d733d934521502703d080230e264de52e5fcd360473d92ce4f45e",
+  "bytes": 15244068,
+  "full_video_and_audio_decode": "passed",
+  "black_frame_at_15_4_seconds": "passed",
+  "desktop_copy_sha256_verified": true,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "duration_seconds": 39.4,
+  "frames": 2364,
+  "audio": "AAC stereo 48kHz",
+  "mean_volume_db": -21.0,
+  "max_volume_db": -4.5,
+  "visual_checks": [
+    "green Mini",
+    "left-door and rear sponsor placement",
+    "all seven paid sponsor surfaces revision 35 layout 5 in source manifest",
+    "request and steering readouts",
+    "pedal and gear readouts",
+    "thedrivingfly.com",
+    "fade to black and fade into full successful attempt",
+    "final credit hold"
+  ],
+  "render_method": "Recorded CARLA vehicle poses and measured body joints interpolated for presentation at 60fps; no physics outcome changed."
+}

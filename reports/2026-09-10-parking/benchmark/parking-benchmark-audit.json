@@ -1,0 +1,310 @@
+{
+  "status": "passed",
+  "trials": 50,
+  "synchronized_frames_checked": 40959,
+  "model_output_replays": 250,
+  "control_latency": "Each CARLA tick uses the physical controls measured at its start; the saved body pose is the end of that tick.",
+  "checkpoint_sha256": "4f4d46b875836af2b03930fe1cf47cbabb66a552eb12912d8fa4d74725d1ce65",
+  "per_trial": [
+    {
+      "seed": 34000,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34001,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34002,
+      "frames": 640,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34003,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34004,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34005,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34006,
+      "frames": 663,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34007,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34008,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34009,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34010,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34011,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34012,
+      "frames": 432,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34013,
+      "frames": 466,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34014,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34015,
+      "frames": 457,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34016,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34017,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34018,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34019,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34020,
+      "frames": 397,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34021,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34022,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34023,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34024,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34025,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34026,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34027,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34028,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34029,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34030,
+      "frames": 362,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34031,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34032,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34033,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34034,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34035,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34036,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34037,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34038,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34039,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34040,
+      "frames": 776,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34041,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34042,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34043,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34044,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34045,
+      "frames": 396,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34046,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34047,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34048,
+      "frames": 370,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    },
+    {
+      "seed": 34049,
+      "frames": 900,
+      "sampled_model_replays": 5,
+      "controls_match_measured_body": true
+    }
+  ]
+}

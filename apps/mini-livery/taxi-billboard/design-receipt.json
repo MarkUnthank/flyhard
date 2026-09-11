@@ -1,0 +1,24 @@
+{
+  "revision": 12,
+  "source_asset": "work/live-livery/20260910T085140436599Z",
+  "slot": "ad-59",
+  "faces": 2,
+  "frame_metres": [
+    1.65,
+    0.14,
+    0.48
+  ],
+  "artwork_metres": [
+    1.5919999999999999,
+    0.422
+  ],
+  "unchanged_sponsors": [
+    "ad-54",
+    "ad-01",
+    "ad-53",
+    "ad-57",
+    "ad-56",
+    "ad-10"
+  ],
+  "status": "Blender concept; not deployed or imported into CARLA"
+}

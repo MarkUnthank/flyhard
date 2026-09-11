@@ -2,6 +2,12 @@ name: Build Flyhard runtime
 
 on:
   workflow_dispatch:
+    inputs:
+      layout:
+        description: Packaged simulator or durable network volume
+        type: choice
+        options: [packaged, network-volume]
+        default: packaged
   push:
     branches: [main]
     paths:
@@ -46,13 +52,13 @@ jobs:
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           context: .
-          file: docker/Dockerfile
+          file: ${{ inputs.layout == 'network-volume' && 'docker/Dockerfile.volume' || 'docker/Dockerfile' }}
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/markunthank/flyhard:runtime-${{ github.sha }}
+          tags: ghcr.io/markunthank/flyhard:${{ inputs.layout == 'network-volume' && 'volume' || 'runtime' }}-${{ github.sha }}
           build-args: SOURCE_REVISION=${{ github.sha }}
-          cache-from: type=registry,ref=ghcr.io/markunthank/flyhard:buildcache
-          cache-to: type=registry,ref=ghcr.io/markunthank/flyhard:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/markunthank/flyhard:${{ inputs.layout == 'network-volume' && 'volume-buildcache' || 'buildcache' }}
+          cache-to: type=registry,ref=ghcr.io/markunthank/flyhard:${{ inputs.layout == 'network-volume' && 'volume-buildcache' || 'buildcache' }},mode=max
       - name: Record image identity
         env:
           FLYHARD_IMAGE_DIGEST: ${{ steps.image.outputs.digest }}

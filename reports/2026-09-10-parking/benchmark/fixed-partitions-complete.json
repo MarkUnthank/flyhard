@@ -1,0 +1,12 @@
+{
+  "primary": {
+    "completed_designated_trials": 21,
+    "signal": "SIGINT at completed-trial boundary",
+    "time": 1789058329.8615453
+  },
+  "parallel": {
+    "completed_designated_trials": 18,
+    "signal": "SIGINT at completed-trial boundary",
+    "time": 1789058616.5572789
+  }
+}

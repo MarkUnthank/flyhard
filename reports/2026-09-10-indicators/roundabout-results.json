@@ -1,0 +1,414 @@
+{
+  "status": "pilot_complete",
+  "dataset": {
+    "episodes": 40,
+    "complete_by_goal_rule": 40,
+    "frames": 18250,
+    "episode_duration_seconds": [
+      13.25,
+      62.2
+    ],
+    "nearby_car_moving_frames": 16623,
+    "traffic_within_25m_frames": 16518,
+    "max_route_error_m": 1.3754229480145483,
+    "completion_audit": [
+      {
+        "name": "entry3-exit1-seed41959",
+        "old": false,
+        "audited": true,
+        "remaining_to_goal_m": 2.9999976960079664
+      },
+      {
+        "name": "entry3-exit1-seed41978",
+        "old": false,
+        "audited": true,
+        "remaining_to_goal_m": 2.9999976960079664
+      },
+      {
+        "name": "entry3-exit1-seed41997",
+        "old": false,
+        "audited": true,
+        "remaining_to_goal_m": 2.9999976960079664
+      },
+      {
+        "name": "entry3-exit1-seed42016",
+        "old": false,
+        "audited": true,
+        "remaining_to_goal_m": 2.9999976960079664
+      }
+    ]
+  },
+  "training": {
+    "data": "runs/roundabout-data-v4",
+    "out": "runs/roundabout-policy-v2",
+    "graph": "data/graph-traced-v1",
+    "steps": 1200,
+    "batch": 24,
+    "seed": 123,
+    "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+    "data_episodes_sha256": "6b3c27a8ffea22073ea8539921a1bbb27f1e58d20b245d4e90b35404fe8cbf23",
+    "train_episodes": [
+      "entry0-exit1-seed41000",
+      "entry0-exit1-seed41019",
+      "entry0-exit3-seed41137",
+      "entry0-exit3-seed41156",
+      "entry1-exit1-seed41274",
+      "entry1-exit1-seed41293",
+      "entry1-exit2-seed41411",
+      "entry1-exit2-seed41430",
+      "entry2-exit1-seed41548",
+      "entry2-exit1-seed41567",
+      "entry2-exit2-seed41685",
+      "entry2-exit2-seed41704",
+      "entry2-exit3-seed41822",
+      "entry2-exit3-seed41841",
+      "entry3-exit1-seed41959",
+      "entry3-exit1-seed41978",
+      "entry3-exit2-seed42096",
+      "entry3-exit2-seed42115",
+      "entry3-exit3-seed42233",
+      "entry3-exit3-seed42252"
+    ],
+    "validation_episodes": [
+      "entry0-exit1-seed41038",
+      "entry0-exit3-seed41175",
+      "entry1-exit1-seed41312",
+      "entry1-exit2-seed41449",
+      "entry2-exit1-seed41586",
+      "entry2-exit2-seed41723",
+      "entry2-exit3-seed41860",
+      "entry3-exit1-seed41997",
+      "entry3-exit2-seed42134",
+      "entry3-exit3-seed42271"
+    ],
+    "training_seed_count": 1,
+    "learning_rate": 0.04,
+    "claim": "Supervised connectome control using GPS/navigation and traffic, plus requested wheel angle. Not vision or autonomous route planning.",
+    "learned": "Only measured-edge gains and neuron leaks; frozen sensory interface and motor readout.",
+    "target": "14 joint targets: left foreleg grips passive wheel; right foreleg grips passive indicator stalk.",
+    "teacher": "Route-derived right/off labels and offline IK; neither supplied to inference.",
+    "inputs_exclude": [
+      "time",
+      "progress",
+      "teacher_right",
+      "signal_request",
+      "stalk_target"
+    ],
+    "state_reset_each_decision": true,
+    "neural_steps": 4,
+    "completion_rule": "Reach the route goal within 3.01m, with maximum route error below 5m.",
+    "code_sha256": {
+      "/workspace/flyhard/scripts/train_roundabout.py": "bba2d1fbc7cba6a918360d1efaff025ab9b8b9e97b77e11363c29a7b3159a041",
+      "src/flyhard/indicator_policy.py": "6ca757cb0f4799b9fbe775ca953a92aa4f3b69af6b505372e4732cc0fdc06550",
+      "src/flyhard/cockpit.py": "c54279fb676e113b161bd5c68b5be4ae7de70ee39698620c6b371f1d7b6be164",
+      "src/flyhard/stalk.py": "de7caa0eb4093eebe706be1218f64178b0ca19066d5f1835916d78b6f39e7943",
+      "src/flyhard/roundabout_metrics.py": "4fe05cdd2f2066839c48d088c1b8e03a53b8d1e680adfef37c5662db1807004d"
+    },
+    "status": "trained_pending_physical_evaluation",
+    "initial_validation_loss": 0.157125514178049,
+    "best_validation_loss": 0.002414398072730927,
+    "gradient_audit": {
+      "core.edge_gain": {
+        "finite": true,
+        "nonzero": 3052325
+      },
+      "core.leak": {
+        "finite": true,
+        "nonzero": 23485
+      }
+    },
+    "frozen_interfaces_unchanged": true,
+    "trainable_parameters": 25728319,
+    "training_seconds": 479.1276128231548,
+    "wall_seconds": 485.69296875596046,
+    "peak_gpu_allocated_gb": 3.045522944,
+    "checkpoint_sha256": "2ed14a581da098ebcaa342a67f40d935de1f34c42fc5c2cb9ca707497a94eb2a"
+  },
+  "heldout_test": {
+    "checkpoint": "runs/roundabout-policy-v2/selected.pt.gz",
+    "data": "runs/roundabout-data-v4",
+    "out": "runs/roundabout-test-v2",
+    "split": "test",
+    "limit": 100,
+    "condition": "trained",
+    "checkpoint_sha256": "2ed14a581da098ebcaa342a67f40d935de1f34c42fc5c2cb9ca707497a94eb2a",
+    "selected_step": 800,
+    "passed": 10,
+    "episodes": 10,
+    "route_completed": 10,
+    "mean_signal_frame_accuracy": 0.9812198653845353,
+    "mean_wheel_rmse_rad": 0.012072261232786614,
+    "wall_seconds": 169.7899119257927,
+    "claim": "Real physical fly replay of held-out CARLA navigation/traffic observations. Vehicle trajectory was controlled during collection; live coupled recording is separate.",
+    "score": "Right activation 40\u201316m before exit boundary; hold 14m before through 5m after; cancel by 20m after; no left signal; route completion required."
+  },
+  "core_reset": {
+    "checkpoint": "runs/roundabout-policy-v2/selected.pt.gz",
+    "data": "runs/roundabout-data-v4",
+    "out": "runs/roundabout-core-reset-v2",
+    "split": "test",
+    "limit": 3,
+    "condition": "core-reset",
+    "checkpoint_sha256": "2ed14a581da098ebcaa342a67f40d935de1f34c42fc5c2cb9ca707497a94eb2a",
+    "selected_step": 800,
+    "passed": 0,
+    "episodes": 3,
+    "route_completed": 3,
+    "mean_signal_frame_accuracy": 0.6470433113391793,
+    "mean_wheel_rmse_rad": 0.1947696217450282,
+    "wall_seconds": 46.2093081981875,
+    "claim": "Real physical fly replay of held-out CARLA navigation/traffic observations. Vehicle trajectory was controlled during collection; live coupled recording is separate.",
+    "score": "Right activation 40\u201316m before exit boundary; hold 14m before through 5m after; cancel by 20m after; no left signal; route completion required."
+  },
+  "disconnected_stalk": {
+    "checkpoint": "runs/roundabout-policy-v2/selected.pt.gz",
+    "data": "runs/roundabout-data-v4",
+    "out": "runs/roundabout-no-grip-v2",
+    "split": "test",
+    "limit": 3,
+    "condition": "no-stalk-grip",
+    "checkpoint_sha256": "2ed14a581da098ebcaa342a67f40d935de1f34c42fc5c2cb9ca707497a94eb2a",
+    "selected_step": 800,
+    "passed": 0,
+    "episodes": 3,
+    "route_completed": 3,
+    "mean_signal_frame_accuracy": 0.6470433113391793,
+    "mean_wheel_rmse_rad": 0.012140866728563932,
+    "wall_seconds": 41.52274916507304,
+    "claim": "Real physical fly replay of held-out CARLA navigation/traffic observations. Vehicle trajectory was controlled during collection; live coupled recording is separate.",
+    "score": "Right activation 40\u201316m before exit boundary; hold 14m before through 5m after; cancel by 20m after; no left signal; route completion required."
+  },
+  "recordings": {
+    "normal": {
+      "file": "flyhard-roundabout-indicators-16x9.mp4",
+      "capture": {
+        "status": "capture_complete",
+        "frames": 537,
+        "duration_seconds": 26.85,
+        "same_episode": true,
+        "native_camera_depth_frame_matches": true,
+        "max_clock_error_seconds": 3.9976661625473753e-07,
+        "collision_events": 6,
+        "peak_speed_kmh": 26.652814865112305,
+        "score": {
+          "checks": {
+            "completed": true,
+            "activation_window": true,
+            "no_left": true,
+            "no_early_signal": true,
+            "held_through_exit": true,
+            "cancelled_after_exit": true
+          },
+          "passed": true,
+          "first_right_progress_m": 115.80649027464612,
+          "hold_right_fraction": 1.0
+        },
+        "wall_seconds": 150.92116236593574
+      },
+      "render": {
+        "status": "rendered",
+        "width": 1920,
+        "height": 1080,
+        "fps": 20,
+        "source_frames": 537,
+        "frames": 577,
+        "duration_seconds": 28.85,
+        "credit_seconds": 2,
+        "playback_speed": 1.0,
+        "same_episode": true,
+        "mujoco_gpu": "NVIDIA A40/PCIe/SSE2",
+        "sponsor_revision": 6,
+        "sponsor_layout": 3,
+        "sponsor_layer_sha256": "22d584410b4f857584a895730bccdf50d0026f5d8fabbb652c435fbdaa2951aa",
+        "native_depth_occlusion": true,
+        "mean_occluded_sponsor_fraction": 0.001405711972691647,
+        "native_depth_margin_metres": 0.03,
+        "renderer_sha256": "fc9fa81b294b508c0fa14962085923d5d613ce6da3bd3c1b866c63c1d6d7b039",
+        "depth_alignment_quantiles": [
+          {
+            "frame": 0,
+            "quantiles_m": [
+              0.005248069763183594,
+              0.006680965423583984,
+              0.009087085723876953
+            ]
+          },
+          {
+            "frame": 100,
+            "quantiles_m": [
+              0.00533590316772461,
+              0.0062351226806640625,
+              0.008870506286621095
+            ]
+          },
+          {
+            "frame": 200,
+            "quantiles_m": [
+              -0.8125755310058593,
+              0.005741119384765625,
+              0.00838146209716797
+            ]
+          },
+          {
+            "frame": 400,
+            "quantiles_m": [
+              0.005340099334716797,
+              0.0062389373779296875,
+              0.008870124816894531
+            ]
+          },
+          {
+            "frame": 536,
+            "quantiles_m": [
+              0.005336761474609375,
+              0.006230831146240234,
+              0.008871078491210938
+            ]
+          }
+        ],
+        "presentation_note": "Sponsor surfaces composited from the supplied Blender model in the recorded camera frame; CARLA footage, depth, body and neural states share one episode.",
+        "body_trace_sha256": "e76aba5ff838625cc4f6a607e87d322f13f4abad8b2b01d87835239b02044a48",
+        "neural_trace_sha256": "b35a619fe3af655b817f8ca669763264cd3dc07db5a36e94336c43443a21d1ea",
+        "frames_sha256": "a18200b16ca50f07087b33094ba8b07a7b993e5cb75f7af5c7dc07b474359ea5",
+        "wall_seconds": 88.7490798169747,
+        "video_sha256": "62594071060d208e881964860a094db28d3ec754ea03e3f07bad847ec61e8208"
+      },
+      "first_right_seconds": 18.85000028088689,
+      "cancelled_seconds": 25.25000037625432,
+      "contact_actor_types": [
+        "vehicle.tesla.model3"
+      ]
+    },
+    "unhinged": {
+      "file": "flyhard-roundabout-unhinged-16x9.mp4",
+      "capture": {
+        "status": "capture_complete",
+        "frames": 281,
+        "duration_seconds": 14.05,
+        "same_episode": true,
+        "native_camera_depth_frame_matches": true,
+        "max_clock_error_seconds": 2.093873892050624e-07,
+        "collision_events": 174,
+        "peak_speed_kmh": 48.25851402282715,
+        "score": {
+          "checks": {
+            "completed": true,
+            "activation_window": true,
+            "no_left": true,
+            "no_early_signal": true,
+            "held_through_exit": true,
+            "cancelled_after_exit": true
+          },
+          "passed": true,
+          "first_right_progress_m": 40.528431117310106,
+          "hold_right_fraction": 1.0
+        },
+        "wall_seconds": 89.08155542286113
+      },
+      "render": {
+        "status": "rendered",
+        "width": 1920,
+        "height": 1080,
+        "fps": 20,
+        "source_frames": 281,
+        "frames": 321,
+        "duration_seconds": 16.05,
+        "credit_seconds": 2,
+        "playback_speed": 1.0,
+        "same_episode": true,
+        "mujoco_gpu": "NVIDIA A40/PCIe/SSE2",
+        "sponsor_revision": 6,
+        "sponsor_layout": 3,
+        "sponsor_layer_sha256": "f34edc05a1a5620a0cb6812ccf40785af947513abcadde0084a9f8d6760acd37",
+        "native_depth_occlusion": true,
+        "mean_occluded_sponsor_fraction": 0.4926933393530567,
+        "native_depth_margin_metres": 0.03,
+        "renderer_sha256": "fc9fa81b294b508c0fa14962085923d5d613ce6da3bd3c1b866c63c1d6d7b039",
+        "depth_alignment_quantiles": [
+          {
+            "frame": 0,
+            "quantiles_m": [
+              0.008043718338012696,
+              0.013917684555053711,
+              0.0262239933013916
+            ]
+          },
+          {
+            "frame": 100,
+            "quantiles_m": [
+              -1.3120199680328368,
+              -0.7374711036682129,
+              0.008373594284057618
+            ]
+          },
+          {
+            "frame": 200,
+            "quantiles_m": [
+              -0.8895361423492432,
+              -0.5804717540740967,
+              0.00837407112121582
+            ]
+          },
+          {
+            "frame": 280,
+            "quantiles_m": [
+              -0.9232804775238037,
+              -0.5849711894989014,
+              0.008373594284057618
+            ]
+          }
+        ],
+        "presentation_note": "Sponsor surfaces composited from the supplied Blender model in the recorded camera frame; CARLA footage, depth, body and neural states share one episode.",
+        "body_trace_sha256": "22d963498fc3237c317348b6c7eabad0f256c3465d17a9389c64a03b10e656f7",
+        "neural_trace_sha256": "8e79a6727a45d9b766657296e9e9f3191c8b0482947364258f1c0d1b9184eb10",
+        "frames_sha256": "45166105f09632850a7a4d3d5e780003f45edfd3d6165dc9fc9e4af4f7722d6f",
+        "wall_seconds": 59.14010069286451,
+        "video_sha256": "a735a7b4afbdb3a859f277e3f6fb8ee9e8ad1c3579a944d64d8612614b1c52d8"
+      },
+      "first_right_seconds": 4.350000064820051,
+      "cancelled_seconds": 11.700000174343586,
+      "contact_actor_types": [
+        "vehicle.lincoln.mkz_2020"
+      ]
+    }
+  },
+  "control_audit": {
+    "roundabout-normal-v1": {
+      "frames": 537,
+      "max_clock_error": 3.9976661625473753e-07,
+      "steering_contract_error": null,
+      "all_native_lights_matched": true
+    },
+    "roundabout-unhinged-v1": {
+      "frames": 281,
+      "max_clock_error": 2.093873892050624e-07,
+      "steering_contract_error": 0.0,
+      "all_native_lights_matched": true
+    }
+  },
+  "export_verification": {
+    "checked_files": 966,
+    "bytes": 1497439082,
+    "errors": [],
+    "wall_seconds": 1.1139232910354622
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "numpy": "2.1.2",
+      "carla": "0.9.16",
+      "flygym": "2.1.0",
+      "mujoco": "3.9.0",
+      "pyvista": "0.49.0",
+      "vtk": "9.7.0",
+      "shapely": "2.1.2"
+    },
+    "blender": "5.2.1",
+    "blender_archive_sha256": "a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9"
+  },
+  "cost_usd": 0.5122031120000017,
+  "pods_remaining": [],
+  "spend_per_hour_usd": 0,
+  "scope": "Single-seed pilot on Town03 using structured navigation/traffic inputs. Right/off signalling for right-hand roundabout exits. Conventional navigation supplies steering requests; speed is scripted. Sponsor surfaces are depth-occluded presentation overlays."
+}

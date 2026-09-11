@@ -1,0 +1,141 @@
+{
+  "output": "runs/three-point-boccherini-natural-speed/Flyhard-three-point-turn-Boccherini-natural-speed.mp4",
+  "sha256": "adf200d0455f1323bdf9aa679ae8e15413e393aa5897ebd2ded2b2aa203714b0",
+  "duration_seconds": 49.65,
+  "fps": 60,
+  "encoder": "libx264",
+  "learning_seconds": 26.650000000000002,
+  "black_seconds": 0.9,
+  "successful_reveal_start": 27.55,
+  "success_playback": "Complete successful take at real-time speed, then a final still hold.",
+  "success_result": {
+    "seed": 61000,
+    "split": "validation",
+    "success": true,
+    "time_seconds": 20.3,
+    "direction_changes": 2,
+    "directions": [
+      1,
+      -1,
+      1
+    ],
+    "native_collision_events": [],
+    "position_error_m": 0.2539899596934283,
+    "yaw_error_deg": 0.7554473280906427,
+    "boundary_clearance_m": 1.6480966960093877,
+    "collision": false,
+    "pose_passed": true
+  },
+  "timeline": [
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 0,
+      "end": 8.3,
+      "duration": 16.6,
+      "zoom": 1,
+      "edit_start": 0.0,
+      "edit_end": 16.6,
+      "simulation_playback_rate": 1.0,
+      "source_sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a"
+    },
+    {
+      "source": "middle",
+      "stage": "More training",
+      "start": 0,
+      "end": 6.7,
+      "duration": 10.05,
+      "zoom": 1,
+      "edit_start": 16.6,
+      "edit_end": 26.650000000000002,
+      "simulation_playback_rate": 1.0,
+      "source_sha256": "c61b83a7da18e54fd3bf03fc7df9ed1ee7d9a416c46cf1684811074d2b714d2e"
+    }
+  ],
+  "sources": {
+    "early": {
+      "file": "runs/three-point-render-early/three-point.mp4",
+      "sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a",
+      "actual_result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": false,
+        "time_seconds": 16.55,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 4.610693762130304,
+        "yaw_error_deg": 71.1822280883789,
+        "boundary_clearance_m": -0.012024682524716113,
+        "collision": true,
+        "pose_passed": false
+      }
+    },
+    "middle": {
+      "file": "runs/three-point-render-middle/three-point.mp4",
+      "sha256": "c61b83a7da18e54fd3bf03fc7df9ed1ee7d9a416c46cf1684811074d2b714d2e",
+      "actual_result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": true,
+        "time_seconds": 19.5,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 0.38165243545432176,
+        "yaw_error_deg": 3.364456892013538,
+        "boundary_clearance_m": 1.3696892280477377,
+        "collision": false,
+        "pose_passed": true
+      }
+    },
+    "success": {
+      "file": "runs/three-point-render-success/three-point.mp4",
+      "sha256": "939184ea1b6a94ac97d540dfd9911abb88d8c523285087b0e0354c13853dfb93",
+      "actual_result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": true,
+        "time_seconds": 20.3,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 0.2539899596934283,
+        "yaw_error_deg": 0.7554473280906427,
+        "boundary_clearance_m": 1.6480966960093877,
+        "collision": false,
+        "pose_passed": true
+      }
+    }
+  },
+  "artwork": {
+    "revision": 35,
+    "layout": 5
+  },
+  "music": {
+    "file": "assets/music/boccherini-g275/minuet-trio.ogg",
+    "sha256": "cc1008f7d53b9c641362f6dd4375ff3d05e9c445e2d8cde615735323c0f34ff7",
+    "title": "Boccherini: Minuet and Trio, String Quintet in E major, Op. 11 No. 5, G. 275",
+    "credit_title": "Boccherini \u00b7 Minuet and Trio, G. 275",
+    "credit_recording": "Rafael Krux \u00b7 CC0 recording",
+    "source": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "start_seconds": 0.5,
+    "reveal_start_seconds": 0.5
+  },
+  "plan_sha256": "3b8b6e23c9bbeb3db12213a2bb0fdf859d48fd8825eb78d792c12cc1a5b38e4e",
+  "editor_sha256": "786fc39e67c7d6b9a78672c6176352ab42919e0d7b680558dd7dd1cd84a111b7",
+  "claim": "Earlier and intermediate checkpoint footage cut chronologically within each trial. Edit segments are not additional training attempts. The intermediate checkpoint also passed its complete trial; its finish is withheld here. The successful take appears only once, from its beginning after the blackout, with no preview, skip or replay of its finish. No invented mistakes, extra training or changed controller actions. Only edit timing and modest road-view crops change."
+}
