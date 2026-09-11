@@ -76,12 +76,12 @@ def encode(observations):
     return np.concatenate([raw,place,place*a[:,3,None]/1.2,place*a[:,4,None]],axis=1).astype(np.float32)
 
 
-def kinematic_step(state,wheel,speed,dt=.1):
+def kinematic_step(state,wheel,speed,dt=.1,curvature_scale=1.):
     state=np.array(state,float,copy=True)
     # Simple training diagnostic only. Native tests use the measured body rig.
     acceleration=np.clip((speed-state[3])*2.5,-1.5,1.5)
     state[3]+=acceleration*dt
     angle=wheel*WHEEL_TO_CARLA*MAX_ROAD_WHEEL_ANGLE
-    state[2]+=state[3]*math.tan(angle)/WHEELBASE*dt
+    state[2]+=curvature_scale*state[3]*math.tan(angle)/WHEELBASE*dt
     state[:2]+=state[3]*np.array([math.cos(state[2]),math.sin(state[2])])*dt
     return state

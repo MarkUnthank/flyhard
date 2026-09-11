@@ -1,0 +1,14 @@
+{
+  "status": "verified",
+  "native_frames": 331,
+  "recomputed_decisions": 10,
+  "max_body_clock_error_seconds": 3.061906284074212e-11,
+  "max_applied_control_error": 2.9412832502906383e-08,
+  "max_recomputed_action_error": 0.0,
+  "max_recomputed_neural_state_error": 5.960464477539063e-08,
+  "neural_recording_dtype": "float16",
+  "checkpoint_sha256": "32ad3ab136737256747f9c341832405aa1e6ae33cb1a7625b03ca09ab4c3f4a9",
+  "source_sha256": "9c9fa307b5d9ebadc8d1e6c6a99cb58565f2d40fb2dd1729ebe837a91448510d",
+  "behavioural_successes": 0,
+  "claim": "Control causality audit, not a behavioural pass"
+}

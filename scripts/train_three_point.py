@@ -32,7 +32,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--data',required=True);p.add_argument('--out',required=True)
     p.add_argument('--graph',default='data/graph-traced-v1');p.add_argument('--steps',type=int,default=1600)
     p.add_argument('--batch',type=int,default=24);p.add_argument('--seed',type=int,default=521)
-    p.add_argument('--resume');args=p.parse_args()
+    p.add_argument('--resume');p.add_argument('--max-wheel',type=float,default=.46);p.add_argument('--save-interval',type=int,default=200);args=p.parse_args()
     root=Path(args.data);out=Path(args.out);out.mkdir(parents=True,exist_ok=False)
     torch.set_num_threads(8);torch.manual_seed(args.seed);rng=np.random.default_rng(args.seed)
     train=np.load(root/'train.npz');val=np.load(root/'validation.npz')
@@ -45,6 +45,7 @@ def main():
     else:
         policy=ThreePointPolicy(np.load(Path(args.graph)/'graph.npz'),np.flatnonzero(classes=='vnc_sensory'),np.flatnonzero(classes=='vnc_motor'),args.seed).cuda()
         policy.calibrate(tx[rng.choice(len(tx),64,replace=False)])
+    with torch.no_grad():policy.scale[0]=args.max_wheel
     fixed={n:b.detach().cpu().clone() for n,b in policy.named_buffers() if not n.startswith('core.')}
     config={**vars(args),'graph_sha256':sha(Path(args.graph)/'graph.npz'),'cases_sha256':sha(root/'cases.json'),
         'data_sha256':{n:sha(root/n) for n in ['train.npz','validation.npz']},'observation_fields':OBSERVATION_FIELDS,
@@ -60,7 +61,7 @@ def main():
     def objective(features,targets):
         wheel,speed,logits=policy.training_outputs(features)
         gear=torch.where(targets[:,1]<-.1,0,torch.where(targets[:,1]>.1,2,1))
-        return ((wheel-targets[:,0])/.35).square()+((speed-targets[:,1].abs())/1.2).square()+torch.nn.functional.cross_entropy(logits,gear,reduction='none')
+        return ((wheel-targets[:,0])/args.max_wheel).square()+((speed-targets[:,1].abs())/1.2).square()+torch.nn.functional.cross_entropy(logits,gear,reduction='none')
     def validate():
         total=0.
         with torch.no_grad():
@@ -81,6 +82,9 @@ def main():
                 best=score
                 with gzip.open(out/'checkpoint.tmp.gz','wb',compresslevel=3) as f:torch.save({'model':policy.checkpoint_state(),'config':config,'step':step},f)
                 (out/'checkpoint.tmp.gz').replace(out/'checkpoint.pt.gz')
+            if args.save_interval and step%args.save_interval==0:
+                with gzip.open(out/f'step-{step:04}.pt.gz','wb',compresslevel=3) as f:
+                    torch.save({'model':policy.checkpoint_state(),'config':config,'step':step},f)
     assert all(torch.equal(b.detach().cpu(),fixed[n]) for n,b in policy.named_buffers() if n in fixed)
     (out/'metrics.json').write_text(json.dumps({'status':'trained; physical three-point-turn evaluation pending','initial_validation_loss':initial,
         'best_validation_loss':best,'training_seconds':time.monotonic()-start,'gradient_audit':gradient,

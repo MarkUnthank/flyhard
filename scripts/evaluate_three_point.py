@@ -16,7 +16,7 @@ def summary(results):
            ['position_error_m','yaw_error_deg','time_seconds','direction_changes']}}
 
 
-def kinematic(policy,cases,seconds):
+def kinematic(policy,cases,seconds,curvature_scale=1.):
     states=np.stack([c.start for c in cases]);selector=np.zeros(len(cases));wheel=np.zeros(len(cases))
     done=np.zeros(len(cases),bool);hold=np.zeros(len(cases),int);changes=np.zeros(len(cases),int)
     previous=np.zeros(len(cases),int);directions=[[] for c in cases];rows=[[] for c in cases];results=[None]*len(cases)
@@ -31,7 +31,7 @@ def kinematic(policy,cases,seconds):
             desired=int(np.sign(speed)) if abs(speed)>.1 else 0
             if desired!=selector[k] and abs(states[k,3])>.12:speed=0
             else:selector[k]=desired
-            states[k]=kinematic_step(states[k],wheel[k],speed)
+            states[k]=kinematic_step(states[k],wheel[k],speed,curvature_scale=curvature_scale)
             score=metrics(states[k],case);direction=int(np.sign(states[k,3])) if abs(states[k,3])>.12 else 0
             if direction and previous[k] and direction!=previous[k]:changes[k]+=1
             if direction:
@@ -108,11 +108,12 @@ def native(policy,cases,seconds,out):
     rig=make_parking_rig();rig.prepare_controls();results=[];traces=[]
     try:
         for case in cases:
-            state=env.start(case);rig.reset();rows=[];poses=[];hold=0;previous=0;changes=0;directions=[]
+            state=env.start(case);rig.reset();rows=[];poses=[];activity=[];hold=0;previous=0;changes=0;directions=[]
             for i in range(round(seconds/.05)):
                 if i%5==0:
                     inputs=observation(state,case,rig.parking.selector.value,rig.angle)
-                    with torch.no_grad():action=policy(torch.tensor(encode(inputs),device='cuda'))[0].cpu().numpy()
+                    with torch.no_grad():output,neural=policy(torch.tensor(encode(inputs),device='cuda'),return_state=True)
+                    action=output[0].cpu().numpy();activity.append(neural[:,0].cpu().numpy().astype(np.float16))
                     wheel,speed=action
                 measured=env.apply_measured(rig)
                 request=motor_requests(wheel,speed,state[3],rig.parking.measured['gear'])
@@ -127,6 +128,8 @@ def native(policy,cases,seconds,out):
                     previous=direction
                 hold=hold+1 if score['pose_passed'] and abs(state[3])<.12 else 0
                 rows.append({'time':(i+1)*.05,'body_time':float(rig.data.time),'carla_frame':frame,
+                    'vehicle_matrix':env.ego.get_transform().get_matrix(),'neural_index':len(activity)-1,
+                    'applied_steer':measured['steer'],'speed_m_s':abs(float(state[3])),
                     'state':state.tolist(),'decision_observation':inputs.tolist(),'policy_decision':i%5==0,
                     'requested_angle':float(wheel),'requested_signed_speed':float(speed),
                     'applied_controls':measured,'measured_after_tick':rig.parking.measured,
@@ -136,6 +139,16 @@ def native(policy,cases,seconds,out):
             result={'seed':case.seed,'split':case.split,'success':bool(hold>=10 and directions==[1,-1,1] and not score['collision']),
                 'time_seconds':rows[-1]['time'],'direction_changes':changes,'directions':directions,'native_collision_events':env.events.copy(),**score}
             trial=out/str(case.seed);trial.mkdir()
+            box=env.ego.bounding_box
+            config={'fps':20,'policy_hz':4,'case':case.record(),**env.scene,'scene_yaw':env.yaw,
+                'vehicle_bounds':{'location':[box.location.x,box.location.y,box.location.z],'extent':[box.extent.x,box.extent.y,box.extent.z]},
+                'initial_state':rows[0]['state'],
+                'motion':'Measured passive wheel, pedals and selector drive native CARLA; fixed IK and velocity regulator.'}
+            physics=env.ego.get_physics_control()
+            (trial/'physics.json').write_text(json.dumps({'steering_curve':[[v.x,v.y] for v in physics.steering_curve],
+                'wheels':[{'max_steer_angle':w.max_steer_angle,'radius':w.radius,'position':[w.position.x,w.position.y,w.position.z]} for w in physics.wheels]},indent=2)+'\n')
+            (trial/'config.json').write_text(json.dumps(config,indent=2)+'\n')
+            np.savez_compressed(trial/'neural-trace.npz',activity=np.array(activity),time=np.arange(len(activity))*.25)
             (trial/'frames.json').write_text(json.dumps(rows)+'\n')
             (trial/'metrics.json').write_text(json.dumps(result,indent=2)+'\n')
             np.savez_compressed(trial/'body-trace.npz',**{k:np.array([p[i] for p in poses]) for i,k in enumerate(['qpos','qvel','ctrl','time'])})
@@ -148,7 +161,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--checkpoint',required=True);p.add_argument('--data',required=True)
     p.add_argument('--out',required=True);p.add_argument('--native',action='store_true');p.add_argument('--reset-core',action='store_true')
     p.add_argument('--split',default='heldout',choices=['validation','heldout']);p.add_argument('--count',type=int,default=8)
-    p.add_argument('--seconds',type=float,default=35);p.add_argument('--asset');a=p.parse_args()
+    p.add_argument('--curvature-scale',type=float,default=1.);p.add_argument('--seconds',type=float,default=35);p.add_argument('--asset');a=p.parse_args()
     out=Path(a.out);out.mkdir(parents=True,exist_ok=False);torch.set_num_threads(4)
     if a.native:
         if not a.asset:p.error('Native recording requires fresh --asset')
@@ -161,7 +174,7 @@ def main():
         'source_sha256':{n:sha(n) for n in ['src/flyhard/three_point.py','src/flyhard/three_point_policy.py',__file__]}}
     (out/'spec.json').write_text(json.dumps(spec,indent=2)+'\n')
     policy,_=load_policy(a.checkpoint,reset_core=a.reset_core);started=time.monotonic()
-    results,rows=native(policy,selected,a.seconds,out) if a.native else kinematic(policy,selected,a.seconds)
+    results,rows=native(policy,selected,a.seconds,out) if a.native else kinematic(policy,selected,a.seconds,a.curvature_scale)
     if not a.native:
         for c,trace in zip(selected,rows):(out/f'{c.seed}.json').write_text(json.dumps(trace)+'\n')
     report={**summary(results),'wall_seconds':time.monotonic()-started,'reset_core':a.reset_core,'native':a.native,'trials_detail':results}

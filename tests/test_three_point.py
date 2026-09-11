@@ -27,3 +27,29 @@ def test_vehicle_step_reverse_turn_changes_heading_oppositely():
     left=kinematic_step([0,0,0,.5],.2,.5)
     reverse=kinematic_step([0,0,0,-.5],.2,-.5)
     assert left[2]>0 and reverse[2]<0
+
+
+def test_calibration_changes_curvature_without_changing_speed():
+    original=kinematic_step([0,0,0,.7],.3,.7)
+    calibrated=kinematic_step([0,0,0,.7],.3,.7,curvature_scale=.793)
+    assert calibrated[3]==original[3]
+    np.testing.assert_allclose(calibrated[2],original[2]*.793)
+
+
+def test_wheel_range_is_stored_in_checkpoint_interface():
+    import torch
+    from flyhard.three_point_policy import ThreePointPolicy
+    # Same neural output, different explicitly saved actuator range.
+    policy=ThreePointPolicy.__new__(ThreePointPolicy)
+    torch.nn.Module.__init__(policy)
+    policy.register_buffer('scale',torch.tensor([.35,1.2]))
+    raw=torch.tensor([[1.,0.,0.,0.,2.]])
+    policy.raw=lambda features:(raw,torch.ones(2,1))
+    features=torch.zeros(1,1)
+    old=policy(features)
+    policy.scale[0]=.46
+    new=policy(features)
+    torch.testing.assert_close(new[:,0],old[:,0]*(.46/.35))
+    torch.testing.assert_close(new[:,1],old[:,1])
+    wheel,speed,_=policy.training_outputs(features)
+    torch.testing.assert_close(wheel,new[:,0]);torch.testing.assert_close(speed,new[:,1])

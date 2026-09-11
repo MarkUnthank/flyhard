@@ -1,0 +1,13 @@
+{
+  "frozen_epoch": 1789099421.9202046,
+  "checkpoint_sha256": "7f45e7ddf2bfc2b72f3b0c01e097f61e0b56df43c5cd72027336df0007143c5b",
+  "selected_on": "2/2 native validation cases; new 91000-series held-out cases not yet evaluated",
+  "heldout_cases_sha256": "b242de8f534cb3a09ed959e8b4c271cff748ce6ef1b3dc4ddf07e7a1a5664dca",
+  "previous_checkpoint_sha256": "32ad3ab136737256747f9c341832405aa1e6ae33cb1a7625b03ca09ab4c3f4a9",
+  "next_evaluation": {
+    "learned_count": 8,
+    "reset_count": 2,
+    "time_limit_seconds": 40
+  },
+  "gate": "0.5s stationary, <=0.6m and <=12deg, exact F/R/F, no contact or virtual-boundary crossing"
+}

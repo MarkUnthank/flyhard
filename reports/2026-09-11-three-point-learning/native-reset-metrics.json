@@ -1,0 +1,42 @@
+{
+  "trials": 2,
+  "successes": 0,
+  "collision_rate": 0.0,
+  "mean_position_error_m": 7.128458667711412,
+  "mean_yaw_error_deg": 179.72288513183594,
+  "mean_time_seconds": 40.0,
+  "mean_direction_changes": 0.0,
+  "wall_seconds": 118.06853995937854,
+  "reset_core": true,
+  "native": true,
+  "trials_detail": [
+    {
+      "seed": 91000,
+      "split": "heldout",
+      "success": false,
+      "time_seconds": 40.0,
+      "direction_changes": 0,
+      "directions": [],
+      "native_collision_events": [],
+      "position_error_m": 7.158122500063974,
+      "yaw_error_deg": 179.876708984375,
+      "boundary_clearance_m": 2.0302277468515024,
+      "collision": false,
+      "pose_passed": false
+    },
+    {
+      "seed": 91001,
+      "split": "heldout",
+      "success": false,
+      "time_seconds": 40.0,
+      "direction_changes": 0,
+      "directions": [],
+      "native_collision_events": [],
+      "position_error_m": 7.0987948353588495,
+      "yaw_error_deg": 179.5690612792969,
+      "boundary_clearance_m": 2.115609252821157,
+      "collision": false,
+      "pose_passed": false
+    }
+  ]
+}

@@ -24,11 +24,11 @@ def plan(case):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--out',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--out',required=True);p.add_argument('--curvature-scale',type=float,default=.7930453466373627);p.add_argument('--max-wheel',type=float,default=.46);a=p.parse_args()
     out=Path(a.out);out.mkdir(parents=True,exist_ok=False)
     splits={s:cases(s,n) for s,n in [('train',64),('validation',8),('heldout',8)]}
     (out/'cases.json').write_text(json.dumps({s:[c.record() for c in v] for s,v in splits.items()},indent=2)+'\n')
-    start=time.monotonic();receipt={'heldout_labels_generated':False,'teacher':'rsplan 1.0.10; training only','splits':{}}
+    start=time.monotonic();receipt={'heldout_labels_generated':False,'teacher':'rsplan 1.0.10; training only','splits':{},'curvature_scale':a.curvature_scale,'max_wheel':a.max_wheel}
     for split in ['train','validation']:
         obs=[];target=[];seeds=[];missing=[]
         for case in splits[split]:
@@ -48,19 +48,19 @@ def main():
                 direction=pick.driving_direction
                 speed=min(.9,max(.22,np.sqrt(max(remaining,.04)*.9)))
                 if i>=len(pts)-3:speed=0.
-                for j in range(3):
+                for j in range(5):
                     state=np.array([p.x,p.y,p.yaw,p.driving_direction*rng.uniform(0,.95)])
-                    state[:3]+=rng.normal(0,[.10,.10,.04]) if j else 0
+                    state[:3]+=rng.normal(0,[.20,.20,.07]) if j else 0
                     if metrics(state,case)['collision']:continue
                     dx,dy=state[0]-p.x,state[1]-p.y
                     cross=-np.sin(p.yaw)*dx+np.cos(p.yaw)*dy
                     heading=float(wrap(pick.yaw-state[2]))
-                    curvature=pick.curvature+direction*.7*heading-.28*cross
-                    wheel=np.arctan(WHEELBASE*curvature)/MAX_ROAD_WHEEL_ANGLE/WHEEL_TO_CARLA
+                    curvature=pick.curvature+direction*.9*heading-.35*cross
+                    wheel=np.arctan(WHEELBASE*curvature/a.curvature_scale)/MAX_ROAD_WHEEL_ANGLE/WHEEL_TO_CARLA
                     selector=float(rng.choice([p.driving_direction,0]))
-                    obs.append(observation(state,case,selector,rng.uniform(-.35,.35)));target.append([np.clip(wheel,-.35,.35),speed*direction]);seeds.append(case.seed)
-            for _ in range(75):
-                state=np.r_[case.goal+rng.normal(0,[.16,.16,.035]),rng.uniform(-.5,.5)]
+                    obs.append(observation(state,case,selector,rng.uniform(-a.max_wheel,a.max_wheel)));target.append([np.clip(wheel,-a.max_wheel,a.max_wheel),speed*direction]);seeds.append(case.seed)
+            for _ in range(30):
+                state=np.r_[case.goal+rng.normal(0,[.08,.08,.02]),rng.uniform(-.5,.5)]
                 obs.append(observation(state,case,rng.choice([-1,0,1]),rng.uniform(-.3,.3)));target.append([0.,0.]);seeds.append(case.seed)
         np.savez_compressed(out/(split+'.npz'),observations=np.asarray(obs,np.float32),targets=np.asarray(target,np.float32),case_seeds=seeds)
         receipt['splits'][split]={'rows':len(target),'no_feasible_teacher':missing}

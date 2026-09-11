@@ -10,3 +10,13 @@ class ThreePointPolicy(ParkingPolicy):
         rng=np.random.default_rng(seed)
         count=encode(np.zeros((1,11),np.float32)).shape[1]
         self.feature_ids=torch.as_tensor(rng.integers(0,count,len(sensory_ids)),dtype=torch.long)
+
+    def training_outputs(self,features):
+        raw,_=self.raw(features)
+        return self.scale[0]*torch.tanh(raw[:,0]),self.scale[1]*torch.sigmoid(raw[:,1]),raw[:,2:]
+
+    def forward(self,features,return_state=False):
+        raw,state=self.raw(features)
+        direction=raw[:,2:].argmax(dim=1)-1
+        output=torch.stack([self.scale[0]*torch.tanh(raw[:,0]),self.scale[1]*torch.sigmoid(raw[:,1])*direction],dim=1)
+        return (output,state) if return_state else output
