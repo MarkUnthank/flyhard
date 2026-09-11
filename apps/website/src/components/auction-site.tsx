@@ -447,7 +447,9 @@ export default function AuctionSite() {
             </a>
           </div>
           <p className="hero-footnote">
-            Six legs. One steering wheel. A questionable business model.{" "}
+            We do not directly endorse any of the sponsors featured here. We do
+            not receive any ongoing benefits from any of the featured sponsors
+            and are not associated with any cryptocurrencies or coins.{" "}
             <a className="text-link" href="/media">
               Watch the fly <ArrowDown size={13} />
             </a>
