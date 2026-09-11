@@ -1,0 +1,39 @@
+{
+  "file": "Flyhard-good-attempt-Boccherini.mp4",
+  "sha256": "6c831de1e73741ab089b1e057407c3b73cdba0e4a9c2de0c781ad46cb337a6d5",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "60/1",
+        "nb_frames": "1368"
+      },
+      {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "nb_frames": "1070"
+      }
+    ],
+    "format": {
+      "duration": "22.800000",
+      "size": "8438783"
+    }
+  },
+  "local_edit_os": "Darwin",
+  "full_decode": "passed",
+  "every_attempt_frame_compared": 1218,
+  "maximum_downscaled_road_frame_mae": 0.7834375,
+  "mean_frame_mae": 0.3251675817597154,
+  "recorded_states_included": 406,
+  "attempt_seconds": 20.3,
+  "ending_hold_seconds": 2.5,
+  "no_video_time_cuts": true,
+  "normal_speed": true,
+  "desktop_video_and_source_hash_verified": true
+}

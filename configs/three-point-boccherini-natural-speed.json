@@ -1,32 +1,7 @@
 {
-  "filename": "Flyhard-three-point-turn-Boccherini-natural-speed.mp4",
-  "duration_seconds": 49.65,
-  "sources": {
-    "early": "runs/three-point-render-early/three-point.mp4",
-    "middle": "runs/three-point-render-middle/three-point.mp4",
-    "success": "runs/three-point-render-success/three-point.mp4"
-  },
-  "learning": [
-    {
-      "source": "early",
-      "stage": "Early training",
-      "start": 0,
-      "end": 8.3,
-      "duration": 16.6,
-      "zoom": 1
-    },
-    {
-      "source": "middle",
-      "stage": "More training",
-      "start": 0,
-      "end": 6.7,
-      "duration": 10.05,
-      "zoom": 1
-    }
-  ],
-  "black_seconds": 0.9,
-  "success": "success",
-  "final_hold_seconds": 1.8,
+  "filename": "Flyhard-good-attempt-Boccherini.mp4",
+  "source": "work/three-point-local-edit/parts/success/three-point.mp4",
+  "end_hold_seconds": 2.5,
   "music": {
     "file": "assets/music/boccherini-g275/minuet-trio.ogg",
     "sha256": "cc1008f7d53b9c641362f6dd4375ff3d05e9c445e2d8cde615735323c0f34ff7",
@@ -35,7 +10,6 @@
     "credit_recording": "Rafael Krux \u00b7 CC0 recording",
     "source": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg",
     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "start_seconds": 0.5,
-    "reveal_start_seconds": 0.5
+    "start_seconds": 0.5
   }
 }
