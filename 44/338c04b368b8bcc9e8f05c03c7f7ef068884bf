@@ -1,0 +1,30 @@
+apps/website/public/press/press-notes.txt
+  s_a4118e60694662::t_14fd892ab084e0 12-22
+apps/website/src/lib/press-kit.json
+  s_a4118e60694662::t_1b0701e418e7f9 6-19
+apps/website/scripts/build-press-kit.mjs
+  s_a4118e60694662::t_1b0701e418e7f9 88-90,97
+apps/website/src/app/press/press.module.css
+  s_a4118e60694662::t_bd600ef0bf75d9 204-224,226,228,231-234,236-238,240-243,245-295,298,300,302-303,305,309,311-314
+  s_a4118e60694662::t_45b2fb4f251995 435-437,483,499-500,502-505
+  s_a4118e60694662::t_2b94b44b746ffb 315-319
+apps/website/src/app/press/page.tsx
+  s_a4118e60694662::t_2b94b44b746ffb 261-272
+  s_a4118e60694662::t_1b0701e418e7f9 205-215,217-218,220-224,226-227,229,232-256,260
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "44338c04b368b8bcc9e8f05c03c7f7ef068884bf",
+  "prompts": {},
+  "sessions": {
+    "s_a4118e60694662": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08f0c-1d29-7692-beea-e7779264e625",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
