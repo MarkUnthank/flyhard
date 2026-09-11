@@ -1,0 +1,25 @@
+apps/website/src/components/custom-wrap-offer.tsx
+  s_f6feb7ee73668b::t_bd2ffea3c2f3d6 150
+apps/website/src/components/custom-wrap-offer.module.css
+  s_f6feb7ee73668b::t_c82da9b2b2d772 394,396-400,403-419,421,423-456,459-460,463-476,480-485,488-489,498,522-538,542-543,545-549,553-557,562-563,570-571,574,579,599,628-632,635-636,638-639,642-643,646-647,654,660,663-664,667,673,675-676,696-705
+  s_f6feb7ee73668b::t_d48e2ed988a937 395,401-402,420,422,457-458,461-462,477-479,486-487,490-494,499-500,502-521,539-540,544,550-552,558-561,564-569,572-573,575-578,580-581,590-598,600-627,633-634,637,640-641,644-645,648-653,655-659,661-662,665-666,668-672,674,677-695
+  s_f6feb7ee73668b::t_d0cd0751419059 495-497,501,541,582-589
+apps/website/src/app/globals.css
+  s_f6feb7ee73668b::t_15858082b42a35 7-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "86d97c1d36d928f44e739e7fac919d66184caaca",
+  "prompts": {},
+  "sessions": {
+    "s_f6feb7ee73668b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a091c0-8628-7753-8c1e-10023951e655",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
