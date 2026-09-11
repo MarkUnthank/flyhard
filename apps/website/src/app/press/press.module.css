@@ -136,29 +136,32 @@
 }
 .profile {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 64px;
-  margin: 0 0 20px;
-  padding: 42px 40px;
-  border-radius: 10px;
-  background: var(--soft);
+  grid-template-columns: 220px minmax(0, 720px);
+  gap: 48px;
+  margin: 0;
+  padding: 36px 0 42px;
+  border-top: 1px solid var(--line);
 }
 .profile h2 {
-  margin-bottom: 0;
+  margin: 12px 0 0;
+  font-size: 22px;
+  letter-spacing: -0.025em;
 }
 .profileBody {
-  padding-top: 4px;
+  padding-top: 1px;
 }
 .profileBody p {
-  margin: 0 0 17px;
+  margin: 0 0 14px;
   color: #50564c;
   font-size: 14px;
-  line-height: 1.85;
+  line-height: 1.8;
 }
-.profileBody .profileLead {
+.profileBody .profileHook {
   color: var(--ink);
-  font-size: 20px;
-  line-height: 1.6;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.55;
+  margin-bottom: 16px;
 }
 .profileBody .textLink {
   margin-top: 2px;
@@ -489,8 +492,8 @@
     gap: 40px;
   }
   .profile {
+    grid-template-columns: 180px minmax(0, 1fr);
     gap: 34px;
-    padding: 34px 30px;
   }
   .results {
     gap: 24px;
@@ -534,8 +537,7 @@
   .profile {
     grid-template-columns: 1fr;
     gap: 20px;
-    margin-bottom: 0;
-    padding: 28px 24px;
+    padding: 28px 0 32px;
   }
   .section {
     padding: 38px 0;
