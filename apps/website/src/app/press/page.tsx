@@ -138,16 +138,12 @@ export default function PressPage() {
         <section className={styles.profile} aria-labelledby="about-mark-title">
           <div className={styles.profileIntro}>
             <div className="eyebrow">ABOUT MARK</div>
-            <h2 id="about-mark-title">{kit.aboutMark.headline}</h2>
+            <h2 id="about-mark-title">Mark Unthank</h2>
           </div>
           <div className={styles.profileBody}>
-            {kit.aboutMark.paragraphs.map((paragraph, index) => (
-              <p
-                className={index === 0 ? styles.profileLead : undefined}
-                key={paragraph}
-              >
-                {paragraph}
-              </p>
+            <p className={styles.profileHook}>{kit.aboutMark.headline}</p>
+            {kit.aboutMark.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
             ))}
             <a
               className={styles.textLink}
