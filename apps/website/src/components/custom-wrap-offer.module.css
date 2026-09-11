@@ -398,18 +398,20 @@
   z-index: 20;
   right: 24px;
   bottom: 24px;
+  display: grid;
+  grid-template-rows: minmax(440px, 0fr);
   width: min(300px, calc(100vw - 32px));
-  height: min(440px, calc(100dvh - 48px));
   max-width: calc(100vw - 32px);
   margin: 0;
   padding: 0;
   scroll-margin-top: 0;
   transition:
-    width var(--duration-base) var(--ease-smooth),
-    height var(--duration-base) var(--ease-smooth);
+    width var(--duration-expand) var(--ease-smooth),
+    grid-template-rows var(--duration-expand) var(--ease-smooth);
 }
 .floating .shell {
   height: 100%;
+  min-height: 0;
   padding: 4px;
   border-radius: 28px;
   box-shadow: var(--shadow-elevated);
@@ -488,17 +490,11 @@
 }
 .floating:is(:hover, :focus-within) {
   width: min(1120px, calc(100vw - 48px));
-  height: auto;
-}
-.floating:is(:hover, :focus-within) .shell {
-  height: auto;
-  padding: 6px;
-  border-radius: 36px;
-  box-shadow: 0 18px 65px -32px #3d582d44;
+  grid-template-rows: minmax(440px, 1fr);
 }
 .floating:is(:hover, :focus-within) .card {
-  height: auto;
-  min-height: initial;
+  height: 100%;
+  min-height: 0;
   padding: 38px 44px 28px;
   border-radius: 30px;
 }
@@ -630,8 +626,8 @@
   .floating {
     right: max(12px, env(safe-area-inset-right));
     bottom: max(12px, env(safe-area-inset-bottom));
+    grid-template-rows: minmax(410px, 0fr);
     width: min(280px, calc(100vw - 24px));
-    height: min(410px, calc(100dvh - 32px));
   }
   .floating .card {
     padding: 20px 18px 18px;
@@ -646,7 +642,7 @@
   }
   .floating:is(:hover, :focus-within) {
     width: min(960px, calc(100vw - 24px));
-    height: auto;
+    grid-template-rows: minmax(410px, 1fr);
   }
   .floating:is(:hover, :focus-within) .card {
     padding: 26px 20px 24px;

@@ -6,6 +6,7 @@
   --soft: #f6f7f4;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-base: 240ms;
+  --duration-expand: 420ms;
   --shadow-elevated:
     0 0 0 0.5px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06),
     0 10px 30px rgba(0, 0, 0, 0.06), 0 24px 60px rgba(0, 0, 0, 0.05);
