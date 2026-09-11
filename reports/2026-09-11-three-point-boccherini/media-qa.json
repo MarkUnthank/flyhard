@@ -1,0 +1,54 @@
+{
+  "file": "Flyhard-three-point-turn-Boccherini-45s.mp4",
+  "sha256": "df8a49f9350643e1f2960ec90ced345c341f9b6476d40845728eac028c5d7515",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "60/1",
+        "nb_frames": "2700"
+      },
+      {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "nb_frames": "2111"
+      }
+    ],
+    "format": {
+      "duration": "45.000000",
+      "size": "16389779"
+    }
+  },
+  "full_decode": "passed",
+  "black_frame_at_22_5_seconds": "passed",
+  "blackout_audio_peak": 0.0,
+  "music_source_correlations": [
+    0.9997506697751198,
+    0.9998505501624204
+  ],
+  "success_frame_mean_absolute_errors": [
+    1.2691292116769548,
+    0.8571281828703704,
+    0.8881322337962962,
+    0.7742012281378602
+  ],
+  "success_reveal_seconds": 22.9,
+  "rendered_sources_unchanged": true,
+  "presentation": "Six edit beats from saved checkpoints; final beat teases the same successful take subsequently shown in full. No extra training or new CARLA simulation.",
+  "desktop_copy_sha256_verified": true,
+  "visual_checks": [
+    "Green Mini with current r35/layout5 sponsors",
+    "Left door and rear sponsor views",
+    "Close crops retain the car and target",
+    "No duplicated gear/speed labels",
+    "Request/steering/pedal/gear readouts and site address retained",
+    "Blackout and successful full take visible",
+    "Boccherini credits"
+  ]
+}

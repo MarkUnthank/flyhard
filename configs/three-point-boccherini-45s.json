@@ -1,0 +1,73 @@
+{
+  "filename": "Flyhard-three-point-turn-Boccherini-45s.mp4",
+  "duration_seconds": 45,
+  "sources": {
+    "early": "runs/three-point-render-early/three-point.mp4",
+    "middle": "runs/three-point-render-middle/three-point.mp4",
+    "success": "runs/three-point-render-success/three-point.mp4"
+  },
+  "learning": [
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 0,
+      "end": 2.3,
+      "duration": 3.5,
+      "zoom": 1
+    },
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 2.3,
+      "end": 4.4,
+      "duration": 3,
+      "zoom": 1.18
+    },
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 4.4,
+      "end": 8.3,
+      "duration": 4.5,
+      "zoom": 1
+    },
+    {
+      "source": "middle",
+      "stage": "More training",
+      "start": 0,
+      "end": 2.7,
+      "duration": 4,
+      "zoom": 1.18
+    },
+    {
+      "source": "middle",
+      "stage": "More training",
+      "start": 2.7,
+      "end": 4.8,
+      "duration": 3.6,
+      "zoom": 1.18
+    },
+    {
+      "source": "success",
+      "stage": "Final checkpoint",
+      "start": 16.0,
+      "end": 19.0,
+      "duration": 3.4,
+      "zoom": 1.22
+    }
+  ],
+  "black_seconds": 0.9,
+  "success": "success",
+  "final_hold_seconds": 1.8,
+  "music": {
+    "file": "assets/music/boccherini-g275/minuet-trio.ogg",
+    "sha256": "cc1008f7d53b9c641362f6dd4375ff3d05e9c445e2d8cde615735323c0f34ff7",
+    "title": "Boccherini: Minuet and Trio, String Quintet in E major, Op. 11 No. 5, G. 275",
+    "credit_title": "Boccherini \u00b7 Minuet and Trio, G. 275",
+    "credit_recording": "Rafael Krux \u00b7 CC0 recording",
+    "source": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "start_seconds": 0.5,
+    "reveal_start_seconds": 0.5
+  }
+}
