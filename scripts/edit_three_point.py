@@ -40,6 +40,8 @@ def main():
     assert abs(successful['duration'] - successful['actual_result']['time_seconds']) < .06
 
     shots = plan['learning']
+    assert all(receipts[shot['source']]['video_sha256'] != successful['video_sha256']
+               for shot in shots), 'Show the successful take once, from start to finish'
     learning_duration = sum(shot['duration'] for shot in shots)
     black = plan['black_seconds']
     hold = plan['final_hold_seconds']
@@ -143,10 +145,10 @@ def main():
                'artwork': {'revision': manifest['revision'], 'layout': manifest['layoutVersion']},
                'music': music, 'plan_sha256': sha(args.plan), 'editor_sha256': sha(__file__),
                'claim': 'Earlier and intermediate checkpoint footage cut chronologically within each '
-                        'trial. Six edit beats are not six training attempts. The intermediate '
+                        'trial. Edit segments are not additional training attempts. The intermediate '
                         'checkpoint also passed its complete trial; its finish is withheld here. '
-                        'The final pre-blackout beat teases the selected successful take before '
-                        'its stop; that same take is then shown in full after the blackout. '
+                        'The successful take appears only once, from its beginning after the '
+                        'blackout, with no preview, skip or replay of its finish. '
                         'No invented mistakes, extra training or changed controller actions. '
                         'Only edit timing and modest road-view crops change.'}
     (out / 'edit-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
