@@ -1,0 +1,2 @@
+# Preserve the source evidence CSV bytes, including standard CRLF line endings.
+public/press/data/*.csv -text whitespace=cr-at-eol

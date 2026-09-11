@@ -1,0 +1,151 @@
+[
+  {
+    "id": "three-point-turn",
+    "source_filename": "Flyhard-good-attempt-Boccherini.mp4",
+    "source_sha256": "6c831de1e73741ab089b1e057407c3b73cdba0e4a9c2de0c781ad46cb337a6d5",
+    "web_sha256": "9ee04cc689a1ac2a6cb6dd6fc18d0d0ef56b5f37b47d1b0010ebfd803287b5ec",
+    "reencoded": false,
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "60/1",
+          "nb_frames": "1368"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "nb_frames": "1070"
+        }
+      ],
+      "format": {
+        "duration": "22.800000",
+        "size": "8438783"
+      }
+    }
+  },
+  {
+    "id": "road-rage",
+    "source_filename": "Flyhard-road-rage.mp4",
+    "source_sha256": "f9b56edb8dd71d09fafb07b3a53a188967bdc73841248dc8f132b14980d74fcf",
+    "web_sha256": "d3a53c09cde73c4e4f1f7531404a8375623a73326c749e10c7a555ccb0098303",
+    "reencoded": true,
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "60/1",
+          "nb_frames": "1200"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "nb_frames": "939"
+        }
+      ],
+      "format": {
+        "duration": "20.000000",
+        "size": "8939579"
+      }
+    }
+  },
+  {
+    "id": "horn-etiquette",
+    "source_filename": "Flyhard-horn-etiquette-dynamic.mp4",
+    "source_sha256": "8ef75db167044b8071f3c304158c5651cbfab2bda0d29d02d9f56fdb72ce176b",
+    "web_sha256": "0529b6f02c9f7dbd1c29772b0449ccf5bf63b513348aeb889b4a8677ff3374a2",
+    "reencoded": true,
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "60/1",
+          "nb_frames": "2250"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "nb_frames": "1759"
+        }
+      ],
+      "format": {
+        "duration": "37.500000",
+        "size": "16308654"
+      }
+    }
+  },
+  {
+    "id": "parallel-parking",
+    "source_filename": "Flyhard-parking-Mozart-fast-edit.mp4",
+    "source_sha256": "b7fd18abae2e7a390f3ac46b5ea80eeadf07e9fe7daec94f7a1d3c4bc28d754e",
+    "web_sha256": "f01ad7caf51aca476f18a7fbbdedde8b6f456b06f24c8e1003285de8fa33ab51",
+    "reencoded": false,
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "60/1",
+          "nb_frames": "1800"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "nb_frames": "1408"
+        }
+      ],
+      "format": {
+        "duration": "30.000000",
+        "size": "8772374"
+      }
+    }
+  },
+  {
+    "id": "indicator-closeup",
+    "source_filename": "flyhard-indicator-closeup-25s-16x9.mp4",
+    "source_sha256": "93999d02d636417fc0d5a7ba86b274808565971d9a27b296cad2b0a2de10017c",
+    "web_sha256": "ea74af3a4a03c251ca2c8cd3869c747c31792290ef4f523f63e345e4d80ac84f",
+    "reencoded": true,
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "60/1",
+          "nb_frames": "1500"
+        }
+      ],
+      "format": {
+        "duration": "25.000000",
+        "size": "13422053"
+      }
+    }
+  }
+]

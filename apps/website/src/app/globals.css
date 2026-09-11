@@ -2769,6 +2769,14 @@ fieldset {
   font-size: 19px;
   line-height: 1.7;
 }
+.journal-press-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 14px;
+  color: var(--green);
+}
 .journal-index {
   display: flex;
   flex-wrap: wrap;
@@ -2939,6 +2947,28 @@ fieldset {
   color: var(--green);
   font-weight: 600;
 }
+@media (max-width: 1300px) {
+  .site-header {
+    height: auto;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    gap: 12px;
+  }
+  .site-header nav {
+    order: 3;
+    flex-basis: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .site-header nav a,
+  .site-header nav a:last-child {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 44px;
+  }
+}
 @media (max-width: 640px) {
   .site-header {
     height: auto;
@@ -2958,7 +2988,7 @@ fieldset {
   }
   .site-header nav a {
     flex-shrink: 0;
-    min-height: 32px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
   }
@@ -2969,7 +2999,7 @@ fieldset {
 
 .journal-stills {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
   margin-top: 32px;
 }
