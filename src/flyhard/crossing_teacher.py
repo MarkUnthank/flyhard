@@ -7,8 +7,9 @@ occupy the swept band by the time the car arrives, and brakes only for that.
 import math
 import numpy as np
 
-from flyhard.crossing import (BRAKE_DECEL, CONFLICT_HALF_WIDTH, CROSSING_DEPTH,
-                              FRONT_OVERHANG, PEDESTRIAN_RADIUS, in_conflict)
+from flyhard.crossing import (BRAKE_DECEL, BRAKE_GAIN, COAST_DECEL, CONFLICT_HALF_WIDTH,
+                              CROSSING_DEPTH, FRONT_OVERHANG, PEDESTRIAN_RADIUS,
+                              in_conflict, stopping_distance, throttle_for_speed)
 
 RELEASE_MARGIN = .9   # Extra lateral clearance demanded before resuming.
 
@@ -41,19 +42,32 @@ def target(state, case, pedestrian_y, lateral_speed):
     speed = state[1]
     to_line = -front
 
-    if threatens(front, speed, case, pedestrian_y, lateral_speed) and not clear(pedestrian_y, lateral_speed):
+    yielding = (threatens(front, speed, case, pedestrian_y, lateral_speed)
+                and not clear(pedestrian_y, lateral_speed))
+    if yielding:
         if to_line <= .15 and speed < .3:
-            return np.array([0., 1., ], np.float32)       # Hold at the line.
+            return np.array([0., 1.], np.float32)         # Hold at the line.
+        # Lifting off alone sheds COAST_DECEL, which is firm. Braking the instant a
+        # pedestrian is seen therefore parks the car tens of metres short. Hold speed
+        # until the stop actually has to begin, then stop firmly at the line.
+        begin_at = 1.25*stopping_distance(speed)+1.5
+        if to_line > begin_at and speed > 1.:
+            return cruise(case, speed)
         needed = speed*speed/(2*max(to_line, .12))
-        # Brake a little harder than the bare requirement so the stop is not marginal.
-        brake = float(np.clip(1.15*needed/BRAKE_DECEL, .08 if speed > .3 else .6, 1.))
+        # Coasting already supplies COAST_DECEL; the pedal provides only the excess.
+        brake = float(np.clip((1.15*needed-COAST_DECEL)/BRAKE_GAIN, .06 if speed > .3 else .6, 1.))
         return np.array([0., brake], np.float32)
 
-    error = case.approach_speed-speed
-    if error < -.6:
-        return np.array([0., float(np.clip(-.18*error, 0, .45))], np.float32)
-    throttle = float(np.clip(.24+.30*error, 0, 1.))
-    return np.array([throttle, 0.], np.float32)
+    return cruise(case, speed)
+
+
+def cruise(case, speed):
+    """Hold the approach speed using the measured throttle/speed map, not an invented gain."""
+    target = case.approach_speed
+    if speed > target+1.2:
+        return np.array([0., float(np.clip((speed-target-1.2)*.25, 0, .4))], np.float32)
+    aim = target+1.5*(target-speed)
+    return np.array([float(np.clip(throttle_for_speed(aim), 0, 1.)), 0.], np.float32)
 
 
 def rollout(case, steps=420, dt=.05):

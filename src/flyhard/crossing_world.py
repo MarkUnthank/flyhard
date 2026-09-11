@@ -1,5 +1,9 @@
 """Native CARLA pedestrian crossing driven by measured fly pedals.
 
+Town05 is the default because it is the only stock town with a painted crossing
+away from a junction that still has a long straight approach: 71 of Town03's 73
+crosswalks sit inside junctions, and Town04 and Town10HD have none usable.
+
 The walker is a real CARLA actor moved with WalkerControl each tick rather than by
 WalkerAIController: a held-out case has to replay identically, and the AI
 controller picks its own path and start-up latency through the navigation mesh.
@@ -17,6 +21,17 @@ import numpy as np
 from flyhard.crossing import CROSSING_DEPTH, FRONT_OVERHANG, SENSING_RANGE, observation
 
 WALKER_Z = .92
+# Real pedals have free travel before anything engages. Without it, the small
+# residual the policy's sigmoid cannot drive to zero acts as a permanent light
+# brake, which stops the automatic gearbox engaging from rest and pins the car
+# with the throttle open. This is a fixed mechanical property of the linkage,
+# applied identically to every trial, and is not a learned quantity.
+BRAKE_FREE_PLAY = .15
+THROTTLE_FREE_PLAY = .06
+
+
+def past_free_play(value, free_play):
+    return max(0., (value-free_play)/(1.-free_play))
 
 
 def group_crosswalks(points):
@@ -41,7 +56,7 @@ def angular(a, b):
 class CrossingWorld:
     dt = 1/60
 
-    def __init__(self, town='Town03', approach_metres=70.):
+    def __init__(self, town='Town05', approach_metres=70.):
         self.client = carla.Client('127.0.0.1', 2000)
         self.client.set_timeout(120.)
         self.world = self.client.get_world()
@@ -203,9 +218,10 @@ class CrossingWorld:
         return observation(self.scenario_state(), self.case, pedestrian_y, lateral_speed, throttle, brake)
 
     def apply_measured(self, throttle, brake, steer):
-        """CARLA receives only measured pedal travel; steering is the disclosed lane request."""
+        """CARLA receives only measured pedal travel, past the linkage's free play."""
         self.ego.apply_control(carla.VehicleControl(
-            throttle=float(np.clip(throttle, 0., 1.)), brake=float(np.clip(brake, 0., 1.)),
+            throttle=float(np.clip(past_free_play(throttle, THROTTLE_FREE_PLAY), 0., 1.)),
+            brake=float(np.clip(past_free_play(brake, BRAKE_FREE_PLAY), 0., 1.)),
             steer=float(np.clip(steer, -1., 1.)), hand_brake=False))
 
     def lane_steer(self):
@@ -226,6 +242,9 @@ class CrossingWorld:
                                   'no WalkerAIController navigation',
                 'steering': 'Conventional lane-keeping request; the learned policy supplies '
                             'only brake and throttle, applied as measured pedal travel',
+                'pedal_free_play': {'brake': BRAKE_FREE_PLAY, 'throttle': THROTTLE_FREE_PLAY,
+                                    'note': 'Fixed linkage free travel applied to measured pedal '
+                                            'position before CARLA; identical in every trial'},
                 'lights': 'All signals frozen green so the measured stop is caused by the pedestrian'}
 
     def close(self):

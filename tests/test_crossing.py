@@ -92,10 +92,16 @@ def test_priority_is_held_by_anyone_walking_onto_the_crossing():
     assert not threatens(-25., 8., case, -case.kerb_y, -case.kerb_side*1.4)
 
 
-def test_teacher_brakes_for_an_occupied_band_and_accelerates_when_clear():
+def test_teacher_brakes_inside_the_stopping_zone_and_holds_speed_outside_it():
     case = cases('heldout', 1)[0]
-    braking = target(np.array([-20.-FRONT_OVERHANG, 8.]), case, 0., 0.)
-    assert braking[0] == 0. and braking[1] > 0.
+    # Far out, an occupied crossing does not yet call for the brake: lifting off
+    # alone sheds 4.4 m/s^2, so braking here would park the car tens of metres short.
+    far = target(np.array([-40.-FRONT_OVERHANG, 8.]), case, 0., 0.)
+    assert far[0] > 0. and far[1] == 0.
+    # Inside the stopping distance it brakes.
+    near = target(np.array([-5.-FRONT_OVERHANG, 8.]), case, 0., 0.)
+    assert near[0] == 0. and near[1] > 0.
+    # Nobody in the way: cruise.
     cruising = target(np.array([-20.-FRONT_OVERHANG, 4.]), case, case.kerb_y, 0.)
     assert cruising[0] > 0. and cruising[1] == 0.
 
@@ -141,24 +147,22 @@ def test_teacher_never_enters_an_occupied_crossing_when_a_stop_is_required():
     assert all(not m['stopped_in_crossing'] for m in needed)
 
 
-def test_a_pedestrian_still_on_the_crossing_forces_a_full_stop():
-    """Slowing and resuming is correct once they have finished crossing. Still being
-    on it when the car reaches the line is the case that must end at a standstill."""
-    stopped, resumed = 0, 0
+def test_required_stops_land_just_short_of_the_line_and_then_resume():
+    """With the measured dynamics the car should stop at the line, not tens of metres
+    back, and it must drive on once the pedestrian has cleared."""
+    positions = []
     for case in cases('heldout', 40):
         trajectory = rollout(case)[2]
         scored = metrics(trajectory, case)
         if not scored['stop_required']:
             continue
-        occupied_at_line = next((in_conflict(row['pedestrian_y']) for row in trajectory
-                                 if row['state'][0]+FRONT_OVERHANG >= 0), False)
-        if occupied_at_line:
-            assert scored['yielded_before_line'], f'{case.seed} did not stop for an occupied crossing'
-            stopped += 1
-        else:
-            resumed += scored['yielded_before_line'] is False
-    assert stopped >= 2, 'no held-out case put the pedestrian on the line'
-    assert resumed >= 8, 'the teacher never resumes after a pedestrian clears'
+        assert scored['yielded_before_line'], f'{case.seed} did not stop'
+        assert scored['cleared_crossing'], f'{case.seed} never resumed and cleared'
+        rest = [row['state'][0]+FRONT_OVERHANG for row in trajectory if row['state'][1] < .25]
+        positions.append(min(rest))
+    assert len(positions) >= 20
+    # Stopping more than 6 m short reads as braking for someone who is nowhere near.
+    assert all(-6. < p <= .2 for p in positions), f'stop positions out of range: {min(positions):.1f}..{max(positions):.1f}'
 
 
 def test_quiet_cases_are_driven_through_without_stopping():

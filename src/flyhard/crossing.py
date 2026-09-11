@@ -17,8 +17,16 @@ from flyhard.parking import CAR_LENGTH, CAR_WIDTH, REAR_TO_CENTER
 CROSSING_DEPTH = 4.0       # Length of the painted band beyond the stop line.
 CONFLICT_HALF_WIDTH = 1.6  # Lateral half-band the car actually sweeps.
 SENSING_RANGE = 40.        # Beyond this the pedestrian is not reported at all.
-THROTTLE_ACCEL = 3.0
-BRAKE_DECEL = 6.5
+# Measured on the CARLA Mini in Town05, 2026-09-12; see work/dynamics-calibration.json.
+# The first model assumed acceleration proportional to throttle with no drag, which
+# put steady cruise at 0.24 throttle. In CARLA that holds about 1 m/s, so the trained
+# policy crawled and never reached the crossing. These are the real numbers.
+THROTTLE_TERMINAL = [(0.0, 0.0), (0.25, 1.11), (0.35, 2.23), (0.45, 4.00),
+                     (0.55, 6.35), (0.65, 12.96), (0.75, 17.90), (0.90, 24.27), (1.0, 27.0)]
+COAST_DECEL = 4.38     # Lifting off, engine braking included.
+BRAKE_GAIN = 3.78      # Extra deceleration at full brake, on top of coasting.
+APPROACH_LAG = 0.20    # First-order rate at which speed approaches its terminal value.
+BRAKE_DECEL = COAST_DECEL+BRAKE_GAIN   # Full-brake deceleration, 8.16 m/s^2.
 PEDESTRIAN_RADIUS = .35
 FRONT_OVERHANG = CAR_LENGTH-REAR_TO_CENTER
 ENCROACH_MARGIN = .5   # Past the stop line by more than this counts as entering.
@@ -141,10 +149,30 @@ def encode(observations):
     return np.concatenate([raw, place, place*speed[:, None], place*a[:, 2, None]], axis=1).astype(np.float32)
 
 
+def terminal_speed(throttle):
+    """Speed this throttle settles at, interpolated from the measured CARLA response."""
+    grid = np.asarray(THROTTLE_TERMINAL)
+    return float(np.interp(float(np.clip(throttle, 0, 1)), grid[:, 0], grid[:, 1]))
+
+
+def throttle_for_speed(speed):
+    """Inverse of the measured map: the throttle that holds this speed."""
+    grid = np.asarray(THROTTLE_TERMINAL)
+    return float(np.interp(float(max(speed, 0.)), grid[:, 1], grid[:, 0]))
+
+
 def kinematic_step(state, throttle, brake, dt=.05):
-    """Longitudinal training diagnostic only. Native trials use the measured body rig."""
+    """Longitudinal training diagnostic, fitted to the measured CARLA response.
+
+    Still a diagnostic, not the simulator: native trials use the measured body rig.
+    The teacher never presses both pedals, so the two regimes are exclusive.
+    """
     state = np.array(state, float, copy=True)
-    acceleration = THROTTLE_ACCEL*float(np.clip(throttle, 0, 1))-BRAKE_DECEL*float(np.clip(brake, 0, 1))
+    brake = float(np.clip(brake, 0, 1))
+    if brake > .02:
+        acceleration = -(COAST_DECEL+BRAKE_GAIN*brake)
+    else:
+        acceleration = APPROACH_LAG*(terminal_speed(throttle)-state[1])
     state[1] = max(0., state[1]+acceleration*dt)
     state[0] += state[1]*dt
     return state
@@ -191,13 +219,15 @@ def metrics(trajectory, case):
     cleared = final['state'][0]+FRONT_OVERHANG > case.walk_offset+CROSSING_DEPTH
     # A rest at the very end of a run that simply ran out of steps is not a yield.
     stopped = [f for f in rest_fronts if f < case.walk_offset+CROSSING_DEPTH]
-    yielded = bool(stopped) and min(stopped) <= ENCROACH_MARGIN
+    yielded = bool(stopped and min(stopped) <= ENCROACH_MARGIN)
     stopped_in_crossing = any(f > ENCROACH_MARGIN for f in stopped)
     unnecessary_stop = bool(stopped) and not ever_occupied
     passed = (not contact and not entered_on_pedestrian and not stopped_in_crossing
               and not unnecessary_stop and cleared)
-    return {'stop_required': required, 'contact': contact,
-            'entered_on_pedestrian': entered_on_pedestrian,
+    # Coerce every flag to a plain bool: pedestrian positions arrive as numpy
+    # scalars, so comparisons yield numpy.bool_ which json.dumps refuses.
+    return {'stop_required': bool(required), 'contact': bool(contact),
+            'entered_on_pedestrian': bool(entered_on_pedestrian),
             'yielded_before_line': yielded, 'stopped_in_crossing': bool(stopped_in_crossing),
             'unnecessary_stop': bool(unnecessary_stop), 'cleared_crossing': bool(cleared),
             'min_pedestrian_gap_m': None if math.isinf(min_front_gap) else round(min_front_gap, 3),
