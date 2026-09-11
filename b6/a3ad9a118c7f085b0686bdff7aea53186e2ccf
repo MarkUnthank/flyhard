@@ -1,0 +1,24 @@
+apps/website/worker/auction.ts
+  s_7bb3c6ee7067fb::t_4c2b5f2e681d5c 69-72
+  s_7bb3c6ee7067fb::t_fef8167bd03aa1 370-456,464-481
+  s_7bb3c6ee7067fb::t_06f4011d53ef51 457-463
+  s_7bb3c6ee7067fb::t_d7c58c088944ad 523-524
+apps/website/scripts/set-placements.mjs
+  s_7bb3c6ee7067fb::t_5069beebf01c44 1-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "b6a3ad9a118c7f085b0686bdff7aea53186e2ccf",
+  "prompts": {},
+  "sessions": {
+    "s_7bb3c6ee7067fb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "175ba28a-268a-456c-8796-caa6c8efa015",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
