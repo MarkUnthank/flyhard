@@ -1,0 +1,22 @@
+apps/website/src/components/auction-site.tsx
+  s_f6feb7ee73668b::t_d2a039ce270364 449-451,458,462
+  s_f6feb7ee73668b::t_202c7a9df8dfa7 452-457
+apps/website/src/app/globals.css
+  s_f6feb7ee73668b::t_d2a039ce270364 477-504,1945-1946,1948-1965,2784,2788
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "47fe00e0d0d180070f01071bebf474f34cb982f8",
+  "prompts": {},
+  "sessions": {
+    "s_f6feb7ee73668b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a091c0-8628-7753-8c1e-10023951e655",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
