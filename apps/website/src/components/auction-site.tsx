@@ -474,11 +474,8 @@ export default function AuctionSite() {
           <aside className="hero-disclaimer" aria-label="Sponsor disclaimer">
             <span className="hero-disclaimer-label">SPONSOR DISCLAIMER</span>
             <p>
-              We do not directly endorse any of the sponsors featured here. We
-              do not receive any ongoing benefits from any of the featured
-              sponsors and are{" "}
               <strong>
-                not associated with any cryptocurrencies or coins.
+                We are not associated with any cryptocurrencies or coins.
               </strong>
             </p>
             <a className="text-link" href="/media">
