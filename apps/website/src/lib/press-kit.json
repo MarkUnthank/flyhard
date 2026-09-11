@@ -3,6 +3,20 @@
   "date": "2026-09-11",
   "summary": "A neural model built from a fruit fly’s measured brain connections learns to operate a simulated body at the wheel of a car.",
   "boilerplate": "The Driving Fly is an independent experiment by Mark Unthank at Really Nice. It uses measured fruit-fly neural connectivity as the structure for a trained model, connects that model to a simulated fly body, and uses the body’s measured controls to drive a Mini in CARLA. The project documents steering, indicators, horn use, parking attempts and three-point turns through films and open results. Current tasks use structured inputs or scripted requests, with engineered motor assistance; they do not demonstrate driving from vision. Sponsorship placements on the virtual Mini help fund the experiment. The code project is also known as Flyhard.",
+  "quote": "The next step is to train it up and put it through a driving test in the simulator.",
+  "socialViews": "4M combined views",
+  "socialPosts": [
+    {
+      "label": "Launch film",
+      "title": "The fly is learning to drive",
+      "url": "https://x.com/alright_mark/status/2097800377080889409"
+    },
+    {
+      "label": "Indicator film",
+      "title": "Learning to use the indicators",
+      "url": "https://x.com/alright_mark/status/2097963149794197910"
+    }
+  ],
   "contact": "mark@reallynice.company",
   "facts": [
     { "label": "Project", "value": "The Driving Fly / Flyhard" },

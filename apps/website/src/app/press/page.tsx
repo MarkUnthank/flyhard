@@ -202,50 +202,74 @@ export default function PressPage() {
               import.
             </p>
           </div>
-        </section>
-
-        <section className={styles.section} aria-labelledby="films-title">
-          <div className={styles.sectionHeading}>
-            <div>
-              <div className="eyebrow">READY TO WATCH & DOWNLOAD</div>
-              <h2 id="films-title">The latest films.</h2>
+          <blockquote className={styles.quote}>
+            <p>“{kit.quote}”</p>
+            <cite>— Mark Unthank, creator of The Driving Fly</cite>
+          </blockquote>
+          <div className={styles.socialProof}>
+            <div className={styles.socialIntro}>
+              <div className="eyebrow">SHARED BY MARK</div>
+              <h3>The story has travelled.</h3>
+              <p>
+                The launch and indicator films have reached {kit.socialViews}.
+              </p>
             </div>
-            <p>1080p MP4s. Videos download separately from the kit.</p>
-          </div>
-          <div className={styles.films}>
-            {mediaEntries.slice(0, 5).map((film) => (
-              <article key={film.id}>
+            <div className={styles.socialPosts}>
+              {kit.socialPosts.map((post) => (
                 <a
-                  className={styles.filmPreview}
-                  href={`/media#${film.id}`}
-                  aria-label={`Watch: ${film.title}`}
+                  className={styles.socialPost}
+                  key={post.url}
+                  href={post.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <img
-                    src={`/media/${film.id}.jpg`}
-                    alt={film.intro}
-                    width={1920}
-                    height={1080}
-                    loading="lazy"
-                  />
+                  <span className="eyebrow">{post.label}</span>
+                  <strong>{post.title}</strong>
                   <span>
-                    <Play size={14} /> {film.duration}
+                    Open on X <ArrowUpRight size={14} />
                   </span>
                 </a>
-                <div>
-                  <span className="eyebrow">{film.category}</span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.videoHeading}>
+            <div className="eyebrow">WATCH THE EVIDENCE</div>
+            <h3>The experiments, in motion.</h3>
+            <p>Play the latest recordings here, then read the full notes.</p>
+          </div>
+          <div className={styles.experimentVideos}>
+            {mediaEntries.slice(0, 5).map((film) => (
+              <article className={styles.experimentVideo} key={film.id}>
+                <video
+                  controls
+                  playsInline
+                  preload="none"
+                  poster={`/media/${film.id}.jpg`}
+                  aria-label={film.title}
+                >
+                  <source src={`/media/${film.id}.mp4`} type="video/mp4" />
+                  <a href={`/media/${film.id}.mp4`}>Download this recording</a>
+                </video>
+                <div className={styles.experimentVideoMeta}>
+                  <span className="eyebrow">
+                    {film.category} · {film.duration}
+                  </span>
                   <h3>
                     <a href={`/media#${film.id}`}>{film.title}</a>
                   </h3>
-                  <p>
-                    {film.audio} · {film.playback}
-                  </p>
-                  <a
-                    className={styles.textLink}
-                    href={`/media/${film.id}.mp4`}
-                    download
-                  >
-                    Download film <ArrowDownToLine size={15} />
-                  </a>
+                  <p>{film.intro}</p>
+                  <div className={styles.videoActions}>
+                    <a className={styles.textLink} href={`/media#${film.id}`}>
+                      Read the field notes <ArrowUpRight size={15} />
+                    </a>
+                    <a
+                      className={styles.textLink}
+                      href={`/media/${film.id}.mp4`}
+                      download
+                    >
+                      Download film <ArrowDownToLine size={15} />
+                    </a>
+                  </div>
                 </div>
               </article>
             ))}
