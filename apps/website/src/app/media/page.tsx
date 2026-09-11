@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         url: "/media/three-point-turn.jpg",
         width: 1920,
         height: 1080,
-        alt: "The simulated fly, its neural activity, and the car it steers",
+        alt: "A green Mini reverses across a marked road, with the fly body and computed neural activity shown alongside",
       },
     ],
   },

@@ -110,14 +110,24 @@ try {
       "-c",
       `
 import json, pathlib, sys, zipfile
+from datetime import date
 root = pathlib.Path(sys.argv[1]); press = root / 'public/press'
 kit = json.loads((root / 'src/lib/press-kit.json').read_text())
 files = [(p, p.relative_to(press).as_posix()) for p in press.rglob('*') if p.is_file() and p.suffix != '.zip']
 files += [(root / 'public/media' / item['file'], 'stills/' + item['file']) for item in kit['stills']]
 files += [(root / 'public/media/attribution.md', 'full-attribution.md')]
+max_asset_bytes = 25 * 1024 * 1024
+for source, name in files:
+    if not source.is_file():
+        raise SystemExit(f'Missing press-kit asset: {name}')
+    size = source.stat().st_size
+    if size >= max_asset_bytes:
+        raise SystemExit(f"Press-kit asset exceeds Cloudflare's 25 MiB limit: {name} ({size} bytes)")
+kit_date = date.fromisoformat(kit['date'])
+zip_timestamp = (kit_date.year, kit_date.month, kit_date.day, 0, 0, 0)
 with zipfile.ZipFile(press / 'the-driving-fly-press-kit.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
     for source, name in sorted(files, key=lambda item: item[1]):
-        info = zipfile.ZipInfo('the-driving-fly/' + name, (2026, 9, 11, 0, 0, 0))
+        info = zipfile.ZipInfo('the-driving-fly/' + name, zip_timestamp)
         info.compress_type = zipfile.ZIP_DEFLATED
         archive.writestr(info, source.read_bytes())
 print(f'Packaged {len(files)} files: stills, logos, facts, credits and data. Videos linked separately.')

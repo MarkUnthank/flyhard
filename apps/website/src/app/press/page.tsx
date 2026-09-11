@@ -7,6 +7,18 @@ import { mediaEntries } from "@/lib/media";
 import kit from "@/lib/press-kit.json";
 import styles from "./press.module.css";
 
+function getFeaturedFilm() {
+  const film = mediaEntries.find((entry) => entry.id === "three-point-turn");
+  if (!film) {
+    throw new Error(
+      "The featured press film is missing from the media catalogue.",
+    );
+  }
+  return film;
+}
+
+const featuredFilm = getFeaturedFilm();
+
 export const metadata: Metadata = {
   title: "Press kit — The Driving Fly",
   description:
@@ -84,7 +96,8 @@ export default function PressPage() {
                 fetchPriority="high"
               />
               <span className={styles.watch}>
-                <Play size={15} /> Watch the complete turn <span>22.8 sec</span>
+                <Play size={15} /> Watch the complete turn{" "}
+                <span>{featuredFilm.duration}</span>
               </span>
             </a>
             <figcaption>
