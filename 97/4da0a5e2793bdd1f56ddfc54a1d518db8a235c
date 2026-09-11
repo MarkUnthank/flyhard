@@ -1,0 +1,40 @@
+apps/website/src/components/car-ad-preview.module.css
+  s_09e0f4405f5ed5::t_f3678f53cb7a1b 84-87,89-96,98,100-101,104-111,115-117,120-128,132-144
+  s_09e0f4405f5ed5::t_e962eb2024f3f9 6,97,99,151
+  s_09e0f4405f5ed5::t_14a6e54fde1184 82-83,102-103,118-119,129-131
+  s_09e0f4405f5ed5::t_28e057a5ad5d42 156-160
+apps/website/src/app/globals.css
+  s_09e0f4405f5ed5::t_2dcd5708c0068a 1984-1996
+  s_09e0f4405f5ed5::t_9b998125a21f6e 1721-1753
+  s_09e0f4405f5ed5::t_b8d8843830e11b 829,831-832,834-863
+  s_09e0f4405f5ed5::t_9e4f4f03e50142 211-262,268
+apps/website/src/components/custom-wrap-offer.tsx
+  s_09e0f4405f5ed5::t_40215c204bc381 24-49,180-181,183-197
+apps/website/src/components/auction-site.tsx
+  s_09e0f4405f5ed5::t_e5846af37bdd2e 342-345,347,349-354,357-360
+  s_09e0f4405f5ed5::t_b9cedada580860 131-134,346,348,355-356
+  s_09e0f4405f5ed5::t_0d3c194d3d500d 302-304
+apps/website/src/components/site-header.tsx
+  s_09e0f4405f5ed5::t_0d3c194d3d500d 6,9,39-52
+apps/website/src/components/custom-wrap-offer.module.css
+  s_09e0f4405f5ed5::t_79ef1384490d8f 395-446,470-473,683,689-703
+  s_09e0f4405f5ed5::t_767441ceca4976 684-688,713-737
+  s_09e0f4405f5ed5::t_18cc805df8d742 548,552,558,562,572,575-585,588,591,596,599,602,607,610,616,620,624,628,632,636,641,645,649,654,659,664,670,675,750,759,763,768,772,776,781,784,788,793,796,799,802
+  s_09e0f4405f5ed5::t_df10bc7485d36e 753-757
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "974da0a5e2793bdd1f56ddfc54a1d518db8a235c",
+  "prompts": {},
+  "sessions": {
+    "s_09e0f4405f5ed5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "04de7977-1f84-4a8d-9958-f728a32c5f12",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
