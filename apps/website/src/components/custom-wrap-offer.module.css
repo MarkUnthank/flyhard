@@ -481,6 +481,7 @@
   letter-spacing: -2.5px;
 }
 .floating .cta {
+  margin-top: 20px;
   padding: 7px 8px 7px 14px;
   font-size: 12px;
 }
@@ -577,6 +578,7 @@
   letter-spacing: -3.5px;
 }
 .floating:is(:hover, :focus-within) .cta {
+  margin-top: 0;
   padding: 9px 10px 9px 22px;
   font-size: 15px;
 }
