@@ -28,7 +28,7 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def load_policy(checkpoint, graph_dir, core, reset_core=False):
+def load_policy(checkpoint, graph_dir, scenario, core, reset_core=False):
     from flyhard.scenario_policy import PedalPolicy
     with gzip.open(checkpoint, 'rb') as handle:
         saved = torch.load(handle, map_location='cpu', weights_only=False)
@@ -41,7 +41,9 @@ def load_policy(checkpoint, graph_dir, core, reset_core=False):
     if saved['config'].get('feature_count', width) != width:
         raise RuntimeError('Checkpoint was trained against a different encoder width')
     policy = PedalPolicy(np.load(Path(graph_dir)/'graph.npz'), state['sensory_ids'],
-                         state['motor_ids'], width, saved['config']['seed'])
+                         state['motor_ids'], width, saved['config']['seed'],
+                         outputs=len(state['decoder']),
+                         signed_outputs=scenario.signed_outputs)
     missing, extra = policy.load_state_dict(state, strict=False)
     assert set(missing) == {'core.crow', 'core.col', 'core.rows', 'core.base'} and not extra
     if reset_core:
@@ -89,7 +91,7 @@ def main():
     core, _ = scenario.modules
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=False)
-    policy, saved = load_policy(args.checkpoint, args.graph, core, args.reset_core)
+    policy, saved = load_policy(args.checkpoint, args.graph, scenario, core, args.reset_core)
 
     from flyhard.parking_rig import make_parking_rig
     env = scenario.load_world()(**({'town': args.town} if args.town else {}))
@@ -116,24 +118,31 @@ def main():
                                           fps=round(1/CONTROL_DT))
             env.release()
             throttle = brake = 0.
+            steer = 0.
+            learned_steering = policy.outputs >= 3
             rows, trajectory, activity = [], [], []
             started = env.world.get_snapshot().timestamp.elapsed_seconds
             for step in range(round(args.seconds/CONTROL_DT)):
                 now = env.world.get_snapshot().timestamp.elapsed_seconds-started
                 values, extra = env.hazard(now)
-                observation = env.observe(*values, throttle, brake)
+                measured = (throttle, brake, steer) if learned_steering else (throttle, brake)
+                observation = env.observe(*values, *measured)
                 with torch.no_grad():
                     output, neural = policy(torch.tensor(core.encode(observation), device='cuda'),
                                             return_state=True)
                 demand = output[0].cpu().numpy()
                 activity.append(neural[:, 0].cpu().numpy().astype(np.float16))
-                steer = env.lane_steer()
-                # Offline IK presses the pedals; CARLA gets the measured travel only.
-                targets = rig.diagnostic_drive_action(steer/.5, float(demand[0]), float(demand[1]), 1)
+                # Where steering is learned the fly turns the wheel; where it is not, the
+                # wheel follows a conventional lane-keeping request and is disclosed as such.
+                wanted_steer = float(demand[2]) if learned_steering else env.lane_steer()
+                # Offline IK works the controls; CARLA gets the measured travel only.
+                targets = rig.diagnostic_drive_action(wanted_steer/.5, float(demand[0]),
+                                                      float(demand[1]), 1)
                 for _ in range(10):
                     rig.step_drive(targets)
-                measured = rig.parking.measured
-                throttle, brake = measured['throttle'], measured['brake']
+                pedals = rig.parking.measured
+                throttle, brake = pedals['throttle'], pedals['brake']
+                steer = rig.angle*.5 if learned_steering else wanted_steer
                 env.apply_measured(throttle, brake, steer)
                 for _ in range(ticks):
                     frame = env.world.tick()
@@ -148,7 +157,10 @@ def main():
                              'observation': observation.tolist(),
                              'demand_throttle': float(demand[0]), 'demand_brake': float(demand[1]),
                              'measured_throttle': throttle, 'measured_brake': brake,
-                             'lane_steer_request': steer, 'speed_m_s': float(state[1]),
+                             'demand_steer': float(demand[2]) if learned_steering else None,
+                             'measured_steer': float(steer),
+                             'steering_source': 'learned' if learned_steering else 'lane keeping',
+                             'speed_m_s': float(state[-1]),
                              'front_to_line': float(state[0]+core.FRONT_OVERHANG), **extra})
                 if env.collision_events or env.done(state):
                     break
@@ -165,7 +177,7 @@ def main():
             trial = out/str(case.seed)
             trial.mkdir()
             box = env.ego.bounding_box
-            (trial/'config.json').write_text(json.dumps(
+            config = json.dumps(
                 {'fps': round(1/CONTROL_DT), 'policy_hz': round(1/CONTROL_DT),
                  'physics_dt': env.dt, 'scenario': scenario.name, 'case': case.record(),
                  **env.metadata(),
@@ -173,12 +185,20 @@ def main():
                                     'extent': [box.extent.x, box.extent.y, box.extent.z]},
                  'motion': 'Measured pedal travel drives CARLA; offline IK moves the fly legs. '
                            'Steering is a conventional lane-keeping request, not a learned output.'},
-                indent=2)+'\n')
+                indent=2)+'\n'
+            (trial/'config.json').write_text(config)
             (trial/'trace.json').write_text(json.dumps(rows)+'\n')
             np.savez_compressed(trial/'neural.npz', activity=np.asarray(activity))
 
             if cameras:
                 cameras.close()
+                # Keep the trial's own configuration beside the footage so the take is
+                # self-contained: the sponsor compositor needs the vehicle bounds, and a
+                # clip should never depend on a benchmark directory still existing.
+                (take_dir/'trial.json').write_text(config)
+                # The trace travels with the footage too: the edit picks its cut points
+                # from what the car actually did, so a take has to carry its own timing.
+                (take_dir/'trace.json').write_text(json.dumps(rows)+'\n')
                 take = Take(scenario=scenario.name, seed=case.seed, attempt=args.attempt,
                             outcome='success' if score['passed'] else 'failure',
                             duration_seconds=duration, fps=round(1/CONTROL_DT),

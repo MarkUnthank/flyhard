@@ -25,14 +25,16 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def load_policy(checkpoint, graph_dir='data/graph-traced-v1', reset_core=False):
+def load_policy(checkpoint, graph_dir='data/graph-traced-v1', scenario=None, reset_core=False):
     with gzip.open(checkpoint, 'rb') as f:
         saved = torch.load(f, map_location='cpu', weights_only=False)
     if sha(Path(graph_dir)/'graph.npz') != saved['config']['graph_sha256']:
         raise RuntimeError('Graph identity mismatch')
     s = saved['model']
     policy = PedalPolicy(np.load(Path(graph_dir)/'graph.npz'), s['sensory_ids'], s['motor_ids'],
-                         saved['config']['feature_count'], saved['config']['seed'])
+                         saved['config']['feature_count'], saved['config']['seed'],
+                         outputs=len(s['decoder']),
+                         signed_outputs=scenario.signed_outputs if scenario else 0)
     missing, extra = policy.load_state_dict(s, strict=False)
     assert set(missing) == {'core.crow', 'core.col', 'core.rows', 'core.base'} and not extra
     if reset_core:
@@ -54,6 +56,8 @@ def main():
     p.add_argument('--lr', type=float, default=.04)
     p.add_argument('--brake-weight', type=float, default=2.0,
                    help='Braking errors matter more than throttle errors here')
+    p.add_argument('--steer-weight', type=float, default=8.0,
+                   help='Steering travel is small and signed, so its error needs weighting up')
     p.add_argument('--both-penalty', type=float, default=.5,
                    help='Discourage pressing both pedals at once')
     p.add_argument('--resume')
@@ -79,23 +83,24 @@ def main():
     nodes = feather.read_table(Path(args.graph)/'nodes.feather')
     classes = np.array(nodes['superclass'].fill_null('').to_pylist())
     if args.resume:
-        policy, _ = load_policy(args.resume, args.graph)
+        policy, _ = load_policy(args.resume, args.graph, scenario)
         policy.train()
     else:
         policy = PedalPolicy(np.load(Path(args.graph)/'graph.npz'),
                              np.flatnonzero(classes == 'vnc_sensory'),
                              np.flatnonzero(classes == 'vnc_motor'),
-                             tx.shape[1], args.seed).cuda()
+                             tx.shape[1], args.seed, outputs=ty.shape[1],
+                             signed_outputs=scenario.signed_outputs).cuda()
         policy.calibrate(tx[rng.choice(len(tx), 64, replace=False)])
 
     fixed = {n: b.detach().cpu().clone() for n, b in policy.named_buffers() if not n.startswith('core.')}
-    config = {**vars(args), 'graph_sha256': sha(Path(args.graph)/'graph.npz'),
+    config = {**vars(args), 'signed_outputs': scenario.signed_outputs, 'graph_sha256': sha(Path(args.graph)/'graph.npz'),
               'feature_count': int(tx.shape[1]), 'cases_sha256': sha(root/'cases.json'),
               'data_sha256': {n: sha(root/n) for n in ['train.npz', 'validation.npz']},
               'observation_fields': OBSERVATION_FIELDS,
               'claim': scenario.claim+' Native CARLA evaluation required.',
               'learned': 'Measured-edge gains and neuron leaks; fixed sensory population code and motor decoder.',
-              'outputs': ['throttle demand', 'brake demand'],
+              'outputs': scenario.outputs,
               'motor_adapter': 'Offline IK moves the fly legs; only measured pedal travel drives CARLA.',
               'heldout_used_for_training': False, 'state_reset_each_decision': True,
               'source_sha256': {n: sha(n) for n in scenario.sources()
@@ -105,10 +110,16 @@ def main():
     opt = torch.optim.Adam(policy.parameters(), lr=args.lr)
     history, best, start, gradient = [], float('inf'), time.monotonic(), None
 
+    weights = torch.ones(policy.outputs, device='cuda')
+    weights[1] = args.brake_weight
+    if policy.outputs > 2:
+        weights[2] = args.steer_weight
+
     def objective(features, targets):
-        throttle, brake = policy.training_outputs(features)
-        loss = (throttle-targets[:, 0]).square()+args.brake_weight*(brake-targets[:, 1]).square()
-        return loss+args.both_penalty*(throttle*brake)
+        predicted = policy.training_outputs(features)
+        loss = ((predicted-targets).square()*weights).sum(dim=1)
+        # The teacher never presses both pedals; a trial that does is a real failure.
+        return loss+args.both_penalty*(predicted[:, 0]*predicted[:, 1])
 
     def validate():
         total = 0.

@@ -17,6 +17,8 @@ class Scenario:
     world: str
     world_class: str
     claim: str
+    outputs: tuple = ('throttle demand', 'brake demand')
+    signed_outputs: int = 0     # Trailing controls that are signed, so read out with tanh.
 
     @property
     def modules(self):
@@ -39,6 +41,13 @@ REGISTRY = {
         world='flyhard.junction_world', world_class='JunctionWorld',
         claim='Supervised pedal control for giving way at an unsignalled junction, '
               'including to a vehicle under blue lights arriving from either side.'),
+    'overtake': Scenario(
+        name='overtake', core='flyhard.overtake', teacher='flyhard.overtake_teacher',
+        world='flyhard.overtake_world', world_class='OvertakeWorld',
+        claim='Supervised throttle, brake and steering for overtaking a slower vehicle on '
+              'a dual carriageway and returning to lane.',
+        outputs=('throttle demand', 'brake demand', 'steering wheel travel'),
+        signed_outputs=1),
 }
 
 

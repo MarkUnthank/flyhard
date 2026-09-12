@@ -58,11 +58,16 @@ def main():
         observations, targets, scored = build(scenario, split, count, args.perturbed, args.seed)
         passed = sum(row['passed'] for row in scored)
         rate = passed/max(len(scored), 1)
+        # Scenarios name their own failure modes, so report whichever flags this one has
+        # rather than assuming the crossing's.
+        flags = sorted({key for row in scored for key, value in row.items()
+                        if isinstance(value, bool)})
         summary[split] = {'cases': len(scored), 'passed': passed, 'pass_rate': round(rate, 4),
                           'rows': int(len(observations)),
-                          'contacts': sum(row['contact'] for row in scored),
-                          'stop_required': sum(row['stop_required'] for row in scored),
-                          'brake_fraction': round(float((targets[:, 1] > .02).mean()), 4)}
+                          'flags': {key: sum(bool(row.get(key)) for row in scored) for key in flags},
+                          'control_activity': {
+                              index: round(float((np.abs(targets[:, index]) > .02).mean()), 4)
+                              for index in range(targets.shape[1])}}
         if rate < args.min_pass_rate:
             raise SystemExit(f'{split}: teacher passed only {passed}/{len(scored)}; '
                              'labels would teach the wrong behaviour')

@@ -52,7 +52,7 @@ def wide_pose(focus, approach_yaw, *, back=17., side=11., height=6.2):
 
 
 class ScenarioCameras:
-    def __init__(self, env, root, focus, approach_yaw, fps=20):
+    def __init__(self, env, root, focus, approach_yaw, fps=20, wide_attached=None):
         self.env, self.root, self.fps = env, Path(root), fps
         # Render at the capture rate, not at the physics rate. CARLA steps physics
         # several times per control period, and rendering six sensors on every one of
@@ -61,9 +61,20 @@ class ScenarioCameras:
         self.frames = []
         self.views = {}
         poses = dict(ATTACHED)
-        poses['wide'] = (wide_pose(focus, approach_yaw), 50)
+        # A world-fixed wide shot reads best when the scenario happens in one place. On
+        # a scenario that covers hundreds of metres the world sets its own wide camera,
+        # attached but far enough out that it is still a wide shot.
+        attached_wide = wide_attached or (env.wide_attached() if hasattr(env, 'wide_attached')
+                                          else None)
+        if attached_wide:
+            ATTACHED_WIDE = {'wide': attached_wide}
+            poses.update(ATTACHED_WIDE)
+            self.attached_names = set(ATTACHED) | {'wide'}
+        else:
+            poses['wide'] = (wide_pose(focus, approach_yaw), 50)
+            self.attached_names = set(ATTACHED)
         for name, (pose, fov) in poses.items():
-            attached = name in ATTACHED
+            attached = name in self.attached_names
             directory = self.root/'cameras'/name
             (directory/'depth').mkdir(parents=True, exist_ok=True)
             sensors, inboxes = [], []
