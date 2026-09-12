@@ -1,0 +1,28 @@
+scripts/composite_fly.py
+  s_7e690e84d597d0::t_9089ec951f768b 36
+  s_7e690e84d597d0::t_c996f995a28528 1-35,37-110
+tests/test_fly_view.py
+  s_7e690e84d597d0::t_c1bc375c7134d9 1-85
+src/flyhard/fly_view.py
+  s_7e690e84d597d0::t_c781b32d1da386 1-21,28,30-36,40-46,49-80,87-106
+  s_7e690e84d597d0::t_4dd4ac94dc4637 22,24-25,81-82
+  s_7e690e84d597d0::t_b7935c587a8336 23,26-27
+  s_7e690e84d597d0::t_918a45a27bfe11 29,83-86
+  s_7e690e84d597d0::t_9fe61dbb6078c6 37-39,47-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6266453ae6de989625f0b9b66ba99c7738b47443",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
