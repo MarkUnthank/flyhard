@@ -82,14 +82,19 @@ def cruise(case, speed, target=None):
     return np.array([float(np.clip(throttle_for_speed(aim), 0, 1.)), 0.], np.float32)
 
 
-def rollout(case, steps=420, dt=.05):
+def rollout(case, steps=460, dt=.05, rng=None, jitter=0.):
     """Run the demonstrator through the longitudinal diagnostic, returning labelled samples.
 
     Produces the observation the policy would see and the action the teacher took.
+    With `jitter`, the run starts from a perturbed state and carries small actuation
+    noise, so the policy sees states a slightly wrong earlier action would have reached.
     """
     from flyhard.crossing import kinematic_step, observation, pedestrian_state
 
     state = case.start.astype(float)
+    if jitter and rng is not None:
+        state[0] += rng.uniform(-6., 6.)*jitter
+        state[1] = max(0., state[1]+rng.uniform(-3., 2.5)*jitter)
     triggered_at = None
     throttle = brake = 0.
     observations, targets, trajectory = [], [], []
@@ -105,6 +110,9 @@ def rollout(case, steps=420, dt=.05):
         trajectory.append({'state': state.copy(), 'pedestrian_y': pedestrian_y,
                            'walking': walking, 'throttle': float(action[0]), 'brake': float(action[1])})
         throttle, brake = float(action[0]), float(action[1])
+        if jitter and rng is not None:
+            throttle = float(np.clip(throttle+rng.normal(0, .04)*jitter, 0., 1.))
+            brake = float(np.clip(brake+rng.normal(0, .04)*jitter, 0., 1.))
         state = kinematic_step(state, throttle, brake, dt)
         if state[0]+FRONT_OVERHANG > case.walk_offset+CROSSING_DEPTH+12:
             break
