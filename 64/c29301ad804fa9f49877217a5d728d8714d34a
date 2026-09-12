@@ -1,0 +1,71 @@
+src/flyhard/junction.py
+  s_7e690e84d597d0::t_9248d8dd43c618 1-21,23-29,31-47,49-62,64-65,71-76,79-88,99,103,107-108,111,121-130,139,141-142,145,154-178,186,194-197,199-204,210-213,218-226,228,230-232,235-236
+  s_7e690e84d597d0::t_08e5c8ef92c0e0 205-207,214,216
+  s_7e690e84d597d0::t_752621d4390ae9 63,66-70,77-78,89-91,98,100,104-106,110,112,116,118-120,179-185,187-193,198,208-209,215,217,227,229,233-234
+  s_7e690e84d597d0::t_abc4f4546cdc7c 30
+  s_7e690e84d597d0::t_2973ce0eb61db6 22,138,140,153
+  s_7e690e84d597d0::t_f5ac6ad6574173 109,113-115,117
+  s_7e690e84d597d0::t_bfce543c261376 131-137,143-144,146-152
+  s_7e690e84d597d0::t_ad65bd12ea573b 48,92-97,101-102
+src/flyhard/crossing_world.py
+  s_7e690e84d597d0::t_a990ece1a63f92 211-226
+src/flyhard/scenario_policy.py
+  s_7e690e84d597d0::t_7557d7f8c51a41 1-50
+src/flyhard/scenario_cameras.py
+  s_7e690e84d597d0::t_d4a5b1bc90d7de 98-101,108,111,119-120
+  s_7e690e84d597d0::t_4b7cac0a88e368 12,61,128-132,142-148
+  s_7e690e84d597d0::t_48cdb048eda46c 57-60,73
+scripts/evaluate_scenario.py
+  s_7e690e84d597d0::t_a990ece1a63f92 1-30,32-37,43,45-91,93-221
+  s_7e690e84d597d0::t_cd46c26bdca92e 31,38-42,44,92
+src/flyhard/crossing.py
+  s_7e690e84d597d0::t_d9af49fdbfcde2 30-35,41,164-174,176-177,181,183-199,212-214,216-217
+  s_7e690e84d597d0::t_2c5bacfb5ca9f3 36-40,200-202
+src/flyhard/scenarios.py
+  s_7e690e84d597d0::t_c98fd9aac197c2 1-48
+scripts/evaluate_crossing.py
+  s_7e690e84d597d0::t_362d2f39b2d5bf 25-26,58,93-95,112-114,121,150-151,164-165
+src/flyhard/junction_world.py
+  s_7e690e84d597d0::t_a990ece1a63f92 256-267
+  s_7e690e84d597d0::t_ad65bd12ea573b 19-20,115,193,239-241,243-246
+  s_7e690e84d597d0::t_abc4f4546cdc7c 116-118
+  s_7e690e84d597d0::t_8e278c51d34f2d 67,78-83,102-107,109,111-114,119-155,293-294
+  s_7e690e84d597d0::t_929603f5c38da9 1-18,21-66,68-74,76-77,84-101,108,110,156-191,194-238,242,247-255,268-292,295-314
+  s_7e690e84d597d0::t_a06261f6cd21f1 75,192
+scripts/prepare_scenario_data.py
+  s_7e690e84d597d0::t_c98fd9aac197c2 1-83
+src/flyhard/crossing_teacher.py
+  s_7e690e84d597d0::t_bab8524be30ea9 10,40-41,47,54-56,59-60,71-77,79-80
+  s_7e690e84d597d0::t_b7ca357a93503b 62,64-66
+  s_7e690e84d597d0::t_30726309025159 42-46
+  s_7e690e84d597d0::t_2c5bacfb5ca9f3 11-12,57-58,61,63,67-70
+src/flyhard/junction_teacher.py
+  s_7e690e84d597d0::t_752621d4390ae9 87,94
+  s_7e690e84d597d0::t_6990f747b689e2 16
+  s_7e690e84d597d0::t_4255ba9738f08c 60-61
+  s_7e690e84d597d0::t_58c51511285345 11,17-20,23-27,33,37-41,50
+  s_7e690e84d597d0::t_bfce543c261376 9,12,35-36,51
+  s_7e690e84d597d0::t_1e034739b8d88d 52-57,59
+  s_7e690e84d597d0::t_f5ac6ad6574173 13,101
+  s_7e690e84d597d0::t_7557d7f8c51a41 1-8,10,14-15,21-22,28-32,34,42-49,58,62-86,88-93,95-100,102-104
+scripts/train_scenario.py
+  s_7e690e84d597d0::t_ae93080002c7eb 1-158
+scripts/assemble_film.py
+  s_7e690e84d597d0::t_003381a4094ebb 19-53,101-102,180,183-184
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "64c29301ad804fa9f49877217a5d728d8714d34a",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
