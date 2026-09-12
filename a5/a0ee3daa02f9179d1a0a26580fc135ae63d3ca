@@ -1,0 +1,25 @@
+scripts/evaluate_scenario.py
+  s_7e690e84d597d0::t_655b77298612e1 175-177
+scripts/plan_film.py
+  s_7e690e84d597d0::t_4330c796dffdd6 296-300
+src/flyhard/scenario_cameras.py
+  s_7e690e84d597d0::t_655b77298612e1 28-31,163-165
+scripts/assemble_film.py
+  s_7e690e84d597d0::t_655b77298612e1 162-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a5a0ee3daa02f9179d1a0a26580fc135ae63d3ca",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
