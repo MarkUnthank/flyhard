@@ -39,7 +39,9 @@ def main():
     args = parser.parse_args()
     root = Path(args.root)
     takes = []
-    for folder in sorted(p for p in root.iterdir() if p.is_dir()):
+    # Hidden directories are the transfer's staging area, not takes.
+    for folder in sorted(p for p in root.iterdir()
+                         if p.is_dir() and not p.name.startswith('.')):
         record = folder/'take.json'
         manifest = json.loads(record.read_text()) if record.exists() else {}
         entry = {'id': manifest.get('id', folder.name),
