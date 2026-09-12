@@ -300,6 +300,10 @@ def main():
     parser.add_argument('--per-take', type=float, default=12.,
                         help='Screen time one take may occupy, in seconds')
     parser.add_argument('--title', default='A fly drives a car')
+    parser.add_argument('--captions', action='store_true',
+                        help='Burn the scenario title and outcome into the picture. Off by '
+                             'default: burnt-in text cannot be removed later, and captions '
+                             'are better added in an editor over a clean master.')
     args = parser.parse_args()
 
     library = ClipLibrary(args.library)
@@ -338,7 +342,7 @@ def main():
 
     total = round(sum(s['duration'] for section in sections for s in section['shots']), 2)
     plan = {'title': args.title, 'target_seconds': args.target, 'fps': 20,
-            'resolution': [1920, 1080], 'captions': True, 'caption_seconds': 2.6,
+            'resolution': [1920, 1080], 'captions': args.captions, 'caption_seconds': 2.6,
             'fade_seconds': .3, 'filename': 'flyhard-behaviours.mp4', 'sections': sections,
             'generated_total_seconds': total,
             'note': 'Generated from the clip library; edit this file and re-run '

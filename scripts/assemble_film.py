@@ -146,16 +146,22 @@ def build_filters(shots, inputs, plan, overlays=None):
     fade = float(plan.get('fade_seconds', .25))
     hold = float(plan.get('caption_seconds', 2.6))
     width, height = plan.get('resolution', [1920, 1080])
-    fit = plan.get('fit', 'cover')
+    fit = plan.get('fit', 'native')
     overlays = overlays or {}
     for i, shot in enumerate(shots):
         stream = inputs[shot['source']]
         end = shot['start'] + shot['duration']
-        # The cameras render 4:3 and the film is 16:9. Filling the frame and cropping
-        # the surplus beats pillarboxing: the bars would swallow a quarter of the
-        # picture and leave the captions floating in black. The raw takes keep the
-        # full frame, so nothing is actually lost.
-        if fit == 'contain':
+        # The cameras render 4:3 and the film is 16:9. `native` puts the recorded frame
+        # in the canvas at its own size, which is the default because the alternatives
+        # both damage it: filling the frame scales 1248x960 up by half and then throws
+        # away a quarter of the height, and scaling to fit is the same upscale without
+        # the crop. Neither adds detail. The bars beside a native frame are where the
+        # flyhard films have always put the readout panels.
+        if fit == 'native':
+            geometry = (f"scale='min({width},iw)':'min({height},ih)'"
+                        f":force_original_aspect_ratio=decrease,"
+                        f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
+        elif fit == 'contain':
             geometry = (f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
                         f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
         else:
@@ -251,7 +257,10 @@ def main():
     filter_file.write_text(';\n'.join(parts))
     output = out / plan.get('filename', 'film.mp4')
     command += ['-filter_complex_script', str(filter_file), *maps,
-                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
+                # The takes are already compressed, so the cut is a second generation.
+                # veryfast at crf 18 halved their bitrate and showed it; these are the
+                # settings the flyhard films are mastered with.
+                '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p',
                 '-r', str(plan.get('fps', 60)), '-fps_mode', 'cfr', '-threads', '8']
     if music:
         command += ['-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2']

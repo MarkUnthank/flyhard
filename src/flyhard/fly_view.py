@@ -27,6 +27,10 @@ HUB_IN_CAR = (0.133, -0.271, 1.114)
 WHEEL_DIAMETER = 0.19     # Metres on screen. The rig's own wheel is 1.94 fly lengths.
 REPLAY_STEPS = 10         # Physics steps per control tick, matching the evaluator.
 REFLECT = np.array([1., -1., 1.])   # CARLA is left handed where MuJoCo is right handed.
+# The side panel's fixed viewpoint, carried over unchanged from the cockpit films so
+# the fly is framed the same way in every flyhard video.
+PANEL_LOOKAT = (0.1, 0., 1.25)
+PANEL_DISTANCE, PANEL_AZIMUTH, PANEL_ELEVATION = 4., 155., -20.
 
 
 def free_camera(position, forward, distance=2.5):
@@ -67,6 +71,33 @@ class FlyView:
         self.option.geomgroup[5] = 0
         self.stand = {i for i in range(self.model.ngeom) if self.model.geom_bodyid[i] == 0}
         self.model.geom_rgba[self.model.geom_bodyid == self.model.body('wheel').id, :3] = .32
+
+    def panel(self, width=None, height=None, background=(0, 0, 0)):
+        """Render the rig alone against black, from the fixed angle the films use.
+
+        The cabin composite puts the fly where the driver's hands would be, which is
+        close and partial. A side panel wants the whole rig from a readable three
+        quarter angle, which is what this is: the same replayed rig, a different lens.
+        """
+        if (width, height) != (None, None) and (int(width), int(height)) != (self.width, self.height):
+            self.width, self.height = int(width), int(height)
+            self.renderer.close()
+            self.renderer = mj.Renderer(self.model, height=self.height, width=self.width)
+        camera = mj.MjvCamera()
+        camera.type = mj.mjtCamera.mjCAMERA_FREE
+        camera.lookat[:] = PANEL_LOOKAT
+        camera.distance = PANEL_DISTANCE
+        camera.azimuth, camera.elevation = PANEL_AZIMUTH, PANEL_ELEVATION
+        # The rig is drawn against the panel's own ground rather than MuJoCo's sky, so
+        # the segmentation buffer decides what belongs to the rig and the rest is
+        # filled. Without this the panel arrives as a white rectangle in a black film.
+        self.renderer.update_scene(self.rig.data, camera, self.option)
+        self.renderer.enable_segmentation_rendering()
+        drawn = self.renderer.render()[:, :, 0] >= 0
+        self.renderer.disable_segmentation_rendering()
+        self.renderer.update_scene(self.rig.data, camera, self.option)
+        colour = self.renderer.render()
+        return np.where(drawn[:, :, None], colour, np.asarray(background, np.uint8))
 
     def replay(self, steer, throttle, brake):
         """Advance the rig by one control tick of the trial's own demands."""

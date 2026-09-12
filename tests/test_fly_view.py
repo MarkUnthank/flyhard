@@ -83,3 +83,14 @@ def test_free_camera_round_trips_a_pose_through_azimuth_and_elevation():
         assert np.allclose(np.asarray(camera.lookat)-camera.distance*direction,
                            np.asarray(position, float), atol=1e-6)
         assert camera.type == mj.mjtCamera.mjCAMERA_FREE
+
+
+def test_the_side_panel_frames_the_whole_rig_rather_than_the_driver_s_view():
+    """Two different lenses on one rig: the cabin composite is close, the panel is not."""
+    from flyhard.fly_view import (HUB_IN_CAR, PANEL_DISTANCE, PANEL_ELEVATION,
+                                  PANEL_LOOKAT)
+    matrix = cabin_matrix()
+    reach = np.linalg.norm(np.asarray(HUB_IN_CAR)-matrix[:3, 3])
+    assert PANEL_DISTANCE > reach*3, 'the panel is no further out than the cabin camera'
+    assert -45 < PANEL_ELEVATION < 0, 'the panel should look slightly down on the rig'
+    assert PANEL_LOOKAT[2] > 0, 'the panel aims below the floor'
