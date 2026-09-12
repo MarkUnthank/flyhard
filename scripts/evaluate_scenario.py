@@ -53,8 +53,17 @@ def load_policy(checkpoint, graph_dir, scenario, core, reset_core=False):
     return policy.cuda().eval(), saved
 
 
-def describe(scenario, case, score):
-    if scenario.name == 'overtake':
+def describe(scenario, score):
+    """A phrase for the take's caption, read only from what the trial measured.
+
+    It is taken from the metrics alone, never from the case, so a take already on disk
+    can be relabelled without re-recording. Giving way does not have to mean stopping
+    dead: slowing enough to let the other road user through is correct driving and the
+    scorer counts it as a pass, so it must not be captioned as a failure.
+    """
+    name = scenario if isinstance(scenario, str) else scenario.name
+    passed = bool(score.get('passed'))
+    if name == 'overtake':
         if score['collided']:
             return 'collided while overtaking'
         if score['strayed']:
@@ -65,20 +74,34 @@ def describe(scenario, case, score):
             return ('held its lane, nothing to pass' if not score['used_outside_lane']
                     else 'pulled out with no reason to')
         return 'overtook and pulled back in' if score['overtook'] else 'never got past'
-    if scenario.name == 'crossing':
+    if name == 'crossing':
         if score['contact']:
             return 'hit the pedestrian'
+        if score['stopped_in_crossing']:
+            return 'stopped on the crossing'
+        if score['unnecessary_stop']:
+            return 'stopped for nobody'
         if score['yielded_before_line']:
             return 'stopped for the pedestrian'
-        return 'drove on, crossing clear' if not score['stop_required'] else 'failed to yield'
+        if not score['stop_required']:
+            return 'drove on, crossing clear'
+        return 'slowed and let them cross' if passed else 'drove at the pedestrian'
+    emergency = score.get('kind') == 'priority'
     if score['contact']:
         return 'collided in the junction'
+    if score['entered_occupied']:
+        return 'went while it was still coming'
+    if score['stopped_in_box']:
+        return 'stopped inside the junction'
     if score['unnecessary_stop']:
         return 'stopped when it had priority'
     if score['yielded_before_line']:
-        return ('gave way to the ambulance' if case.emergency
-                else 'gave way to the right')
-    return 'took the junction' if not score['stop_required'] else 'failed to give way'
+        return 'stopped for the ambulance' if emergency else 'gave way to the right'
+    if not score['stop_required']:
+        return 'took the junction, nothing coming'
+    if passed:
+        return 'eased off for the ambulance' if emergency else 'eased off and let it through'
+    return 'failed to give way'
 
 
 def main():
@@ -231,7 +254,7 @@ def main():
                             sponsor_layout=int(manifest['layoutVersion']) if manifest else 0,
                             metrics={k: v for k, v in score.items()
                                      if k != 'native_collision_events'},
-                            label=describe(scenario, case, score),
+                            label=describe(scenario, score),
                             checkpoint_sha256=sha(args.checkpoint))
                 final = library.directory(take)
                 final.parent.mkdir(parents=True, exist_ok=True)

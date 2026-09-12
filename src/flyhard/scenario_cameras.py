@@ -18,6 +18,7 @@ import json
 import math
 from pathlib import Path
 import queue
+import threading
 
 import carla
 import imageio.v2 as imageio
@@ -39,6 +40,46 @@ def depth_metres(rgb):
     packed = (rgb[:, :, 0].astype(np.float32)+rgb[:, :, 1].astype(np.float32)*256.
               + rgb[:, :, 2].astype(np.float32)*65536.)
     return 1000.*packed/(256.**3-1)
+
+
+class Encoder:
+    """One video stream, written from its own thread.
+
+    Handing a frame to ffmpeg means copying a few megabytes down a pipe and waiting.
+    Five streams did that one after another inside the capture loop, which cost more
+    than everything else in the loop put together. The frames still arrive in order and
+    the queue is bounded, so a slow encoder pushes back rather than eating memory.
+    """
+
+    def __init__(self, writer, depth=8):
+        self.writer = writer
+        self.queue = queue.Queue(maxsize=depth)
+        self.failure = None
+        self.thread = threading.Thread(target=self._drain, daemon=True)
+        self.thread.start()
+
+    def _drain(self):
+        while True:
+            frame = self.queue.get()
+            if frame is None:
+                return
+            try:
+                self.writer.append_data(frame)
+            except Exception as exc:            # Surfaced on the next append or close.
+                self.failure = exc
+                return
+
+    def append_data(self, frame):
+        if self.failure is not None:
+            raise self.failure
+        self.queue.put(frame)
+
+    def close(self):
+        self.queue.put(None)
+        self.thread.join(timeout=300)
+        self.writer.close()
+        if self.failure is not None:
+            raise self.failure
 
 
 def look_at(position, target):
@@ -109,10 +150,9 @@ class ScenarioCameras:
                 inboxes.append(inbox)
                 env.actors.append(sensor)
             def open_writer(filename):
-                return imageio.get_writer(directory/filename, fps=fps, codec='libx264',
-                                          macro_block_size=1,
-                                          ffmpeg_params=['-crf', '15', '-preset', 'ultrafast',
-                                                         '-threads', '2'])
+                return Encoder(imageio.get_writer(
+                    directory/filename, fps=fps, codec='libx264', macro_block_size=1,
+                    ffmpeg_params=['-crf', '15', '-preset', 'ultrafast', '-threads', '2']))
             self.views[name] = {'sensors': sensors, 'inboxes': inboxes, 'pose': pose, 'fov': fov,
                                 'writer': open_writer('rgb.mp4'), 'directory': directory,
                                 'attached': attached,
@@ -147,7 +187,7 @@ class ScenarioCameras:
             if view['sponsored'] is not None:
                 composited, covered = self.sponsor.render(
                     np.linalg.inv(vehicle)@np.asarray(view['sensors'][0].get_transform().get_matrix()),
-                    view['fov'], arrays[0].astype(np.float32), depth_metres(arrays[1]))
+                    view['fov'], arrays[0], depth_metres(arrays[1]))
                 view['sponsored'].append_data(composited)
                 self.sponsor_pixels[name] += covered
             world = np.asarray(view['sensors'][0].get_transform().get_matrix())
