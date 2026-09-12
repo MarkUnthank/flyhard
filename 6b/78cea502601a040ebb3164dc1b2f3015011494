@@ -1,0 +1,23 @@
+tests/test_synopsis.py
+  s_7e690e84d597d0::t_375949451f6115 58-69
+src/flyhard/synopsis.py
+  s_7e690e84d597d0::t_7b3daff82092dc 17-18,80-91,93,95
+scripts/assemble_layout.py
+  s_7e690e84d597d0::t_667e6980615d3e 35-40,43-44,46-49,51-115,117-119,138-139,149-157,161,172,174-177,179,192-193,201-202,205,208-210
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6b78cea502601a040ebb3164dc1b2f3015011494",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
