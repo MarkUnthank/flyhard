@@ -82,7 +82,7 @@ def main():
             lines.append(f"### `{take['id']}` — {take['label'] or state}")
             lines.append('')
             if not take['complete']:
-                lines.append(f"Still rendering: {', '.join(take['missing'])}.")
+                lines.append(f"Missing: {', '.join(take['missing'])}.")
                 lines.append('')
             lines += [f'- {beat}' for beat in take['synopsis']]
             lines.append('')
