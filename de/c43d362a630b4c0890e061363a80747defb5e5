@@ -1,0 +1,29 @@
+scripts/plan_film.py
+  s_7e690e84d597d0::t_6c7d44bc69b576 18-20,22-25,96,98-99,119-120,125-127,141-142
+src/flyhard/sponsor_view.py
+  s_7e690e84d597d0::t_a87785762bdc96 21-22
+  s_7e690e84d597d0::t_b2d6bcfcc389d4 1-8,20,26-27,29-31,71-73
+src/flyhard/scenario_cameras.py
+  s_7e690e84d597d0::t_4bb3601259e4cd 10-15,37-43,66-67,69-71,94,111-115,117-121,147-152,172,174-177,182-183,188-190,192-193
+scripts/check_sponsor_exposure.py
+  ai_agent 42-44,54-56
+  s_7e690e84d597d0::t_a87785762bdc96 1-41,45-53,57-65
+scripts/evaluate_scenario.py
+  s_7e690e84d597d0::t_4a9e4f7eeb4ea7 85-86,103-106,117-120,128,215-217,231-232,246-250
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "dec43d362a630b4c0890e061363a80747defb5e5",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
