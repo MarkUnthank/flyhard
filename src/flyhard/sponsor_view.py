@@ -1,4 +1,11 @@
-"""Rasterize the actual curved sponsor meshes and composite using CARLA depth."""
+"""Rasterize the actual curved sponsor meshes and composite using CARLA depth.
+
+The panels are rendered unlit so the delivered artwork reaches the screen as the
+advertiser drew it. Two corrections make that true rather than nominal: pyrender
+returns linear colour, which has to be encoded back to sRGB, and its ambient term
+scales the result, which AMBIENT compensates for. EXPOSURE is checked against the
+texture itself by scripts/check_sponsor_exposure.py, not guessed.
+"""
 import math
 from pathlib import Path
 
@@ -10,10 +17,18 @@ import pyrender
 import trimesh
 
 
+AMBIENT = 2.4        # Compensates pyrender's ambient scaling of an unlit material.
+EXPOSURE = 2.51      # Measured: cancels pyrender's residual scaling so the panel
+                     # reproduces the delivered artwork's own values, no brighter.
+
+
 class SponsorView:
-    def __init__(self, asset, manifest, native_center, width=1248, height=960):
+    def __init__(self, asset, manifest, native_center, width=1248, height=960,
+                 exposure=EXPOSURE):
         self.width, self.height = width, height
-        self.scene = pyrender.Scene(bg_color=[0, 0, 0, 0], ambient_light=[.9, .9, .9])
+        self.exposure = float(exposure)
+        self.scene = pyrender.Scene(bg_color=[0, 0, 0, 0],
+                                    ambient_light=[AMBIENT, AMBIENT, AMBIENT])
         self.renderer = pyrender.OffscreenRenderer(width, height)
         with np.load(Path(asset) / 'render-panels.npz') as archive:
             offset = np.asarray(native_center) * [1, -1, 1] - archive['car_bounds'].mean(axis=0)
@@ -53,7 +68,9 @@ class SponsorView:
         rgba, depth = self.renderer.render(self.scene, flags=pyrender.RenderFlags.RGBA | pyrender.RenderFlags.FLAT)
         alpha = rgba[:, :, 3].astype(np.float32) / 255
         alpha *= (depth > 0) & (native_depth + .03 >= depth)
-        result = (rgb * (1 - alpha[:, :, None]) + rgba[:, :, :3] * alpha[:, :, None]).clip(0, 255).astype(np.uint8)
+        linear = np.clip(rgba[:, :, :3].astype(np.float32) / 255 * self.exposure, 0., 1.)
+        panels = 255 * np.power(linear, 1 / 2.2)
+        result = (rgb * (1 - alpha[:, :, None]) + panels * alpha[:, :, None]).clip(0, 255).astype(np.uint8)
         return result, int(np.count_nonzero(alpha > .01))
 
     def close(self):

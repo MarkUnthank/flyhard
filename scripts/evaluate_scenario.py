@@ -82,6 +82,8 @@ def main():
     parser.add_argument('--seconds', type=float, default=30.)
     parser.add_argument('--town')
     parser.add_argument('--record', help='Clip library root; records three camera angles per trial')
+    parser.add_argument('--asset', help='Fresh live sponsor export; sponsors are composited '
+                                        'onto the wide and chase views as each frame arrives')
     parser.add_argument('--reset-core', action='store_true',
                         help='Zero the learned core as a control condition')
     parser.add_argument('--attempt', type=int, default=1)
@@ -98,6 +100,10 @@ def main():
     rig = make_parking_rig()
     rig.prepare_controls()
     library = ClipLibrary(args.record) if args.record else None
+    sponsor = manifest = None
+    if args.asset:
+        from flyhard.live_livery import verify_live_livery
+        manifest = verify_live_livery(args.asset, out)
     results = []
     ticks = round(CONTROL_DT/env.dt)
     assert abs(ticks*env.dt-CONTROL_DT) < 1e-9, 'Control period must be whole CARLA ticks'
@@ -108,6 +114,10 @@ def main():
         for case in selected:
             env.start(case)
             rig.reset()
+            if manifest and sponsor is None:
+                from flyhard.sponsor_view import SponsorView
+                centre = env.ego.bounding_box.location
+                sponsor = SponsorView(args.asset, manifest, [centre.x, centre.y, centre.z])
             cameras = None
             if library:
                 take_dir = (library.root/scenario.name/'pending'
@@ -115,7 +125,7 @@ def main():
                 take_dir.mkdir(parents=True, exist_ok=True)
                 from flyhard.scenario_cameras import ScenarioCameras
                 cameras = ScenarioCameras(env, take_dir, env.focus(), env.approach_yaw,
-                                          fps=round(1/CONTROL_DT))
+                                          fps=round(1/CONTROL_DT), sponsor=sponsor)
             env.release()
             throttle = brake = 0.
             steer = 0.
@@ -202,7 +212,9 @@ def main():
                 take = Take(scenario=scenario.name, seed=case.seed, attempt=args.attempt,
                             outcome='success' if score['passed'] else 'failure',
                             duration_seconds=duration, fps=round(1/CONTROL_DT),
-                            cameras=cameras.relative_paths(),
+                            cameras=cameras.relative_paths(sponsored=bool(sponsor)),
+                            sponsor_revision=int(manifest['revision']) if manifest else 0,
+                            sponsor_layout=int(manifest['layoutVersion']) if manifest else 0,
                             metrics={k: v for k, v in score.items()
                                      if k != 'native_collision_events'},
                             label=describe(scenario, case, score),
@@ -216,6 +228,8 @@ def main():
                 library.register(take)
     finally:
         env.close()
+        if sponsor is not None:
+            sponsor.close()
 
     passed = sum(r['passed'] for r in results)
     required = [r for r in results if r['stop_required']]
@@ -229,6 +243,11 @@ def main():
                'unnecessary_stops': sum(r['unnecessary_stop'] for r in results),
                'reset_core': args.reset_core, 'results': results,
                'environment': 'native CARLA with measured pedal travel',
+               'sponsor_revision': int(manifest['revision']) if manifest else None,
+               'sponsor_note': ('Sponsor panels rasterised from the delivered meshes and '
+                                'depth-composited onto the wide and chase views as each frame '
+                                'arrived. Presentation only; no recorded metric, trajectory or '
+                                'control value is affected.') if manifest else None,
                'claim': scenario.claim+' Frozen held-out cases; not general autonomous driving, '
                         'and steering is not learned.'}
     (out/'metrics.json').write_text(json.dumps(summary, indent=2)+'\n')

@@ -7,7 +7,12 @@ cabin  rigidly attached inside, over the fly's controls.
 
 The wide view is deliberately not attached to the car: a scenario is about what
 the car does relative to something else, and an ego-mounted wide shot hides that.
-Every view also captures depth, which the sponsor compositor needs.
+A scenario that travels hundreds of metres sets its own attached wide camera.
+
+Every view also captures depth, and the sponsor layer is composited against it as
+each frame arrives rather than afterwards. Writing depth out was costing about half
+a second per control step, three times everything else in the loop put together, so
+it is used in memory and discarded. Both the clean and the sponsored video are kept.
 """
 import json
 import math
@@ -17,7 +22,6 @@ import queue
 import carla
 import imageio.v2 as imageio
 import numpy as np
-from PIL import Image
 
 WIDTH, HEIGHT = 1248, 960
 ATTACHED = {
@@ -28,6 +32,13 @@ ATTACHED = {
     'cabin': (carla.Transform(carla.Location(x=-.45, y=.08, z=1.35),
                               carla.Rotation(pitch=-12, yaw=-23)), 90),
 }
+
+
+def depth_metres(rgb):
+    """CARLA packs depth into 24 bits across the colour channels, scaled to 1 km."""
+    packed = (rgb[:, :, 0].astype(np.float32)+rgb[:, :, 1].astype(np.float32)*256.
+              + rgb[:, :, 2].astype(np.float32)*65536.)
+    return 1000.*packed/(256.**3-1)
 
 
 def look_at(position, target):
@@ -52,8 +63,12 @@ def wide_pose(focus, approach_yaw, *, back=17., side=11., height=6.2):
 
 
 class ScenarioCameras:
-    def __init__(self, env, root, focus, approach_yaw, fps=20, wide_attached=None):
+    def __init__(self, env, root, focus, approach_yaw, fps=20, wide_attached=None,
+                 sponsor=None, sponsored_views=('wide', 'chase')):
         self.env, self.root, self.fps = env, Path(root), fps
+        self.sponsor = sponsor
+        self.sponsored_views = set(sponsored_views) if sponsor else set()
+        self.sponsor_pixels = {}
         # Render at the capture rate, not at the physics rate. CARLA steps physics
         # several times per control period, and rendering six sensors on every one of
         # those steps only to throw two frames in three away tripled the cost of a take.
@@ -76,7 +91,7 @@ class ScenarioCameras:
         for name, (pose, fov) in poses.items():
             attached = name in self.attached_names
             directory = self.root/'cameras'/name
-            (directory/'depth').mkdir(parents=True, exist_ok=True)
+            directory.mkdir(parents=True, exist_ok=True)
             sensors, inboxes = [], []
             for kind in ['rgb', 'depth']:
                 bp = env.world.get_blueprint_library().find('sensor.camera.'+kind)
@@ -93,11 +108,17 @@ class ScenarioCameras:
                 sensors.append(sensor)
                 inboxes.append(inbox)
                 env.actors.append(sensor)
-            writer = imageio.get_writer(directory/'rgb.mp4', fps=fps, codec='libx264',
-                                        macro_block_size=1,
-                                        ffmpeg_params=['-crf', '15', '-preset', 'ultrafast', '-threads', '2'])
+            def open_writer(filename):
+                return imageio.get_writer(directory/filename, fps=fps, codec='libx264',
+                                          macro_block_size=1,
+                                          ffmpeg_params=['-crf', '15', '-preset', 'ultrafast',
+                                                         '-threads', '2'])
             self.views[name] = {'sensors': sensors, 'inboxes': inboxes, 'pose': pose, 'fov': fov,
-                                'writer': writer, 'directory': directory, 'attached': attached}
+                                'writer': open_writer('rgb.mp4'), 'directory': directory,
+                                'attached': attached,
+                                'sponsored': open_writer('rgb-sponsored.mp4')
+                                             if name in self.sponsored_views else None}
+            self.sponsor_pixels[name] = 0
 
     def capture(self, index, frame, timestamp):
         """Pull one synchronized frame per view. Returns per-view metadata for the receipt.
@@ -123,7 +144,12 @@ class ScenarioCameras:
             arrays = [np.frombuffer(im.raw_data, np.uint8).reshape(HEIGHT, WIDTH, 4)[:, :, :3][:, :, ::-1].copy()
                       for im in images]
             view['writer'].append_data(arrays[0])
-            Image.fromarray(arrays[1]).save(view['directory']/'depth'/f'{index:05}.png', compress_level=1)
+            if view['sponsored'] is not None:
+                composited, covered = self.sponsor.render(
+                    np.linalg.inv(vehicle)@np.asarray(view['sensors'][0].get_transform().get_matrix()),
+                    view['fov'], arrays[0].astype(np.float32), depth_metres(arrays[1]))
+                view['sponsored'].append_data(composited)
+                self.sponsor_pixels[name] += covered
             world = np.asarray(view['sensors'][0].get_transform().get_matrix())
             relative = np.linalg.inv(vehicle)@world
             entry = {'rgb_frame': images[0].frame, 'depth_frame': images[1].frame,
@@ -143,17 +169,26 @@ class ScenarioCameras:
                             'views': metadata})
         return metadata
 
-    def relative_paths(self):
+    def relative_paths(self, sponsored=False):
         """Camera map for a clips.Take, relative to the take directory."""
-        return {name: f'cameras/{name}/rgb.mp4' for name in self.views}
+        return {name: (f'cameras/{name}/rgb-sponsored.mp4'
+                       if sponsored and view['sponsored'] is not None
+                       else f'cameras/{name}/rgb.mp4')
+                for name, view in self.views.items()}
 
     def close(self):
         for view in self.views.values():
             view['writer'].close()
+            if view['sponsored'] is not None:
+                view['sponsored'].close()
         (self.root/'cameras.json').write_text(json.dumps(
             {'width': WIDTH, 'height': HEIGHT, 'fps': self.fps,
              'views': {name: {'fov': view['fov'], 'attached': view['attached'],
                               'rgb': f'cameras/{name}/rgb.mp4',
-                              'depth': f'cameras/{name}/depth'}
+                              'sponsored': (f'cameras/{name}/rgb-sponsored.mp4'
+                                            if view['sponsored'] is not None else None),
+                              'sponsor_pixels': int(self.sponsor_pixels[name])}
                        for name, view in self.views.items()},
+             'depth': 'used live for the sponsor composite and not written; re-compositing '
+                      'with correct occlusion would need another CARLA pass',
              'frames': self.frames}, indent=1)+'\n')

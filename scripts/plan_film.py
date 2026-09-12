@@ -15,10 +15,14 @@ from flyhard.clips import ClipLibrary
 # One angle per beat, in the order the beats happen, so a scenario is seen from
 # outside, from behind the car and from over the fly's own controls.
 BEAT_CAMERAS = {'approach': 'wide', 'decision': 'chase', 'resume': 'cabin'}
+# One section per behaviour, not per scenario: the junction policy holds two of them
+# and they are worth showing as two, because the interesting part is that one policy
+# tells them apart.
 SECTIONS = [
-    ('crossing', 'Stopping for pedestrians'),
-    ('junction', 'Giving way at a junction'),
-    ('overtake', 'Overtaking on the highway'),
+    ('crossing', None, 'Stopping for pedestrians'),
+    ('junction', ('right', 'left'), 'Giving way to the right'),
+    ('junction', ('priority',), 'Stopping for a priority vehicle'),
+    ('overtake', None, 'Overtaking on the highway'),
 ]
 
 
@@ -89,9 +93,10 @@ def beats(record, budget):
     return shots
 
 
-def pick(library, scenario, outcome, count):
+def pick(library, scenario, kinds, outcome, count):
     """Deterministic spread across the available takes rather than the first few."""
-    available = library.find(scenario=scenario, outcome=outcome)
+    available = [t for t in library.find(scenario=scenario, outcome=outcome)
+                 if kinds is None or t.get('metrics', {}).get('kind') in kinds]
     if not available or count <= 0:
         return []
     if len(available) <= count:
@@ -111,14 +116,15 @@ def main():
     args = parser.parse_args()
 
     library = ClipLibrary(args.library)
-    present = [(name, title) for name, title in SECTIONS if library.find(scenario=name)]
+    present = [entry for entry in SECTIONS
+               if pick(library, entry[0], entry[1], None, 1)]
     if not present:
         raise SystemExit(f'No takes in {args.library}')
     share = args.target/len(present)
     sections = []
-    for name, title in present:
-        chosen = ([(t, 'success') for t in pick(library, name, 'success', args.successes)]
-                  + [(t, 'failure') for t in pick(library, name, 'failure', args.failures)])
+    for name, kinds, title in present:
+        chosen = ([(t, 'success') for t in pick(library, name, kinds, 'success', args.successes)]
+                  + [(t, 'failure') for t in pick(library, name, kinds, 'failure', args.failures)])
         if not chosen:
             continue
         budget = share/len(chosen)
@@ -132,7 +138,8 @@ def main():
                               'start': shot['start'], 'duration': shot['duration'],
                               'label': record.get('label', ''),
                               'transition': 'fade' if shot['beat'] == 'approach' else 'cut'})
-        sections.append({'title': title, 'scenario': name, 'shots': shots})
+        sections.append({'title': title, 'scenario': name,
+                         'kinds': list(kinds) if kinds else None, 'shots': shots})
 
     total = round(sum(s['duration'] for section in sections for s in section['shots']), 2)
     plan = {'title': args.title, 'target_seconds': args.target, 'fps': 20,
