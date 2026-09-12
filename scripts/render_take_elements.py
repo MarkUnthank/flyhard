@@ -101,6 +101,11 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     made, started = {}, time.perf_counter()
 
+    # The take's own record travels with the elements. Without it a folder of five
+    # films says nothing about which run it is, what the fly did or whether it passed.
+    for name in ('take.json', 'cameras.json', 'trace.json'):
+        shutil.copyfile(take/name, out/name)
+
     # The angles the cameras shot are copied byte for byte. Re-encoding them would be
     # an edit, and a lossy one, for no gain.
     for name in ('chase', 'wide'):
