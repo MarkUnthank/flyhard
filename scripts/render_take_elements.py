@@ -26,7 +26,11 @@ import numpy as np
 # crops to whatever aspect the cut wants rather than being handed someone else's crop.
 # The rendered elements match that height in 16:9, which is the panel shape they are.
 ELEMENT_WIDTH, ELEMENT_HEIGHT = 3840, 2160
-ENCODE = ['-crf', '15', '-preset', 'fast', '-movflags', '+faststart']
+# x264 defaults to about one and a half threads per core, which on a 96 core box is
+# 144 threads per encoder holding 33 megabyte frames. Several exports at once then
+# ask for more than the machine will give and ffmpeg dies with an empty stderr and a
+# broken pipe, which is what happened. Capped, so exports can run side by side.
+ENCODE = ['-crf', '15', '-preset', 'fast', '-threads', '8', '-movflags', '+faststart']
 
 
 def writer(path, fps):
