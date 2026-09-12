@@ -63,6 +63,10 @@ class FlyView:
         self.hub = np.asarray(hub, float)
         self.scale = float(wheel_diameter)/(2*self.rig.radius)
         self.model = self.rig.model
+        # MuJoCo sizes its offscreen buffer from the model, which asks for 640x480 and
+        # refuses anything larger. A 4K element render is larger, so the buffer is
+        # opened to whatever is asked for before the renderer is built.
+        self._fit_buffer()
         self.renderer = mj.Renderer(self.model, height=self.height, width=self.width)
         # Hide the test stand: it is the bench the rig is measured on, not part of a
         # car. The pedals, selector and wheel stay, because the fly is working them.
@@ -71,6 +75,10 @@ class FlyView:
         self.option.geomgroup[5] = 0
         self.stand = {i for i in range(self.model.ngeom) if self.model.geom_bodyid[i] == 0}
         self.model.geom_rgba[self.model.geom_bodyid == self.model.body('wheel').id, :3] = .32
+
+    def _fit_buffer(self):
+        self.model.vis.global_.offwidth = max(self.model.vis.global_.offwidth, self.width)
+        self.model.vis.global_.offheight = max(self.model.vis.global_.offheight, self.height)
 
     def panel(self, width=None, height=None, background=(0, 0, 0)):
         """Render the rig alone against black, from the fixed angle the films use.
@@ -82,6 +90,7 @@ class FlyView:
         if (width, height) != (None, None) and (int(width), int(height)) != (self.width, self.height):
             self.width, self.height = int(width), int(height)
             self.renderer.close()
+            self._fit_buffer()
             self.renderer = mj.Renderer(self.model, height=self.height, width=self.width)
         camera = mj.MjvCamera()
         camera.type = mj.mjtCamera.mjCAMERA_FREE
