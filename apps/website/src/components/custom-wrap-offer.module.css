@@ -392,6 +392,58 @@
   }
 }
 
+/* The pill is the resting state once the page is in motion: small, calm, still selling. */
+.pill {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 7px 0 17px;
+  border: 1px solid #ffffff1f;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1d2a1a, #101709 70%);
+  color: #f4f8ee;
+  box-shadow: var(--shadow-elevated);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--duration-base) var(--ease-smooth),
+    visibility var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+.pillLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 550;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #cfe0bd;
+  white-space: nowrap;
+}
+.pillPrice {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px 8px 14px;
+  border-radius: 999px;
+  background: #d9efba;
+  color: #17240f;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.2px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pill:hover .pillPrice {
+  background: #e7f6cf;
+}
+
 /* Keep the premium offer visible as a teaser, then return to the full card on hover. */
 .floating {
   position: fixed;
@@ -415,6 +467,10 @@
   padding: 4px;
   border-radius: 28px;
   box-shadow: var(--shadow-elevated);
+  transition:
+    opacity var(--duration-base) var(--ease-smooth),
+    visibility var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
 }
 .floating .card {
   height: 100%;
@@ -489,21 +545,21 @@
   width: 32px;
   height: 32px;
 }
-.floating:is(:hover, :focus-within) {
+.floating:is(:hover, :focus-within, [data-open="true"]) {
   width: min(1120px, calc(100vw - 48px));
   grid-template-rows: minmax(440px, 1fr);
 }
-.floating:is(:hover, :focus-within) .card {
+.floating:is(:hover, :focus-within, [data-open="true"]) .card {
   height: 100%;
   min-height: 0;
   padding: 38px 44px 28px;
   border-radius: 30px;
 }
-.floating:is(:hover, :focus-within) .topline {
+.floating:is(:hover, :focus-within, [data-open="true"]) .topline {
   align-items: center;
   gap: 20px;
 }
-.floating:is(:hover, :focus-within) .badge {
+.floating:is(:hover, :focus-within, [data-open="true"]) .badge {
   max-width: none;
   padding: 9px 13px;
   gap: 9px;
@@ -513,115 +569,138 @@
   white-space: normal;
   text-overflow: clip;
 }
-.floating:is(:hover, :focus-within) .badge svg {
+.floating:is(:hover, :focus-within, [data-open="true"]) .badge svg {
   width: 14px;
 }
-.floating:is(:hover, :focus-within) .edition,
-.floating:is(:hover, :focus-within) .pitch > p,
-.floating:is(:hover, :focus-within) .signature,
-.floating:is(:hover, :focus-within) .purchase .currency,
-.floating:is(:hover, :focus-within) .includes,
-.floating:is(:hover, :focus-within) .nextPrice,
-.floating:is(:hover, :focus-within) .terms,
-.floating:is(:hover, :focus-within) .notice,
-.floating:is(:hover, :focus-within) .process,
-.floating:is(:hover, :focus-within) .footer,
-.floating:is(:hover, :focus-within) .status {
+.floating:is(:hover, :focus-within, [data-open="true"]) .edition,
+.floating:is(:hover, :focus-within, [data-open="true"]) .pitch > p,
+.floating:is(:hover, :focus-within, [data-open="true"]) .signature,
+.floating:is(:hover, :focus-within, [data-open="true"]) .purchase .currency,
+.floating:is(:hover, :focus-within, [data-open="true"]) .includes,
+.floating:is(:hover, :focus-within, [data-open="true"]) .nextPrice,
+.floating:is(:hover, :focus-within, [data-open="true"]) .terms,
+.floating:is(:hover, :focus-within, [data-open="true"]) .notice,
+.floating:is(:hover, :focus-within, [data-open="true"]) .process,
+.floating:is(:hover, :focus-within, [data-open="true"]) .footer,
+.floating:is(:hover, :focus-within, [data-open="true"]) .status {
   display: block;
 }
-.floating:is(:hover, :focus-within) .edition {
+.floating:is(:hover, :focus-within, [data-open="true"]) .edition {
   flex-shrink: 0;
 }
-.floating:is(:hover, :focus-within) .pitch > p {
+.floating:is(:hover, :focus-within, [data-open="true"]) .pitch > p {
   max-width: 395px;
   margin-top: 25px;
   font-size: 16px;
 }
-.floating:is(:hover, :focus-within) .signature {
+.floating:is(:hover, :focus-within, [data-open="true"]) .signature {
   margin-top: 30px;
 }
-.floating:is(:hover, :focus-within) .includes {
+.floating:is(:hover, :focus-within, [data-open="true"]) .includes {
   display: grid;
 }
-.floating:is(:hover, :focus-within) .process {
+.floating:is(:hover, :focus-within, [data-open="true"]) .process {
   display: flex;
   gap: 28px;
   padding: 27px 0 0;
 }
-.floating:is(:hover, :focus-within) .status {
+.floating:is(:hover, :focus-within, [data-open="true"]) .status {
   display: flex;
 }
-.floating:is(:hover, :focus-within) .content {
+.floating:is(:hover, :focus-within, [data-open="true"]) .content {
   grid-template-columns: 1.2fr 1fr;
   gap: 54px;
   align-items: center;
   padding: 48px 0 52px;
 }
-.floating:is(:hover, :focus-within) .pitch h2 {
+.floating:is(:hover, :focus-within, [data-open="true"]) .pitch h2 {
   font-size: clamp(40px, 5vw, 66px);
   letter-spacing: -3.4px;
 }
-.floating:is(:hover, :focus-within) .purchaseShell {
+.floating:is(:hover, :focus-within, [data-open="true"]) .purchaseShell {
   padding: 5px;
   border-radius: 27px;
 }
-.floating:is(:hover, :focus-within) .purchase {
+.floating:is(:hover, :focus-within, [data-open="true"]) .purchase {
   padding: 29px 28px 23px;
   border-radius: 22px;
 }
-.floating:is(:hover, :focus-within) .priceLabel {
+.floating:is(:hover, :focus-within, [data-open="true"]) .priceLabel {
   font-size: 10px;
   letter-spacing: 1.9px;
 }
-.floating:is(:hover, :focus-within) .price {
+.floating:is(:hover, :focus-within, [data-open="true"]) .price {
   font-size: clamp(42px, 5.1vw, 66px);
   letter-spacing: -3.5px;
 }
-.floating:is(:hover, :focus-within) .cta {
+.floating:is(:hover, :focus-within, [data-open="true"]) .cta {
   margin-top: 0;
   padding: 9px 10px 9px 22px;
   font-size: 15px;
 }
-.floating:is(:hover, :focus-within) .cta > span {
+.floating:is(:hover, :focus-within, [data-open="true"]) .cta > span {
   width: 35px;
   height: 35px;
 }
-.floating:is(:hover, :focus-within) .currency {
+.floating:is(:hover, :focus-within, [data-open="true"]) .currency {
   font-size: 11px;
   margin-top: 8px;
 }
-.floating:is(:hover, :focus-within) .includes {
+.floating:is(:hover, :focus-within, [data-open="true"]) .includes {
   gap: 12px;
   margin: 25px 0;
   font-size: 12px;
 }
-.floating:is(:hover, :focus-within) .nextPrice {
+.floating:is(:hover, :focus-within, [data-open="true"]) .nextPrice {
   margin-top: 17px;
   font-size: 11px;
   line-height: 1.7;
 }
-.floating:is(:hover, :focus-within) .terms {
+.floating:is(:hover, :focus-within, [data-open="true"]) .terms {
   margin-top: 15px;
   font-size: 10px;
   line-height: 1.5;
 }
-.floating:is(:hover, :focus-within) .notice {
+.floating:is(:hover, :focus-within, [data-open="true"]) .notice {
   margin-top: 12px;
   padding: 10px 12px;
   font-size: 12px;
   line-height: 1.5;
 }
-.floating:is(:hover, :focus-within) .footer {
+.floating:is(:hover, :focus-within, [data-open="true"]) .footer {
   margin-top: 26px;
   font-size: 10px;
   line-height: 1.7;
 }
-.floating:is(:hover, :focus-within) .status {
+.floating:is(:hover, :focus-within, [data-open="true"]) .status {
   gap: 12px;
   padding: 18px;
   margin-top: 24px;
   font-size: 14px;
   line-height: 1.6;
+}
+
+/* Shrunk to a pill: after the first scroll on desktop, always on phones. */
+.floating[data-collapsed="true"]:not(
+    :hover,
+    :focus-within,
+    [data-open="true"]
+  ) {
+  width: 258px;
+  grid-template-rows: minmax(54px, 0fr);
+}
+.floating[data-collapsed="true"]:not(:hover, :focus-within, [data-open="true"])
+  .shell {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+}
+.floating[data-collapsed="true"]:not(:hover, :focus-within, [data-open="true"])
+  .pill {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 @media (max-width: 767px) {
@@ -630,6 +709,32 @@
     bottom: max(12px, env(safe-area-inset-bottom));
     grid-template-rows: minmax(410px, 0fr);
     width: min(280px, calc(100vw - 24px));
+  }
+  /* Phones never get the big teaser: the pill is the resting state. */
+  .floating:not(:hover, :focus-within, [data-open="true"]) {
+    width: min(232px, calc(100vw - 24px));
+    grid-template-rows: minmax(48px, 0fr);
+  }
+  .floating:not(:hover, :focus-within, [data-open="true"]) .shell {
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+  }
+  .floating:not(:hover, :focus-within, [data-open="true"]) .pill {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pill {
+    padding: 0 6px 0 14px;
+  }
+  .pillLabel {
+    font-size: 10px;
+  }
+  .pillPrice {
+    padding: 7px 10px 7px 12px;
+    font-size: 12px;
   }
   .floating .card {
     padding: 20px 18px 18px;
@@ -642,54 +747,59 @@
     font-size: 36px;
     letter-spacing: -1.8px;
   }
-  .floating:is(:hover, :focus-within) {
+  .floating:is(:hover, :focus-within, [data-open="true"]) {
     width: min(960px, calc(100vw - 24px));
     grid-template-rows: minmax(410px, 1fr);
+    max-height: calc(100dvh - 24px);
   }
-  .floating:is(:hover, :focus-within) .card {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .card {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .floating:is(:hover, :focus-within, [data-open="true"]) .card {
     padding: 26px 20px 24px;
     border-radius: 25px;
   }
-  .floating:is(:hover, :focus-within) .content {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .content {
     grid-template-columns: 1fr;
     gap: 28px;
     padding: 30px 0;
   }
-  .floating:is(:hover, :focus-within) .pitch h2 {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .pitch h2 {
     font-size: clamp(38px, 9.5vw, 58px);
     letter-spacing: -2px;
   }
-  .floating:is(:hover, :focus-within) .pitch > p {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .pitch > p {
     margin-top: 18px;
     font-size: 14px;
   }
-  .floating:is(:hover, :focus-within) .signature {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .signature {
     margin-top: 20px;
     font-size: 8px;
     letter-spacing: 1.5px;
   }
-  .floating:is(:hover, :focus-within) .purchase {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .purchase {
     padding: 25px 21px;
   }
-  .floating:is(:hover, :focus-within) .price {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .price {
     font-size: clamp(46px, 13vw, 64px);
     letter-spacing: -2.5px;
   }
-  .floating:is(:hover, :focus-within) .process {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .process {
     flex-direction: column;
     gap: 22px;
     padding-top: 24px;
   }
-  .floating:is(:hover, :focus-within) .process li {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .process li {
     gap: 16px;
   }
-  .floating:is(:hover, :focus-within) .process strong {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .process strong {
     font-size: 13px;
   }
-  .floating:is(:hover, :focus-within) .process p {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .process p {
     font-size: 12px;
   }
-  .floating:is(:hover, :focus-within) .footer {
+  .floating:is(:hover, :focus-within, [data-open="true"]) .footer {
     font-size: 11px;
   }
 }

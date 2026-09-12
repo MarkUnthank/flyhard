@@ -3,7 +3,7 @@
   top: 64px;
   right: 24px;
   z-index: 2;
-  width: 264px;
+  width: 300px;
   max-height: calc(100% - 132px);
   overflow-y: auto;
   padding: 16px;
@@ -79,28 +79,83 @@
 }
 
 .claim {
-  display: block;
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #e4e9dd;
-  text-align: left;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #42652c;
+  margin-top: 16px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: var(--green);
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+  box-shadow:
+    0 1px 2px #1f3b1d26,
+    0 6px 16px #1f3b1d2e,
+    0 16px 0 16px rgb(255 255 255 / 97%);
+  transition:
+    background var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+
+.claim span {
+  transition: transform var(--duration-base) var(--ease-smooth);
 }
 
 .claim:hover {
-  text-decoration: underline;
+  background: #3c7238;
+  box-shadow:
+    0 2px 4px #1f3b1d2e,
+    0 10px 24px #1f3b1d3d,
+    0 16px 0 16px rgb(255 255 255 / 97%);
+  transform: translateY(-1px);
+}
+
+.claim:hover span {
+  transform: translate(2px, -2px);
+}
+
+.claim:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 2px #1f3b1d33,
+    0 16px 0 16px rgb(255 255 255 / 97%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .claim,
+  .claim span {
+    transition: none;
+  }
+  .claim:hover {
+    transform: none;
+  }
+  .claim:hover span {
+    transform: none;
+  }
 }
 
 @media (max-width: 600px) {
   .preview {
     top: 48px;
     right: 12px;
-    width: 220px;
+    width: 252px;
   }
   .artwork {
     height: 80px;
+  }
+  .claim {
+    margin-top: 14px;
+    padding: 12px;
+    font-size: 12.5px;
   }
 }

@@ -128,6 +128,10 @@ export default function AuctionSite() {
   const displayed =
     showAll || filter !== "all" || query ? filtered : filtered.slice(0, 12);
   const highestBid = rankPlacements(snapshot.placements)[0];
+  // The hero CTA aims at the priciest placement, and falls back to the cheapest
+  // way onto the car while the livery is still empty.
+  const heroSlot =
+    slots.find((slot) => slot.id === highestBid?.slotId) || entrySlot;
   const fundingTarget = 100_000;
   const fundingPercent = (snapshot.totalRaised / fundingTarget) * 100;
   const fundingLabel = `${Number(fundingPercent.toFixed(1))}%`;
@@ -295,7 +299,9 @@ export default function AuctionSite() {
       <a href="#live-auction" className="skip-link">
         Skip to ad spaces
       </a>
-      <SiteHeader />
+      <SiteHeader
+        onQuickBuy={loaded && heroSlot ? () => choose(heroSlot.id) : undefined}
+      />
       <main>
         <section className="hero">
           <div className="live-indicator">
@@ -333,6 +339,25 @@ export default function AuctionSite() {
             We’re teaching a fly to drive. Your logo can come along for the
             ride.
           </p>
+          <div className="hero-cta">
+            <button
+              type="button"
+              className="primary hero-cta-button"
+              disabled={!loaded || !heroSlot}
+              aria-haspopup="dialog"
+              onClick={() => heroSlot && choose(heroSlot.id)}
+            >
+              Add my logo
+              <ArrowUpRight size={19} />
+            </button>
+            <span className="hero-cta-note">
+              {loaded
+                ? highestBid
+                  ? `Take the top spot from ${highestBid.brand} · ${money(minimumBid(highestBid.amount))} or more`
+                  : `${slots.length - taken} of ${slots.length} spots open · from ${money(entryBid)}`
+                : "Loading the live auction…"}
+            </span>
+          </div>
           <div className="hero-stats">
             <div>
               <strong>{loaded ? money(snapshot.totalRaised) : "—"}</strong>
@@ -449,11 +474,8 @@ export default function AuctionSite() {
           <aside className="hero-disclaimer" aria-label="Sponsor disclaimer">
             <span className="hero-disclaimer-label">SPONSOR DISCLAIMER</span>
             <p>
-              We do not directly endorse any of the sponsors featured here. We
-              do not receive any ongoing benefits from any of the featured
-              sponsors and are{" "}
               <strong>
-                not associated with any cryptocurrencies or coins.
+                We are not associated with any cryptocurrencies or coins.
               </strong>
             </p>
             <a className="text-link" href="/media">
