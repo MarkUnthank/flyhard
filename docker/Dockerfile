@@ -1,4 +1,8 @@
 # syntax=docker/dockerfile:1
+FROM node:24-bookworm-slim@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553 AS livery-node
+WORKDIR /opt/livery
+RUN npm install --omit=dev --ignore-scripts --package-lock=false --no-save sharp@0.35.4
+
 FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404@sha256:4d1721e62b56d345c83b4fd6090664be6daf9312caab5b2e76f23d8231941851
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -11,7 +15,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH=/opt/flyhard-env/bin:${PATH}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      libegl1 libgl1 libopengl0 libgles2 libvulkan1 vulkan-tools \
+      libegl1 libgl1 libopengl0 libgles2 libvulkan1 libglu1-mesa vulkan-tools \
       mesa-utils xvfb rsync ffmpeg git ca-certificates curl tini \
     && rm -rf /var/lib/apt/lists/* \
     && python3 -m venv --system-site-packages /opt/flyhard-env
@@ -31,16 +35,28 @@ COPY requirements/ /opt/flyhard/requirements/
 COPY docker/install_environment.py /opt/flyhard/docker/install_environment.py
 RUN python /opt/flyhard/docker/install_environment.py
 
+COPY --from=livery-node /usr/local/bin/node /usr/local/bin/node
+COPY --from=livery-node /opt/livery/node_modules /opt/flyhard/node_modules
+
 COPY src/ /opt/flyhard/src/
 COPY scripts/ /opt/flyhard/scripts/
 COPY tests/ /opt/flyhard/tests/
+COPY configs/ /opt/flyhard/configs/
+COPY deploy/seed_runtime_volume.py /opt/flyhard/deploy/seed_runtime_volume.py
+COPY apps/website/scripts/export-livery.mjs apps/website/scripts/apply-livery.py /opt/flyhard/apps/website/scripts/
+COPY apps/website/src/lib/artwork-bounds.mjs /opt/flyhard/apps/website/src/lib/artwork-bounds.mjs
+COPY apps/website/LIVERY-EXPORT.md /opt/flyhard/apps/website/LIVERY-EXPORT.md
+COPY apps/mini-livery/README.md apps/mini-livery/BarlowCondensed-OFL.txt /opt/flyhard/apps/mini-livery/
+COPY AGENTS.md /opt/flyhard/AGENTS.md
 COPY assets/fonts/ /opt/flyhard/assets/fonts/
+COPY assets/audio/ /opt/flyhard/assets/audio/
 COPY docker/ /opt/flyhard/docker/
 COPY LICENSE THIRD_PARTY.md README.md /opt/flyhard/
 # Keep changing source provenance out of the expensive dependency cache keys.
 ARG SOURCE_REVISION=unknown
 ENV FLYHARD_SOURCE_REVISION=${SOURCE_REVISION}
 RUN python -m pip install --no-deps --no-cache-dir -e /opt/flyhard \
+    && node -e "require('/opt/flyhard/node_modules/sharp')({create:{width:2,height:2,channels:4,background:'#ffffff'}}).png().toBuffer().then(b=>{if(b.length<20)process.exit(1)})" \
     && PYTHONPATH=/opt/flyhard/src python -m pytest -q /opt/flyhard/tests \
     && PYTHONPATH=/opt/flyhard/src python -c 'from flyhard.cockpit import WheelRig; r=WheelRig(support_hand=True); assert r.model.nbody == 54' \
     && python -m pip freeze > /opt/flyhard/environment.lock.txt \

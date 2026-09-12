@@ -1,0 +1,13 @@
+{
+  "status": "verified",
+  "gpu_pod_status": "EXITED",
+  "other_listed_pod_statuses": [
+    "EXITED",
+    "EXITED",
+    "EXITED"
+  ],
+  "workspace_preserved": true,
+  "native_network_volume_untouched": true,
+  "final_raw_backup": "raw-backup-verification.json",
+  "verified_at_epoch": 1789076346.990759
+}

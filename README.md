@@ -32,23 +32,44 @@ The body must causally operate the controls. An animated driver following direct
 
 The measured connectivity topology is the starting architectural constraint. Training must involve the connectome-based model, including connection strengths and neuronal dynamics where appropriate. Document measured, inferred, fixed, and learned parameters, sensory interfaces, and any separate body controller. This is not a claim to recreate the original fly's mind or biological learning.
 
-## Next milestone
+## Current experiments and next gate
 
-Follow the [verifiable experiment plan](docs/experiment-plan.md). Each experiment has a narrow question, an evidence requirement, and a decision before proceeding.
+The [horn experiment](docs/horn-etiquette-2026-09-10.md) learns when to press a
+passive horn button from structured traffic-light history. At 60 Hz, 28/30 held-out
+positive trials produced one timely beep, and all 150 negative trials stayed quiet.
+The three CARLA demonstration scenes also passed, including silence when arriving
+at an already-green light. This is a narrow horn skill; approach and braking remain
+conventional controls.
 
-The tested A6000 and A40 are sufficient for the current workload. Replicate the steering skill across two additional training seeds, refine and teach the pedal skill, then integrate learned pedal control into the coordinated CARLA loop. Physical steering already drives CARLA on that clock; the current video uses scripted speed and requested turns.
+The September 10 source includes physical indicator control, roundabout capture,
+parallel-parking training/evaluation, and the video replay/edit pipeline. Start
+with the [source preservation guide](docs/source-preservation-2026-09-10.md) for
+entry points and the limits of this snapshot.
 
-The first pilot saved resumable checkpoints, all held-out scores, source hashes, numerical checks, and synchronized neural/body/wheel recordings. Its approximately 3 GB peak training allocation does not justify a GPU upgrade. The connected steering capture produced 24 simulated seconds in 82.9 wall seconds, including model loading and recording; this is an inference/capture measurement, not a full-driving training estimate.
+The [parking benchmark](reports/2026-09-10-parking/RESULTS.md) used structured
+relative geometry and measured wheel, pedal and gear controls. Neither the learned
+core nor its reset comparison passed a park in 50 held-out trials. Collision flags
+were 10/50 and 12/50 respectively. The proposed gate remains 40/50 collision-free
+parks inside the bay, within 0.3 m and 10 degrees. Training changes now need a fresh
+held-out set; these outcomes must not be reused for an independent success claim.
 
-An [optional smaller demo](docs/indicators-fallback.md) is also planned: teach the fly to physically operate an indicator stalk, signal the intended turn, and cancel afterward. A standalone version can use a disclosed scripted car route while the fly controls the indicators. It is untested and does not replace the full-driving goal.
+The [indicator experiment](reports/2026-09-10-indicators/roundabout-results.md)
+records a narrower learned control task. It does not establish visual autonomous
+driving. Native CARLA sponsor import/cooking and the smaller persistent runtime's
+GPU startup validation remain unfinished; the stored scripts and candidate image
+are progress toward those gates.
 
 ## Presentation
 
 Driving footage, cockpit footage, body motion, and computed neuron activations on connectome geometry must come from the same recorded simulation run. Label engineered animation and model-derived activity accurately.
 
+Before every recording or finished-video render, download and build the latest live sponsor artwork with `python3 scripts/refresh_live_livery.py`; pass that immutable snapshot as `--asset`. Stale or mismatched artwork now blocks the run. See the [live-livery recording workflow](docs/live-livery-recording.md).
+
+Keep the left/right request indicators, requested angle, measured wheel angle and applied CARLA steering visible in presentation renders. They make the control response readable when the fly's leg movements are subtle. Use the last recorded neural request and the matching camera-frame measurements. Retain the minimal black layout and panel/speed labels.
+
 ## Open-source preparation
 
-Original project code is MIT licensed, copyright Mark Unthank. Third-party materials retain their own terms; see [attribution and provenance](THIRD_PARTY.md). Credentials, account configuration, large data, checkpoints, and videos are excluded from Git. Acquisition scripts verify the pinned source hashes.
+Original project code is MIT licensed, copyright Mark Unthank. Third-party materials retain their own terms; see [attribution and provenance](THIRD_PARTY.md). Credentials, private account configuration, large data, checkpoints, and raw recordings remain outside Git. Curated public website media and attributed historical model snapshots are included. Acquisition scripts verify the pinned source hashes.
 
 ## Research starting points
 

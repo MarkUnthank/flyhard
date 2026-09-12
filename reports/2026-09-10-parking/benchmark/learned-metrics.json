@@ -1,0 +1,19 @@
+{
+  "checkpoint_sha256": "4f4d46b875836af2b03930fe1cf47cbabb66a552eb12912d8fa4d74725d1ce65",
+  "cases_sha256": "3e451a858420f80a337512b5ca0e5d15c8adb06372ad86ab6d8033fbdc7966c5",
+  "core_reset": false,
+  "trials": 50,
+  "selector_sensory_masked": true,
+  "policy_hz": 4,
+  "measured_control_hz": 20,
+  "success_rate": 0.0,
+  "collision_rate": 0.2,
+  "full_gate_passed": false,
+  "status": "complete",
+  "wall_seconds": 5523.506467834115,
+  "claim": "Scoped parallel parking from structured geometry",
+  "mean_position_error_m": 3.708086423968278,
+  "mean_yaw_error_deg": 13.259304275485883,
+  "mean_time_seconds": 40.959,
+  "mean_direction_changes": 34.52
+}

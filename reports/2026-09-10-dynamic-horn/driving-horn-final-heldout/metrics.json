@@ -1,0 +1,191 @@
+{
+  "results": {
+    "learned": {
+      "arrive_green": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.04738042627120551
+      },
+      "cut_in": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 0,
+        "wheel_mean_error": 0.04775101179210014
+      },
+      "cut_in_clears": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 0,
+        "wheel_mean_error": 0.06425120583290668
+      },
+      "empty": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.06109264768407245
+      },
+      "lead_leaves": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.026148595395540913
+      },
+      "rage_cars": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 0,
+        "wheel_mean_error": 0.045088341253668895
+      },
+      "rage_empty": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.04444845902179435
+      },
+      "side_car": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.10953645002296039
+      },
+      "stays_red": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.0478394889144442
+      },
+      "wait_green": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 0,
+        "wheel_mean_error": 0.04976596354459413
+      }
+    },
+    "reset_core": {
+      "arrive_green": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.29960416490497427
+      },
+      "cut_in": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.26987513263063234
+      },
+      "cut_in_clears": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.16053839218372867
+      },
+      "empty": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.16566889894036269
+      },
+      "lead_leaves": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.16073123354314395
+      },
+      "rage_cars": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.233937371037265
+      },
+      "rage_empty": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.3108187393275066
+      },
+      "side_car": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.19917821566460903
+      },
+      "stays_red": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.27125807947050895
+      },
+      "wait_green": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.18215350981585077
+      }
+    },
+    "disconnected": {
+      "arrive_green": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.026673124260713922
+      },
+      "cut_in": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.0022598598099039316
+      },
+      "cut_in_clears": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.1156775807344347
+      },
+      "empty": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.14892846399291396
+      },
+      "lead_leaves": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.030050227041829775
+      },
+      "rage_cars": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.04143993604703994
+      },
+      "rage_empty": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.10080840095908294
+      },
+      "side_car": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.19382563232859087
+      },
+      "stays_red": {
+        "trials": 1,
+        "horn_passed": 1,
+        "quiet": 1,
+        "wheel_mean_error": 0.15302084667028346
+      },
+      "wait_green": {
+        "trials": 1,
+        "horn_passed": 0,
+        "quiet": 1,
+        "wheel_mean_error": 0.16953064767453993
+      }
+    }
+  },
+  "wall_seconds": 343.34788919240236
+}

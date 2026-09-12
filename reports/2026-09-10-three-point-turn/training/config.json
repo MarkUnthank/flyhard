@@ -1,0 +1,46 @@
+{
+  "data": "runs/three-point-data-v2",
+  "out": "runs/three-point-policy-v2",
+  "graph": "data/graph-traced-v1",
+  "steps": 400,
+  "batch": 24,
+  "seed": 521,
+  "resume": null,
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "cases_sha256": "fbc4aa4e8667852c5fdc3e13824e72b187013adfd2d235f5b227b31a610df44c",
+  "data_sha256": {
+    "train.npz": "0acbf8f872b702668c78a1ad84b15164c98326566d88f5a26d58435b01012efb",
+    "validation.npz": "3feb8707acfe08f036749e21a52ee135c5fd742065e43429305339a4b5a3bb8e"
+  },
+  "observation_fields": [
+    "rear_x_minus_goal",
+    "rear_y_minus_goal",
+    "yaw_minus_goal",
+    "signed_speed",
+    "measured_selector",
+    "lower_boundary_minus_rear_y",
+    "upper_boundary_minus_rear_y",
+    "goal_x",
+    "goal_y",
+    "road_width",
+    "measured_wheel"
+  ],
+  "claim": "Short supervised three-point-turn pilot from relative goal and road geometry; physical evaluation required.",
+  "learned": "Measured-edge gains and neuron leaks; fixed sensory population code and motor decoder.",
+  "outputs": [
+    "requested wheel angle",
+    "requested speed magnitude",
+    "gear logits: reverse, neutral, forward"
+  ],
+  "action_format": "discrete-gear-v1",
+  "motor_adapter": "Fixed velocity regulator and offline IK move 28 fly leg joints; only measured wheel/pedal/selector positions drive CARLA.",
+  "heldout_used_for_training": false,
+  "state_reset_each_decision": true,
+  "source_sha256": {
+    "src/flyhard/three_point.py": "11739476ff356f49291c73f90b9379dec9a1525d5201a5dfea3c25f2cbc0154a",
+    "src/flyhard/three_point_policy.py": "2d710a83c996516beb0edf0a3090d61914efd2cff6f379f92a72c4d6c24596cd",
+    "src/flyhard/parking_policy.py": "562593854ea79d2fe367a5c8db2bf08c33d99d7bef3c35d7b5c5deb351e4d8ff",
+    "src/flyhard/parking_rig.py": "41274f8e35174a8e958ada830d1756903ff68d59350e0050dcf6b62213a71efa",
+    "/workspace/flyhard/scripts/train_three_point.py": "bd01f249c3930de65099c93180752d2fc4bd2febac75e53ea39832151f94050e"
+  }
+}

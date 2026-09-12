@@ -1,0 +1,161 @@
+{
+  "status": "rendered",
+  "sources": [
+    {
+      "source": "runs/dynamic-road-rage-signal-fixed",
+      "score": {
+        "kind": "road_rage",
+        "beep_count": 2,
+        "beep_onsets_seconds": [
+          0.716666704043746,
+          5.816666970029473
+        ],
+        "pressed_seconds": 19.3,
+        "distance_m": 60.042736848658905,
+        "peak_speed_m_s": 9.026251792907715,
+        "longest_hold_seconds": 16.0,
+        "red_stop_frames": 0,
+        "green_time": 0.01666666753590107,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "encounters": [
+          {
+            "car_id": 234,
+            "honked_while_near": true
+          },
+          {
+            "car_id": 235,
+            "honked_while_near": true
+          },
+          {
+            "car_id": 236,
+            "honked_while_near": true
+          }
+        ],
+        "wheel_angle_range": 0.4471177904979264,
+        "passed": false
+      },
+      "minimum_sponsor_pixels": 10971,
+      "frames_sha256": "97816e55ed8e3f0e43438810bd27551182b97d88108e76f1011011b069b60823",
+      "body_sha256": "de8b374d0808d7d58b8ba0dc8ea3412a3d41809e42853c450372cf550ba25224",
+      "neural_sha256": "e4395de7a0a7c1271bd4a1906e0c2aa0d3d88eae4cc58fe70b16ad34ae9b2576",
+      "cabin_windows_frames": [
+        [
+          51,
+          195
+        ],
+        [
+          357,
+          501
+        ]
+      ]
+    },
+    {
+      "source": "runs/dynamic-road-rage-signal-fixed",
+      "score": {
+        "kind": "road_rage",
+        "beep_count": 2,
+        "beep_onsets_seconds": [
+          0.716666704043746,
+          5.816666970029473
+        ],
+        "pressed_seconds": 19.3,
+        "distance_m": 60.042736848658905,
+        "peak_speed_m_s": 9.026251792907715,
+        "longest_hold_seconds": 16.0,
+        "red_stop_frames": 0,
+        "green_time": 0.01666666753590107,
+        "moving_after_green": true,
+        "collision_free_claim": false,
+        "encounters": [
+          {
+            "car_id": 234,
+            "honked_while_near": true
+          },
+          {
+            "car_id": 235,
+            "honked_while_near": true
+          },
+          {
+            "car_id": 236,
+            "honked_while_near": true
+          }
+        ],
+        "wheel_angle_range": 0.4471177904979264,
+        "passed": false
+      },
+      "minimum_sponsor_pixels": 10971,
+      "frames_sha256": "97816e55ed8e3f0e43438810bd27551182b97d88108e76f1011011b069b60823",
+      "body_sha256": "de8b374d0808d7d58b8ba0dc8ea3412a3d41809e42853c450372cf550ba25224",
+      "neural_sha256": "e4395de7a0a7c1271bd4a1906e0c2aa0d3d88eae4cc58fe70b16ad34ae9b2576",
+      "cabin_windows_frames": [
+        [
+          51,
+          195
+        ],
+        [
+          357,
+          501
+        ]
+      ]
+    }
+  ],
+  "fps": 60,
+  "frames": 1200,
+  "duration_seconds": 20.0,
+  "livery_revision": 21,
+  "livery_layout": 5,
+  "gpu": "NVIDIA RTX A6000/PCIe/SSE2",
+  "audio_intervals": [
+    [
+      0.7,
+      4.0
+    ],
+    [
+      5.8,
+      17.8
+    ]
+  ],
+  "source_sha256": {
+    "/workspace/flyhard/scripts/render_dynamic_horn.py": "06f7eeb26a20f96048d60b6a24482047da7a7d4c6bb24b42d098dab817241d2f",
+    "src/flyhard/interior_view.py": "1b007542eee50b1981f3d0df76b9de7ef506df18a0679d53c128c5b038727a89",
+    "src/flyhard/horn_rig.py": "a582167e2b4ac6b2e693745aa8882bfe4cdb14a8c4bf5685445d5ad745b7d12c",
+    "src/flyhard/recorded_horn_audio.py": "1b6d9bb698ebf129d6bb938f9408460adfecf3f1c539744719ad762478bae057"
+  },
+  "claim": "Single learned core operates both forelegs. Directed route, speed, traffic and rage mode; measured steering and horn. Recorded neural and body states share one clock.",
+  "sponsor_note": "Exact live sponsor meshes composited with native CARLA camera and depth; not native Unreal materials.",
+  "audio": {
+    "source": {
+      "title": "05 Horn.wav",
+      "author": "15HPanska_Ruttner_Jan",
+      "source": "https://freesound.org/people/15HPanska_Ruttner_Jan/sounds/461679/",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Car_Horn.wav",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "f44a161267e00c374ea6670292e70491e18f7c49a9448fc3a96960525adcfeb6",
+      "recorded": "2019-02-28"
+    },
+    "sample_rate": 48000,
+    "samples": 960000,
+    "duration_seconds": 20.0,
+    "intervals": [
+      [
+        0.7,
+        4.0
+      ],
+      [
+        5.8,
+        17.8
+      ]
+    ],
+    "editing": "Recorded attack and crossfaded steady recording; gated exclusively by measured button travel; touching edit spans retain one continuous horn"
+  },
+  "video_sha256": "f9b56edb8dd71d09fafb07b3a53a188967bdc73841248dc8f132b14980d74fcf",
+  "audio_finalization": {
+    "prior_video_sha256": "12542f6b51364c921939c6fc2051890d9fe7d58f0149fba2d4d8fbf0d27b5dc4",
+    "picture_sha256": "b9ebfc7636323ec849517f6656841febc6aed00a69132f73108ea31081ef4fa5",
+    "script_sha256": "eaeaa7822d025b669627e47c33c41c66cd88ddecda0303419ebfe6da3623fcee",
+    "audio_source_sha256": "9bf02928052f2bb89e5054492881e70a47f21149b42ed8b774bb2d29b5090b72",
+    "method": "Retain one continuous measured press across touching edit segments; picture unchanged"
+  }
+}

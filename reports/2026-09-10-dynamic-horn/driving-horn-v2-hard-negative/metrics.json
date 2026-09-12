@@ -1,0 +1,18 @@
+{
+  "initial_validation_loss": 0.013819589372663662,
+  "best_validation_loss": 0.011097825741793107,
+  "wall_seconds": 362.48832150548697,
+  "gradient_audit": {
+    "core.edge_gain": {
+      "finite": true,
+      "nonzero": 3052325
+    },
+    "core.leak": {
+      "finite": true,
+      "nonzero": 23485
+    }
+  },
+  "frozen_interfaces_unchanged": true,
+  "checkpoint_sha256": "d5c08f145b46b2bfa2b2b011c8116b6fd5b010bbeb89e5b52b7f5894db27f0ab",
+  "peak_torch_gpu_gb": 3.094869504
+}

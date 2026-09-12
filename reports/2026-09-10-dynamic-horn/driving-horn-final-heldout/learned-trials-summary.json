@@ -1,0 +1,252 @@
+[
+  {
+    "case": {
+      "seed": 830000,
+      "kind": "wait_green",
+      "event": 2.0126462910657867,
+      "gap": 3.9095855335604295,
+      "speed": 3.219454097161756,
+      "wheel": -0.26544644999497624,
+      "phase": 3.165263829971876,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 1,
+    "beep_onsets": [
+      2.216666666666667
+    ],
+    "expected_beeps": 1,
+    "timings": [
+      0.10000000000000009
+    ],
+    "hold_coverage": 0.8333333333333334,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.04976596354459413,
+    "wheel_95_error_rad": 0.0766857516433286,
+    "all_quiet": false,
+    "maximum_travel": 0.8739552055947803
+  },
+  {
+    "case": {
+      "seed": 831000,
+      "kind": "empty",
+      "event": 2.2628936495260232,
+      "gap": 4.392669364850013,
+      "speed": 7.084802155057955,
+      "wheel": -0.22777749906087308,
+      "phase": 0.8133652024530249,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 0,
+    "beep_onsets": [],
+    "expected_beeps": 0,
+    "timings": [],
+    "hold_coverage": null,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.06109264768407245,
+    "wheel_95_error_rad": 0.12429303779206809,
+    "all_quiet": true,
+    "maximum_travel": 0.5160250118320507
+  },
+  {
+    "case": {
+      "seed": 832000,
+      "kind": "arrive_green",
+      "event": 4.322574801907363,
+      "gap": 15.69829190335831,
+      "speed": 4.203598246797016,
+      "wheel": -0.04349069360738128,
+      "phase": 5.7051774465944955,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 0,
+    "beep_onsets": [],
+    "expected_beeps": 0,
+    "timings": [],
+    "hold_coverage": null,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.04738042627120551,
+    "wheel_95_error_rad": 0.07534576053193293,
+    "all_quiet": true,
+    "maximum_travel": 0.14552982707058862
+  },
+  {
+    "case": {
+      "seed": 833000,
+      "kind": "stays_red",
+      "event": 3.4859846212071552,
+      "gap": 11.754674350842617,
+      "speed": 10.440678006714048,
+      "wheel": 0.24981823591003344,
+      "phase": 5.419468909987857,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 0,
+    "beep_onsets": [],
+    "expected_beeps": 0,
+    "timings": [],
+    "hold_coverage": null,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.0478394889144442,
+    "wheel_95_error_rad": 0.1005012297061892,
+    "all_quiet": true,
+    "maximum_travel": 0.36516788040111575
+  },
+  {
+    "case": {
+      "seed": 834000,
+      "kind": "lead_leaves",
+      "event": 4.604276205201194,
+      "gap": 12.418326740279284,
+      "speed": 9.3335820965343,
+      "wheel": -0.04928945125689205,
+      "phase": 2.406934886197874,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 0,
+    "beep_onsets": [],
+    "expected_beeps": 0,
+    "timings": [],
+    "hold_coverage": null,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.026148595395540913,
+    "wheel_95_error_rad": 0.10065012589870077,
+    "all_quiet": true,
+    "maximum_travel": 0.40999069326978527
+  },
+  {
+    "case": {
+      "seed": 835000,
+      "kind": "side_car",
+      "event": 2.017068026687533,
+      "gap": 5.793815385021052,
+      "speed": 6.292448479741877,
+      "wheel": 0.3149178772208779,
+      "phase": 5.356826362118681,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 0,
+    "beep_onsets": [],
+    "expected_beeps": 0,
+    "timings": [],
+    "hold_coverage": null,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.10953645002296039,
+    "wheel_95_error_rad": 0.1930811650453677,
+    "all_quiet": true,
+    "maximum_travel": 0.0022887575473624633
+  },
+  {
+    "case": {
+      "seed": 836000,
+      "kind": "cut_in",
+      "event": 2.3598233710201306,
+      "gap": 14.724729896915251,
+      "speed": 3.564922017355025,
+      "wheel": 0.0034760833400201974,
+      "phase": 1.267406557980424,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 1,
+    "beep_onsets": [
+      2.5166666666666666
+    ],
+    "expected_beeps": 1,
+    "timings": [
+      0.10000000000000009
+    ],
+    "hold_coverage": 0.9666666666666667,
+    "horn_passed": false,
+    "wheel_mean_error_rad": 0.04775101179210014,
+    "wheel_95_error_rad": 0.19242579815649088,
+    "all_quiet": false,
+    "maximum_travel": 0.8688806401578659
+  },
+  {
+    "case": {
+      "seed": 837000,
+      "kind": "cut_in_clears",
+      "event": 4.094312091891364,
+      "gap": 6.049826484998226,
+      "speed": 10.910456692850254,
+      "wheel": 0.17801563960729733,
+      "phase": 3.5658547457401126,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 1,
+    "beep_onsets": [
+      4.15
+    ],
+    "expected_beeps": 1,
+    "timings": [
+      0.0333333333333341
+    ],
+    "hold_coverage": 0.9777777777777777,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.06425120583290668,
+    "wheel_95_error_rad": 0.15100743479791615,
+    "all_quiet": false,
+    "maximum_travel": 0.9766665874068229
+  },
+  {
+    "case": {
+      "seed": 838000,
+      "kind": "rage_cars",
+      "event": 3.5999702684013863,
+      "gap": 4.1572707046123245,
+      "speed": 10.768315703882928,
+      "wheel": 0.06718586958747547,
+      "phase": 2.6383875885626633,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 3,
+    "beep_onsets": [
+      3.65,
+      6.666666666666667,
+      9.666666666666666
+    ],
+    "expected_beeps": 3,
+    "timings": [
+      0.033333333333333215,
+      0.05000000000000071,
+      0.049999999999998934
+    ],
+    "hold_coverage": 0.9722222222222222,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.045088341253668895,
+    "wheel_95_error_rad": 0.1524028466659314,
+    "all_quiet": false,
+    "maximum_travel": 0.943514514505196
+  },
+  {
+    "case": {
+      "seed": 839000,
+      "kind": "rage_empty",
+      "event": 3.5887461118671755,
+      "gap": 5.8168756972101505,
+      "speed": 6.1845800319600555,
+      "wheel": 0.15435979920195353,
+      "phase": 0.6557534787917213,
+      "duration": 12.0
+    },
+    "condition": "learned",
+    "beep_count": 0,
+    "beep_onsets": [],
+    "expected_beeps": 0,
+    "timings": [],
+    "hold_coverage": null,
+    "horn_passed": true,
+    "wheel_mean_error_rad": 0.04444845902179435,
+    "wheel_95_error_rad": 0.07728326435111989,
+    "all_quiet": true,
+    "maximum_travel": 0.028464613134195484
+  }
+]

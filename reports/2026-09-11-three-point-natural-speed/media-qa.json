@@ -1,0 +1,53 @@
+{
+  "file": "Flyhard-three-point-turn-Boccherini-natural-speed.mp4",
+  "sha256": "adf200d0455f1323bdf9aa679ae8e15413e393aa5897ebd2ded2b2aa203714b0",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "60/1",
+        "nb_frames": "2979"
+      },
+      {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "nb_frames": "2326"
+      }
+    ],
+    "format": {
+      "duration": "49.650000",
+      "size": "17302499"
+    }
+  },
+  "full_decode": "passed",
+  "black_frame_at_27_seconds": "passed",
+  "blackout_audio_peak": 0.0,
+  "music_source_correlations": [
+    0.9997506697751198,
+    0.9997882282274723
+  ],
+  "success_frame_mean_absolute_errors": [
+    0.7683235275205762,
+    0.7853748713991769,
+    0.8605189043209877,
+    0.7788847093621399
+  ],
+  "success_reveal_seconds": 27.55,
+  "rendered_sources_unchanged": true,
+  "presentation": "Saved early and middle footage at normal simulation speed, without extra crops or internal cuts; the complete successful take appears once after the blackout. No extra training or new CARLA simulation.",
+  "desktop_copy_sha256_verified": true,
+  "visual_checks": [
+    "Normal-speed labels on learning clips",
+    "No successful-take preview before black",
+    "Final take from start through stop",
+    "Green Mini and current sponsors",
+    "Request, steering, pedal and gear readouts",
+    "thedrivingfly.com and music credits"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "generator_sha256": "6ddacb9950fa772ca79e2f0046aef2b563bf6dc56ba7385fb5fbb52b5bc4e87d",
+  "corrected_before_heldout_evaluation": true,
+  "excluded_development_run": "three-point-policy-v1",
+  "reason": "An initial data draft supplied target wheel angle as the measured-wheel observation. The early training run was stopped and excluded. V2 independently randomizes this training observation and trains from scratch.",
+  "label_counts": {
+    "train": {
+      "rows": 23103,
+      "no_feasible_teacher": []
+    },
+    "validation": {
+      "rows": 2849,
+      "no_feasible_teacher": []
+    }
+  }
+}

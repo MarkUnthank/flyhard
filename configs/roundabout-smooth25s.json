@@ -1,0 +1,63 @@
+{
+  "fps": 60,
+  "credit_seconds": 2,
+  "previews": [
+    60,
+    450,
+    630,
+    900,
+    1170,
+    1320
+  ],
+  "cameras": {},
+  "shots": [
+    {
+      "source_start": 10,
+      "source_end": 57,
+      "seconds": 3.5,
+      "camera": "orbit",
+      "title": "Here comes the fly",
+      "body_closeup": false
+    },
+    {
+      "source_start": 57,
+      "source_end": 102,
+      "seconds": 5.0,
+      "camera": "cabin",
+      "title": "Fly pulls the stalk",
+      "body_closeup": true
+    },
+    {
+      "source_start": 102,
+      "source_end": 142,
+      "seconds": 4.0,
+      "camera": "indicator",
+      "title": "Right indicator",
+      "body_closeup": true
+    },
+    {
+      "source_start": 142,
+      "source_end": 213,
+      "seconds": 5.0,
+      "camera": "front",
+      "title": "Steering + indicating",
+      "body_closeup": false
+    },
+    {
+      "source_start": 213,
+      "source_end": 249,
+      "seconds": 3.5,
+      "camera": "cabin",
+      "title": "Fly cancels the signal",
+      "body_closeup": true
+    },
+    {
+      "source_start": 249,
+      "source_end": 279,
+      "seconds": 2.0,
+      "camera": "orbit",
+      "title": "Exit taken. Somehow.",
+      "body_closeup": false
+    }
+  ]
+}

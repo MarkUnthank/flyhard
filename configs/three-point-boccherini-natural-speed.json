@@ -1,0 +1,15 @@
+{
+  "filename": "Flyhard-good-attempt-Boccherini.mp4",
+  "source": "work/three-point-local-edit/parts/success/three-point.mp4",
+  "end_hold_seconds": 2.5,
+  "music": {
+    "file": "assets/music/boccherini-g275/minuet-trio.ogg",
+    "sha256": "cc1008f7d53b9c641362f6dd4375ff3d05e9c445e2d8cde615735323c0f34ff7",
+    "title": "Boccherini: Minuet and Trio, String Quintet in E major, Op. 11 No. 5, G. 275",
+    "credit_title": "Boccherini \u00b7 Minuet and Trio, G. 275",
+    "credit_recording": "Rafael Krux \u00b7 CC0 recording",
+    "source": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "start_seconds": 0.5
+  }
+}

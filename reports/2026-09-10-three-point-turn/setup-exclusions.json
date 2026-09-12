@@ -1,0 +1,6 @@
+{
+  "three-point-native-learned": "Simulator map-load crash before any trial data",
+  "three-point-native-learned-v2": "No corridor found by same-direction-only lane scan; rejected before any trial data",
+  "final_learned_run": "three-point-native-learned-v3",
+  "checkpoint_unchanged": true
+}

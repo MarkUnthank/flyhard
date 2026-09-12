@@ -13,6 +13,7 @@ dependencies = ["numpy>=2,<3", "torch>=2.8,<3", "pyarrow>=20,<26", "scipy>=1.15,
 body = ["flygym @ git+https://github.com/NeLy-EPFL/flygym.git@38c8ec61034cd59bc5ba0de20688d4a3c0000d60"]
 video = ["cloud-volume==12.14.4", "pyvista==0.49.0", "vtk==9.7.0"]
 assets = ["trimesh==5.1.0"]
+simulator = ["carla==0.9.16; python_version < '3.13'", "shapely==2.1.2; python_version < '3.13'", "networkx>=3.4,<4; python_version < '3.13'"]
 dev = ["pytest>=9,<10"]
 
 [tool.setuptools.packages.find]

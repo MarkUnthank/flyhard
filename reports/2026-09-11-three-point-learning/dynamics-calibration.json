@@ -1,0 +1,15 @@
+{
+  "curvature_scale": 0.7930453466373627,
+  "quantiles": [
+    0.7608881382180143,
+    0.7930453466373627,
+    0.8827689581086339
+  ],
+  "source_seeds": [
+    71000,
+    71001
+  ],
+  "retired_as_heldout": true,
+  "samples": 574,
+  "note": "Calibration from prior outcomes; subsequent evaluations must use fresh seeds."
+}

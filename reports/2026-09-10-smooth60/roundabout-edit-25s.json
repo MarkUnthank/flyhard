@@ -1,0 +1,15 @@
+{
+  "source_sha256": "129a1a4310e267e5dffae237165e78225da143a26004348bca330e4ec05b19ec",
+  "source_frames": 311,
+  "fps": 20,
+  "output_frames": 500,
+  "shots": [
+    {"name": "Arrival", "source_start": 0, "source_end": 47, "output_frames": 70, "slow_motion": true},
+    {"name": "Fly pulls the stalk", "source_start": 47, "source_end": 92, "output_frames": 100, "slow_motion": true},
+    {"name": "Right indicator", "source_start": 92, "source_end": 132, "output_frames": 80, "slow_motion": true},
+    {"name": "Steering and indicating", "source_start": 132, "source_end": 203, "output_frames": 100, "slow_motion": true},
+    {"name": "Fly cancels the signal", "source_start": 203, "source_end": 239, "output_frames": 70, "slow_motion": true},
+    {"name": "Exit", "source_start": 239, "source_end": 271, "output_frames": 40, "slow_motion": true},
+    {"name": "Attribution", "source_start": 271, "source_end": 311, "output_frames": 40, "slow_motion": false}
+  ]
+}

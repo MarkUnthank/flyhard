@@ -1,0 +1,12 @@
+{
+  "status": "trained; physical three-point-turn evaluation pending",
+  "initial_validation_loss": 3.7727843125661216,
+  "best_validation_loss": 0.3577296858032544,
+  "training_seconds": 136.8831124305725,
+  "gradient_audit": {
+    "core.edge_gain": true,
+    "core.leak": true
+  },
+  "frozen_interfaces_unchanged": true,
+  "checkpoint_sha256": "32ad3ab136737256747f9c341832405aa1e6ae33cb1a7625b03ca09ab4c3f4a9"
+}
