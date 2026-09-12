@@ -26,20 +26,22 @@ from flyhard.parking import CAR_LENGTH, CAR_WIDTH, REAR_TO_CENTER
 LANE_WIDTH = 3.5
 WHEELBASE = 2.5            # Mini Cooper S, front to rear axle.
 MAX_STEER_DEG = 69.        # CARLA's max road-wheel angle for this vehicle; measured on the pod.
-STEER_RATIO = .793         # Model curvature to measured curvature, as for the three-point turn.
+STEER_RATIO = .715         # Measured in Town04 at 8-11 m/s; see work/steering-calibration.json.
 WHEEL_PER_STEER = 2.0      # Steering wheel radians per unit of CARLA steer, as the rig is built.
 APPROACH_LAG = .20
 FRONT_OVERHANG = CAR_LENGTH-REAR_TO_CENTER
 SENSING_RANGE = 90.
-LANE_TOLERANCE = .55       # Counted as settled in a lane inside this much of its centre.
+LANE_TOLERANCE = .8        # Counted as settled in a lane inside this much of its centre;
+                           # a lane is 3.5 m wide, so this is still unambiguously in it.
 SAFE_GAP = 6.0             # Longitudinal clearance demanded before pulling back in.
 SIDE_CLEARANCE = 2.2       # Lateral clearance that counts as sharing a lane.
+CURVATURE_SCALE = .006     # A 170 m radius; the sharpest bend on the chosen carriageway.
 KINDS = ('clear', 'blocked', 'no_need')
 
 OBSERVATION_FIELDS = ['ego_speed', 'lane_offset', 'heading_error', 'lead_visible', 'lead_gap',
                       'lead_closing_speed', 'lead_lane_offset', 'outside_visible', 'outside_gap',
                       'outside_closing_speed', 'measured_throttle', 'measured_brake',
-                      'measured_steer']
+                      'measured_steer', 'lane_curvature']
 
 
 @dataclass(frozen=True)
@@ -52,6 +54,8 @@ class OvertakeCase:
     lead_gap: float           # Longitudinal gap to the lead when the run starts.
     outside_speed: float      # Speed of the vehicle already in the overtaking lane.
     outside_gap: float        # Its longitudinal offset at the start; negative is behind.
+    curvature: float          # Peak signed lane curvature, 1/m. Positive bends left.
+    curve_period: float       # Metres over which the curvature completes one cycle.
 
     def record(self):
         return asdict(self)
@@ -80,40 +84,61 @@ def cases(split, count):
     for i in range(count):
         r = np.random.default_rng(base+i)
         kind = KINDS[i % 3]
-        cruise = float(r.uniform(19., 23.) if training else r.uniform(17.5, 24.5))
+        # Speeds are set by the road rather than by taste: the longest straight with a
+        # same-direction lane beside it anywhere in the stock towns is 228 m, and a pass
+        # at motorway speed needs closer to three hundred. Around fifty km/h fits.
+        cruise = float(r.uniform(13.5, 16.) if training else r.uniform(12.5, 17.))
         # `no_need` puts a vehicle ahead that is not actually slower, so the only
         # correct action is to hold the lane and the speed.
         lead = (cruise*float(r.uniform(1.0, 1.12)) if kind == 'no_need'
                 else cruise*float(r.uniform(.55, .78) if training else r.uniform(.48, .84)))
         result.append(OvertakeCase(
             seed=base+i, split=split, kind=kind, cruise_speed=cruise, lead_speed=float(lead),
-            lead_gap=float(r.uniform(34., 52.) if training else r.uniform(28., 58.)),
-            outside_speed=float(cruise*r.uniform(1.12, 1.3)),
-            outside_gap=float(r.uniform(-58., -34.) if training else r.uniform(-66., -30.))))
+            lead_gap=float(r.uniform(26., 36.) if training else r.uniform(23., 39.)),
+            outside_speed=float(cruise*r.uniform(1.14, 1.34)),
+            outside_gap=float(r.uniform(-48., -28.) if training else r.uniform(-54., -24.)),
+            # The carriageway bends. Measured on the chosen Town04 site, the sharpest
+            # twelve-metre step turns 3.8 degrees, which is 0.0056 per metre, and the
+            # bend reverses over a few hundred metres. A straight-lane demonstrator has
+            # no feed-forward for that and settles most of a metre off the centre line.
+            curvature=float(r.uniform(-.0055, .0055) if training else r.uniform(-.008, .008)),
+            curve_period=float(r.uniform(420., 900.) if training else r.uniform(300., 1100.))))
     return result
 
 
+def lane_curvature(case, distance):
+    """Signed curvature of the lane at a distance along it, positive bending left."""
+    return float(case.curvature*math.cos(2*math.pi*float(distance)/case.curve_period))
+
+
 def traffic_state(case, now, ego_x):
-    """Positions of the other two vehicles relative to the ego, along the carriageway."""
+    """Positions and speeds of the other two vehicles, relative to the ego."""
     lead_x = case.lead_gap+case.lead_speed*now
     outside_x = case.outside_gap+case.outside_speed*now if case.has_outside else None
-    return lead_x-ego_x, (outside_x-ego_x if outside_x is not None else None)
+    return ((lead_x-ego_x, case.lead_speed),
+            ((outside_x-ego_x, case.outside_speed) if outside_x is not None else (None, 0.)))
 
 
-def observation(state, case, lead_gap, outside_gap, throttle, brake, steer):
-    """Thirteen measured quantities. Nothing names the case kind."""
+def observation(state, case, lead_gap, lead_speed, outside_gap, outside_speed, curvature,
+                throttle, brake, steer):
+    """Fourteen measured quantities. Nothing names the case kind.
+
+    The other vehicles' speeds are the ones observed, not the ones the case asked for.
+    In the diagnostic model those are the same number; in CARLA a van asked to hold
+    seven metres a second may be doing six, and a policy told otherwise drives into it.
+    """
     speed = state[3]
     lead_seen = lead_gap is not None and -14. < lead_gap <= SENSING_RANGE
     outside_seen = outside_gap is not None and -SENSING_RANGE <= outside_gap <= SENSING_RANGE
     return np.array([
         speed, state[1], state[2], float(lead_seen),
         lead_gap if lead_seen else SENSING_RANGE,
-        (case.lead_speed-speed) if lead_seen else 0.,
-        0. if lead_seen else 0.,
+        (lead_speed-speed) if lead_seen else 0.,
+        0.,
         float(outside_seen),
         outside_gap if outside_seen else -SENSING_RANGE,
-        (case.outside_speed-speed) if outside_seen else 0.,
-        throttle, brake, steer], np.float32)
+        (outside_speed-speed) if outside_seen else 0.,
+        throttle, brake, steer, curvature], np.float32)
 
 
 def encode(observations):
@@ -121,17 +146,18 @@ def encode(observations):
     a = np.atleast_2d(np.asarray(observations, dtype=np.float32))
     if a.shape[1] != len(OBSERVATION_FIELDS) or not np.isfinite(a).all():
         raise ValueError('Expected finite overtake observations')
-    speed = a[:, 0]/21
+    speed = a[:, 0]/15
     offset = a[:, 1]/LANE_WIDTH
     heading = a[:, 2]/.2
-    lead = a[:, 4]/40
-    outside = a[:, 8]/40
+    lead = a[:, 4]/30
+    outside = a[:, 8]/30
     raw = np.column_stack([np.ones(len(a)), speed, offset, np.square(offset), heading, a[:, 3],
-                           lead, a[:, 5]/8, a[:, 7], outside, a[:, 9]/8,
-                           a[:, 10], a[:, 11], a[:, 12]])
+                           lead, a[:, 5]/6, a[:, 7], outside, a[:, 9]/6,
+                           a[:, 10], a[:, 11], a[:, 12], a[:, 13]/CURVATURE_SCALE,
+                           a[:, 13]*speed/CURVATURE_SCALE])
     grid = np.stack(np.meshgrid(np.linspace(-.4, 2.2, 11), np.linspace(-.4, 1.4, 9),
                                 indexing='ij'), axis=-1).reshape(-1, 2)
-    dl = (lead[:, None]-grid[:, 0])/.28
+    dl = (lead[:, None]-grid[:, 0])/.26
     do = (offset[:, None]-grid[:, 1])/.22
     place = np.exp(-.5*(dl*dl+do*do))
     return np.concatenate([raw, place, place*speed[:, None], place*a[:, 7, None],
@@ -149,8 +175,14 @@ def road_wheel_angle(steer):
     return math.radians(MAX_STEER_DEG*STEER_RATIO*float(np.clip(steer, -1., 1.)))
 
 
-def kinematic_step(state, throttle, brake, steer, dt=.05):
-    """Bicycle model on the measured longitudinal response. A training diagnostic only."""
+def kinematic_step(state, throttle, brake, steer, curvature=0., dt=.05):
+    """Bicycle model on the measured longitudinal response. A training diagnostic only.
+
+    The state is in the lane's own frame, so a bending lane turns underneath the car:
+    holding a heading error of zero on a left-hand bend needs a steering angle, not a
+    straight wheel. Without this the model would teach a control law that leaves the
+    lane as soon as the road stops being straight.
+    """
     state = np.array(state, float, copy=True)
     if past_free_play(brake, BRAKE_FREE_PLAY) > 0.:
         acceleration = -brake_decel(brake)
@@ -159,9 +191,12 @@ def kinematic_step(state, throttle, brake, steer, dt=.05):
     else:
         acceleration = -COAST_DECEL if state[3] > 0. else 0.
     state[3] = max(0., state[3]+acceleration*dt)
-    state[2] += state[3]*math.tan(road_wheel_angle(steer))/WHEELBASE*dt
+    turn = state[3]*math.tan(road_wheel_angle(steer))/WHEELBASE
+    state[2] += (turn-curvature*state[3]*math.cos(state[2])/max(1.-curvature*state[1], .2))*dt
     state[2] = float(np.clip(state[2], -.6, .6))
-    state[0] += state[3]*math.cos(state[2])*dt
+    # Distance is arc length along the lane centre, so a car running wide on a bend
+    # covers more ground than the centre line does.
+    state[0] += state[3]*math.cos(state[2])/max(1.-curvature*state[1], .2)*dt
     state[1] += state[3]*math.sin(state[2])*dt
     return state
 

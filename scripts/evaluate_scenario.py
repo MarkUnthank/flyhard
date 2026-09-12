@@ -54,6 +54,17 @@ def load_policy(checkpoint, graph_dir, scenario, core, reset_core=False):
 
 
 def describe(scenario, case, score):
+    if scenario.name == 'overtake':
+        if score['collided']:
+            return 'collided while overtaking'
+        if score['strayed']:
+            return 'left the carriageway'
+        if score['cut_in']:
+            return 'pulled back in too early'
+        if not score['overtake_required']:
+            return ('held its lane, nothing to pass' if not score['used_outside_lane']
+                    else 'pulled out with no reason to')
+        return 'overtook and pulled back in' if score['overtook'] else 'never got past'
     if scenario.name == 'crossing':
         if score['contact']:
             return 'hit the pedestrian'
@@ -176,7 +187,10 @@ def main():
                     break
             score = core.metrics(trajectory, case)
             score['native_collision_events'] = list(env.collision_events)
-            score['contact'] = bool(score['contact'] or env.collision_events)
+            # Scenarios name their own contact metric; CARLA's own collision sensor is
+            # the authority either way, and a trial with a contact never passes.
+            hit = 'contact' if 'contact' in score else 'collided'
+            score[hit] = bool(score[hit] or env.collision_events)
             score['passed'] = bool(score['passed'] and not env.collision_events)
             duration = rows[-1]['time']
             results.append({'seed': case.seed, 'split': case.split,
@@ -232,15 +246,20 @@ def main():
             sponsor.close()
 
     passed = sum(r['passed'] for r in results)
-    required = [r for r in results if r['stop_required']]
+    # Only the scenarios that are about stopping report a stop; the summary carries
+    # whichever of these each scenario actually measured rather than inventing zeros.
+    required = [r for r in results if r.get('stop_required')]
+    counted = {key: sum(bool(r.get(key)) for r in results)
+               for key in ('contact', 'collided', 'unnecessary_stop', 'strayed', 'cut_in',
+                           'overtook') if any(key in r for r in results)}
+    if required:
+        counted['stop_required_trials'] = len(required)
+        counted['yielded_when_required'] = sum(bool(r.get('yielded_before_line'))
+                                               for r in required)
     summary = {'scenario': scenario.name, 'checkpoint': args.checkpoint,
                'checkpoint_sha256': sha(args.checkpoint), 'split': args.split,
                'trials': len(results), 'passed': passed,
-               'pass_rate': round(passed/max(len(results), 1), 4),
-               'contacts': sum(r['contact'] for r in results),
-               'stop_required_trials': len(required),
-               'yielded_when_required': sum(r['yielded_before_line'] for r in required),
-               'unnecessary_stops': sum(r['unnecessary_stop'] for r in results),
+               'pass_rate': round(passed/max(len(results), 1), 4), **counted,
                'reset_core': args.reset_core, 'results': results,
                'environment': 'native CARLA with measured pedal travel',
                'sponsor_revision': int(manifest['revision']) if manifest else None,

@@ -42,8 +42,14 @@ def events(take_dir, fps):
     first_brake = braked[0] if braked else None
     stopped = resting[0] if resting else None
     resumed = moving_after[0] if moving_after else None
+    # Overtaking has no stop to cut on. Its decisive moment is the wheel going over,
+    # and its equivalent of resuming is the car coming back into its own lane.
+    out = [r['time'] for r in rows if abs(r.get('lane_offset') or 0.) > 1.]
+    returned = [r['time'] for r in rows
+                if out and r['time'] > out[-1] and abs(r.get('lane_offset') or 0.) < .5]
     return {'total': total, 'first_brake': first_brake, 'stopped': stopped,
-            'resumed': resumed,
+            'resumed': resumed, 'pulled_out': out[0] if out else None,
+            'returned': returned[0] if returned else None,
             'peak_speed_time': max(rows, key=lambda r: r['speed_m_s'])['time']}
 
 
@@ -58,14 +64,15 @@ def beats(record, budget):
     total = record['duration_seconds']
     if not marks:
         return [{'beat': 'decision', 'start': 0., 'duration': round(min(budget, total), 2)}]
-    anchor = marks['first_brake'] or marks['peak_speed_time']
+    anchor = marks['first_brake'] or marks['pulled_out'] or marks['peak_speed_time']
+    settle = marks['resumed'] or marks['returned']
     shots = []
     if anchor > 2.4:
         # Run into the decision, not away from it: the seconds before the brake.
         shots.append({'beat': 'approach', 'start': max(0., anchor-BEAT_LIMITS['approach'][1])})
     shots.append({'beat': 'decision', 'start': max(0., anchor-.8)})
-    if marks['resumed'] and total-marks['resumed'] > 1.2:
-        shots.append({'beat': 'resume', 'start': max(0., marks['resumed']-.8)})
+    if settle and total-settle > 1.2:
+        shots.append({'beat': 'resume', 'start': max(0., settle-.8)})
 
     for shot in shots:
         low, high = BEAT_LIMITS[shot['beat']]

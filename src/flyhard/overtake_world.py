@@ -33,7 +33,7 @@ def angular_signed(a, b):
 class OvertakeWorld:
     dt = 1/60
 
-    def __init__(self, town='Town04', straight_metres=340.):
+    def __init__(self, town='Town04', usable_metres=420.):
         self.client = carla.Client('127.0.0.1', 2000)
         self.client.set_timeout(180.)
         self.world = self.client.get_world()
@@ -53,58 +53,119 @@ class OvertakeWorld:
         self.map = self.world.get_map()
         self.actors = []
         self.ego = self.lead = self.outside = None
-        self.site = self.select_site(straight_metres)
+        self.site = self.select_site(usable_metres)
         transform = self.site['start'].transform
         self.origin = transform.location
         self.forward = transform.get_forward_vector()
         self.right = transform.get_right_vector()
         self.approach_yaw = transform.rotation.yaw
+        # Positions are measured against the original lane's centre line, not a fixed
+        # axis. The longest usable carriageway still curves by a few degrees, and a car
+        # holding a fixed-axis offset of zero drives straight off it into the barrier.
+        self.centreline = self.sample_centreline(self.site['usable_m'])
 
-    def select_site(self, straight_metres):
-        """A lane with a same-direction lane to its left and a long straight run ahead."""
+    def select_site(self, usable_metres):
+        """The longest run of lane that keeps a same-direction lane beside it.
+
+        Straightness is not required, only gentle curvature, because positions are
+        measured along the lane's own centre line. Demanding an actual straight caps the
+        scenario at the 228 m the stock towns offer, which is not enough road to overtake
+        in. Four degrees per twelve metres is a 170 m radius; the 852 m run this town
+        also offers turns 9 degrees in the same distance, which is a slip road rather
+        than a carriageway and is not what the behaviour is about.
+        """
         best = None
-        for waypoint in self.map.generate_waypoints(12.):
+        for waypoint in self.map.generate_waypoints(15.):
             if waypoint.is_junction:
                 continue
-            left = waypoint.get_left_lane()
-            if left is None or left.lane_type != carla.LaneType.Driving:
-                continue
-            if left.lane_id*waypoint.lane_id < 0:
-                continue            # Opposing carriageway, not an overtaking lane.
-            straight, node = 0., waypoint
-            while straight < straight_metres:
+            usable, node = 0., waypoint
+            while usable < 700.:
                 following = node.next(12.)
                 if not following or following[0].is_junction:
                     break
-                if angular(following[0].transform.rotation.yaw, waypoint.transform.rotation.yaw) > 8:
+                left = following[0].get_left_lane()
+                if (left is None or left.lane_type != carla.LaneType.Driving
+                        or left.lane_id*following[0].lane_id < 0):
                     break
-                node, straight = following[0], straight+12.
-            if straight < straight_metres:
+                # Curvature, not total heading: a motorway sweep is fine and a tight
+                # bend is not. 1.5 degrees per twelve metres is a 460 m radius.
+                if angular(following[0].transform.rotation.yaw, node.transform.rotation.yaw) > 4.:
+                    break
+                node, usable = following[0], usable+12.
+            if usable < usable_metres:
                 continue
-            candidate = {'start': waypoint, 'left': left, 'straight_m': straight,
+            candidate = {'start': waypoint, 'usable_m': usable,
                          'road_id': waypoint.road_id, 'lane_id': waypoint.lane_id}
-            if best is None or (candidate['straight_m'], -candidate['road_id']) > \
-                    (best['straight_m'], -best['road_id']):
+            if best is None or (usable, -waypoint.road_id) > (best['usable_m'], -best['road_id']):
                 best = candidate
         if best is None:
-            raise RuntimeError(f'No lane with an overtaking lane and {straight_metres:.0f} m straight')
+            raise RuntimeError(f'No lane with an overtaking lane for {usable_metres:.0f} m')
         return best
 
+    def sample_centreline(self, length, step=2., window=6):
+        """Points every `step` metres along the original lane, from 60 m back.
+
+        Held as arrays rather than waypoints: every control tick asks where three
+        vehicles are along this line, and the nearest-point search is the only thing in
+        the loop that grows with the length of the road.
+        """
+        back = self.site['start'].previous(60.)
+        node = back[0] if back else self.site['start']
+        samples, travelled = [], 0.
+        while travelled <= length+90.:
+            samples.append(node)
+            following = node.next(step)
+            if not following:
+                break
+            node, travelled = following[0], travelled+step
+        poses = [w.transform for w in samples]
+        points = np.array([[t.location.x, t.location.y] for t in poses])
+        forwards = np.array([[t.get_forward_vector().x, t.get_forward_vector().y] for t in poses])
+        rights = np.array([[t.get_right_vector().x, t.get_right_vector().y] for t in poses])
+        yaws = np.array([t.rotation.yaw for t in poses])
+        # Curvature over a window rather than between neighbours: consecutive waypoint
+        # yaws carry enough quantisation noise to swamp a 170 m radius.
+        curvature = np.zeros(len(samples))
+        for i in range(len(samples)):
+            a, b = max(i-window, 0), min(i+window, len(samples)-1)
+            if b > a:
+                curvature[i] = math.radians(angular_signed(yaws[b], yaws[a]))/((b-a)*step)
+        origin = int(np.argmin(np.linalg.norm(
+            points-np.array([self.origin.x, self.origin.y]), axis=1)))
+        return {'samples': samples, 'step': step, 'origin_index': origin, 'points': points,
+                'forwards': forwards, 'rights': rights, 'yaws': yaws,
+                # CARLA's yaw grows clockwise while lateral offset is positive to the
+                # left, so a left-hand bend has to come out positive in both.
+                'curvature': -curvature}
+
+    def frame(self, location):
+        """(distance along the lane, offset left of its centre, lane heading in degrees)."""
+        line = self.centreline
+        point = np.array([location.x, location.y])
+        delta = point-line['points']
+        index = int(np.argmin(np.einsum('ij,ij->i', delta, delta)))
+        self.last_index = index
+        ahead = float(delta[index] @ line['forwards'][index])
+        distance = (index-line['origin_index'])*line['step']+ahead
+        return distance, -float(delta[index] @ line['rights'][index]), float(line['yaws'][index])
+
+    def curvature(self, location):
+        """Signed curvature of the lane where this vehicle is, positive bending left."""
+        self.frame(location)
+        return float(self.centreline['curvature'][self.last_index])
+
     def along(self, location):
-        delta = location-self.origin
-        return delta.x*self.forward.x+delta.y*self.forward.y
+        return self.frame(location)[0]
 
     def lateral(self, location):
-        """Positive to the left, matching flyhard.overtake's frame."""
-        delta = location-self.origin
-        return -(delta.x*self.right.x+delta.y*self.right.y)
+        """Positive to the left of the original lane's centre, matching flyhard.overtake."""
+        return self.frame(location)[1]
 
     def place(self, distance, lane_offset, z=.3):
-        """A pose `distance` along the carriageway, `lane_offset` metres left of the ego lane."""
-        ahead = self.site['start'].next(max(distance, .01)) if distance > 0 else \
-            self.site['start'].previous(max(-distance, .01))
-        node = ahead[0] if ahead else self.site['start']
-        base = node.transform
+        """A pose `distance` along the lane, `lane_offset` metres left of its centre."""
+        samples = self.centreline['samples']
+        index = int(round(distance/self.centreline['step']))+self.centreline['origin_index']
+        base = samples[min(max(index, 0), len(samples)-1)].transform
         location = base.location-base.get_right_vector()*lane_offset
         return carla.Transform(carla.Location(location.x, location.y, location.z+z), base.rotation)
 
@@ -156,32 +217,34 @@ class OvertakeWorld:
             actor.set_target_velocity(forward*speed)
 
     def hold_lane(self, actor, lane_offset, wanted):
-        """Deterministic straight-line follower at a fixed speed in a fixed lane."""
+        """Deterministic lane follower at a fixed speed, tracking the lane's centre line."""
         location = actor.get_location()
-        travelled = self.along(location)
+        travelled = self.frame(location)[0]
         aim = self.place(travelled+12., lane_offset, z=0.).location
         offset = aim-location
         desired = math.degrees(math.atan2(offset.y, offset.x))
         steer = float(np.clip(angular_signed(desired, actor.get_transform().rotation.yaw)/26.,
                               -1., 1.))
+        # Feed-forward from the measured throttle map plus a correction, so a van
+        # actually holds the speed the case asked for instead of running slow.
+        from flyhard.crossing import throttle_for_speed
         error = wanted-actor.get_velocity().length()
         actor.apply_control(carla.VehicleControl(
-            throttle=float(np.clip(error*.4, 0., .85)), brake=float(np.clip(-error*.3, 0., 1.)),
-            steer=steer, hand_brake=False))
+            throttle=float(np.clip(throttle_for_speed(wanted)+error*.25, 0., 1.)),
+            brake=float(np.clip(-error*.3, 0., 1.)), steer=steer, hand_brake=False))
 
     def scenario_state(self):
-        """[x, lateral offset, heading error, speed] in the carriageway frame."""
+        """[distance, lateral offset, heading error, speed] in the lane's own frame."""
         transform = self.ego.get_transform()
-        location = transform.location
-        return np.array([self.along(location)+self.ego.bounding_box.extent.x-FRONT_OVERHANG,
-                         self.lateral(location),
-                         math.radians(-angular_signed(transform.rotation.yaw, self.approach_yaw)),
+        distance, offset, lane_yaw = self.frame(transform.location)
+        return np.array([distance+self.ego.bounding_box.extent.x-FRONT_OVERHANG, offset,
+                         math.radians(-angular_signed(transform.rotation.yaw, lane_yaw)),
                          self.ego.get_velocity().length()])
 
     def gaps(self):
-        ego_x = self.along(self.ego.get_location())
-        lead = self.along(self.lead.get_location())-ego_x
-        outside = (self.along(self.outside.get_location())-ego_x
+        ego_x = self.frame(self.ego.get_location())[0]
+        lead = self.frame(self.lead.get_location())[0]-ego_x
+        outside = (self.frame(self.outside.get_location())[0]-ego_x
                    if self.outside is not None else None)
         return lead, outside
 
@@ -190,15 +253,30 @@ class OvertakeWorld:
         if self.outside is not None:
             self.hold_lane(self.outside, LANE_WIDTH, self.case.outside_speed)
         lead, outside = self.gaps()
-        return (lead, outside), {'lead_gap': float(lead),
-                                 'outside_gap': None if outside is None else float(outside)}
+        lead_speed = self.lead.get_velocity().length()
+        outside_speed = (self.outside.get_velocity().length()
+                         if self.outside is not None else 0.)
+        bend = self.curvature(self.ego.get_location())
+        return ((lead, lead_speed, outside, outside_speed, bend),
+                {'lead_gap': float(lead), 'lead_speed': float(lead_speed),
+                 'outside_gap': None if outside is None else float(outside),
+                 'outside_speed': float(outside_speed), 'lane_curvature': bend,
+                 # Carried into the trace so the edit can cut on the lane change, which
+                 # is this scenario's decisive moment the way the brake is elsewhere.
+                 'lane_offset': float(self.scenario_state()[1])})
 
     def done(self, state):
-        """Finished once the move is complete and settled, or once it is clearly not happening."""
+        """Finished once the move is complete and settled, or once it is clearly not happening.
+
+        Settled means back on the lane's centre line, matching the demonstrator's own
+        idea of a finished manoeuvre. Cutting the run off at 0.9 m instead scored a
+        clean overtake as a failure, because the trial ended a second before the car
+        had actually straightened up.
+        """
         lead, _ = self.gaps()
         if not self.case.should_overtake:
-            return bool(state[0] > 260.)
-        return bool(lead < -26. and abs(state[1]) < .6)
+            return bool(state[0] > 168.)
+        return bool(lead < -26. and abs(state[1]) < .3)
 
     def focus(self):
         return self.origin
@@ -209,9 +287,10 @@ class OvertakeWorld:
         return (carla.Transform(carla.Location(x=-15.5, y=-9.5, z=6.4),
                                 carla.Rotation(pitch=-11.5, yaw=27.)), 62)
 
-    def observe(self, lead_gap, outside_gap, throttle, brake, steer):
-        return observation(self.scenario_state(), self.case, lead_gap, outside_gap,
-                           throttle, brake, steer)
+    def observe(self, lead_gap, lead_speed, outside_gap, outside_speed, curvature,
+                throttle, brake, steer):
+        return observation(self.scenario_state(), self.case, lead_gap, lead_speed,
+                           outside_gap, outside_speed, curvature, throttle, brake, steer)
 
     def apply_measured(self, throttle, brake, steer):
         """CARLA receives only measured travel, past the linkage's free play.
@@ -227,7 +306,7 @@ class OvertakeWorld:
 
     def metadata(self):
         return {'map': self.map.name, 'road_id': self.site['road_id'],
-                'lane_id': self.site['lane_id'], 'straight_metres': self.site['straight_m'],
+                'lane_id': self.site['lane_id'], 'usable_metres': self.site['usable_m'],
                 'start_transform': self.site['start'].transform.get_matrix(),
                 'max_steer_angle_deg': getattr(self, 'max_steer', None),
                 'traffic_control': 'deterministic straight-line followers at fixed speeds, so a '
