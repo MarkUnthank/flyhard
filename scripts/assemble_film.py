@@ -159,8 +159,10 @@ def build_filters(shots, inputs, plan, overlays=None):
         # the crop. Neither adds detail. The bars beside a native frame are where the
         # flyhard films have always put the readout panels.
         if fit == 'native':
-            geometry = (f"scale='min({width},iw)':'min({height},ih)'"
-                        f":force_original_aspect_ratio=decrease,"
+            # Never resample: crop what is bigger than the canvas, pad what is smaller.
+            # A 1920x1440 capture becomes a 16:9 master by losing its top and bottom,
+            # every remaining pixel the one CARLA drew.
+            geometry = (f"crop='min(iw,{width})':'min(ih,{height})',"
                         f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
         elif fit == 'contain':
             geometry = (f"scale={width}:{height}:force_original_aspect_ratio=decrease,"

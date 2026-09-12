@@ -25,7 +25,10 @@ import carla
 import imageio.v2 as imageio
 import numpy as np
 
-WIDTH, HEIGHT = 1248, 960
+# Capture is the ceiling on everything downstream, so it is above the 1080p the films
+# are delivered at rather than below it: a 16:9 master crops out of this at native
+# resolution, and the layout's car pane scales down into it rather than up.
+WIDTH, HEIGHT = 1920, 1440
 ATTACHED = {
     # Behind and above, looking slightly down over the roof.
     'chase': (carla.Transform(carla.Location(x=-7.4, y=0., z=3.05),
@@ -157,7 +160,14 @@ class ScenarioCameras:
             def open_writer(filename):
                 return Encoder(imageio.get_writer(
                     directory/filename, fps=fps, codec='libx264', macro_block_size=1,
-                    ffmpeg_params=['-crf', '15', '-preset', 'ultrafast', '-threads', '2']))
+                    # ultrafast was chosen when encoding sat on the control loop's
+                    # critical path. It no longer does -- the writer is a queue drained
+                    # by its own thread -- and ultrafast turns off most of what x264
+                    # does, which showed as soft, blocky footage at any bitrate. `fast`
+                    # rather than something slower because five streams of this size
+                    # still have to keep up with the capture on one box; the timing
+                    # report says whether they did.
+                    ffmpeg_params=['-crf', '15', '-preset', 'fast', '-threads', '3']))
             self.views[name] = {'sensors': sensors, 'inboxes': inboxes, 'pose': pose, 'fov': fov,
                                 'writer': open_writer('rgb.mp4'), 'directory': directory,
                                 'attached': attached,

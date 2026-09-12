@@ -293,9 +293,11 @@ def main():
     parser.add_argument('--library', required=True)
     parser.add_argument('--out', required=True)
     parser.add_argument('--target', type=float, default=180.)
-    parser.add_argument('--successes', type=int, default=8,
-                        help='Most successful takes a section may draw on')
-    parser.add_argument('--failures', type=int, default=6,
+    parser.add_argument('--successes', type=int, default=1,
+                        help='Most successful takes a section may draw on. One is the '
+                             'default because a behaviour only has to be shown working '
+                             'once; the interesting footage is everything else.')
+    parser.add_argument('--failures', type=int, default=8,
                         help='Most failed takes a section may draw on')
     parser.add_argument('--per-take', type=float, default=12.,
                         help='Screen time one take may occupy, in seconds')

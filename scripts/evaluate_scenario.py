@@ -172,7 +172,9 @@ def main():
             if manifest and sponsor is None:
                 from flyhard.sponsor_view import SponsorView
                 centre = env.ego.bounding_box.location
-                sponsor = SponsorView(args.asset, manifest, [centre.x, centre.y, centre.z])
+                from flyhard.scenario_cameras import HEIGHT, WIDTH
+                sponsor = SponsorView(args.asset, manifest, [centre.x, centre.y, centre.z],
+                                      width=WIDTH, height=HEIGHT)
             cameras = None
             if library:
                 take_dir = (library.root/scenario.name/'pending'
