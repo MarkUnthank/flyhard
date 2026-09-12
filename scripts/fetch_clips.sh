@@ -5,13 +5,21 @@
 # re-running CARLA: plan_film.py and assemble_film.py work entirely from what this
 # copies. Uses rsync so a repeated run only transfers what changed.
 set -euo pipefail
+# macOS ships openrsync, which understands neither --info=progress2 nor --no-owner.
+# Use whichever rsync is present rather than assuming the GNU one.
+RSYNC=${RSYNC:-rsync}
+if "$RSYNC" --version 2>&1 | head -1 | grep -q openrsync; then
+  FLAGS=(-rlptz)
+else
+  FLAGS=(-az --no-owner --no-group --info=progress2)
+fi
 CONFIG=${1:?usage: fetch_clips.sh <ssh-config> <host> [destination]}
 HOST=${2:?usage: fetch_clips.sh <ssh-config> <host> [destination]}
 DEST=${3:-$HOME/Desktop/claude-latest-videos}
 REMOTE=/workspace/flyhard
 
 mkdir -p "$DEST"
-rsync -az --info=progress2 --no-owner --no-group \
+"$RSYNC" "${FLAGS[@]}" \
   -e "ssh -F $CONFIG" \
   --include='*/' \
   --include='*.mp4' --include='*.json' --include='*.txt' \
@@ -20,12 +28,12 @@ rsync -az --info=progress2 --no-owner --no-group \
 
 for edit in film film-sponsored; do
   if ssh -F "$CONFIG" "$HOST" "test -d $REMOTE/runs/$edit"; then
-    rsync -az --no-owner --no-group -e "ssh -F $CONFIG" \
+    "$RSYNC" "${FLAGS[@]}" -e "ssh -F $CONFIG" \
       "$HOST:$REMOTE/runs/$edit/" "$DEST/$edit/"
   fi
 done
 
-rsync -az --no-owner --no-group -e "ssh -F $CONFIG" \
+"$RSYNC" "${FLAGS[@]}" -e "ssh -F $CONFIG" \
   --include='*/' --include='metrics.json' --include='site.json' --include='config.json' \
   --exclude='*' \
   "$HOST:$REMOTE/runs/" "$DEST/benchmarks/" || true
