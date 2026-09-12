@@ -1,0 +1,32 @@
+tests/test_capture_window.py
+  s_7e690e84d597d0::t_3205da1c1924eb 1-54
+scripts/evaluate_scenario.py
+  s_7e690e84d597d0::t_3205da1c1924eb 56-67,238
+  s_7e690e84d597d0::t_461c0e36dce5ef 135-137,189,231-237,240
+tests/test_film_plan.py
+  s_7e690e84d597d0::t_8142abaf202fee 222-252
+scripts/assemble_film.py
+  s_7e690e84d597d0::t_ba898d5ab0788b 115-116
+src/flyhard/clips.py
+  s_7e690e84d597d0::t_ba898d5ab0788b 120-127,132-137
+scripts/plan_film.py
+  s_7e690e84d597d0::t_ba898d5ab0788b 303-306,350
+scripts/render_take_layout.py
+  s_7e690e84d597d0::t_8142abaf202fee 73-74,101-105,140-141
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "31d02355e5a92b58b538365d84347f3452a2add0",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
