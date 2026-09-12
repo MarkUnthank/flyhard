@@ -66,6 +66,18 @@ def cut_plan(rows, cameras, fps):
     plan = [(0., 'chase'), (max(0., braking-LEAD_IN), 'wide')]
     if halt is not None and away is not None:
         plan += [(halt, 'cabin-fly'), (away, 'wide')]
+    else:
+        # A take that never stops has no wait to sit inside the cabin for, and the
+        # moment worth seeing is the car running through the crossing, which is a
+        # thing you watch from outside: from the cabin the pedestrian is behind the
+        # A-pillar and there is nothing on screen. So the wide shot takes the crossing
+        # itself, hung on the front bumper passing the line, with the cabin either
+        # side of it.
+        line = when(lambda row: row.get('front_to_line', -1.) is not None
+                    and row.get('front_to_line', -1.) > 0.)
+        if line is not None:
+            plan += [(line-LEAD_IN, 'wide'), (line+LEAD_IN, 'cabin-fly')]
+            plan[1] = (plan[1][0], 'cabin-fly')
     # Only keep cuts that move forwards, to a camera that was actually exported.
     kept = []
     for at, camera in plan:
@@ -111,12 +123,38 @@ def content_box(reader, samples=12, floor=12, margin=.04):
             min(width, right+pad_x+1), min(height, bottom+pad_y+1))
 
 
+def to_aspect(box, aspect, width, height):
+    """Grow a content box to the panel's shape, so filling the panel cuts nothing.
+
+    Cropping to the subject and then filling the panel crops twice: the second crop
+    takes the fly's wheel and the outer edges of the brain off. Widening or heightening
+    the box first means the resize is a straight scale, with whatever black the frame
+    has around the subject making up the difference.
+    """
+    left, top, right, bottom = box
+    wide, tall = right-left, bottom-top
+    if wide/tall < aspect:
+        wide = tall*aspect
+    else:
+        tall = wide/aspect
+    x, y = (left+right)/2, (top+bottom)/2
+    left, right = x-wide/2, x+wide/2
+    top, bottom = y-tall/2, y+tall/2
+    # Clamp into the frame without changing the shape, by sliding rather than cutting.
+    left, right = (left+max(0, -left), right+max(0, -left))
+    top, bottom = (top+max(0, -top), bottom+max(0, -top))
+    left, right = (left-max(0, right-width), right-max(0, right-width))
+    top, bottom = (top-max(0, bottom-height), bottom-max(0, bottom-height))
+    return (round(max(0, left)), round(max(0, top)),
+            round(min(width, right)), round(min(height, bottom)))
+
+
 def panel_frame(image, box, width, height):
-    """Crop a panel to its subject, then fill the layout's box with it."""
+    """Crop a panel to its subject and scale it into the layout's box, losing nothing."""
     picture = Image.fromarray(np.asarray(image))
     if box is not None:
-        picture = picture.crop(box)
-    return fit(picture, width, height)
+        picture = picture.crop(to_aspect(box, width/height, picture.width, picture.height))
+    return picture.resize((width, height), Image.LANCZOS)
 
 
 def credits_card(font, extra=()):
