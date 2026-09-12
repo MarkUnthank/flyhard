@@ -115,7 +115,7 @@ def main():
          '-t',str(total),'-metadata','title=Flyhard | 50 parallel parking attempts',
          '-metadata','comment=Mozart K. 525 I. Allegro; public-domain recording from Musopen / European Archive via Wikimedia Commons',
          '-movflags','+faststart',str(final)])
-    receipt={'duration_seconds':total,'music':{'title':'Mozart: Eine kleine Nachtmusik, K. 525: I. Allegro','source':'https://commons.wikimedia.org/wiki/File:Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg','source_sha256':hashlib.sha256(Path(args.music).read_bytes()).hexdigest(),'edit':'opening excerpt, -16 LUFS normalization, one-second ending fade'},'frame_count':cut_frames[-1]+360,'fps':60,'unique_trials':50,'stages':frame_maps,'learned':stats,'reset':reset,
+    receipt={'duration_seconds':total,'music':{'title':'Mozart: Eine kleine Nachtmusik, K. 525: I. Allegro','source':'https://commons.wikimedia.org/wiki/File:Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg','source_sha256':hashlib.sha256(Path(args.music).read_bytes()).hexdigest(),'edit':'opening excerpt, -16 LUFS normalization, one-second ending fade'},'frame_count':cut_frames[-1]+360,'fps':60,'unique_trials':50,'stages':frame_maps,'card':{'name':'results','start_seconds':cut_frames[-1]/60,'duration_seconds':6.0,'source':'results.png'},'learned':stats,'reset':reset,
              'sponsor_revision':manifest['revision'],'sponsor_layout':manifest['layoutVersion'],'artwork_policy':'preserved by user request' if args.keep_recorded_artwork else 'latest live snapshot',
              'video_sha256':hashlib.sha256(final.read_bytes()).hexdigest()}
     (out/'render-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({'video':str(final),'sha256':receipt['video_sha256']}))

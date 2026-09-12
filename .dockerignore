@@ -31,6 +31,8 @@
 !assets/
 !assets/fonts/
 !assets/fonts/**
+!assets/audio/
+!assets/audio/**
 !pyproject.toml
 !LICENSE
 !THIRD_PARTY.md

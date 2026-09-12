@@ -17,15 +17,30 @@ if [ "$(cat "$destination/.version" 2>/dev/null || true)" = "$content_id" ] \
   echo 'Pinned CARLA content already extracted'
   exit 0
 fi
-if [ -f "$build_root/content/archive.sha256" ]; then
-  (cd "$build_root/content" && sha256sum -c archive.sha256)
-  echo 'Reusing verified content archive without network access'
-elif [ -f "$archive.aria2" ] || [ "$(stat -c %s "$archive" 2>/dev/null || true)" != 21567002106 ]; then
+archive_valid=0
+if [ -f "$archive" ] \
+  && [ "$(stat -c %s "$archive" 2>/dev/null || true)" = 21567002106 ] \
+  && gzip -t "$archive" 2>/dev/null; then
+  if [ -f "$build_root/content/archive.sha256" ]; then
+    (cd "$build_root/content" && sha256sum -c archive.sha256 >/dev/null 2>&1) && archive_valid=1
+  else
+    (cd "$build_root/content" && printf '%s  %s\n' "$content_sha256" "$(basename "$archive")" \
+      | sha256sum -c - >/dev/null 2>&1) && archive_valid=1
+  fi
+fi
+if [ "$archive_valid" = 0 ]; then
+  # A complete but damaged file must not be handed to aria2 as a valid cache.
+  # Preserve an in-progress transfer so aria2 can resume it safely.
+  if [ ! -f "$archive.aria2" ]; then
+    rm -f "$archive"
+  fi
   "${FLYHARD_ARIA2:-aria2c}" --continue=true --max-connection-per-server=16 --split=16 \
     --min-split-size=16M --file-allocation=none --auto-file-renaming=false \
     --max-tries=0 --retry-wait=5 --connect-timeout=15 --timeout=60 \
     --summary-interval=60 --dir="$(dirname "$archive")" --out="$(basename "$archive")" \
     "https://carla-assets.s3.us-east-005.backblazeb2.com/$content_id.tar.gz"
+else
+  echo 'Reusing verified content archive without network access'
 fi
 test ! -f "$archive.aria2"
 test "$(stat -c %s "$archive")" = 21567002106

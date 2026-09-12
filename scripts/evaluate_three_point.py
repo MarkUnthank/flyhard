@@ -10,10 +10,27 @@ from train_three_point import load_policy,sha
 
 
 def summary(results):
-    return {'trials':len(results),'successes':sum(r['success'] for r in results),
-        'collision_rate':float(np.mean([r['collision'] for r in results])),
-        **{'mean_'+key:float(np.mean([r[key] for r in results])) for key in
+    setup_failures=[r for r in results if r.get('setup_failure')]
+    evaluated=[r for r in results if not r.get('setup_failure')]
+    return {'trials':len(results),'evaluated_trials':len(evaluated),'setup_failures':len(setup_failures),
+        'successes':sum(r['success'] for r in evaluated),
+        'success_rate':float(np.mean([r['success'] for r in evaluated])) if evaluated else None,
+        'collision_rate':float(np.mean([r['collision'] for r in evaluated])) if evaluated else None,
+        'means_exclude_setup_failures':bool(setup_failures),
+        **{'mean_'+key:(float(np.mean([r[key] for r in evaluated])) if evaluated else None) for key in
            ['position_error_m','yaw_error_deg','time_seconds','direction_changes']}}
+
+
+def classify_result(result):
+    """Separate a controller that never initiated motion from a failed turn."""
+    if not result.get('directions'):
+        result.update(status='no_motion/setup_failure', setup_failure=True, attempted=False,
+                      failure_reason='controller never initiated a turn')
+    else:
+        result.setdefault('status', 'evaluated')
+        result.setdefault('setup_failure', False)
+        result.setdefault('attempted', True)
+    return result
 
 
 def kinematic(policy,cases,seconds,curvature_scale=1.):
@@ -138,6 +155,7 @@ def native(policy,cases,seconds,out):
                 if score['collision'] or hold>=10:break
             result={'seed':case.seed,'split':case.split,'success':bool(hold>=10 and directions==[1,-1,1] and not score['collision']),
                 'time_seconds':rows[-1]['time'],'direction_changes':changes,'directions':directions,'native_collision_events':env.events.copy(),**score}
+            classify_result(result)
             trial=out/str(case.seed);trial.mkdir()
             box=env.ego.bounding_box
             config={'fps':20,'policy_hz':4,'case':case.record(),**env.scene,'scene_yaw':env.yaw,
@@ -175,6 +193,8 @@ def main():
     (out/'spec.json').write_text(json.dumps(spec,indent=2)+'\n')
     policy,_=load_policy(a.checkpoint,reset_core=a.reset_core);started=time.monotonic()
     results,rows=native(policy,selected,a.seconds,out) if a.native else kinematic(policy,selected,a.seconds,a.curvature_scale)
+    for result in results:
+        classify_result(result)
     if not a.native:
         for c,trace in zip(selected,rows):(out/f'{c.seed}.json').write_text(json.dumps(trace)+'\n')
     report={**summary(results),'wall_seconds':time.monotonic()-started,'reset_core':a.reset_core,'native':a.native,'trials_detail':results}

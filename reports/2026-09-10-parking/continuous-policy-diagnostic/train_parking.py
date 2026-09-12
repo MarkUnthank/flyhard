@@ -10,7 +10,9 @@ import numpy as np
 import pyarrow.feather as feather
 import torch
 from flyhard.parking import encode,OBSERVATION_FIELDS
-from flyhard.parking_policy import ParkingPolicy
+# This report must remain reproducible with its archived two-output policy. Do
+# not resolve the import to the current categorical parking policy in src/.
+from parking_policy import ParkingPolicy
 
 
 def sha(path):
@@ -53,7 +55,7 @@ def main():
         'outputs':['requested wheel angle','requested signed speed'],
         'motor_adapter':'Fixed velocity regulator and offline IK move 28 fly leg joints; only measured wheel/pedal/selector positions drive CARLA.',
         'heldout_used_for_training':False,'state_reset_each_decision':True,
-        'source_sha256':{n:sha(n) for n in ['src/flyhard/parking.py','src/flyhard/parking_policy.py','src/flyhard/parking_rig.py',__file__]}}
+        'source_sha256':{n:sha(n) for n in ['src/flyhard/parking.py','reports/2026-09-10-parking/continuous-policy-diagnostic/parking_policy.py','src/flyhard/parking_rig.py',__file__]}}
     (out/'config.json').write_text(json.dumps(config,indent=2)+'\n')
     opt=torch.optim.Adam(policy.parameters(),lr=.04);history=[];best=float('inf');start=time.monotonic();gradient=None
     def validate():

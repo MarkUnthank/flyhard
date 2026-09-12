@@ -4,7 +4,6 @@ set -euo pipefail
 root=/workspace/flyhard-build
 test "$(id -u)" != 0
 test -n "${FLYHARD_NATIVE_EXPORT:-}"
-test -n "${FLYHARD_NATIVE_IMPORT_ATTEMPT:-}"
 exec 9>"$root/.native-import.lock"
 flock -n 9
 if pgrep -u "$(id -u)" -x UE4Editor >/dev/null; then

@@ -11,7 +11,8 @@ asset = Path(sys.argv[sys.argv.index('--') + 1]).resolve()
 manifest = json.loads((asset / 'manifest.json').read_text())
 bpy.ops.wm.open_mainfile(filepath=str(asset / 'sponsored-mini.blend'))
 logos = [bpy.data.objects[s['mesh']] for s in manifest['sponsors']]
-car = [o for o in bpy.data.objects if o.type == 'MESH' and o not in logos]
+car = [o for o in bpy.data.objects
+       if o.type == 'MESH' and o not in logos and not o.get('slot_id')]
 points = np.array([list(o.matrix_world @ v.co) for o in car for v in o.data.vertices])
 arrays = {'car_bounds': np.array([points.min(0), points.max(0)])}
 for sponsor in manifest['sponsors']:

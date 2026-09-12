@@ -16,7 +16,11 @@ on:
       - src/**
       - scripts/**
       - tests/**
+      - apps/**
+      - configs/**
+      - deploy/**
       - assets/fonts/**
+      - assets/audio/**
       - pyproject.toml
       - .dockerignore
       - .github/workflows/runtime-image.yml

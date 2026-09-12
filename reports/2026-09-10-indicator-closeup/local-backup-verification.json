@@ -28,7 +28,16 @@
     "verification.json": {
       "bytes": 1154,
       "sha256": "e036253e5ac86391e804077fdc8ab91f6c9c8f8b48c858da50875ac1563477aa"
+    },
+    "runs/roundabout-directed-v1/world-recorder.log": {
+      "bytes": 730547,
+      "sha256": "d88df50f8e8eec87140023b58c7a60228b8c3661ed0871862957968c89f89544"
+    },
+    "runs/roundabout-directed-v1/body-trace.npz": {
+      "bytes": 208369,
+      "sha256": "fa4ba6676597a36fa4907fadff37a18b89ff8e2a7a3d9037b803864a9d1ea842"
     }
   },
-  "native_depth_frames": 1380
+  "native_depth_frames": 1380,
+  "source_backup": "runs/roundabout-directed-v1"
 }

@@ -61,6 +61,8 @@ results; `render-receipt.json` contains the complete frame map.
 
 The native RGB camera video, 1,380 native depth frames, interpolated body poses,
 source recorder, original body trace, frozen livery and receipts are retained.
+The verified backup inventory includes `runs/roundabout-directed-v1/world-recorder.log`
+and `runs/roundabout-directed-v1/body-trace.npz` with their byte counts and hashes.
 Future 3D angles can be rendered from the same saved world/body record. Reusing a
 finished 2D video alone cannot reveal an unrecorded camera angle.
 

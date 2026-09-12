@@ -8,7 +8,7 @@ from scipy.io import wavfile
 
 
 def write_horn_audio(path, intervals, duration, sample_rate=48000):
-    root=Path(__file__).resolve().parents[2]/'assets/audio'
+    root=Path(__file__).resolve().parents[3]/'assets/audio'
     source=root/'car-horn-jan-ruttner.wav'
     metadata=json.loads((root/'car-horn-source.json').read_text())
     assert hashlib.sha256(source.read_bytes()).hexdigest()==metadata['sha256']

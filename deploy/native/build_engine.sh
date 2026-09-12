@@ -12,7 +12,8 @@ trap 'code=$?; printf "{\"exit_code\":%s,\"finished_epoch\":%s}\n" "$code" "$(da
 date -u
 test "$(id -u)" != 0
 if [ "$phase" = setup ]; then
-  sudo bash "$build_root/downloads/install_dependencies.sh"
+  sudo /usr/local/sbin/flyhard-install-dependencies
+  python3 "$build_root/downloads/prepare_python_compat.py"
 fi
 cd "$engine_root"
 test "$(git rev-parse HEAD)" = e9d9e60c85f643e10eeb03f42f61554d18dcb30f
@@ -61,7 +62,7 @@ test -f .ue4dependencies
 test -f Engine/Build/OneTimeSetupPerformed
 if [ "$phase" != compile ]; then
 printf 'project-files\n' > "$build_root/engine-stage.txt"
-./GenerateProjectFiles.sh -Makefile -NoIntelliSense
+./GenerateProjectFiles.sh -makefiles -NoIntelliSense
 fi
 test -f Makefile
 printf 'compiling\n' > "$build_root/engine-stage.txt"

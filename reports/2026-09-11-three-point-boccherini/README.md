@@ -1,5 +1,7 @@
 # Three-point turn — 45-second Boccherini edit
 
+Status: historical export; this recipe is superseded by the natural-speed edit.
+
 This edit adds anticipation to the original learning film using its saved, verified checkpoint footage. No additional training or CARLA simulation was run.
 
 The opening 22 seconds contain six edit beats, with longer corrections and modest road-view crops. Those beats are not six separate attempts: they use the original checkpoint, the intermediate checkpoint, and a short teaser of the selected successful take before it stops. The intermediate checkpoint also passed its complete trial; its success is not relabelled as a failure. Playback rates are recalculated and displayed. The chronological source intervals, source hashes and full outcomes are in the edit receipt.
@@ -14,6 +16,10 @@ Export: **45.000 seconds, 1920×1080, 60 fps, 2,700 frames**, H.264/yuv420p with
 
 Full audio/video decoding passed. The middle of the blackout is pixel-black with zero decoded audio amplitude. Audio-source correlations exceed 0.9997 for both the opening and returning Boccherini excerpts. Four sampled full-success frames match the original take within ordinary lossy-encoding error (mean RGB error below 1.3/255). Crops, HUD, sponsor views, finish and credits were visually checked. The Desktop copy matches the source checksum; iCloud synchronization itself was not checked. The previous Mozart MP4 remains unchanged.
 
-The edit plan is configs/three-point-boccherini-45s.json; scripts/edit_three_point.py applies it after the live sponsor preflight. Run on the retained Runpod machine with the existing recording directories, `--plan configs/three-point-boccherini-45s.json --out runs/NEW_OUTPUT --asset CURRENT_LIVE_ASSET`. An initial NVENC attempt was unavailable on this host; the verified export uses libx264 on the same remote machine.
+This historical export used a plan that is no longer present in the current
+checkout. The current recipe is the natural-speed edit in
+`reports/2026-09-11-three-point-natural-speed/`; use its recorded recipe and
+the matching `configs/three-point-boccherini-natural-speed.json` when rerunning.
+Do not use this report as the current 45-second reproduction command.
 
 The pod remains running for the user's review, with the existing-credit guard active and no top-ups. Native Unreal packaging and unrelated work are untouched.

@@ -8,6 +8,7 @@ export PIP_CACHE_DIR=$build_root/cache/pip
 cd "$build_root/carla"
 mkdir -p "$build_root/logs"
 rm -f "$build_root/carla-result.json"
+rm -f "$build_root/carla-stage.txt"
 exec > >(tee -a "$build_root/logs/carla-build.log") 2>&1
 trap 'exit 130' INT
 trap 'exit 143' TERM
@@ -15,6 +16,7 @@ trap 'code=$?; printf "{\"exit_code\":%s,\"finished_epoch\":%s}\n" "$code" "$(da
 test "$(id -u)" != 0
 test "$(git rev-parse HEAD)" = 294096eb1c38eabf246e4f3a9cdab704e33a7f4c
 test -x "$UE4_ROOT/Engine/Binaries/Linux/UE4Editor"
+printf 'building-carla-dependencies\n' > "$build_root/carla-stage.txt"
 bash "$build_root/downloads/build_carla_dependencies.sh"
 printf 'building-carla-editor\n' > "$build_root/carla-stage.txt"
 bash Util/BuildTools/BuildCarlaUE4.sh --build --no-simready

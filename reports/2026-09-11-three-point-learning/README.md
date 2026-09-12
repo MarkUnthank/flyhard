@@ -12,7 +12,7 @@ The frozen sensory mapping and motor decoder remain unchanged during training. O
 - Eight newly frozen held-out cases: **6/8 passed** the full stopping gate; **0/8 contact or virtual road-boundary crossings**.
 - All eight executed forward/reverse/forward with exactly two actual direction changes and finished within 1.21 degrees of the opposite heading.
 - The two failures stopped 0.735 m and 0.721 m from the target. They remain failures under the unchanged 0.6 m position tolerance.
-- Resetting the learned core on two predeclared matched cases: **0/2 passed**, no turn in either, with approximately 180 degrees of heading error.
+- Resetting the learned core on two predeclared matched cases: **0/2 passed**. Both runs were classified as `no_motion/setup_failure`: the reset core never initiated a turn, so they are not ordinary failed manoeuvres and their terminal errors are excluded from aggregate means.
 - Mean final position error: 0.491 m; mean heading error: 0.870 degrees. Passing trials took 21.05–22.3 seconds. Failed trials ran to the predeclared 40-second limit.
 
 Gate: stationary for 0.5 seconds, within 0.6 m and 12 degrees of the target, exactly forward/reverse/forward, with no native contact or virtual-boundary crossing. The road width is 10 m, absent from training widths of 9.5/10.5 m. Test seeds 91000–91007 were frozen before the additional training. The old 71000-series cases used to calibrate the dynamics are now development evidence, not fresh held-out results.

@@ -14,8 +14,21 @@ args=(/Game/Carla/Maps/Town03 -game -RenderOffScreen -unattended -nosound
 if [ "$mode" = editor ]; then
   exec bash "$build_root/downloads/editor.sh" "${args[@]}"
 elif [ "$mode" = runtime ]; then
-  runtime=$(python3 -c 'import json; print(json.load(open("/workspace/flyhard-build/package-receipt.json"))["runtime"])')
-  test -f "$runtime/flyhard-native-import.json"
+  : "${FLYHARD_RUNTIME_MANIFEST:?Runtime mode requires a pinned manifest path}"
+  : "${FLYHARD_RUNTIME_MANIFEST_SHA256:?Runtime mode requires a pinned manifest digest}"
+  resolver=${FLYHARD_RUNTIME_RESOLVER:-/workspace/flyhard/scripts/runtime_manifest.py}
+  if [ ! -f "$resolver" ]; then
+    resolver="$build_root/downloads/runtime_manifest.py"
+  fi
+  test -f "$resolver"
+  resolve_args=(resolve --manifest "$FLYHARD_RUNTIME_MANIFEST" --sha256 "$FLYHARD_RUNTIME_MANIFEST_SHA256")
+  case "${FLYHARD_RUNTIME_CANDIDATE:-0}" in
+    0) ;;
+    1) resolve_args+=(--allow-candidate) ;;
+    *) echo 'FLYHARD_RUNTIME_CANDIDATE must be 0 or 1' >&2; exit 2 ;;
+  esac
+  selection=$(python3 "$resolver" "${resolve_args[@]}")
+  runtime=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["root"])' <<< "$selection")
   cd "$runtime"
   exec ./CarlaUE4.sh "${args[@]}" -stdout -FullStdOutLogOutput
 else

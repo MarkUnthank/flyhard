@@ -3,6 +3,8 @@
 set -euo pipefail
 build_root=/workspace/flyhard-build
 test "$(id -u)" != 0
+exec 9>"$build_root/.editor-rebuild.lock"
+flock -n 9 || { echo 'An editor rebuild is holding the editor lock.' >&2; exit 1; }
 export XDG_RUNTIME_DIR="/tmp/flyhard-xdg-$(id -u)"
 install -d -m 700 "$XDG_RUNTIME_DIR"
 # This builder uses NVIDIA. Fail in its driver if graphics is unavailable,

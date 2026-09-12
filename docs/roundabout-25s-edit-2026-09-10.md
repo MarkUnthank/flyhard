@@ -26,6 +26,8 @@ On the GPU, with the project environment activated:
 ```sh
 python scripts/retime_directed_video.py \
   --input work/iteration-25s/source.mp4 \
+  --asset CURRENT_LIVE_ASSET \
+  --source-receipt work/iteration-25s/source-receipt.json \
   --plan configs/roundabout-edit-25s.json \
   --output work/iteration-25s/flyhard-roundabout-directed-25s-16x9.mp4
 ```

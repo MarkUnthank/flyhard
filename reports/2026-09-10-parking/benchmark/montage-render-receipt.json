@@ -9,6 +9,12 @@
   "frame_count": 2745,
   "fps": 60,
   "unique_trials": 50,
+  "card": {
+    "name": "results",
+    "start_seconds": 39.75,
+    "duration_seconds": 6.0,
+    "source": "results.png"
+  },
   "stages": [
     {
       "stage": 1,

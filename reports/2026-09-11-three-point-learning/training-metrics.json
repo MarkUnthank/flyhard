@@ -1,5 +1,6 @@
 {
-  "status": "trained; physical three-point-turn evaluation pending",
+  "status": "trained; native three-point-turn evaluation complete",
+  "native_evaluation_receipt": "native-heldout-metrics.json",
   "initial_validation_loss": 0.3276321832090616,
   "best_validation_loss": 0.29551138697812956,
   "training_seconds": 153.73545827250928,

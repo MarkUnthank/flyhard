@@ -10,7 +10,7 @@ from pathlib import Path
 import shutil
 import time
 
-SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'deploy', 'configs', 'assets/fonts',
+SOURCE_PATHS = ['src', 'scripts', 'tests', 'requirements', 'docker', 'deploy', 'configs', 'assets/fonts', 'assets/audio',
                 'pyproject.toml', 'README.md', 'LICENSE', 'THIRD_PARTY.md', 'AGENTS.md',
                 'apps/website/scripts/export-livery.mjs', 'apps/website/scripts/apply-livery.py',
                 'apps/website/src/lib/artwork-bounds.mjs', 'apps/website/LIVERY-EXPORT.md',
@@ -28,6 +28,15 @@ def source_hashes(root):
             if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc'}
 
 
+def symlink_ancestor(path, root):
+    current = root
+    for part in path.relative_to(root).parts:
+        current /= part
+        if current.is_symlink():
+            return current
+    return None
+
+
 def sync_workspace(bundled, project, revision):
     runtime = project/'work/runtime'
     runtime.mkdir(parents=True, exist_ok=True)
@@ -42,6 +51,9 @@ def sync_workspace(bundled, project, revision):
         target = project/name
         if not refresh:
             continue
+        link = symlink_ancestor(target, project)
+        if link is not None:
+            raise RuntimeError('Refusing to overwrite symlinked workspace path: ' + str(link))
         if target.exists():
             if digest(target) == expected:
                 continue
@@ -68,5 +80,7 @@ def sync_workspace(bundled, project, revision):
                'missing': sorted(packaged.keys()-actual.keys()),
                'backup': str(backup) if replaced else None, 'backed_up_files': replaced,
                'observed_epoch': time.time()}
-    receipt_path.write_text(json.dumps(receipt, indent=2)+'\n')
+    temporary = receipt_path.with_name(receipt_path.name + '.tmp')
+    temporary.write_text(json.dumps(receipt, indent=2)+'\n')
+    temporary.replace(receipt_path)
     return receipt

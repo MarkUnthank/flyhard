@@ -7,6 +7,7 @@ Mutations are never retried automatically: reconcile the recorded name first.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 from pathlib import Path
@@ -247,6 +248,8 @@ def launch(config_path):
     # us diagnose bootstrap failures before the in-container sshd is installed.
     config["env"]["SSH_PUBLIC_KEY"] = config["env"]["PUBLIC_KEY"]
     config["env"]["FLYHARD_DEADLINE_EPOCH"] = str(state["deadline_epoch"])
+    config["env"]["FLYHARD_DEADLINE_SCRIPT_B64"] = base64.b64encode(
+        (ROOT / "scripts/pod_deadline.py").read_bytes()).decode("ascii")
     try:
         pod = request("POST", "/v2/pods", config)
     except RunpodError as exc:

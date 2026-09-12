@@ -93,11 +93,11 @@ This run stays frozen. No artificial steering corrections were inserted and no
 finished social video was generated.
 
 
-The matching native reset baseline also passed 0/2, with no meaningful movement
-or direction changes, no boundary violations or native impacts, mean position
-error 7.234 m and heading error 178.747° after the full 35 s limit. Both conditions
-used the same two cases, measured interface and native scene. All four trials
-are retained, including failures.
+The matching native reset baseline also passed 0/2. Both runs were classified as
+`no_motion/setup_failure`: the reset core never initiated a turn. Their raw
+terminal observations remain in `native-reset/metrics.json`, but they are not
+ordinary failed manoeuvres and are excluded from aggregate means. Both
+conditions used the same two cases, measured interface and native scene.
 
 ## Validation and preservation
 

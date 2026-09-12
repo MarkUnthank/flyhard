@@ -3,12 +3,12 @@
 set -euo pipefail
 build_root=/workspace/flyhard-build
 test "$(id -u)" != 0
+exec 9>"$build_root/.editor-rebuild.lock"
+flock -n 9 || { echo 'An editor preview or rebuild already holds the editor lock.' >&2; exit 1; }
 if pgrep -u "$(id -u)" -x UE4Editor >/dev/null; then
   echo 'Stop the active editor preview before replacing its libraries.' >&2
   exit 1
 fi
-exec 9>"$build_root/.editor-rebuild.lock"
-flock -n 9
 trap 'code=$?; printf "{\"exit_code\":%s,\"finished_epoch\":%s}\n" "$code" "$(date +%s)" > "$build_root/editor-fix-result.json"' EXIT
 cd "$build_root/UnrealEngine_4.26"
 test "$(git rev-parse HEAD)" = e9d9e60c85f643e10eeb03f42f61554d18dcb30f

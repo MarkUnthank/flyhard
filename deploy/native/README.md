@@ -51,7 +51,8 @@ volume. Retain both the extracted trees and their original archives:
   `build_engine.sh` connects Unreal's cache to that retained archive.
 - `apt-archives/` holds the verified Ubuntu compiler/dependency packages.
 - `proof_environment.sh` retains Python client wheels in `wheelhouse/`; its
-  installation step uses those local files.
+  installation step requires the preverified `proof-wheels.sha256` inventory and
+  the hash-locked `proof-requirements.txt`, with no public-index fallback.
 - The Unreal and CARLA source, dependency caches, and build outputs remain in
   their respective checkout directories. Replacement Pods attach this same
   volume and continue from these files.
@@ -67,16 +68,28 @@ Run `build_engine.sh` as `builder` with the engine checkout at
 `/workspace/flyhard-build/UnrealEngine_4.26`. It records stage, logs, result code,
 and successful binary checksums on the persistent volume. Compilation is capped
 at 16 parallel actions because some hosts expose more CPUs than were allocated.
-Do not run `make -j` on the Unreal top-level makefile. Setup uses Ubuntu's Mono
-runtime and certificate store for dependency HTTPS; the pinned bundled Mono is
-still used by project generation and compilation.
+Do not run `make -j` on the Unreal top-level makefile. Setup uses the
+root-owned, fixed-package `flyhard-install-dependencies` helper through a
+single-purpose sudo rule. Ubuntu's Mono runtime and certificate store handle
+dependency HTTPS; the pinned bundled Mono is still used by project generation
+and compilation.
 
-For an interrupted build, `continue_build.sh project-files` resumes after a
-completed setup, and `continue_build.sh compile` resumes after Makefile generation.
-Both check the pinned source and setup markers; stop the previous pipeline first.
+The source checkout and continuation wrapper use a shared unique
+`FLYHARD_SOURCE_RUN_ID`. For each source fetch, choose a new identifier and pass
+it to both commands, for example `FLYHARD_SOURCE_RUN_ID=RUN_ID python3
+clone_engine.py < credential.json` and `FLYHARD_SOURCE_RUN_ID=RUN_ID bash
+continue_build.sh setup`. The clone publishes a run-specific atomic `running`,
+`checkout verified`, or `failed` handoff; the continuation wrapper validates the
+same ID and stops on failure or timeout instead of consuming an older success.
+
+For an interrupted build, run `continue_build.sh project-files` or
+`continue_build.sh compile` with the same `FLYHARD_SOURCE_RUN_ID` used for its
+source handoff. They resume after setup or Makefile generation, check the pinned
+source, and require the source fetch to have completed; stop the previous
+pipeline first.
 The default phase is `setup`. Build files are limited to Make without IDE indexes.
-Use `continue_build.sh carla` when the engine is already compiled and only the
-CARLA stages need to resume.
+Use `continue_build.sh carla` with that same source run ID when the engine is
+already compiled and only the CARLA stages need to resume.
 
 The minimal Ubuntu image also needs `libegl1`, `libgl1`, and `libopengl0`.
 The mounted NVIDIA libraries and a working `nvidia-smi` did not suffice: before
