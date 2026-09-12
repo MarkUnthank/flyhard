@@ -302,6 +302,11 @@ def main():
     parser.add_argument('--per-take', type=float, default=12.,
                         help='Screen time one take may occupy, in seconds')
     parser.add_argument('--title', default='A fly drives a car')
+    parser.add_argument('--resolution', default='3840x2160',
+                        help='Master size. The default is 16:9 out of the 4:3 capture at '
+                             'native resolution, so the master is a crop rather than a '
+                             'resample. A smaller one here crops rather than scales, '
+                             'which is a zoom, so downscale the master instead.')
     parser.add_argument('--sponsors', action='store_true',
                         help='Cut the sponsored renders where a take has them. Off by '
                              'default; takes recorded without an asset have none.')
@@ -347,7 +352,8 @@ def main():
 
     total = round(sum(s['duration'] for section in sections for s in section['shots']), 2)
     plan = {'title': args.title, 'target_seconds': args.target, 'fps': 20,
-            'resolution': [1920, 1080], 'captions': args.captions, 'caption_seconds': 2.6,
+            'resolution': [int(n) for n in args.resolution.split('x')],
+            'captions': args.captions, 'caption_seconds': 2.6,
             'sponsored': args.sponsors,
             'fade_seconds': .3, 'filename': 'flyhard-behaviours.mp4', 'sections': sections,
             'generated_total_seconds': total,

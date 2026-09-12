@@ -25,30 +25,33 @@ import imageio.v2 as imageio
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-WIDTH, HEIGHT = 1920, 1080
-CAR_X, CAR_Y, CAR_W, CAR_H = 24, 64, 1248, 960
-RIGHT_X, RIGHT_W = 1296, 600
-CNS_Y, CNS_H = 64, 440
-FLY_Y, FLY_H = 584, 440
+# The reference layout, doubled. Every panel keeps its place and its proportions; the
+# car pane is 4:3 like the capture, so a 4K take scales down into it rather than up.
+SCALE = 2
+WIDTH, HEIGHT = 1920*SCALE, 1080*SCALE
+CAR_X, CAR_Y, CAR_W, CAR_H = 24*SCALE, 64*SCALE, 1248*SCALE, 960*SCALE
+RIGHT_X, RIGHT_W = 1296*SCALE, 600*SCALE
+CNS_Y, CNS_H = 64*SCALE, 440*SCALE
+FLY_Y, FLY_H = 584*SCALE, 440*SCALE
 FONT = str(Path(__file__).resolve().parents[1]/'assets'/'fonts'/'Geist.ttf')
 SITE = 'thedrivingfly.com'
 def surround(title, row, font):
     """The black surround: title, site, and the readout under the panels."""
     plate = Image.new('RGB', (WIDTH, HEIGHT), (0, 0, 0))
     draw = ImageDraw.Draw(plate)
-    draw.text((24, 26), f'flyhard | {title}', font=font[28], fill=(235, 235, 235))
+    draw.text((24*SCALE, 26*SCALE), f'flyhard | {title}', font=font[28], fill=(235, 235, 235))
     site = draw.textlength(SITE, font=font[28])
-    draw.text((WIDTH-24-site, 26), SITE, font=font[28], fill=(235, 235, 235))
-    draw.text((RIGHT_X, CNS_Y+CNS_H+14), 'Neural activity', font=font[18], fill=(150, 150, 150))
-    draw.text((RIGHT_X, FLY_Y-28), 'Fly', font=font[18], fill=(150, 150, 150))
+    draw.text((WIDTH-24*SCALE-site, 26*SCALE), SITE, font=font[28], fill=(235, 235, 235))
+    draw.text((RIGHT_X, CNS_Y+CNS_H+14*SCALE), 'Neural activity', font=font[18], fill=(150, 150, 150))
+    draw.text((RIGHT_X, FLY_Y-28*SCALE), 'Fly', font=font[18], fill=(150, 150, 150))
     speed = f"{row['speed_m_s']:.1f} m/s"
     pedals = f"Throttle {row['measured_throttle']:.2f} · Brake {row['measured_brake']:.2f}"
     wheel = f"Wheel {row['measured_steer']*45:+.1f}°   CARLA steer {row['measured_steer']:+.3f}"
-    draw.text((24, HEIGHT-38), speed, font=font[24], fill=(235, 235, 235))
+    draw.text((24*SCALE, HEIGHT-38*SCALE), speed, font=font[24], fill=(235, 235, 235))
     middle = draw.textlength(pedals, font=font[24])
-    draw.text(((WIDTH-middle)/2, HEIGHT-38), pedals, font=font[24], fill=(235, 190, 120))
+    draw.text(((WIDTH-middle)/2, HEIGHT-38*SCALE), pedals, font=font[24], fill=(235, 190, 120))
     right = draw.textlength(wheel, font=font[24])
-    draw.text((WIDTH-24-right, HEIGHT-38), wheel, font=font[24], fill=(235, 235, 235))
+    draw.text((WIDTH-24*SCALE-right, HEIGHT-38*SCALE), wheel, font=font[24], fill=(235, 235, 235))
     return plate
 
 
@@ -97,7 +100,7 @@ def main():
     cns = imageio.get_reader(layer)
     from flyhard.fly_view import FlyView
     fly = FlyView(RIGHT_W, FLY_H)
-    font = {size: ImageFont.truetype(FONT, size) for size in (18, 24, 28)}
+    font = {size: ImageFont.truetype(FONT, size*SCALE) for size in (18, 24, 28)}
     footage = Path(manifest['cameras'][args.camera])
     if not args.sponsors:
         plain = footage.with_name(footage.name.replace('-sponsored', ''))

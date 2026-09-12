@@ -160,8 +160,10 @@ def build_filters(shots, inputs, plan, overlays=None):
         # flyhard films have always put the readout panels.
         if fit == 'native':
             # Never resample: crop what is bigger than the canvas, pad what is smaller.
-            # A 1920x1440 capture becomes a 16:9 master by losing its top and bottom,
-            # every remaining pixel the one CARLA drew.
+            # A 4:3 capture becomes a 16:9 master by losing its top and bottom, every
+            # remaining pixel the one CARLA drew. The canvas has to be the capture's
+            # own width for that to be a crop of the framing rather than a zoom into
+            # the middle of it, which is what plan_film's default resolution is for.
             geometry = (f"crop='min(iw,{width})':'min(ih,{height})',"
                         f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
         elif fit == 'contain':

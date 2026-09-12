@@ -53,6 +53,24 @@ def load_policy(checkpoint, graph_dir, scenario, core, reset_core=False):
     return policy.cuda().eval(), saved
 
 
+def clear_world(world):
+    """Destroy anything a previous run left standing, and say how much there was.
+
+    A recording run owns the simulator. A process killed mid-case leaves its vehicles
+    parked in the map and CARLA only reaps them once it notices the client is gone, so
+    the next run can spend several takes driving around a wreck that belongs to no
+    scenario. That happened, and nothing in the metrics shows it: a stale car is
+    scenery right up until something hits it.
+    """
+    stale = [a for a in world.get_actors()
+             if a.type_id.startswith(('vehicle.', 'sensor.', 'walker.'))]
+    for actor in stale:
+        if actor.type_id.startswith('sensor.') and actor.is_listening:
+            actor.stop()
+        actor.destroy()
+    return [a.type_id for a in stale]
+
+
 def capture_over(step, hit_at, done, aftermath):
     """Whether the capture loop stops, which is not when the trial was decided.
 
@@ -152,6 +170,9 @@ def main():
 
     from flyhard.parking_rig import make_parking_rig
     env = scenario.load_world()(**({'town': args.town} if args.town else {}))
+    left_over = clear_world(env.world)
+    if left_over:
+        print(json.dumps({'cleared_before_recording': left_over}), flush=True)
     rig = make_parking_rig()
     rig.prepare_controls()
     library = ClipLibrary(args.record) if args.record else None
