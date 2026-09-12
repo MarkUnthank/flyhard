@@ -16,7 +16,9 @@ from pathlib import Path
 from flyhard.clips import ClipLibrary
 
 TRANSITIONS = ('cut', 'fade')
-FONT = 'assets/fonts/Geist.ttf'
+# Resolved against the repository, not the working directory: the film is assembled
+# from wherever the clip library happens to live, which is not the checkout.
+FONT = str(Path(__file__).resolve().parents[1]/'assets'/'fonts'/'Geist.ttf')
 
 
 def has_drawtext():

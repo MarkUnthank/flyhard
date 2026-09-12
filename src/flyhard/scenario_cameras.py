@@ -19,6 +19,7 @@ import math
 from pathlib import Path
 import queue
 import threading
+import time
 
 import carla
 import imageio.v2 as imageio
@@ -116,6 +117,10 @@ class ScenarioCameras:
         self.tick = 1./fps
         self.frames = []
         self.views = {}
+        # Where the capture loop's time goes. Cheap enough to leave on: six perf_counter
+        # calls a step against a step that costs hundreds of milliseconds.
+        self.timing = {'sensor_wait': 0., 'decode': 0., 'encode': 0., 'sponsor': 0.,
+                       'total': 0., 'steps': 0}
         poses = dict(ATTACHED)
         # A world-fixed wide shot reads best when the scenario happens in one place. On
         # a scenario that covers hundreds of metres the world sets its own wide camera,
@@ -166,6 +171,8 @@ class ScenarioCameras:
         `relative_matrix` is the camera pose in the vehicle frame, which is what
         SponsorView needs; it is recomputed each frame for the unattached wide view.
         """
+        clock = self.timing
+        started = time.perf_counter()
         vehicle = np.asarray(self.env.ego.get_transform().get_matrix())
         # Sensors fire once per capture period, so exactly one image is waiting per
         # sensor. Its frame lands anywhere inside the period depending on the phase
@@ -174,21 +181,31 @@ class ScenarioCameras:
         metadata = {}
         for name, view in self.views.items():
             images = []
+            waited = time.perf_counter()
             for inbox in view['inboxes']:
                 while True:
                     image = inbox.get(timeout=60)
                     if image.frame > frame-period:
                         images.append(image)
                         break
+            clock['sensor_wait'] += time.perf_counter()-waited
             assert images[0].frame == images[1].frame, (name, images[0].frame, images[1].frame)
+            mark = time.perf_counter()
             arrays = [np.frombuffer(im.raw_data, np.uint8).reshape(HEIGHT, WIDTH, 4)[:, :, :3][:, :, ::-1].copy()
                       for im in images]
+            clock['decode'] += time.perf_counter()-mark
+            mark = time.perf_counter()
             view['writer'].append_data(arrays[0])
+            clock['encode'] += time.perf_counter()-mark
             if view['sponsored'] is not None:
+                mark = time.perf_counter()
                 composited, covered = self.sponsor.render(
                     np.linalg.inv(vehicle)@np.asarray(view['sensors'][0].get_transform().get_matrix()),
                     view['fov'], arrays[0], depth_metres(arrays[1]))
+                clock['sponsor'] += time.perf_counter()-mark
+                mark = time.perf_counter()
                 view['sponsored'].append_data(composited)
+                clock['encode'] += time.perf_counter()-mark
                 self.sponsor_pixels[name] += covered
             world = np.asarray(view['sensors'][0].get_transform().get_matrix())
             relative = np.linalg.inv(vehicle)@world
@@ -207,7 +224,14 @@ class ScenarioCameras:
         # later without re-running CARLA.
         self.frames.append({'index': index, 'frame': frame, 'timestamp': timestamp,
                             'views': metadata})
+        clock['total'] += time.perf_counter()-started
+        clock['steps'] += 1
         return metadata
+
+    def timing_report(self):
+        """Milliseconds per control step in each stage of capture, for tuning runs."""
+        steps = max(self.timing['steps'], 1)
+        return {k: round(v/steps*1000, 2) for k, v in self.timing.items() if k != 'steps'}
 
     def relative_paths(self, sponsored=False):
         """Camera map for a clips.Take, relative to the take directory."""

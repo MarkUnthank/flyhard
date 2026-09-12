@@ -81,11 +81,15 @@ def describe(scenario, score):
             return 'stopped on the crossing'
         if score['unnecessary_stop']:
             return 'stopped for nobody'
+        if not score['cleared_crossing']:
+            return 'stopped and never went again'
         if score['yielded_before_line']:
             return 'stopped for the pedestrian'
         if not score['stop_required']:
             return 'drove on, crossing clear'
         return 'slowed and let them cross' if passed else 'drove at the pedestrian'
+    # The priority vehicle is an ambulance on some seeds and a police car on others,
+    # and the trial does not record which, so the caption names neither.
     emergency = score.get('kind') == 'priority'
     if score['contact']:
         return 'collided in the junction'
@@ -95,12 +99,14 @@ def describe(scenario, score):
         return 'stopped inside the junction'
     if score['unnecessary_stop']:
         return 'stopped when it had priority'
+    if not score['cleared_junction']:
+        return 'stopped and never went again'
     if score['yielded_before_line']:
-        return 'stopped for the ambulance' if emergency else 'gave way to the right'
+        return 'stopped for the emergency vehicle' if emergency else 'gave way to the right'
     if not score['stop_required']:
         return 'took the junction, nothing coming'
     if passed:
-        return 'eased off for the ambulance' if emergency else 'eased off and let it through'
+        return 'eased off for the emergency vehicle' if emergency else 'eased off and let it through'
     return 'failed to give way'
 
 
@@ -238,6 +244,10 @@ def main():
             np.savez_compressed(trial/'neural.npz', activity=np.asarray(activity))
 
             if cameras:
+                # What the capture loop cost, per stage: the only honest way to know
+                # whether tuning a stage moved the wall clock at all.
+                timing = cameras.timing_report()
+                print(json.dumps({'capture_ms_per_step': timing}), flush=True)
                 cameras.close()
                 # Keep the trial's own configuration beside the footage so the take is
                 # self-contained: the sponsor compositor needs the vehicle bounds, and a
