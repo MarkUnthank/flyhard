@@ -112,7 +112,8 @@ def resolve(plan, library):
     shots, offset = [], 0.
     for section in plan['sections']:
         for index, shot in enumerate(section['shots']):
-            source, record = library.resolve(shot['take'], shot['camera'])
+            source, record = library.resolve(shot['take'], shot['camera'],
+                                             sponsored=plan.get('sponsored', True))
             start = float(shot.get('start', 0.))
             duration = float(shot['duration'])
             if duration <= 0:

@@ -70,6 +70,8 @@ def main():
     parser.add_argument('--cns', help='A rendered anatomy layer; built here if absent')
     parser.add_argument('--geometry', default='data/cns-geometry-v1/geometry.npz')
     parser.add_argument('--camera', default='chase')
+    parser.add_argument('--no-sponsors', action='store_true',
+                        help='Use the plain CARLA render kept beside the sponsored one')
     parser.add_argument('--title', help='Defaults to the take\'s scenario')
     parser.add_argument('--out', required=True)
     parser.add_argument('--preview', type=int, help='Write this many frames as PNGs instead')
@@ -96,7 +98,11 @@ def main():
     from flyhard.fly_view import FlyView
     fly = FlyView(RIGHT_W, FLY_H)
     font = {size: ImageFont.truetype(FONT, size) for size in (18, 24, 28)}
-    source = imageio.get_reader(take/manifest['cameras'][args.camera])
+    footage = Path(manifest['cameras'][args.camera])
+    if args.no_sponsors:
+        plain = footage.with_name(footage.name.replace('-sponsored', ''))
+        footage = plain if (take/plain).exists() else footage
+    source = imageio.get_reader(take/footage)
     writer = None
     if not args.preview:
         writer = imageio.get_writer(args.out, fps=fps, codec='libx264',
@@ -131,7 +137,8 @@ def main():
         cns.close()
         fly.close()
     print(json.dumps({'take': take.name, 'output': args.out, 'frames': written,
-                      'camera': args.camera, 'anatomy': str(layer)}), flush=True)
+                      'camera': args.camera, 'footage': str(footage),
+                      'anatomy': str(layer)}), flush=True)
 
 
 if __name__ == '__main__':

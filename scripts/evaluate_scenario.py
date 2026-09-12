@@ -53,6 +53,18 @@ def load_policy(checkpoint, graph_dir, scenario, core, reset_core=False):
     return policy.cuda().eval(), saved
 
 
+def capture_over(step, hit_at, done, aftermath):
+    """Whether the capture loop stops, which is not when the trial was decided.
+
+    Before a collision the scenario's own finishing condition decides. After one the
+    clock does: the trial is already lost and what is being captured is the aftermath,
+    which the scorer never sees.
+    """
+    if hit_at is None:
+        return bool(done)
+    return (step-hit_at)*CONTROL_DT >= aftermath
+
+
 def describe(scenario, score):
     """A phrase for the take's caption, read only from what the trial measured.
 
@@ -120,6 +132,9 @@ def main():
     parser.add_argument('--count', type=int, default=8)
     parser.add_argument('--first', type=int, default=0, help='Skip this many cases of the split')
     parser.add_argument('--seconds', type=float, default=30.)
+    parser.add_argument('--aftermath', type=float, default=2.5,
+                        help='Seconds of footage kept after a collision. Recorded but '
+                             'never scored: the metrics see the trial as it ended.')
     parser.add_argument('--town')
     parser.add_argument('--record', help='Clip library root; records three camera angles per trial')
     parser.add_argument('--asset', help='Fresh live sponsor export; sponsors are composited '
@@ -171,6 +186,7 @@ def main():
             steer = 0.
             learned_steering = policy.outputs >= 3
             rows, trajectory, activity = [], [], []
+            hit_at, scored = None, None
             started = env.world.get_snapshot().timestamp.elapsed_seconds
             for step in range(round(args.seconds/CONTROL_DT)):
                 now = env.world.get_snapshot().timestamp.elapsed_seconds-started
@@ -212,9 +228,16 @@ def main():
                              'steering_source': 'learned' if learned_steering else 'lane keeping',
                              'speed_m_s': float(state[-1]),
                              'front_to_line': float(state[0]+core.FRONT_OVERHANG), **extra})
-                if env.collision_events or env.done(state):
+                # The trial is over at the first contact: nothing after it is the
+                # policy answering the scenario, so nothing after it is scored. The
+                # cameras keep rolling regardless, because a crash cut on the frame of
+                # impact reads as a dropped clip rather than as a crash. The fly stays
+                # on the controls through it, which is what actually happened.
+                if hit_at is None and env.collision_events:
+                    hit_at, scored = step, len(trajectory)
+                if capture_over(step, hit_at, env.done(state), args.aftermath):
                     break
-            score = core.metrics(trajectory, case)
+            score = core.metrics(trajectory[:scored], case)
             score['native_collision_events'] = list(env.collision_events)
             # Scenarios name their own contact metric; CARLA's own collision sensor is
             # the authority either way, and a trial with a contact never passes.

@@ -219,3 +219,34 @@ def test_a_resume_slides_a_little_to_reach_the_wide_angle():
 def test_a_resume_will_not_slide_further_than_its_allowance():
     shots = [{'beat': 'resume', 'start': 6., 'duration': 3.}]
     assert place(RECORD, shots, {'wide': (11., 14.)})[0][0] != 'wide'
+
+
+def library_with(tmp_path, relative):
+    """A one-take library whose chase camera points at `relative`."""
+    take = tmp_path/'overtake'/'failure'/'overtake-s00001-a01'
+    (take/'cameras'/'chase').mkdir(parents=True)
+    for name in ('rgb.mp4', 'rgb-sponsored.mp4'):
+        (take/'cameras'/'chase'/name).write_bytes(b'x')
+    (take/'take.json').write_text(json.dumps({
+        'schema': 'flyhard-clip-library-v1', 'id': 'overtake-s00001-a01', 'scenario': 'overtake',
+        'seed': 1, 'attempt': 1, 'outcome': 'failure', 'duration_seconds': 5., 'fps': 20,
+        'cameras': {'chase': relative}}))
+    return take.parents[2]
+
+
+def test_a_sponsor_free_cut_uses_the_plain_render_beside_the_sponsored_one(tmp_path):
+    from flyhard.clips import ClipLibrary
+    root = library_with(tmp_path, 'cameras/chase/rgb-sponsored.mp4')
+    library = ClipLibrary(root)
+    assert library.resolve('overtake-s00001-a01', 'chase')[0].name == 'rgb-sponsored.mp4'
+    assert library.resolve('overtake-s00001-a01', 'chase', sponsored=False)[0].name == 'rgb.mp4'
+
+
+def test_a_camera_that_was_never_sponsored_resolves_the_same_either_way(tmp_path):
+    """The cabin view carries the fly, not a sponsor, so there is no plain twin to swap to."""
+    from flyhard.clips import ClipLibrary
+    root = library_with(tmp_path, 'cameras/chase/rgb-fly.mp4')
+    (root/'overtake'/'failure'/'overtake-s00001-a01'/'cameras'/'chase'/'rgb-fly.mp4').write_bytes(b'x')
+    library = ClipLibrary(root)
+    both = [library.resolve('overtake-s00001-a01', 'chase', sponsored=s)[0] for s in (True, False)]
+    assert both[0] == both[1] == root/'overtake'/'failure'/'overtake-s00001-a01'/'cameras'/'chase'/'rgb-fly.mp4'

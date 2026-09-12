@@ -117,13 +117,24 @@ class ClipLibrary:
             selected.append(record)
         return sorted(selected, key=lambda r: r['id'])
 
-    def resolve(self, identifier, camera):
-        """Absolute path to one camera render of one take."""
+    def resolve(self, identifier, camera, sponsored=True):
+        """Absolute path to one camera render of one take.
+
+        Sponsors are composited over the plain CARLA frame in a later pass and the
+        plain frame is kept beside the result, so a sponsor-free cut costs a different
+        filename rather than another recording. Where a camera was never sponsored the
+        two are the same file and this returns it either way.
+        """
         for record in self.takes():
             if record['id'] == identifier:
                 if camera not in record['cameras']:
                     raise KeyError(f'Take {identifier} has no {camera} camera; has {sorted(record["cameras"])}')
-                return Path(record['directory']) / record['cameras'][camera], record
+                relative = Path(record['cameras'][camera])
+                if not sponsored:
+                    plain = relative.with_name(relative.name.replace('-sponsored', ''))
+                    if (Path(record['directory'])/plain).exists():
+                        relative = plain
+                return Path(record['directory']) / relative, record
         raise KeyError(f'No take {identifier} in {self.root}')
 
     def index(self):
