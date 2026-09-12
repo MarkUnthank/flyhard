@@ -1,0 +1,49 @@
+src/flyhard/scenario_policy.py
+  s_7e690e84d597d0::t_a8b57ffc851755 1,3-9,18-19,21-23,33-34,42-47,50,54
+src/flyhard/overtake_world.py
+  s_7e690e84d597d0::t_3b08a55cf135c4 18,217-222,226
+  s_7e690e84d597d0::t_7b477d5426cc96 1-17,19-196,198,202-216,223-225,227-245
+  s_7e690e84d597d0::t_cfaacc87afcaf7 197,199-201
+src/flyhard/scenarios.py
+  s_7e690e84d597d0::t_8d875582598355 20-21,44-50
+scripts/plan_film.py
+  s_7e690e84d597d0::t_edc709de017504 1-136
+scripts/train_scenario.py
+  s_7e690e84d597d0::t_8d875582598355 28,35-37,59-60,86,92-93,97,103,113-117,119-122
+scripts/composite_sponsors.py
+  s_7e690e84d597d0::t_2cf6e08fad981c 1-83,85-113
+  s_7e690e84d597d0::t_1a73f7d94eb07e 84
+src/flyhard/scenario_cameras.py
+  s_7e690e84d597d0::t_8934b48d67db6d 55,64-75,77
+src/flyhard/overtake_teacher.py
+  s_7e690e84d597d0::t_ae5e1a55ed4f82 52-62,68-71
+  s_7e690e84d597d0::t_37f4e50107334d 37-38,51
+  s_7e690e84d597d0::t_e2767392730248 1-36,39-50,72-127
+src/flyhard/overtake.py
+  s_7e690e84d597d0::t_3b08a55cf135c4 29-30,142-148
+  s_7e690e84d597d0::t_c3f9a485c9498f 1-28,31-141,149-189,191-192,196-218
+  s_7e690e84d597d0::t_cfaacc87afcaf7 190,193-195
+scripts/prepare_scenario_data.py
+  s_7e690e84d597d0::t_bf2c0fd9935341 61-64,67-70
+scripts/evaluate_scenario.py
+  s_7e690e84d597d0::t_152ef2624b5c59 31,44-46,94
+  s_7e690e84d597d0::t_8934b48d67db6d 121-122,128-129,135-140,143-145,160-163
+  s_7e690e84d597d0::t_1a73f7d94eb07e 180,188-189,195-198
+  s_7e690e84d597d0::t_edc709de017504 199-201
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "9251cc207f21882c49fb74eb68a4cd30ad44a54e",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
