@@ -1,0 +1,24 @@
+scripts/screen_crossing_cases.py
+  s_7e690e84d597d0::t_24b80c3a6d523e 110,112
+  s_7e690e84d597d0::t_02a625234a54ea 1-109,111,113-126
+scripts/assemble_layout.py
+  s_7e690e84d597d0::t_8f8c9a7cf5bd5c 69,76-78
+  s_7e690e84d597d0::t_1df068720fed80 70-75,79-80
+  s_7e690e84d597d0::t_e6c1a69e19e0d3 126-151,153,156-157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a33f193433b9916bb34477451b80a1662d9de59d",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
