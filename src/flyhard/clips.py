@@ -39,6 +39,10 @@ class Take:
     cameras: dict = field(default_factory=dict)
     metrics: dict = field(default_factory=dict)
     label: str = ''
+    # Which policy drove it. A control condition looks exactly like a badly trained fly
+    # from the outside, so a take that was not the trained policy has to say so on
+    # itself; a caption or a folder name is not somewhere provenance can live.
+    policy: str = 'trained'
     checkpoint_sha256: str = ''
     sponsor_revision: int = 0
     sponsor_layout: int = 0

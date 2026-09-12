@@ -9,13 +9,14 @@ The wide view is deliberately not attached to the car: a scenario is about what
 the car does relative to something else, and an ego-mounted wide shot hides that.
 A scenario that travels hundreds of metres sets its own attached wide camera.
 
-Every view also captures depth, and the sponsor layer is composited against it as
-each frame arrives rather than afterwards. Writing depth out was costing about half
+A sponsored view also captures depth, and the sponsor layer is composited against it
+as each frame arrives rather than afterwards. Writing depth out was costing about half
 a second per control step, three times everything else in the loop put together, so
 it is used in memory and discarded. Both the clean and the sponsored video are kept.
 """
 import json
 import math
+import os
 from pathlib import Path
 import queue
 import threading
@@ -25,10 +26,16 @@ import carla
 import imageio.v2 as imageio
 import numpy as np
 
-# Capture is the ceiling on everything downstream, so it is above the 1080p the films
-# are delivered at rather than below it: a 16:9 master crops out of this at native
-# resolution, and the layout's car pane scales down into it rather than up.
-WIDTH, HEIGHT = 1920, 1440
+from flyhard.frames import colour, depth_metres
+
+# Capture is the ceiling on everything downstream, so it is above the resolution the
+# films are delivered at rather than below it: a 16:9 master crops out of this at
+# native resolution, and the layout's car pane scales down into its slot rather than
+# up. 4:3 because that is what the layout's car pane is. Overridable so a run can be
+# timed at several sizes; whatever was used is recorded in the take's camera manifest,
+# so a clip always states its own resolution.
+WIDTH = int(os.environ.get('FLYHARD_CAPTURE_WIDTH', 2880))
+HEIGHT = int(os.environ.get('FLYHARD_CAPTURE_HEIGHT', 2160))
 ATTACHED = {
     # Behind and above, looking slightly down over the roof.
     'chase': (carla.Transform(carla.Location(x=-7.4, y=0., z=3.05),
@@ -37,13 +44,6 @@ ATTACHED = {
     'cabin': (carla.Transform(carla.Location(x=-.45, y=.08, z=1.35),
                               carla.Rotation(pitch=-12, yaw=-23)), 90),
 }
-
-
-def depth_metres(rgb):
-    """CARLA packs depth into 24 bits across the colour channels, scaled to 1 km."""
-    packed = (rgb[:, :, 0].astype(np.float32)+rgb[:, :, 1].astype(np.float32)*256.
-              + rgb[:, :, 2].astype(np.float32)*65536.)
-    return 1000.*packed/(256.**3-1)
 
 
 class Encoder:
@@ -142,7 +142,12 @@ class ScenarioCameras:
             directory = self.root/'cameras'/name
             directory.mkdir(parents=True, exist_ok=True)
             sensors, inboxes = [], []
-            for kind in ['rgb', 'depth']:
+            # Depth exists only so the sponsor panels can be hidden behind whatever the
+            # simulator drew in front of them. With no sponsors there is nothing to
+            # occlude, and spawning the camera anyway would render, copy and decode a
+            # second full frame per view that nothing would ever read.
+            kinds = ['rgb', 'depth'] if name in self.sponsored_views else ['rgb']
+            for kind in kinds:
                 bp = env.world.get_blueprint_library().find('sensor.camera.'+kind)
                 for key, value in {'image_size_x': str(WIDTH), 'image_size_y': str(HEIGHT),
                                    'fov': str(fov), 'sensor_tick': f'{self.tick:.6f}'}.items():
@@ -164,7 +169,7 @@ class ScenarioCameras:
                     # critical path. It no longer does -- the writer is a queue drained
                     # by its own thread -- and ultrafast turns off most of what x264
                     # does, which showed as soft, blocky footage at any bitrate. `fast`
-                    # rather than something slower because five streams of this size
+                    # rather than something slower because several streams of this size
                     # still have to keep up with the capture on one box; the timing
                     # report says whether they did.
                     ffmpeg_params=['-crf', '15', '-preset', 'fast', '-threads', '3']))
@@ -199,19 +204,27 @@ class ScenarioCameras:
                         images.append(image)
                         break
             clock['sensor_wait'] += time.perf_counter()-waited
-            assert images[0].frame == images[1].frame, (name, images[0].frame, images[1].frame)
+            assert len({image.frame for image in images}) == 1, (
+                name, [image.frame for image in images])
             mark = time.perf_counter()
-            arrays = [np.frombuffer(im.raw_data, np.uint8).reshape(HEIGHT, WIDTH, 4)[:, :, :3][:, :, ::-1].copy()
-                      for im in images]
+            raw = [np.frombuffer(im.raw_data, np.uint8).reshape(HEIGHT, WIDTH, 4)
+                   for im in images]
+            # The depth buffer is left untouched here and decoded only where a view
+            # is actually sponsored; the cabin never is, so a third of the depth
+            # decoding this loop used to do was for a frame nothing read.
+            picture = colour(raw[0])
             clock['decode'] += time.perf_counter()-mark
             mark = time.perf_counter()
-            view['writer'].append_data(arrays[0])
+            view['writer'].append_data(picture)
             clock['encode'] += time.perf_counter()-mark
             if view['sponsored'] is not None:
                 mark = time.perf_counter()
+                near = depth_metres(raw[1])
+                clock['decode'] += time.perf_counter()-mark
+                mark = time.perf_counter()
                 composited, covered = self.sponsor.render(
                     np.linalg.inv(vehicle)@np.asarray(view['sensors'][0].get_transform().get_matrix()),
-                    view['fov'], arrays[0], depth_metres(arrays[1]))
+                    view['fov'], picture, near)
                 clock['sponsor'] += time.perf_counter()-mark
                 mark = time.perf_counter()
                 view['sponsored'].append_data(composited)
@@ -219,19 +232,21 @@ class ScenarioCameras:
                 self.sponsor_pixels[name] += covered
             world = np.asarray(view['sensors'][0].get_transform().get_matrix())
             relative = np.linalg.inv(vehicle)@world
-            entry = {'rgb_frame': images[0].frame, 'depth_frame': images[1].frame,
+            entry = {'rgb_frame': images[0].frame,
                      'timestamp': images[0].timestamp, 'frame_lag': int(frame-images[0].frame),
                      'fov': view['fov'], 'attached': view['attached'],
                      'relative_matrix': relative.tolist(), 'world_matrix': world.tolist()}
+            if len(images) > 1:
+                entry['depth_frame'] = images[1].frame
             if view['attached']:
                 # A rigid mount must not drift; the wide view legitimately moves in the vehicle frame.
                 error = float(np.max(np.abs(relative-np.asarray(view['pose'].get_matrix()))))
                 assert error < .0002, (name, error)
                 entry['pose_error'] = error
             metadata[name] = entry
-        # Kept, not just returned: the sponsor compositor needs the per-frame camera
-        # pose in the vehicle frame, and without it the footage cannot be sponsored
-        # later without re-running CARLA.
+        # Kept, not just returned: every later pass that puts something in the car's
+        # frame needs the per-frame camera pose, and without it the footage cannot be
+        # composited into later without re-running CARLA.
         self.frames.append({'index': index, 'frame': frame, 'timestamp': timestamp,
                             'views': metadata})
         clock['total'] += time.perf_counter()-started

@@ -290,6 +290,9 @@ def main():
                             metrics={k: v for k, v in score.items()
                                      if k != 'native_collision_events'},
                             label=describe(scenario, score),
+                            policy='untrained control' if args.reset_core else 'trained',
+                            notes=('The learned core is zeroed: this is the control '
+                                   'condition, not the trained fly.') if args.reset_core else '',
                             checkpoint_sha256=sha(args.checkpoint))
                 final = library.directory(take)
                 final.parent.mkdir(parents=True, exist_ok=True)
