@@ -1,0 +1,21 @@
+scripts/bootstrap_pod_restart.sh
+  s_7e690e84d597d0::t_a1ae0f8c843fab 1-23
+scripts/sync_clips.sh
+  s_7e690e84d597d0::t_a1ae0f8c843fab 1-8,10-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "b9c973299cc8a780d1b7ed47cd00bb1185fc57a4",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
