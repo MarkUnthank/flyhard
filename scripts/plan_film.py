@@ -43,35 +43,50 @@ def events(take_dir, fps):
             'peak_speed_time': max(rows, key=lambda r: r['speed_m_s'])['time']}
 
 
+# Per beat: how long it wants to be, and how long it may stretch to when a scenario
+# has screen time to spare. Nothing is ever stretched past the take's own footage.
+BEAT_LIMITS = {'approach': (2.6, 5.0), 'decision': (3.4, 8.0), 'resume': (2.0, 4.5)}
+
+
 def beats(record, budget):
     """Split one take's screen time into beats, each anchored on a real moment."""
     marks = events(record['directory'], record['fps'])
     total = record['duration_seconds']
     if not marks:
-        return [{'beat': 'decision', 'start': 0., 'duration': min(budget, total)}]
-    brake = marks['first_brake']
+        return [{'beat': 'decision', 'start': 0., 'duration': round(min(budget, total), 2)}]
+    anchor = marks['first_brake'] or marks['peak_speed_time']
     shots = []
-    if brake and brake > 2.2:
-        # Run into the brake, not away from it: the last seconds before the decision.
-        shots.append({'beat': 'approach', 'start': max(0., brake-2.6), 'duration': 2.6})
-    decision_start = max(0., (brake or marks['peak_speed_time'])-.6)
-    decision_end = min(total, (marks['stopped'] or decision_start+3.)+1.2)
-    shots.append({'beat': 'decision', 'start': decision_start,
-                  'duration': max(1.8, min(4.2, decision_end-decision_start))})
-    if marks['resumed'] and total-marks['resumed'] > 1.4:
-        shots.append({'beat': 'resume', 'start': marks['resumed']-.6,
-                      'duration': min(2.4, total-marks['resumed']+.5)})
-    # Trim to the budget from the back, keeping the decision.
-    while sum(s['duration'] for s in shots) > budget and len(shots) > 1:
-        shots.pop()
-    scale = budget/sum(s['duration'] for s in shots)
-    if scale < 1.:
-        for shot in shots:
-            shot['duration'] = round(shot['duration']*scale, 2)
+    if anchor > 2.4:
+        # Run into the decision, not away from it: the seconds before the brake.
+        shots.append({'beat': 'approach', 'start': max(0., anchor-BEAT_LIMITS['approach'][1])})
+    shots.append({'beat': 'decision', 'start': max(0., anchor-.8)})
+    if marks['resumed'] and total-marks['resumed'] > 1.2:
+        shots.append({'beat': 'resume', 'start': max(0., marks['resumed']-.8)})
+
     for shot in shots:
-        shot['duration'] = round(min(shot['duration'], total-shot['start']), 2)
+        low, high = BEAT_LIMITS[shot['beat']]
+        shot['low'], shot['high'] = low, min(high, total-shot['start'])
+    shots = [s for s in shots if s['high'] >= .9]
+    if not shots:
+        return [{'beat': 'decision', 'start': 0., 'duration': round(min(budget, total), 2)}]
+    # Give every beat its natural length, then spend or take back the difference in
+    # proportion, so a scenario with spare time gets longer shots rather than more.
+    floor = sum(min(s['low'], s['high']) for s in shots)
+    ceiling = sum(s['high'] for s in shots)
+    if budget <= floor:
+        share = budget/floor
+        for shot in shots:
+            shot['duration'] = min(shot['low'], shot['high'])*share
+    else:
+        extra = (min(budget, ceiling)-floor)/max(ceiling-floor, 1e-6)
+        for shot in shots:
+            low = min(shot['low'], shot['high'])
+            shot['duration'] = low+(shot['high']-low)*extra
+    for shot in shots:
+        shot['duration'] = round(max(.9, min(shot['duration'], shot['high'])), 2)
         shot['start'] = round(shot['start'], 2)
-    return [s for s in shots if s['duration'] >= .8]
+        del shot['low'], shot['high']
+    return shots
 
 
 def pick(library, scenario, outcome, count):
