@@ -14,6 +14,8 @@ BRAKE_ON = .25          # Pedal travel that reads on screen as braking, not trim
 OUT_OF_LANE = 1.2       # Metres of lane offset that reads as leaving the lane.
 CLOSING_GAP = 15.       # Metres to the car in front that reads as catching it up.
 IMPACT_DROP = 2.5       # Metres per second lost in one control step: nothing else does that.
+HALTED = .3             # Metres per second below which the car is standing still.
+MOVING = .5
 CONTROL_DT = .05
 
 
@@ -75,10 +77,22 @@ def beats(rows, metrics=None):
     if hit is not None:
         found.append((at(hit), f"hits something: {drop*2.237:.0f} mph gone in one step"))
 
+    # A car that stops in the middle of a clip and drives off again was silent here:
+    # the only stop reported was one the clip happened to end on, which for a crossing
+    # take is exactly the wrong way round.
+    halt = _first(rows, lambda row: row['speed_m_s'] < HALTED)
+    if halt is not None:
+        found.append((at(halt), 'comes to a complete stop'))
+        away = _first([row for row in rows if row['time'] > halt['time']],
+                      lambda row: row['speed_m_s'] > MOVING)
+        if away is not None:
+            found.append((at(away), f"pulls away after "
+                                    f"{away['time']-halt['time']:.1f}s standing"))
+
     last = rows[-1]
-    if last['speed_m_s'] < 1:
+    if last['speed_m_s'] < 1 and halt is None:
         found.append((at(last), 'stopped'))
-    else:
+    elif last['speed_m_s'] >= 1:
         found.append((at(last), f"still doing {last['speed_m_s']*2.237:.0f} mph at the end"))
     return sorted(found)
 

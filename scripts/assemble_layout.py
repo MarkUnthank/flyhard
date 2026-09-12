@@ -32,23 +32,91 @@ CREDITS = ['Vehicle: CARLA 0.9.16 · CVC, Universitat Autònoma de Barcelona',
            'The fly in the cabin is the recorded run replayed, blended over the frame',
            'Neuron colour is model state, not measured biological activity']
 CREDIT_SECONDS = 3.
+# What counts as arriving, stopping and pulling away. These describe the cut, not any
+# recorded quantity, and changing them changes only where the edit lands.
+BRAKING = .15
+HALTED = .3            # Metres per second. Below this the car is standing still.
+MOVING = .5
+LEAD_IN = 1.5          # Seconds of wide shot before the brakes come on.
 
 
-def contain(image, width, height):
-    """Fit the whole frame inside the panel on black, losing none of it.
+def cut_plan(rows, cameras, fps):
+    """Where to cut, taken from what the car did rather than from a stopwatch.
 
-    The car pane is filled by cropping, because a driving camera has nothing important
-    at its edges. The anatomy and the fly are already rendered against black with the
-    subject framed to the edges of their own picture, so cropping them cuts the fly's
-    wheel off. These are fitted instead.
+    The sequence is the one the edit asks for: behind the car on the approach, wide as
+    it arrives at the crossing, inside the cabin for the wait, wide again as it leaves.
+    Each of those boundaries is an event in the trace, so the cut lands on the action
+    in any take rather than at a time that happened to suit one of them.
     """
+    start = rows[0]['time']
+
+    def when(predicate, after=None, default=None):
+        for row in rows:
+            if after is not None and row['time'] <= after:
+                continue
+            if predicate(row):
+                return row['time']-start+1/fps
+        return default
+
+    total = rows[-1]['time']-start+1/fps
+    braking = when(lambda row: row['measured_brake'] > BRAKING, default=total*.5)
+    halt = when(lambda row: row['speed_m_s'] < HALTED, after=start+braking, default=None)
+    away = (when(lambda row: row['speed_m_s'] > MOVING, after=start+halt)
+            if halt is not None else None)
+    plan = [(0., 'chase'), (max(0., braking-LEAD_IN), 'wide')]
+    if halt is not None and away is not None:
+        plan += [(halt, 'cabin-fly'), (away, 'wide')]
+    # Only keep cuts that move forwards, to a camera that was actually exported.
+    kept = []
+    for at, camera in plan:
+        if camera not in cameras:
+            continue
+        if kept and at <= kept[-1][0]:
+            kept[-1] = (kept[-1][0], camera)
+        else:
+            kept.append((at, camera))
+    return kept
+
+
+def content_box(reader, samples=12, floor=12, margin=.04):
+    """The rectangle the panel's subject actually occupies, over the whole clip.
+
+    The anatomy is a small object rendered in the middle of a 16:9 frame of black, and
+    dropping that frame whole into the layout's panel leaves the brain a fifth of the
+    size it could be. So the black is measured rather than assumed: the union of the
+    lit pixels across the clip, padded, is what gets scaled into the panel. Sampling
+    the whole clip rather than one frame matters because a neuron that only fires late
+    still has to be inside the frame from the start, or the panel drifts.
+    """
+    frames = reader.count_frames() if hasattr(reader, 'count_frames') else 0
+    picks = range(0, max(frames, 1), max(1, (frames or samples)//samples))
+    left = top = 10**9
+    right = bottom = -1
+    height = width = 0
+    for index in picks:
+        try:
+            frame = np.asarray(reader.get_data(index))
+        except (IndexError, RuntimeError):
+            break
+        height, width = frame.shape[:2]
+        lit = np.argwhere(frame.max(axis=2) > floor)
+        if not len(lit):
+            continue
+        left, top = min(left, lit[:, 1].min()), min(top, lit[:, 0].min())
+        right, bottom = max(right, lit[:, 1].max()), max(bottom, lit[:, 0].max())
+    if right < 0 or not width:
+        return None
+    pad_x, pad_y = round((right-left)*margin), round((bottom-top)*margin)
+    return (max(0, left-pad_x), max(0, top-pad_y),
+            min(width, right+pad_x+1), min(height, bottom+pad_y+1))
+
+
+def panel_frame(image, box, width, height):
+    """Crop a panel to its subject, then fill the layout's box with it."""
     picture = Image.fromarray(np.asarray(image))
-    scale = min(width/picture.width, height/picture.height)
-    picture = picture.resize((max(1, round(picture.width*scale)),
-                              max(1, round(picture.height*scale))), Image.LANCZOS)
-    panel = Image.new('RGB', (width, height), (0, 0, 0))
-    panel.paste(picture, ((width-picture.width)//2, (height-picture.height)//2))
-    return panel
+    if box is not None:
+        picture = picture.crop(box)
+    return fit(picture, width, height)
 
 
 def credits_card(font, extra=()):
@@ -67,7 +135,8 @@ def credits_card(font, extra=()):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--elements', required=True, help='An exported elements folder')
-    parser.add_argument('--camera', default='chase', choices=['chase', 'wide', 'cabin-fly'])
+    parser.add_argument('--camera', help='Hold one angle for the whole clip instead '
+                        'of cutting between them')
     parser.add_argument('--title')
     parser.add_argument('--out', required=True)
     parser.add_argument('--credit-seconds', type=float, default=CREDIT_SECONDS)
@@ -77,10 +146,19 @@ def main():
     manifest = json.loads((folder/'take.json').read_text())
     rows = json.loads((folder/'trace.json').read_text())
     fps = json.loads((folder/'cameras.json').read_text()).get('fps', manifest.get('fps', 20))
-    car = imageio.get_reader(folder/f'{args.camera}.mp4')
+    angles = {name: folder/f'{name}.mp4' for name in ('chase', 'wide', 'cabin-fly')
+              if (folder/f'{name}.mp4').exists()}
+    if args.camera:
+        angles = {args.camera: angles[args.camera]}
+    cars = {name: imageio.get_reader(path) for name, path in angles.items()}
+    plan = ([(0., args.camera)] if args.camera
+            else cut_plan(rows, set(cars), fps))
+    if not plan:
+        raise SystemExit(f'no camera angles in {folder}')
     panels = {name: imageio.get_reader(folder/f'{name}.mp4')
               for name in ('cns', 'fly') if (folder/f'{name}.mp4').exists()}
     missing = [name for name in ('cns', 'fly') if name not in panels]
+    boxes = {name: content_box(reader) for name, reader in panels.items()}
     font = {size: ImageFont.truetype(FONT, size*SCALE) for size in (18, 24, 28)}
     title = args.title or f"{manifest['scenario']} — {manifest.get('label', '')}".strip(' —')
 
@@ -91,9 +169,14 @@ def main():
                                               '+faststart'])
     written = 0
     try:
+        shots = []
         for index, row in enumerate(rows):
+            second = index/fps
+            camera = [name for at, name in plan if at <= second][-1]
+            if not shots or shots[-1]['camera'] != camera:
+                shots.append({'camera': camera, 'from': round(second, 2)})
             try:
-                frame = car.get_data(index)
+                frame = cars[camera].get_data(index)
             except IndexError:
                 break
             plate = surround(title, row, font)
@@ -106,7 +189,8 @@ def main():
                     panel = reader.get_data(index)
                 except IndexError:
                     continue
-                plate.paste(contain(panel, RIGHT_W, box[1]), (RIGHT_X, box[0]))
+                plate.paste(panel_frame(panel, boxes[name], RIGHT_W, box[1]),
+                            (RIGHT_X, box[0]))
             writer.append_data(np.asarray(plate))
             written += 1
         card = np.asarray(credits_card(font))
@@ -114,13 +198,16 @@ def main():
             writer.append_data(card)
     finally:
         writer.close()
-        car.close()
+        for reader in cars.values():
+            reader.close()
         for reader in panels.values():
             reader.close()
-    print(json.dumps({'take': manifest['id'], 'out': args.out, 'camera': args.camera,
+    print(json.dumps({'take': manifest['id'], 'out': args.out, 'shots': shots,
                       'frames': written, 'credit_frames': round(args.credit_seconds*fps),
                       'fps': fps, 'width': WIDTH, 'height': HEIGHT,
-                      'panels_missing': missing}), flush=True)
+                      'panels_missing': missing,
+                      'panel_content_boxes': {name: [int(v) for v in box] if box else None
+                                              for name, box in boxes.items()}}), flush=True)
 
 
 if __name__ == '__main__':

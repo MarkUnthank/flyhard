@@ -55,7 +55,18 @@ def test_the_side_follows_the_sign_of_the_offset():
 
 
 def test_a_stop_is_reported_as_a_stop():
-    assert any(what == 'stopped' for _, what in beats(drive([10., 5., .2])))
+    assert any('complete stop' in what for _, what in beats(drive([10., 5., .2])))
+
+
+def test_a_stop_in_the_middle_of_a_clip_is_reported_not_only_one_at_the_end():
+    rows = drive([10., 5., .1, .1, .1, 2., 8., 9.])
+    said = [what for _, what in beats(rows)]
+    assert any('complete stop' in what for what in said)
+    assert any('pulls away after' in what for what in said)
+
+
+def test_a_car_that_never_stops_is_not_said_to():
+    assert not any('stop' in what for _, what in beats(drive([10., 11., 12.])))
 
 
 def test_catching_the_car_in_front_is_only_reported_when_it_is_close():
