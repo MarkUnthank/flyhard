@@ -1,0 +1,26 @@
+tests/test_synopsis.py
+  s_7e690e84d597d0::t_7dbb0b1347b0c9 1-26,28-75
+  s_7e690e84d597d0::t_54a61d4b16a48a 27
+src/flyhard/synopsis.py
+  s_7e690e84d597d0::t_61a165635d8f5c 69-70,73
+  s_7e690e84d597d0::t_94fd03bf944728 1-60,66,74-88
+  s_7e690e84d597d0::t_faab0034d2c38f 61-65,67-68,71-72
+scripts/index_elements.py
+  s_7e690e84d597d0::t_698975b52cf74f 11-14,51-53,69-74,80-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "e3f4ef8862c5b29aed2ab121e329a27ee283a09b",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
