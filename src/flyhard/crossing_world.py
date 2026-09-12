@@ -18,20 +18,14 @@ import math
 import carla
 import numpy as np
 
-from flyhard.crossing import CROSSING_DEPTH, FRONT_OVERHANG, SENSING_RANGE, observation
+# Free play lives in flyhard.crossing so the kinematic teaching model and the car
+# apply exactly the same linkage. Without it the small residual the policy's sigmoid
+# cannot drive to zero acts as a permanent light brake, which stops the automatic
+# gearbox engaging from rest and pins the car with the throttle open.
+from flyhard.crossing import (BRAKE_FREE_PLAY, CROSSING_DEPTH, FRONT_OVERHANG, SENSING_RANGE,
+                              THROTTLE_FREE_PLAY, observation, past_free_play)
 
 WALKER_Z = .92
-# Real pedals have free travel before anything engages. Without it, the small
-# residual the policy's sigmoid cannot drive to zero acts as a permanent light
-# brake, which stops the automatic gearbox engaging from rest and pins the car
-# with the throttle open. This is a fixed mechanical property of the linkage,
-# applied identically to every trial, and is not a learned quantity.
-BRAKE_FREE_PLAY = .15
-THROTTLE_FREE_PLAY = .06
-
-
-def past_free_play(value, free_play):
-    return max(0., (value-free_play)/(1.-free_play))
 
 
 def group_crosswalks(points):
@@ -213,6 +207,22 @@ class CrossingWorld:
         control.speed = float(speed)
         self.walker.apply_control(control)
         return y, direction*speed if walking else 0., walking
+
+    def hazard(self, now):
+        """Advance the other road user and report what the policy may measure.
+
+        Returns the values `observe` takes plus the fields the scorer needs, so one
+        evaluation loop serves every scenario without knowing what the hazard is.
+        """
+        pedestrian_y, lateral_speed, walking = self.step_walker(now)
+        return (pedestrian_y, lateral_speed), {'pedestrian_y': float(pedestrian_y),
+                                               'walking': bool(walking)}
+
+    def done(self, state):
+        return bool(state[0]+FRONT_OVERHANG > self.case.walk_offset+14.)
+
+    def focus(self):
+        return self.site['centre']
 
     def observe(self, pedestrian_y, lateral_speed, throttle, brake):
         return observation(self.scenario_state(), self.case, pedestrian_y, lateral_speed, throttle, brake)

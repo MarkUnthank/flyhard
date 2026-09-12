@@ -27,6 +27,18 @@ COAST_DECEL = 4.38     # Lifting off, engine braking included.
 BRAKE_GAIN = 3.78      # Extra deceleration at full brake, on top of coasting.
 APPROACH_LAG = 0.20    # First-order rate at which speed approaches its terminal value.
 BRAKE_DECEL = COAST_DECEL+BRAKE_GAIN   # Full-brake deceleration, 8.16 m/s^2.
+# Real pedals have free travel before anything engages. This is a fixed property of
+# the linkage, applied identically in the kinematic model and in CARLA; keeping it
+# here rather than only in the native world stops the two disagreeing about what a
+# given pedal position does.
+BRAKE_FREE_PLAY = .15
+THROTTLE_FREE_PLAY = .06
+# Lifting off already sheds COAST_DECEL, which is firm, so a planned stop is built
+# around coasting with the brake carrying a steady trim on top. Planning for exactly
+# COAST_DECEL would leave the brake at zero for the whole stop and give the policy
+# nothing to clone; a little firmer keeps the pedal engaged throughout.
+PLAN_DECEL = COAST_DECEL+.9
+STOP_SETBACK = .4      # Come to rest this far short of the line.
 PEDESTRIAN_RADIUS = .35
 FRONT_OVERHANG = CAR_LENGTH-REAR_TO_CENTER
 ENCROACH_MARGIN = .5   # Past the stop line by more than this counts as entering.
@@ -149,16 +161,45 @@ def encode(observations):
     return np.concatenate([raw, place, place*speed[:, None], place*a[:, 2, None]], axis=1).astype(np.float32)
 
 
-def terminal_speed(throttle):
-    """Speed this throttle settles at, interpolated from the measured CARLA response."""
+def past_free_play(value, free_play):
+    """Pedal travel that actually reaches the mechanism."""
+    return max(0., (float(value)-free_play)/(1.-free_play))
+
+
+def terminal_speed(pedal):
+    """Speed this throttle pedal settles at, from the measured CARLA response.
+
+    The map was measured against CARLA's throttle input, so the pedal's free play
+    has to come off first or the model and the car disagree about every cruise.
+    """
     grid = np.asarray(THROTTLE_TERMINAL)
-    return float(np.interp(float(np.clip(throttle, 0, 1)), grid[:, 0], grid[:, 1]))
+    applied = past_free_play(np.clip(pedal, 0, 1), THROTTLE_FREE_PLAY)
+    return float(np.interp(applied, grid[:, 0], grid[:, 1]))
 
 
 def throttle_for_speed(speed):
-    """Inverse of the measured map: the throttle that holds this speed."""
+    """Inverse of the measured map: the throttle pedal that holds this speed."""
     grid = np.asarray(THROTTLE_TERMINAL)
-    return float(np.interp(float(max(speed, 0.)), grid[:, 1], grid[:, 0]))
+    applied = float(np.interp(float(max(speed, 0.)), grid[:, 1], grid[:, 0]))
+    return float(np.clip(applied*(1.-THROTTLE_FREE_PLAY)+THROTTLE_FREE_PLAY, 0., 1.)) if applied > 0 else 0.
+
+
+def brake_decel(pedal):
+    """Deceleration from a brake pedal position, free play included."""
+    return COAST_DECEL+BRAKE_GAIN*past_free_play(np.clip(pedal, 0, 1), BRAKE_FREE_PLAY)
+
+
+def brake_for_decel(wanted):
+    """Inverse: the brake pedal that produces this deceleration. Zero means coast."""
+    applied = (float(wanted)-COAST_DECEL)/BRAKE_GAIN
+    if applied <= 0.:
+        return 0.
+    return float(np.clip(applied*(1.-BRAKE_FREE_PLAY)+BRAKE_FREE_PLAY, 0., 1.))
+
+
+def stop_begins_at(speed):
+    """Distance to the resting point at which a planned stop has to start."""
+    return speed*speed/(2*PLAN_DECEL)
 
 
 def kinematic_step(state, throttle, brake, dt=.05):
@@ -168,11 +209,12 @@ def kinematic_step(state, throttle, brake, dt=.05):
     The teacher never presses both pedals, so the two regimes are exclusive.
     """
     state = np.array(state, float, copy=True)
-    brake = float(np.clip(brake, 0, 1))
-    if brake > .02:
-        acceleration = -(COAST_DECEL+BRAKE_GAIN*brake)
-    else:
+    if past_free_play(brake, BRAKE_FREE_PLAY) > 0.:
+        acceleration = -brake_decel(brake)
+    elif past_free_play(throttle, THROTTLE_FREE_PLAY) > 0.:
         acceleration = APPROACH_LAG*(terminal_speed(throttle)-state[1])
+    else:
+        acceleration = -COAST_DECEL if state[1] > 0. else 0.
     state[1] = max(0., state[1]+acceleration*dt)
     state[0] += state[1]*dt
     return state

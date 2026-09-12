@@ -1,26 +1,24 @@
 #!/usr/bin/env python3
-"""Native CARLA held-out trials for the pedestrian crossing, through measured pedals.
+"""Native CARLA held-out trials for one scenario, through measured pedals.
 
-The learned policy chooses throttle and brake only. Offline IK drives the fly's
-legs onto the pedals and CARLA receives the measured travel, never the demand.
-Steering is a conventional lane-keeping request and is recorded as such.
+The learned policy chooses throttle and brake only. Offline IK drives the fly's legs
+onto the pedals and CARLA receives the measured travel, never the demand. Steering is
+a conventional lane-keeping request and is recorded as such.
 
-With --record, each trial also writes wide/chase/cabin footage and registers a
-take in the clip library, so one CARLA pass yields both the benchmark and the
-film material.
+With --record, each trial also writes wide/chase/cabin footage and registers a take in
+the clip library, so one CARLA pass yields both the benchmark and the film material.
 """
 import argparse
 import gzip
 import hashlib
 import json
 from pathlib import Path
-import time
 
 import numpy as np
 import torch
 
 from flyhard.clips import ClipLibrary, Take
-from flyhard.crossing import FRONT_OVERHANG, cases, encode, metrics
+from flyhard.scenarios import get
 
 CONTROL_DT = .05   # The policy runs at 20 Hz; CARLA steps physics at its own smaller dt.
 
@@ -30,15 +28,20 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def load_policy(checkpoint, graph_dir, reset_core=False):
-    from flyhard.crossing_policy import CrossingPolicy
+def load_policy(checkpoint, graph_dir, core, reset_core=False):
+    from flyhard.scenario_policy import PedalPolicy
     with gzip.open(checkpoint, 'rb') as handle:
         saved = torch.load(handle, map_location='cpu', weights_only=False)
     if sha(Path(graph_dir)/'graph.npz') != saved['config']['graph_sha256']:
         raise RuntimeError('Graph identity mismatch')
     state = saved['model']
-    policy = CrossingPolicy(np.load(Path(graph_dir)/'graph.npz'), state['sensory_ids'],
-                            state['motor_ids'], saved['config']['seed'])
+    # Checkpoints from the scenario-specific trainer predate the recorded feature
+    # count; the encoder is the authority either way, so derive it and check.
+    width = core.encode(np.zeros((1, len(core.OBSERVATION_FIELDS)), np.float32)).shape[1]
+    if saved['config'].get('feature_count', width) != width:
+        raise RuntimeError('Checkpoint was trained against a different encoder width')
+    policy = PedalPolicy(np.load(Path(graph_dir)/'graph.npz'), state['sensory_ids'],
+                         state['motor_ids'], width, saved['config']['seed'])
     missing, extra = policy.load_state_dict(state, strict=False)
     assert set(missing) == {'core.crow', 'core.col', 'core.rows', 'core.base'} and not extra
     if reset_core:
@@ -48,56 +51,79 @@ def load_policy(checkpoint, graph_dir, reset_core=False):
     return policy.cuda().eval(), saved
 
 
+def describe(scenario, case, score):
+    if scenario.name == 'crossing':
+        if score['contact']:
+            return 'hit the pedestrian'
+        if score['yielded_before_line']:
+            return 'stopped for the pedestrian'
+        return 'drove on, crossing clear' if not score['stop_required'] else 'failed to yield'
+    if score['contact']:
+        return 'collided in the junction'
+    if score['unnecessary_stop']:
+        return 'stopped when it had priority'
+    if score['yielded_before_line']:
+        return ('gave way to the ambulance' if case.emergency
+                else 'gave way to the right')
+    return 'took the junction' if not score['stop_required'] else 'failed to give way'
+
+
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--scenario', required=True)
     parser.add_argument('--checkpoint', required=True)
     parser.add_argument('--out', required=True)
     parser.add_argument('--graph', default='data/graph-traced-v1')
     parser.add_argument('--split', default='heldout')
     parser.add_argument('--count', type=int, default=8)
+    parser.add_argument('--first', type=int, default=0, help='Skip this many cases of the split')
     parser.add_argument('--seconds', type=float, default=30.)
-    parser.add_argument('--town', default='Town05')
+    parser.add_argument('--town')
     parser.add_argument('--record', help='Clip library root; records three camera angles per trial')
     parser.add_argument('--reset-core', action='store_true',
                         help='Zero the learned core as a control condition')
-    parser.add_argument('--label', default='')
+    parser.add_argument('--attempt', type=int, default=1)
     args = parser.parse_args()
 
+    scenario = get(args.scenario)
+    core, _ = scenario.modules
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=False)
-    policy, saved = load_policy(args.checkpoint, args.graph, args.reset_core)
+    policy, saved = load_policy(args.checkpoint, args.graph, core, args.reset_core)
 
-    from flyhard.crossing_world import CrossingWorld
     from flyhard.parking_rig import make_parking_rig
-    env = CrossingWorld(town=args.town)
+    env = scenario.load_world()(**({'town': args.town} if args.town else {}))
     rig = make_parking_rig()
     rig.prepare_controls()
     library = ClipLibrary(args.record) if args.record else None
     results = []
+    ticks = round(CONTROL_DT/env.dt)
+    assert abs(ticks*env.dt-CONTROL_DT) < 1e-9, 'Control period must be whole CARLA ticks'
     try:
         (out/'site.json').write_text(json.dumps(env.metadata(), indent=2)+'\n')
         print(json.dumps({'site': env.metadata()}), flush=True)
-        for case in cases(args.split, args.count):
+        selected = core.cases(args.split, args.first+args.count)[args.first:]
+        for case in selected:
             env.start(case)
             rig.reset()
             cameras = None
             if library:
-                take_dir = library.root/'crossing'/'pending'/f'crossing-s{case.seed:05d}-a01'
+                take_dir = (library.root/scenario.name/'pending'
+                            / f'{scenario.name}-s{case.seed:05d}-a{args.attempt:02d}')
                 take_dir.mkdir(parents=True, exist_ok=True)
                 from flyhard.scenario_cameras import ScenarioCameras
-                cameras = ScenarioCameras(env, take_dir, env.site['centre'], env.approach_yaw)
+                cameras = ScenarioCameras(env, take_dir, env.focus(), env.approach_yaw,
+                                          fps=round(1/CONTROL_DT))
             env.release()
             throttle = brake = 0.
             rows, trajectory, activity = [], [], []
             started = env.world.get_snapshot().timestamp.elapsed_seconds
-            ticks = round(CONTROL_DT/env.dt)
-            assert abs(ticks*env.dt-CONTROL_DT) < 1e-9, 'Control period must be whole CARLA ticks'
             for step in range(round(args.seconds/CONTROL_DT)):
                 now = env.world.get_snapshot().timestamp.elapsed_seconds-started
-                pedestrian_y, lateral_speed, walking = env.step_walker(now)
-                observation = env.observe(pedestrian_y, lateral_speed, throttle, brake)
+                values, extra = env.hazard(now)
+                observation = env.observe(*values, throttle, brake)
                 with torch.no_grad():
-                    output, neural = policy(torch.tensor(encode(observation), device='cuda'),
+                    output, neural = policy(torch.tensor(core.encode(observation), device='cuda'),
                                             return_state=True)
                 demand = output[0].cpu().numpy()
                 activity.append(neural[:, 0].cpu().numpy().astype(np.float16))
@@ -109,46 +135,40 @@ def main():
                 measured = rig.parking.measured
                 throttle, brake = measured['throttle'], measured['brake']
                 env.apply_measured(throttle, brake, steer)
-                # Hold the pedals for one control period, which is several physics ticks.
                 for _ in range(ticks):
                     frame = env.world.tick()
                 state = env.scenario_state()
                 if cameras:
                     snapshot = env.world.get_snapshot()
                     cameras.capture(step, frame, snapshot.timestamp.elapsed_seconds)
-                trajectory.append({'state': state.copy(), 'pedestrian_y': pedestrian_y,
-                                   'walking': walking})
+                trajectory.append({'state': state.copy(), **extra})
                 rows.append({'time': (step+1)*CONTROL_DT, 'carla_frame': frame,
                              'vehicle_matrix': env.ego.get_transform().get_matrix(),
                              'neural_index': len(activity)-1,
                              'observation': observation.tolist(),
                              'demand_throttle': float(demand[0]), 'demand_brake': float(demand[1]),
                              'measured_throttle': throttle, 'measured_brake': brake,
-                             'lane_steer_request': steer,
-                             'front_to_line': float(state[0]+FRONT_OVERHANG),
-                             'speed_m_s': float(state[1]), 'pedestrian_y': float(pedestrian_y),
-                             'pedestrian_walking': bool(walking)})
-                if env.collision_events:
+                             'lane_steer_request': steer, 'speed_m_s': float(state[1]),
+                             'front_to_line': float(state[0]+core.FRONT_OVERHANG), **extra})
+                if env.collision_events or env.done(state):
                     break
-                if state[0]+FRONT_OVERHANG > case.walk_offset+14.:
-                    break
-            score = metrics(trajectory, case)
+            score = core.metrics(trajectory, case)
             score['native_collision_events'] = list(env.collision_events)
             score['contact'] = bool(score['contact'] or env.collision_events)
             score['passed'] = bool(score['passed'] and not env.collision_events)
             duration = rows[-1]['time']
-            results.append({'seed': case.seed, 'split': case.split, 'duration_seconds': duration, **score})
-            print(json.dumps({'seed': case.seed, 'passed': score['passed'],
-                              'stop_required': score['stop_required'], 'contact': score['contact'],
-                              'yielded': score['yielded_before_line'],
-                              'unnecessary_stop': score['unnecessary_stop']}), flush=True)
+            results.append({'seed': case.seed, 'split': case.split,
+                            'duration_seconds': duration, **score})
+            print(json.dumps({k: v for k, v in results[-1].items()
+                              if k != 'native_collision_events'}), flush=True)
 
             trial = out/str(case.seed)
             trial.mkdir()
             box = env.ego.bounding_box
             (trial/'config.json').write_text(json.dumps(
                 {'fps': round(1/CONTROL_DT), 'policy_hz': round(1/CONTROL_DT),
-                 'physics_dt': env.dt, 'case': case.record(), **env.metadata(),
+                 'physics_dt': env.dt, 'scenario': scenario.name, 'case': case.record(),
+                 **env.metadata(),
                  'vehicle_bounds': {'location': [box.location.x, box.location.y, box.location.z],
                                     'extent': [box.extent.x, box.extent.y, box.extent.z]},
                  'motion': 'Measured pedal travel drives CARLA; offline IK moves the fly legs. '
@@ -159,14 +179,13 @@ def main():
 
             if cameras:
                 cameras.close()
-                outcome = 'success' if score['passed'] else 'failure'
-                take = Take(scenario='crossing', seed=case.seed, attempt=1, outcome=outcome,
+                take = Take(scenario=scenario.name, seed=case.seed, attempt=args.attempt,
+                            outcome='success' if score['passed'] else 'failure',
                             duration_seconds=duration, fps=round(1/CONTROL_DT),
                             cameras=cameras.relative_paths(),
-                            metrics={k: v for k, v in score.items() if k != 'native_collision_events'},
-                            label=args.label or ('yielded to pedestrian' if score['yielded_before_line']
-                                                 else 'drove through' if not score['stop_required']
-                                                 else 'did not yield'),
+                            metrics={k: v for k, v in score.items()
+                                     if k != 'native_collision_events'},
+                            label=describe(scenario, case, score),
                             checkpoint_sha256=sha(args.checkpoint))
                 final = library.directory(take)
                 final.parent.mkdir(parents=True, exist_ok=True)
@@ -180,18 +199,18 @@ def main():
 
     passed = sum(r['passed'] for r in results)
     required = [r for r in results if r['stop_required']]
-    summary = {'checkpoint': args.checkpoint, 'checkpoint_sha256': sha(args.checkpoint),
-               'split': args.split, 'trials': len(results), 'passed': passed,
+    summary = {'scenario': scenario.name, 'checkpoint': args.checkpoint,
+               'checkpoint_sha256': sha(args.checkpoint), 'split': args.split,
+               'trials': len(results), 'passed': passed,
                'pass_rate': round(passed/max(len(results), 1), 4),
                'contacts': sum(r['contact'] for r in results),
-               'entered_on_pedestrian': sum(r['entered_on_pedestrian'] for r in results),
                'stop_required_trials': len(required),
                'yielded_when_required': sum(r['yielded_before_line'] for r in required),
                'unnecessary_stops': sum(r['unnecessary_stop'] for r in results),
                'reset_core': args.reset_core, 'results': results,
                'environment': 'native CARLA with measured pedal travel',
-               'claim': 'Scoped pedestrian-crossing benchmark on frozen held-out cases. '
-                        'Not general autonomous driving, and steering is not learned.'}
+               'claim': scenario.claim+' Frozen held-out cases; not general autonomous driving, '
+                        'and steering is not learned.'}
     (out/'metrics.json').write_text(json.dumps(summary, indent=2)+'\n')
     print(json.dumps({k: v for k, v in summary.items() if k != 'results'}, indent=2), flush=True)
     if library:

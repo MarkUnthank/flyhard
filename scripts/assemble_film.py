@@ -16,6 +16,41 @@ from pathlib import Path
 from flyhard.clips import ClipLibrary
 
 TRANSITIONS = ('cut', 'fade')
+FONT = 'assets/fonts/Geist.ttf'
+
+
+def escape(text):
+    """ffmpeg drawtext takes its text through two levels of parsing."""
+    return (str(text).replace('\\', r'\\\\').replace(':', r'\:')
+            .replace("'", r"\'").replace('%', r'\%'))
+
+
+def caption(chain, plan, shot, width, height):
+    """Section title, shot label and outcome badge, burnt in over the start of a shot.
+
+    Every caption states what the footage is; none of them adds anything the take's
+    own recorded metrics do not already say.
+    """
+    font = plan.get('font', FONT)
+    hold = float(plan.get('caption_seconds', 2.6))
+    scale = height/1080
+    if shot['first_of_section']:
+        chain += (f",drawbox=x=0:y={int(height*.36)}:w={width}:h={int(height*.17)}:"
+                  f"color=black@0.62:t=fill:enable='lt(t,{hold+.6})'")
+        chain += (f",drawtext=fontfile={font}:text='{escape(shot['section'].upper())}':"
+                  f"fontcolor=white:fontsize={int(58*scale)}:x=(w-text_w)/2:"
+                  f"y={int(height*.40)}:enable='lt(t,{hold+.6})'")
+    if shot.get('label'):
+        chain += (f",drawtext=fontfile={font}:text='{escape(shot['label'])}':"
+                  f"fontcolor=white:fontsize={int(34*scale)}:box=1:boxcolor=black@0.55:"
+                  f"boxborderw={int(14*scale)}:x={int(52*scale)}:y=h-th-{int(58*scale)}:"
+                  f"enable='lt(t,{hold})'")
+    badge = 'SUCCESS' if shot['outcome'] == 'success' else 'FAILURE'
+    colour = '0x7ce07c' if shot['outcome'] == 'success' else '0xff7a6b'
+    chain += (f",drawtext=fontfile={font}:text='{badge}':fontcolor={colour}:"
+              f"fontsize={int(30*scale)}:box=1:boxcolor=black@0.55:boxborderw={int(12*scale)}:"
+              f"x=w-text_w-{int(52*scale)}:y={int(52*scale)}:enable='lt(t,{hold})'")
+    return chain
 
 
 def sha(path):
@@ -63,6 +98,8 @@ def build_filters(shots, inputs, plan):
         chain = (f"[{stream}:v]trim=start={shot['start']}:end={end},setpts=PTS-STARTPTS,"
                  f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
                  f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,setsar=1")
+        if plan.get('captions', True):
+            chain = caption(chain, plan, shot, width, height)
         if shot['transition'] == 'fade':
             chain += f",fade=t=in:st=0:d={fade}"
         parts.append(f"{chain}[v{i}]")
@@ -140,9 +177,11 @@ def main():
                'library_root': str(library.root),
                'edit_environment': {'os': platform.system(), 'architecture': platform.machine(),
                                     'ffmpeg': shutil.which('ffmpeg')},
+               'captions': bool(plan.get('captions', True)),
                'claim': 'Montage of separately recorded takes. Every shot is real recorded footage '
                         'selected by identifier from the clip library; no frames are synthesised, '
-                        'retimed or blended between takes. Failures are shown as failures.'}
+                        'retimed or blended between takes. Failures are shown as failures, and '
+                        'every burnt-in caption restates what that take\'s own metrics record.'}
     (out / 'edit-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps({'output': str(output), 'timeline': timeline}, indent=2))
 

@@ -7,9 +7,9 @@ occupy the swept band by the time the car arrives, and brakes only for that.
 import math
 import numpy as np
 
-from flyhard.crossing import (BRAKE_DECEL, BRAKE_GAIN, COAST_DECEL, CONFLICT_HALF_WIDTH,
-                              CROSSING_DEPTH, FRONT_OVERHANG, PEDESTRIAN_RADIUS,
-                              in_conflict, stopping_distance, throttle_for_speed)
+from flyhard.crossing import (COAST_DECEL, CONFLICT_HALF_WIDTH, CROSSING_DEPTH, FRONT_OVERHANG,
+                              PEDESTRIAN_RADIUS, PLAN_DECEL, STOP_SETBACK, brake_for_decel,
+                              in_conflict, stop_begins_at, throttle_for_speed)
 
 RELEASE_MARGIN = .9   # Extra lateral clearance demanded before resuming.
 
@@ -37,35 +37,47 @@ def clear(pedestrian_y, lateral_speed):
 
 
 def target(state, case, pedestrian_y, lateral_speed):
-    """Return the demonstrated (throttle, brake) pair for one control tick."""
+    """Return the demonstrated (throttle, brake) pair for one control tick.
+
+    The approach speed is held until the stop has to begin, then the car coasts down
+    with the brake trimming the last of the deceleration, so the pedal is engaged and
+    modulated for the whole stop. An earlier version braked only in the final metres,
+    which put the brake label in a handful of frames out of hundreds and gave the
+    policy almost nothing to clone.
+    """
     front = state[0]+FRONT_OVERHANG
     speed = state[1]
     to_line = -front
 
     yielding = (threatens(front, speed, case, pedestrian_y, lateral_speed)
                 and not clear(pedestrian_y, lateral_speed))
-    if yielding:
-        if to_line <= .15 and speed < .3:
-            return np.array([0., 1.], np.float32)         # Hold at the line.
-        # Lifting off alone sheds COAST_DECEL, which is firm. Braking the instant a
-        # pedestrian is seen therefore parks the car tens of metres short. Hold speed
-        # until the stop actually has to begin, then stop firmly at the line.
-        begin_at = 1.25*stopping_distance(speed)+1.5
-        if to_line > begin_at and speed > 1.:
-            return cruise(case, speed)
-        needed = speed*speed/(2*max(to_line, .12))
-        # Coasting already supplies COAST_DECEL; the pedal provides only the excess.
-        brake = float(np.clip((1.15*needed-COAST_DECEL)/BRAKE_GAIN, .06 if speed > .3 else .6, 1.))
-        return np.array([0., brake], np.float32)
+    if not yielding:
+        return cruise(case, speed)
 
-    return cruise(case, speed)
+    to_stop = to_line-STOP_SETBACK
+    if to_stop <= .05 or (speed < .4 and to_stop < 1.5):
+        return np.array([0., 1.], np.float32)             # Hold at the line.
+
+    needed = speed*speed/(2*max(to_stop, .05))
+    if needed < PLAN_DECEL and speed > .5 and to_stop > 2.:
+        # Still outside the stopping distance. Braking here would park the car tens
+        # of metres short, so hold the approach speed until the stop must begin. The
+        # distance guard stops the car blipping the throttle in the final metre once
+        # coasting has already brought it under the planned deceleration.
+        return cruise(case, speed)
+    # Inside it: coasting supplies COAST_DECEL and the pedal carries the rest, so the
+    # brake stays engaged and modulated for the whole stop rather than for one frame.
+    return np.array([0., float(np.clip(brake_for_decel(needed), 0., 1.))], np.float32)
 
 
-def cruise(case, speed):
-    """Hold the approach speed using the measured throttle/speed map, not an invented gain."""
-    target = case.approach_speed
+def cruise(case, speed, target=None):
+    """Hold a speed using the measured throttle/speed map, not an invented gain."""
+    target = case.approach_speed if target is None else float(target)
+    if target <= .05:
+        return np.array([0., 0.], np.float32)
     if speed > target+1.2:
-        return np.array([0., float(np.clip((speed-target-1.2)*.25, 0, .4))], np.float32)
+        return np.array([0., float(np.clip(brake_for_decel(COAST_DECEL+(speed-target)*.8), 0, .5))],
+                        np.float32)
     aim = target+1.5*(target-speed)
     return np.array([float(np.clip(throttle_for_speed(aim), 0, 1.)), 0.], np.float32)
 
