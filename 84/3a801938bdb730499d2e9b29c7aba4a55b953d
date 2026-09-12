@@ -1,0 +1,41 @@
+scripts/plan_film.py
+  s_7e690e84d597d0::t_96cb5f872c7148 58-60,64,122,127-129,131-132,148,165,168
+  s_7e690e84d597d0::t_a3864043ab8633 198,208-214,221,225-234,245-247
+  s_7e690e84d597d0::t_a9ec80db94b2a9 155,189-197,199-204,217-220,222-224,253-278,329-330
+  s_7e690e84d597d0::t_da23e58ccd38c0 154
+  s_7e690e84d597d0::t_caa97aaba27022 10,296-301,313-317,320-328,335
+  s_7e690e84d597d0::t_b5e63d8ba6cbb9 12,15-16,68-114
+  s_7e690e84d597d0::t_94d4ba65edd1ab 205-207,235-244,248-252
+  s_7e690e84d597d0::t_ad74697a27fded 20-23,25,119,123-126,130,133-139,147,166-167
+  s_7e690e84d597d0::t_1e9d5cc9242b8e 215-216
+src/flyhard/scenario_cameras.py
+  s_7e690e84d597d0::t_9ee2d3130b74fd 22,120-123,174-175,184,191,193,196-197,199,201,205-206,208,227-228,231-234
+scripts/evaluate_scenario.py
+  s_7e690e84d597d0::t_9c6a2e93731716 84-85,102-103
+  s_7e690e84d597d0::t_3952ac65cb63fb 91-92,105,109
+  s_7e690e84d597d0::t_27feba60886b4d 247-250
+tests/test_film_plan.py
+  s_7e690e84d597d0::t_1753511045c20c 1-62,82,85-86,92-95,99-140,142-144,153-176
+  s_7e690e84d597d0::t_ef3e3cb6560e36 63-81,83-84,87-91,96-98,141,145-152
+  s_7e690e84d597d0::t_94d4ba65edd1ab 202-211,213,215-221
+  s_7e690e84d597d0::t_d2f2dd39521779 212,214
+  s_7e690e84d597d0::t_06fcbcd057950a 177-201
+scripts/assemble_film.py
+  s_7e690e84d597d0::t_08eea89784e59d 19-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "843a801938bdb730499d2e9b29c7aba4a55b953d",
+  "prompts": {},
+  "sessions": {
+    "s_7e690e84d597d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b6756c1-b35e-42b1-8cda-c2fc742ae640",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
