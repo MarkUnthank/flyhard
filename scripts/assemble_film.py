@@ -19,10 +19,57 @@ TRANSITIONS = ('cut', 'fade')
 FONT = 'assets/fonts/Geist.ttf'
 
 
+def has_drawtext():
+    """Whether this ffmpeg can burn text itself. Homebrew's build often cannot."""
+    probe = subprocess.run(['ffmpeg', '-hide_banner', '-filters'], capture_output=True, text=True)
+    return any(line.split()[1:2] == ['drawtext'] for line in probe.stdout.splitlines()
+               if len(line.split()) > 1)
+
+
 def escape(text):
     """ffmpeg drawtext takes its text through two levels of parsing."""
     return (str(text).replace('\\', r'\\\\').replace(':', r'\:')
             .replace("'", r"\'").replace('%', r'\%'))
+
+
+def caption_image(plan, shot, width, height, path):
+    """Draw a shot's captions to a transparent PNG.
+
+    Text is drawn here rather than by ffmpeg because drawtext needs a build with
+    libfreetype and plenty do not have one; overlay is in every build. The layout is
+    the same either way, and what it says still comes only from the take's own metrics.
+    """
+    from PIL import Image, ImageDraw, ImageFont
+    scale = height/1080
+    image = Image.new('RGBA', (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
+    font = plan.get('font', FONT)
+    def face(size):
+        return ImageFont.truetype(font, max(int(size*scale), 8))
+    if shot['first_of_section']:
+        draw.rectangle([0, int(height*.36), width, int(height*.53)], fill=(0, 0, 0, 158))
+        title = shot['section'].upper()
+        large = face(58)
+        draw.text(((width-draw.textlength(title, font=large))/2, int(height*.40)), title,
+                  font=large, fill=(255, 255, 255, 255))
+    if shot.get('label'):
+        small = face(34)
+        text = shot['label']
+        pad = int(14*scale)
+        x, y = int(52*scale), height-int(58*scale)-small.size-2*pad
+        box = draw.textlength(text, font=small)
+        draw.rectangle([x-pad, y-pad, x+box+pad, y+small.size+pad], fill=(0, 0, 0, 140))
+        draw.text((x, y), text, font=small, fill=(255, 255, 255, 255))
+    badge = 'SUCCESS' if shot['outcome'] == 'success' else 'FAILURE'
+    colour = (124, 224, 124, 255) if shot['outcome'] == 'success' else (255, 122, 107, 255)
+    medium = face(30)
+    pad = int(12*scale)
+    box = draw.textlength(badge, font=medium)
+    x, y = width-int(52*scale)-box, int(52*scale)
+    draw.rectangle([x-pad, y-pad, x+box+pad, y+medium.size+pad], fill=(0, 0, 0, 140))
+    draw.text((x, y), badge, font=medium, fill=colour)
+    image.save(path)
+    return path
 
 
 def caption(chain, plan, shot, width, height):
@@ -86,20 +133,44 @@ def resolve(plan, library):
     return shots, round(offset, 3)
 
 
-def build_filters(shots, inputs, plan):
+def build_filters(shots, inputs, plan, overlays=None):
     """One trim per shot, concatenated in order. Fades are applied per shot, not cross-faded,
-    so a shot's own frames are never blended with a different take's frames."""
+    so a shot's own frames are never blended with a different take's frames.
+
+    `overlays` maps a shot index to the input index of its caption image; where it is
+    given the captions arrive as pictures instead of through drawtext.
+    """
     parts, labels = [], []
     fade = float(plan.get('fade_seconds', .25))
+    hold = float(plan.get('caption_seconds', 2.6))
     width, height = plan.get('resolution', [1920, 1080])
+    fit = plan.get('fit', 'cover')
+    overlays = overlays or {}
     for i, shot in enumerate(shots):
         stream = inputs[shot['source']]
         end = shot['start'] + shot['duration']
+        # The cameras render 4:3 and the film is 16:9. Filling the frame and cropping
+        # the surplus beats pillarboxing: the bars would swallow a quarter of the
+        # picture and leave the captions floating in black. The raw takes keep the
+        # full frame, so nothing is actually lost.
+        if fit == 'contain':
+            geometry = (f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
+                        f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
+        else:
+            geometry = (f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+                        f"crop={width}:{height}")
         chain = (f"[{stream}:v]trim=start={shot['start']}:end={end},setpts=PTS-STARTPTS,"
-                 f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
-                 f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,setsar=1")
-        if plan.get('captions', True):
+                 f"{geometry},setsar=1")
+        if plan.get('captions', True) and i not in overlays:
             chain = caption(chain, plan, shot, width, height)
+        if i in overlays:
+            parts.append(f"{chain}[base{i}]")
+            # The caption holds a little longer on a section's first shot, which is the
+            # one carrying the title card.
+            shown = hold+(.6 if shot['first_of_section'] else 0.)
+            parts.append(f"[{overlays[i]}:v]scale={width}:{height},setsar=1[cap{i}]")
+            chain = (f"[base{i}][cap{i}]overlay=0:0:format=auto:"
+                     f"enable='lt(t,{shown})'")
         if shot['transition'] == 'fade':
             chain += f",fade=t=in:st=0:d={fade}"
         parts.append(f"{chain}[v{i}]")
@@ -144,18 +215,31 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     ordered = list(dict.fromkeys(shot['source'] for shot in shots))
     inputs = {source: i for i, source in enumerate(ordered)}
-    parts, video = build_filters(shots, inputs, plan)
+    width, height = plan.get('resolution', [1920, 1080])
+    # Where ffmpeg cannot burn text itself, draw the captions to images and overlay
+    # them. The result is the same and it does not depend on how ffmpeg was built.
+    overlays, caption_files = {}, []
+    if plan.get('captions', True) and not has_drawtext():
+        captions = out/'captions'
+        captions.mkdir()
+        for i, shot in enumerate(shots):
+            path = caption_image(plan, shot, width, height, captions/f'shot-{i:03d}.png')
+            overlays[i] = len(ordered)+len(caption_files)
+            caption_files.append(str(path))
+    parts, video = build_filters(shots, inputs, plan, overlays)
 
     command = ['ffmpeg', '-nostdin', '-v', 'error', '-y']
     for source in ordered:
         command += ['-i', source]
+    for path in caption_files:
+        command += ['-i', path]
     maps = ['-map', video]
     music = plan.get('music')
     if music:
         if sha(music['file']) != music['sha256']:
             raise SystemExit('Music file does not match its recorded checksum')
         command += ['-i', music['file']]
-        index = len(ordered)
+        index = len(ordered)+len(caption_files)
         parts.append(f"[{index}:a]atrim=start={music.get('start_seconds', 0)}:duration={total},"
                      f"asetpts=PTS-STARTPTS,loudnorm=I=-17:TP=-1.5:LRA=11,"
                      f"afade=t=in:d=0.1,afade=t=out:st={max(total-1.5, 0)}:d=1.5[a]")
@@ -178,6 +262,7 @@ def main():
                'edit_environment': {'os': platform.system(), 'architecture': platform.machine(),
                                     'ffmpeg': shutil.which('ffmpeg')},
                'captions': bool(plan.get('captions', True)),
+               'caption_method': 'overlaid images' if overlays else 'ffmpeg drawtext',
                'claim': 'Montage of separately recorded takes. Every shot is real recorded footage '
                         'selected by identifier from the clip library; no frames are synthesised, '
                         'retimed or blended between takes. Failures are shown as failures, and '
