@@ -94,7 +94,7 @@ try {
   );
   await writeFile(
     join(press, "press-notes.txt"),
-    `THE DRIVING FLY — PRESS KIT\nUpdated ${kit.updated}\nhttps://thedrivingfly.com/press\nPress contact: Mark Unthank, ${kit.contact}\n\nPROJECT SUMMARY\n${kit.summary}\n\nBACKGROUND\n${kit.boilerplate}\n\nABOUT MARK\n${kit.aboutMark.headline}\n${kit.aboutMark.paragraphs.join("\n\n")}\n${kit.aboutMark.linkLabel}: ${kit.aboutMark.linkUrl}\n\nA NOTE FROM MARK UNTHANK\n“${kit.quote}”\n\nSOCIAL PROOF\n${kit.socialViews}\n${socialPosts}\n\nQUICK FACTS\n${kit.facts.map((fact) => `${fact.label}: ${fact.value}`).join("\n")}\n\nFILMS & CONTEXT\n${filmNotes}\nCREDITS\n${credits}`,
+    `THE DRIVING FLY — PRESS KIT\nUpdated ${kit.updated}\nhttps://thedrivingfly.com/press\nPress contact: Mark Unthank, ${kit.contact}\n\nPROJECT SUMMARY\n${kit.summary}\n\nBACKGROUND\n${kit.boilerplate}\n\nABOUT MARK\n${kit.aboutMark.paragraphs.join("\n\n")}\n${kit.aboutMark.linkLabel}: ${kit.aboutMark.linkUrl}\n\nA NOTE FROM MARK UNTHANK\n“${kit.quote}”\n\nSOCIAL PROOF\n${kit.socialViews}\n${socialPosts}\n\nQUICK FACTS\n${kit.facts.map((fact) => `${fact.label}: ${fact.value}`).join("\n")}\n\nFILMS & CONTEXT\n${filmNotes}\nCREDITS\n${credits}`,
   );
   await writeFile(
     join(press, "captions.txt"),
