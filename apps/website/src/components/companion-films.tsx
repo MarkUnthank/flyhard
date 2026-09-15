@@ -19,6 +19,7 @@ export default function CompanionFilms({ films }: { films: Film[] }) {
             controls
             playsInline
             preload="none"
+            poster={`/media/${film.file.replace(/\.mp4$/, ".jpg")}`}
             aria-label={film.title}
             style={{ width: "100%" }}
           >
