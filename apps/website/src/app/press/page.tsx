@@ -266,61 +266,75 @@ export default function PressPage() {
             </a>
           </div>
           <div className={styles.experimentVideos}>
-            {mediaEntries.slice(0, 5).map((film) => (
-              <article className={styles.experimentVideo} key={film.id}>
-                <video
-                  controls
-                  playsInline
-                  preload="none"
-                  poster={`/media/${film.id}.jpg`}
-                  aria-label={film.title}
-                  aria-describedby={`${film.id}-transcript`}
-                >
-                  <source src={`/media/${film.id}.mp4`} type="video/mp4" />
-                  <a href={`/media/${film.id}.mp4`}>Download this recording</a>
-                </video>
-                {film.companionFilms && (
-                  <CompanionFilms films={film.companionFilms} />
-                )}
-                <div id={`${film.id}-transcript`} className="sr-only">
-                  Transcript and audio description. Sound: {film.audio}.{" "}
-                  {film.paragraphs.join(" ")}
-                </div>
-                <details className={styles.videoTranscript}>
-                  <summary>Transcript &amp; audio description</summary>
-                  <div>
-                    <p>
-                      <strong>Sound:</strong> {film.audio}.
-                    </p>
-                    {film.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-                </details>
-                <div className={styles.experimentVideoMeta}>
-                  <span className="eyebrow">
-                    {film.category} · {film.duration}
-                  </span>
-                  <h3>
-                    <a href={`/media#${film.id}`}>{film.title}</a>
-                  </h3>
-                  <p>{film.intro}</p>
-                  <div className={styles.videoActions}>
-                    <a className={styles.textLink} href={`/media#${film.id}`}>
-                      Read the field notes <ArrowUpRight size={15} />
+            {mediaEntries
+              .slice(0, 5)
+              .filter((film) => film.id !== "parallel-parking")
+              .map((film) => (
+                <article className={styles.experimentVideo} key={film.id}>
+                  <video
+                    controls
+                    playsInline
+                    preload="none"
+                    poster={`/media/${film.id}.jpg`}
+                    aria-label={film.title}
+                    aria-describedby={`${film.id}-transcript`}
+                  >
+                    <source src={`/media/${film.id}.mp4`} type="video/mp4" />
+                    <a href={`/media/${film.id}.mp4`}>
+                      Download this recording
                     </a>
-                    <a
-                      className={styles.textLink}
-                      href={`/media/${film.id}.mp4`}
-                      download
-                    >
-                      Download film <ArrowDownToLine size={15} />
-                    </a>
+                  </video>
+                  <div id={`${film.id}-transcript`} className="sr-only">
+                    Transcript and audio description. Sound: {film.audio}.{" "}
+                    {film.paragraphs.join(" ")}
                   </div>
-                </div>
-              </article>
-            ))}
+                  <details className={styles.videoTranscript}>
+                    <summary>Transcript &amp; audio description</summary>
+                    <div>
+                      <p>
+                        <strong>Sound:</strong> {film.audio}.
+                      </p>
+                      {film.paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </details>
+                  <div className={styles.experimentVideoMeta}>
+                    <span className="eyebrow">
+                      {film.category} · {film.duration}
+                    </span>
+                    <h3>
+                      <a href={`/media#${film.id}`}>{film.title}</a>
+                    </h3>
+                    <p>{film.intro}</p>
+                    <div className={styles.videoActions}>
+                      <a className={styles.textLink} href={`/media#${film.id}`}>
+                        Read the field notes <ArrowUpRight size={15} />
+                      </a>
+                      <a
+                        className={styles.textLink}
+                        href={`/media/${film.id}.mp4`}
+                        download
+                      >
+                        Download film <ArrowDownToLine size={15} />
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              ))}
           </div>
+          <CompanionFilms
+            films={[
+              ...(featuredFilm.companionFilms ?? []),
+              {
+                file: `${featuredFilm.id}.mp4`,
+                title: "50 attempts · shorter edit",
+                description: `${featuredFilm.duration}. ${featuredFilm.intro}`,
+                audio: featuredFilm.audio,
+                paragraphs: featuredFilm.paragraphs,
+              },
+            ]}
+          />
         </section>
 
         <section className={styles.section} aria-labelledby="stills-title">
