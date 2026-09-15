@@ -1,0 +1,28 @@
+apps/website/src/lib/press-kit.json
+  s_511101d16885e9::t_08e4ed80c4bb86 2-3,23
+apps/website/scripts/build-press-kit.mjs
+  s_511101d16885e9::t_08e4ed80c4bb86 97
+apps/website/src/app/press/page.tsx
+  s_511101d16885e9::t_a4e2bde63c176c 174-175
+  s_511101d16885e9::t_f57a51a719b7c7 11,33,36,44,88-89,92,95,99,104-105
+apps/website/public/press/credits.txt
+  s_511101d16885e9::t_d4c8fa2e526ccc 2
+apps/website/public/press/press-notes.txt
+  s_511101d16885e9::t_abe3895f07c331 2,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f804efda40803b572096f4374bf510dc19d13c49",
+  "prompts": {},
+  "sessions": {
+    "s_511101d16885e9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a554-21b5-7780-9a53-681a163fe395",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
