@@ -1,0 +1,19 @@
+apps/website/src/components/companion-films.tsx
+  s_7f77d12e232ced::t_20a30b7d72522a 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a1feab19f1ad920fb33a5d45fc106811a2d1ee22",
+  "prompts": {},
+  "sessions": {
+    "s_7f77d12e232ced": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a583-1b56-76c2-88e9-9ae27138a469",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
