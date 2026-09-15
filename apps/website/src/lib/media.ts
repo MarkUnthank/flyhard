@@ -18,6 +18,12 @@ type MediaEntry = {
   evidenceUrl: string;
   evidenceLabel: string;
   evidenceLink?: string;
+  companionFilms?: {
+    file: string;
+    title: string;
+    description: string;
+    audio: string;
+  }[];
   downloads?: { file: string; label: string }[];
   stills?: { file: string; caption: string }[];
 };
@@ -157,6 +163,22 @@ export const mediaEntries: MediaEntry[] = [
   },
   {
     id: "parallel-parking",
+    companionFilms: [
+      {
+        file: "parallel-parking-single.mp4",
+        title: "One parking attempt",
+        description:
+          "The original single attempt: 25 seconds, including a final hold. The recorded 35-second run is condensed into 23 seconds. No collision; it finishes 2.20 m and 21.5° from the target, partly outside the bay.",
+        audio: "Silent",
+      },
+      {
+        file: "parallel-parking-50-attempts.mp4",
+        title: "50 parking attempts · original Mozart film",
+        description:
+          "The complete 45.75-second montage: all 50 unique attempts, with 11 repeats, building from one view to 32 at 6× speed. No trial passed the parking gate.",
+        audio: "Mozart",
+      },
+    ],
     number: "05",
     date: "2026-09-10",
     dateLabel: "10 September 2026",

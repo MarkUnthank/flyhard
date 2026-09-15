@@ -37,6 +37,13 @@ The edit builds to 32 views by 6.4 seconds, then jumps between individual attemp
 The result is 0/50 successful parks, with collision flags in ten trials. Resetting the learned core also produces 0/50, with twelve flagged trials. Flags include virtual-curb and vehicle-bound overlap as well as native collisions; they are not a count of individual crashes.
 
 The policy chooses steering, speed and gear from structured relative geometry, with fixed motor helpers moving the body. The measured controls drive CARLA. Lower final-position error than the reset comparison is useful evidence, but it does not establish successful parking. The original sponsor snapshot is preserved.
+One parking attempt
+The original single attempt: 25 seconds, including a final hold. The recorded 35-second run is condensed into 23 seconds. No collision; it finishes 2.20 m and 21.5° from the target, partly outside the bay. Sound: Silent.
+Download: https://thedrivingfly.com/media/parallel-parking-single.mp4
+
+50 parking attempts · original Mozart film
+The complete 45.75-second montage: all 50 unique attempts, with 11 repeats, building from one view to 32 at 6× speed. No trial passed the parking gate. Sound: Mozart.
+Download: https://thedrivingfly.com/media/parallel-parking-50-attempts.mp4
 
 A small indication of progress.
 Indicator experiment | 25 seconds

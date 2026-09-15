@@ -1,3 +1,4 @@
+import CompanionFilms from "@/components/companion-films";
 import type { Metadata } from "next";
 import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 import FlyMark from "@/components/fly-mark";
@@ -105,6 +106,9 @@ export default function MediaPage() {
                   </a>
                 </figcaption>
               </figure>
+              {entry.companionFilms && (
+                <CompanionFilms films={entry.companionFilms} />
+              )}
               {entry.stills && (
                 <div
                   className="journal-stills"

@@ -82,7 +82,7 @@ try {
     .slice(0, 5)
     .map(
       (film) =>
-        `${film.title}\n${film.category} | ${film.duration} | ${film.audio} | ${film.playback}\nhttps://thedrivingfly.com/media#${film.id}\nDownload: https://thedrivingfly.com/media/${film.id}.mp4\n\n${film.paragraphs.join("\n\n")}\n`,
+        `${film.title}\n${film.category} | ${film.duration} | ${film.audio} | ${film.playback}\nhttps://thedrivingfly.com/media#${film.id}\nDownload: https://thedrivingfly.com/media/${film.id}.mp4\n\n${film.paragraphs.join("\n\n")}\n${(film.companionFilms ?? []).map((clip) => `${clip.title}\n${clip.description} Sound: ${clip.audio}.\nDownload: https://thedrivingfly.com/media/${clip.file}\n`).join("\n")}`,
     )
     .join("\n");
   const socialPosts = kit.socialPosts
@@ -111,7 +111,7 @@ try {
       .slice(0, 5)
       .map(
         (film) =>
-          `${film.title}\n${film.category} | ${film.duration}\nSound: ${film.audio}.\n\n${film.paragraphs.join("\n\n")}\n`,
+          `${film.title}\n${film.category} | ${film.duration}\nSound: ${film.audio}.\n\n${film.paragraphs.join("\n\n")}\n${(film.companionFilms ?? []).map((clip) => `${clip.title}\n${clip.description} Sound: ${clip.audio}.\nDownload: https://thedrivingfly.com/media/${clip.file}\n`).join("\n")}`,
       )
       .join("\n"),
   );
@@ -129,6 +129,7 @@ kit = json.loads((root / 'src/lib/press-kit.json').read_text())
 files = [(p, p.relative_to(press).as_posix()) for p in press.rglob('*') if p.is_file() and p.suffix != '.zip']
 files += [(root / 'public/media' / item['file'], 'stills/' + item['file']) for item in kit['stills']]
 files += [(root / 'public/media/attribution.md', 'full-attribution.md')]
+files += [(root / 'public/media' / name, 'videos/' + name) for name in json.loads(sys.argv[2])]
 max_asset_bytes = 25 * 1024 * 1024
 for source, name in files:
     if not source.is_file():
@@ -143,9 +144,14 @@ with zipfile.ZipFile(press / 'the-driving-fly-press-kit.zip', 'w', zipfile.ZIP_D
         info = zipfile.ZipInfo('the-driving-fly/' + name, zip_timestamp)
         info.compress_type = zipfile.ZIP_DEFLATED
         archive.writestr(info, source.read_bytes())
-print(f'Packaged {len(files)} files: stills, logos, facts, credits and data. Videos linked separately.')
+print(f'Packaged {len(files)} files: stills, logos, facts, credits and data. Parking companion videos included; other videos linked separately.')
 `,
       root,
+      JSON.stringify(
+        mediaEntries.flatMap((film) =>
+          (film.companionFilms ?? []).map((clip) => clip.file),
+        ),
+      ),
     ],
     { stdio: "inherit" },
   );

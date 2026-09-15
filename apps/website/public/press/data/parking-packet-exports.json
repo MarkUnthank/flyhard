@@ -1,0 +1,42 @@
+[
+  {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "nb_read_frames": "1500"
+      }
+    ],
+    "format": {
+      "duration": "25.000000",
+      "size": "6980750"
+    },
+    "file": "parallel-parking-single.mp4",
+    "sha256": "8364c7b40bc1d4555e3c8a668cef0ef01cd46c1a51a9cb55ca1e590c068beb84"
+  },
+  {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "nb_read_frames": "2745"
+      },
+      {
+        "codec_name": "aac",
+        "nb_read_frames": "2143"
+      }
+    ],
+    "format": {
+      "duration": "45.750000",
+      "size": "9632334"
+    },
+    "file": "parallel-parking-50-attempts.mp4",
+    "sha256": "ed5a0fa119d2da7f24028965aa53388906bbe5a959498e8a9abd9aca29971413"
+  }
+]
