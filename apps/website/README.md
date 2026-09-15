@@ -21,7 +21,7 @@ stills or data. It uses the existing Puppeteer/React tools and Python 3's standa
 ZIP writer to regenerate the downloadable brand assets, text files and ZIP.
 Commit the generated outputs; this helper only packages local files. The ZIP
 contains stills, logos, captions, credits and evidence, with direct video links.
-MP4s download separately. Every static file must remain below Cloudflare's
+The original single-attempt and 50-attempts parking MP4s are included together; other MP4s download separately. Every static file must remain below Cloudflare's
 25 MiB limit. Website exports retain full film duration, frame count and audio;
 `public/press/data/web-exports.json` records source and web checksums.
 

@@ -1,6 +1,8 @@
 # Parallel parking — 10 September 2026
 
-The current film is the 30-second faster Mozart edit: it builds to 32 simultaneous attempts by 6.4 seconds and cuts between grids and individual attempts. All 50 held-out trials appear as excerpts. Grid footage plays at 6× speed, presented at 60 fps. The side-panel fly is an independently looped replay, labelled in the film; it is not synchronized to each car. No simulation was regenerated for this edit. Sponsor revision 20, layout 5 is preserved.
+The parking packet includes the [original single attempt](/media/parallel-parking-single.mp4) (25 seconds, silent) and the [original 50-attempts Mozart film](/media/parallel-parking-50-attempts.mp4) (45.75 seconds, with audio). The single attempt finishes 2.20 m and 21.5° from the target without a collision, partly outside the bay; its 35-second recording is condensed into 23 seconds with a two-second hold. The original montage includes all 50 unique attempts and 11 repeats at 6× speed.
+
+Also included is the 30-second faster Mozart edit: it builds to 32 simultaneous attempts by 6.4 seconds and cuts between grids and individual attempts. All 50 held-out trials appear as excerpts. Grid footage plays at 6× speed, presented at 60 fps. The side-panel fly is an independently looped replay, labelled in the film; it is not synchronized to each car. No simulation was regenerated for this edit. Sponsor revision 20, layout 5 is preserved.
 
 ## Results
 

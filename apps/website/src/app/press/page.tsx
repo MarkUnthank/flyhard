@@ -1,3 +1,4 @@
+import CompanionFilms from "@/components/companion-films";
 import type { Metadata } from "next";
 import { ArrowDownToLine, ArrowUpRight, Mail, Play } from "lucide-react";
 import SiteHeader from "@/components/site-header";
@@ -79,7 +80,7 @@ export default function PressPage() {
               <Mail size={17} /> Contact Mark
             </a>
             <span>
-              Stills, logos, notes & data · Updated{" "}
+              Parking videos, stills, logos, notes & data · Updated{" "}
               <time dateTime={kit.date}>{kit.updated}</time>
             </span>
           </div>
@@ -278,6 +279,9 @@ export default function PressPage() {
                   <source src={`/media/${film.id}.mp4`} type="video/mp4" />
                   <a href={`/media/${film.id}.mp4`}>Download this recording</a>
                 </video>
+                {film.companionFilms && (
+                  <CompanionFilms films={film.companionFilms} />
+                )}
                 <div id={`${film.id}-transcript`} className="sr-only">
                   Transcript and audio description. Sound: {film.audio}.{" "}
                   {film.paragraphs.join(" ")}
