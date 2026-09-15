@@ -8,7 +8,7 @@ import kit from "@/lib/press-kit.json";
 import styles from "./press.module.css";
 
 function getFeaturedFilm() {
-  const film = mediaEntries.find((entry) => entry.id === "three-point-turn");
+  const film = mediaEntries.find((entry) => entry.id === "parallel-parking");
   if (!film) {
     throw new Error(
       "The featured press film is missing from the media catalogue.",
@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     url: "/press",
     images: [
       {
-        url: "/media/three-point-turn.jpg",
+        url: "/media/parallel-parking.jpg",
         width: 1920,
         height: 1080,
-        alt: "The simulated Mini, fly body and neural model during a three-point turn",
+        alt: "The simulated Mini during the parallel-parking experiment",
       },
     ],
   },
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Press kit — The Driving Fly",
     description: kit.summary,
-    images: ["/media/three-point-turn.jpg"],
+    images: ["/media/parallel-parking.jpg"],
   },
 };
 
@@ -85,24 +85,24 @@ export default function PressPage() {
           </div>
           <figure className={styles.heroImage}>
             <a
-              href="/media#three-point-turn"
-              aria-label="Watch the complete three-point turn"
+              href="/media#parallel-parking"
+              aria-label="Watch the parallel-parking film"
             >
               <img
-                src="/media/three-point-turn.jpg"
+                src="/media/parallel-parking.jpg"
                 width={1920}
                 height={1080}
-                alt="A green Mini reverses across a marked road, with the fly body and computed neural activity shown alongside."
+                alt="A montage of simulated Mini parallel-parking attempts, with an independent fly replay shown alongside."
                 fetchPriority="high"
               />
               <span className={styles.watch}>
-                <Play size={15} /> Watch the complete turn{" "}
+                <Play size={15} /> Watch parallel parking{" "}
                 <span>{featuredFilm.duration}</span>
               </span>
             </a>
             <figcaption>
-              A complete recorded attempt. A simulated car, a simulated body,
-              and a model built from measured connections.
+              Fifty parallel-parking attempts, set to Mozart. An accelerated
+              montage with an independent fly replay; no trial passed.
             </figcaption>
           </figure>
         </header>
@@ -141,7 +141,6 @@ export default function PressPage() {
             <h2 id="about-mark-title">Mark Unthank</h2>
           </div>
           <div className={styles.profileBody}>
-            <p className={styles.profileHook}>{kit.aboutMark.headline}</p>
             {kit.aboutMark.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -172,8 +171,8 @@ export default function PressPage() {
               <h3>Three-point turns passed</h3>
               <p>
                 All eight held-out cases turned without contact or boundary
-                crossings. Two missed the stopping-position target. The featured
-                film is a separate successful validation take.
+                crossings. Two missed the stopping-position target. The
+                three-point-turn film is a separate successful validation take.
               </p>
               <a href="/press/data/three-point-turn-results.json" download>
                 Download results <ArrowDownToLine size={14} />
