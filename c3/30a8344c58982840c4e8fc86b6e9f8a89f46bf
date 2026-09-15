@@ -1,0 +1,23 @@
+apps/website/src/app/press/page.tsx
+  s_7f77d12e232ced::t_748236fa076b0a 269-284,286-289,291-324,326-337
+apps/website/src/components/companion-films.module.css
+  s_7f77d12e232ced::t_756e101a7fe0de 1-77
+apps/website/src/components/companion-films.tsx
+  s_7f77d12e232ced::t_fa1ac0ed1f268b 1-3,7-9,13-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c330a8344c58982840c4e8fc86b6e9f8a89f46bf",
+  "prompts": {},
+  "sessions": {
+    "s_7f77d12e232ced": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a583-1b56-76c2-88e9-9ae27138a469",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
