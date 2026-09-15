@@ -1,0 +1,42 @@
+apps/website/public/press/press-notes.txt
+  s_7f77d12e232ced::t_7e72a59d19c26b 83-89
+apps/website/src/lib/media.ts
+  s_7f77d12e232ced::t_4ceb9cbb35ac99 21-26,166-178
+  s_7f77d12e232ced::t_c51c0f38e2bc9d 179-181
+apps/website/src/app/media/page.tsx
+  s_7f77d12e232ced::t_4ceb9cbb35ac99 109-111
+  s_7f77d12e232ced::t_ccd53eda43d2db 1
+apps/website/src/app/press/page.tsx
+  s_7f77d12e232ced::t_4ceb9cbb35ac99 282-284
+  s_7f77d12e232ced::t_5bc2bbb135f9b2 1,83
+apps/website/scripts/build-press-kit.mjs
+  s_7f77d12e232ced::t_4ceb9cbb35ac99 132,147,150-154
+  s_7f77d12e232ced::t_2fd0fffa7e6b14 85,114
+apps/website/src/components/companion-films.tsx
+  s_7f77d12e232ced::t_4ceb9cbb35ac99 3-34
+  s_7f77d12e232ced::t_b26737b3024d1d 1-2,35-40
+apps/website/public/press/video-transcripts.txt
+  s_7f77d12e232ced::t_7e72a59d19c26b 40-46
+apps/website/README.md
+  s_7f77d12e232ced::t_d8af736487c028 24
+apps/website/public/press/data/parking-notes.md
+  s_7f77d12e232ced::t_45a8b11128968b 3-5
+apps/website/public/press/data/parking-packet-exports.json
+  s_7f77d12e232ced::t_af70cdec277560 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "53c6cd2b256c7fe3cb6173c8c6ff5326c832c218",
+  "prompts": {},
+  "sessions": {
+    "s_7f77d12e232ced": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a583-1b56-76c2-88e9-9ae27138a469",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Mark Unthank <markunthank@me.com>"
+    }
+  }
+}
