@@ -1,0 +1,21 @@
+{
+  "status": "trained_pending_physical_evaluation",
+  "initial_validation_loss": 0.2032065749168396,
+  "best_validation_loss": 0.005362465892981025,
+  "gradient_audit": {
+    "core.edge_gain": {
+      "finite": true,
+      "nonzero": 3052285
+    },
+    "core.leak": {
+      "finite": true,
+      "nonzero": 23485
+    }
+  },
+  "frozen_interfaces_unchanged": true,
+  "parameters": 25728319,
+  "wall_seconds": 555.1120494380593,
+  "training_seconds": 550.3120471686125,
+  "checkpoint_sha256": "4545700c58f5230a2f9719d14b66a706f1a2794a3287be72a84a5be67cf31bf2",
+  "peak_gpu_gb": 3.044443136
+}

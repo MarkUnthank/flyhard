@@ -2,7 +2,7 @@
 
 The actual CARLA Mini Cooper S 2021. **Layout 5 has seven advertising spaces:** two on the left, one right door, bonnet, a double-sided roof billboard, front grille, and rear window. The billboard uses the existing `ad-59` placement and owner. Every paid placement is retained, including Blueshake and Supertask. The source retains all 59 historical IDs; the website hides inactive groups and the sponsor exporter removes them.
 
-`roof-billboard.blend` is the editable, artwork-free accessory master taken from the approved smaller design. Its advertising mesh has two outward-facing quads with normalized UVs; one texture fills both faces. `rebuild-layout.py` appends it into the base vehicle for website exports. The immutable current roof texture has an explicit centre crop in `layout.json`, shared by browser display and paid-livery export; subsequent uploaded artwork uses the full billboard dimensions. Native CARLA import/cooking remains separate and is not complete.
+`roof-billboard.blend` is the editable, artwork-free accessory master taken from the approved smaller design. Its advertising mesh has two outward-facing quads with normalized UVs; one texture fills both faces. `rebuild-layout.py` appends it into the base vehicle for website exports. The immutable current roof texture has an explicit centre crop in `layout.json`, shared by browser display and paid-livery export; subsequent uploaded artwork uses the full billboard dimensions. Native CARLA import/cooking remains separate and is not complete; see `carla-billboard-import/README.md`.
 
 ## Rebuild the active layout
 

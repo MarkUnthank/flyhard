@@ -1,0 +1,6 @@
+{
+  "scripts/render_smooth_roundabout.py": "f4e24a8f4bb74613ccbca013b42a2450c772c05cfad2b91850d7db644e012ea7",
+  "src/flyhard/sponsor_view.py": "41cd6cfb3c5e2fdb4c552e2ffc5ad7f5fb20695ae4aee68a2d7be8a3bd4d537c",
+  "scripts/export_sponsor_meshes.py": "e156840fc5f1c32c31929f4a0471b7793ad317e8af050ab406eda7bf73b50957",
+  "configs/roundabout-edit-25s.json": "1e72acbca35aa091a605ab64370c0c420421e6ced6ac74655808186b939c1c50"
+}

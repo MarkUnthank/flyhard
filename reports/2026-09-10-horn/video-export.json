@@ -1,0 +1,124 @@
+{
+  "render": {
+    "status": "rendered",
+    "sources": [
+      {
+        "source": "recordings/horn-v2/no-car",
+        "score": {
+          "seed": 140001,
+          "kind": "no_car",
+          "expected_beep": false,
+          "beep_count": 0,
+          "beep_onsets_seconds": [],
+          "reaction_seconds": null,
+          "false_beep": false,
+          "pressed_seconds": 0.0,
+          "passed": true
+        },
+        "minimum_sponsor_pixels": 15148,
+        "frames_sha256": "506b8951430d6c67001e7dccb3f722717976f41d7692bf07cd94983c24252125",
+        "body_sha256": "e6216958545c8f7e8f0403431b27b9129e452c64aef3f88a694e38cac1948bd1",
+        "neural_sha256": "c50aec70b318b896cac4dd0b3ef8c5744b67c809df3e04383cecf4f5362761ca"
+      },
+      {
+        "source": "recordings/horn-v2/arrive-green",
+        "score": {
+          "seed": 140001,
+          "kind": "arrive_green",
+          "expected_beep": false,
+          "beep_count": 0,
+          "beep_onsets_seconds": [],
+          "reaction_seconds": null,
+          "false_beep": false,
+          "pressed_seconds": 0.0,
+          "passed": true
+        },
+        "minimum_sponsor_pixels": 15146,
+        "frames_sha256": "77478690a6e5dae6bc88a0f6bdd509bff85856a086fb8c8bfab493d0ca7ecc64",
+        "body_sha256": "1b02ef8938354bcce2f81f3a301f1f8fc52d73010a8d544679a50dfa8d36d800",
+        "neural_sha256": "62747881f6b7fef97e859376d8ccce3a83c8fc1fdd702adaff52dff59bb71d4e"
+      },
+      {
+        "source": "recordings/horn-v2/wait-green",
+        "score": {
+          "seed": 140001,
+          "kind": "wait_then_green",
+          "expected_beep": true,
+          "beep_count": 1,
+          "beep_onsets_seconds": [
+            3.7666668631136417
+          ],
+          "reaction_seconds": 0.15000000782310963,
+          "false_beep": false,
+          "pressed_seconds": 0.6500000339001417,
+          "passed": true
+        },
+        "minimum_sponsor_pixels": 13381,
+        "frames_sha256": "4e13cb88db612f09ddd634d41e85bf1f4cd406fc404ef7c49bf6e3e81f7722c0",
+        "body_sha256": "a1e798b30ba9987d07fc2fc6a88006f423e7bcabf56e4d74a9c6ee9c6feea6c0",
+        "neural_sha256": "6bf620136eeea6445c2a26fc9cf4ac05d4d2bb01db321b1c70c4b4598cb215be"
+      }
+    ],
+    "fps": 60,
+    "frames": 1500,
+    "duration_seconds": 25.0,
+    "livery_revision": 21,
+    "livery_layout": 5,
+    "gpu": "NVIDIA RTX A6000/PCIe/SSE2",
+    "audio_intervals": [
+      [
+        16.75,
+        17.4
+      ]
+    ],
+    "claim": "Three actual horn-policy episodes; no added mistakes or extra beeps. Neural colours and foreleg motion use the same recorded causal clock.",
+    "sponsor_note": "Exact live sponsor meshes composited with native CARLA camera and depth; not native Unreal materials.",
+    "audio": {
+      "sample_rate": 48000,
+      "samples": 1200000,
+      "duration_seconds": 25.0,
+      "intervals": [
+        [
+          16.75,
+          17.4
+        ]
+      ],
+      "source": "Original two-tone synthesis; gated only by measured passive button position"
+    },
+    "video_sha256": "0b84888c25c800e9f5f198c2336ac57fbead4e30b7ee402a3eb0e61278218d54"
+  },
+  "qa": {
+    "video_sha256": "0b84888c25c800e9f5f198c2336ac57fbead4e30b7ee402a3eb0e61278218d54",
+    "video_bytes": 9743588,
+    "source_frames": 1380,
+    "credit_frames": 120,
+    "pressed_frames": 39,
+    "audio_intervals_seconds": [
+      [
+        16.75,
+        17.4
+      ]
+    ],
+    "pcm_silent_outside_measured_press": true,
+    "fps": 60,
+    "frames": 1500,
+    "duration_seconds": 25,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "profile": "Constrained Baseline",
+    "audio": "AAC LC stereo 48000 Hz",
+    "visual_checks": [
+      "Green Mini, left door and rear sponsor surfaces",
+      "Real green traffic light in both green cases",
+      "Actual button press and BEEP match",
+      "Request, steering, stalk readouts and site visible"
+    ],
+    "decoded_aac_audible_interval_seconds": [
+      16.750083333333333,
+      17.399375
+    ],
+    "all_video_frames_decoded_without_error": true
+  }
+}

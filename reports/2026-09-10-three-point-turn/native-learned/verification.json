@@ -1,0 +1,12 @@
+{
+  "status": "verified",
+  "native_frames": 715,
+  "recomputed_decisions": 20,
+  "max_body_clock_error_seconds": 7.062794793455396e-11,
+  "max_applied_control_error": 2.9752682650929785e-08,
+  "max_recomputed_action_error": 1.1920928955078125e-07,
+  "checkpoint_sha256": "32ad3ab136737256747f9c341832405aa1e6ae33cb1a7625b03ca09ab4c3f4a9",
+  "source_sha256": "72320dbf68a7151add2e0b29d9b7f6b25223840d6fe9e3d9db485e02afc13a37",
+  "behavioural_successes": 0,
+  "claim": "Control causality audit, not a behavioural pass"
+}

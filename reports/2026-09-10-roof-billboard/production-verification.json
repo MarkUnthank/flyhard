@@ -1,0 +1,27 @@
+{
+  "version": "371cad30-2fec-42c7-bf06-223c3aba9ec4",
+  "layout": 5,
+  "model_url": "/model/the-driving-fly-mini-v5.glb",
+  "model_sha256": "0a147940bdf54b1f046f695a5dfd05ed76443208e3067dace7ad74a7b0f7ee78",
+  "model_matches_local": true,
+  "roof": {
+    "id": "ad-59",
+    "name": "roof billboard · both sides",
+    "status": "available",
+    "node": "AD-59__roof_billboard_·_both_sides",
+    "panel": "ad-59__logo_surface",
+    "width_m": 1.3532,
+    "height_m": 0.3587,
+    "color": "#eaff69",
+    "position": [
+      -0.3499999940395355,
+      2.0439999103546143,
+      -0.06714999675750732
+    ],
+    "face": "left",
+    "position_order": 5
+  },
+  "revision": 12,
+  "unchanged_placements": true,
+  "unchanged_raised": true
+}

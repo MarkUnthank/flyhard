@@ -1,0 +1,71 @@
+{
+  "revision": 35,
+  "layoutVersion": 5,
+  "source": "https://thedrivingfly.com",
+  "exportedAt": "2026-09-11T04:43:18.997Z",
+  "sponsors": [
+    {
+      "slotId": "ad-54",
+      "brand": "$CARLA",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-54__logo_surface",
+      "texture": "textures/ad-54.png",
+      "widthMetres": 1.24,
+      "heightMetres": 0.31
+    },
+    {
+      "slotId": "ad-01",
+      "brand": "$CARLA",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-01__logo_surface",
+      "texture": "textures/ad-01.png",
+      "widthMetres": 1.38,
+      "heightMetres": 0.3705555556
+    },
+    {
+      "slotId": "ad-53",
+      "brand": "$carla on RH",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-53__logo_surface",
+      "texture": "textures/ad-53.png",
+      "widthMetres": 1.1,
+      "heightMetres": 0.33
+    },
+    {
+      "slotId": "ad-59",
+      "brand": "$CARLA",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-59__logo_surface",
+      "texture": "textures/ad-59.png",
+      "widthMetres": 1.3532,
+      "heightMetres": 0.3587
+    },
+    {
+      "slotId": "ad-57",
+      "brand": "$CARLA",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-57__logo_surface",
+      "texture": "textures/ad-57.png",
+      "widthMetres": 1.1,
+      "heightMetres": 0.68
+    },
+    {
+      "slotId": "ad-56",
+      "brand": "$CARLA",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-56__logo_surface",
+      "texture": "textures/ad-56.png",
+      "widthMetres": 1.38,
+      "heightMetres": 0.44647058823529406
+    },
+    {
+      "slotId": "ad-10",
+      "brand": "$CARLA",
+      "url": "https://x.com/carlathefly",
+      "mesh": "ad-10__logo_surface",
+      "texture": "textures/ad-10.png",
+      "widthMetres": 1.08,
+      "heightMetres": 0.31
+    }
+  ]
+}

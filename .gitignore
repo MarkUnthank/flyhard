@@ -18,3 +18,11 @@ recordings/
 runs/
 wandb/
 work/
+
+# Local browser state and private business/operational receipts.
+.playwright-cli/
+reports/*-press-outreach/
+apps/website/SPONSOR-CREDIT-RECEIPT.md
+reports/*/infrastructure-readback.json
+reports/*/pods-at-handoff.json
+reports/*/benchmark/pod-shutdown.json

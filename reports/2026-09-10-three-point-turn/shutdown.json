@@ -1,0 +1,8 @@
+{
+  "status": "verified",
+  "pod_status": "EXITED",
+  "workspace_preserved": true,
+  "verified_at_epoch": 1789077881.357089,
+  "all_pods_stopped": true,
+  "no_credit_added_by_agent": true
+}

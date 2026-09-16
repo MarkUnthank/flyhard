@@ -1,0 +1,71 @@
+{
+  "revision": 21,
+  "layoutVersion": 5,
+  "source": "https://thedrivingfly.com",
+  "exportedAt": "2026-09-10T21:12:39.712Z",
+  "sponsors": [
+    {
+      "slotId": "ad-54",
+      "brand": "TAVELO Bikes in Italy",
+      "url": "https://www.instagram.com/tavelobikes_italy/",
+      "mesh": "ad-54__logo_surface",
+      "texture": "textures/ad-54.png",
+      "widthMetres": 1.24,
+      "heightMetres": 0.31
+    },
+    {
+      "slotId": "ad-01",
+      "brand": "$FlyCar ~ The Flycoin Car",
+      "url": "https://x.com/Grodriguezz18",
+      "mesh": "ad-01__logo_surface",
+      "texture": "textures/ad-01.png",
+      "widthMetres": 1.38,
+      "heightMetres": 0.3705555556
+    },
+    {
+      "slotId": "ad-53",
+      "brand": "European Defense Explorer",
+      "url": "https://www.defenseexplorer.com/Berm",
+      "mesh": "ad-53__logo_surface",
+      "texture": "textures/ad-53.png",
+      "widthMetres": 1.1,
+      "heightMetres": 0.33
+    },
+    {
+      "slotId": "ad-59",
+      "brand": "Gas Monkey Garage",
+      "url": "https://gasmonkeygarage.com",
+      "mesh": "ad-59__logo_surface",
+      "texture": "textures/ad-59.png",
+      "widthMetres": 1.3532,
+      "heightMetres": 0.3587
+    },
+    {
+      "slotId": "ad-57",
+      "brand": "be aware of this man",
+      "url": "https://www.cubebuilder.com",
+      "mesh": "ad-57__logo_surface",
+      "texture": "textures/ad-57.png",
+      "widthMetres": 1.1,
+      "heightMetres": 0.68
+    },
+    {
+      "slotId": "ad-56",
+      "brand": "good vibes coaching club",
+      "url": "https://preply.in/CLARISSA6EN39223486102?ts=17890419",
+      "mesh": "ad-56__logo_surface",
+      "texture": "textures/ad-56.png",
+      "widthMetres": 1.38,
+      "heightMetres": 0.44647058823529406
+    },
+    {
+      "slotId": "ad-10",
+      "brand": "Photographer @shevchenko_kiril",
+      "url": "https://www.instagram.com/shevchenko_kiril/",
+      "mesh": "ad-10__logo_surface",
+      "texture": "textures/ad-10.png",
+      "widthMetres": 1.08,
+      "heightMetres": 0.31
+    }
+  ]
+}

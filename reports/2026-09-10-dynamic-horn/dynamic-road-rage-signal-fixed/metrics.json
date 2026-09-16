@@ -1,0 +1,4269 @@
+{
+  "status": "capture_complete",
+  "frames": 1320,
+  "native_fps": 60,
+  "wall_seconds": 300.66573468595743,
+  "max_clock_error_seconds": 1.146985489697272e-06,
+  "actual_green_seconds": 0.01666666753590107,
+  "score": {
+    "kind": "road_rage",
+    "beep_count": 2,
+    "beep_onsets_seconds": [
+      0.716666704043746,
+      5.816666970029473
+    ],
+    "pressed_seconds": 19.3,
+    "distance_m": 60.042736848658905,
+    "peak_speed_m_s": 9.026251792907715,
+    "longest_hold_seconds": 16.0,
+    "red_stop_frames": 0,
+    "green_time": 0.01666666753590107,
+    "moving_after_green": true,
+    "collision_free_claim": false,
+    "encounters": [
+      {
+        "car_id": 234,
+        "honked_while_near": true
+      },
+      {
+        "car_id": 235,
+        "honked_while_near": true
+      },
+      {
+        "car_id": 236,
+        "honked_while_near": true
+      }
+    ],
+    "wheel_angle_range": 0.4471177904979264,
+    "passed": false
+  },
+  "collisions": [
+    {
+      "frame": 235082,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 9521.0615234375
+    },
+    {
+      "frame": 235096,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 644.9541625976562
+    },
+    {
+      "frame": 235097,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 331.975830078125
+    },
+    {
+      "frame": 235098,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 169.5712890625
+    },
+    {
+      "frame": 235099,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 143.11366271972656
+    },
+    {
+      "frame": 235100,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 136.90728759765625
+    },
+    {
+      "frame": 235101,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 127.97428894042969
+    },
+    {
+      "frame": 235102,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 125.44708251953125
+    },
+    {
+      "frame": 235103,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 118.98226928710938
+    },
+    {
+      "frame": 235104,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 129.0558319091797
+    },
+    {
+      "frame": 235105,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 120.12987518310547
+    },
+    {
+      "frame": 235106,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 122.28707122802734
+    },
+    {
+      "frame": 235107,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 130.3614044189453
+    },
+    {
+      "frame": 235108,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.65169525146484
+    },
+    {
+      "frame": 235109,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.27131652832031
+    },
+    {
+      "frame": 235110,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 85.1133804321289
+    },
+    {
+      "frame": 235111,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.73209762573242
+    },
+    {
+      "frame": 235112,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 101.6137924194336
+    },
+    {
+      "frame": 235113,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.09416198730469
+    },
+    {
+      "frame": 235114,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.80830001831055
+    },
+    {
+      "frame": 235115,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.482810974121094
+    },
+    {
+      "frame": 235116,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.78929901123047
+    },
+    {
+      "frame": 235117,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.10165405273438
+    },
+    {
+      "frame": 235118,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.23516845703125
+    },
+    {
+      "frame": 235119,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 74.23916625976562
+    },
+    {
+      "frame": 235120,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 101.7276382446289
+    },
+    {
+      "frame": 235121,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.81768798828125
+    },
+    {
+      "frame": 235122,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 82.87322235107422
+    },
+    {
+      "frame": 235123,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 89.309814453125
+    },
+    {
+      "frame": 235124,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 97.528076171875
+    },
+    {
+      "frame": 235125,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 104.19474792480469
+    },
+    {
+      "frame": 235126,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.51179885864258
+    },
+    {
+      "frame": 235127,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.92247772216797
+    },
+    {
+      "frame": 235128,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.64863967895508
+    },
+    {
+      "frame": 235129,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.78119659423828
+    },
+    {
+      "frame": 235130,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 159.5474853515625
+    },
+    {
+      "frame": 235131,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.4791374206543
+    },
+    {
+      "frame": 235132,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.00838088989258
+    },
+    {
+      "frame": 235133,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.14141082763672
+    },
+    {
+      "frame": 235134,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.752201080322266
+    },
+    {
+      "frame": 235135,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.98951721191406
+    },
+    {
+      "frame": 235136,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.99363327026367
+    },
+    {
+      "frame": 235137,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 68.96113586425781
+    },
+    {
+      "frame": 235138,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.93074417114258
+    },
+    {
+      "frame": 235139,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 85.23941040039062
+    },
+    {
+      "frame": 235140,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.568607330322266
+    },
+    {
+      "frame": 235141,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 7.364121913909912
+    },
+    {
+      "frame": 235142,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 14.323028564453125
+    },
+    {
+      "frame": 235143,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.03883743286133
+    },
+    {
+      "frame": 235144,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.90390396118164
+    },
+    {
+      "frame": 235145,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 71.43708801269531
+    },
+    {
+      "frame": 235146,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.45576477050781
+    },
+    {
+      "frame": 235147,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.4808578491211
+    },
+    {
+      "frame": 235148,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.425758361816406
+    },
+    {
+      "frame": 235149,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.544921875
+    },
+    {
+      "frame": 235150,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 82.45816802978516
+    },
+    {
+      "frame": 235151,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 92.22616577148438
+    },
+    {
+      "frame": 235152,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.60352325439453
+    },
+    {
+      "frame": 235153,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.9312629699707
+    },
+    {
+      "frame": 235154,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 90.76568603515625
+    },
+    {
+      "frame": 235155,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.93315315246582
+    },
+    {
+      "frame": 235156,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.95528030395508
+    },
+    {
+      "frame": 235157,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.788848876953125
+    },
+    {
+      "frame": 235158,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.36021423339844
+    },
+    {
+      "frame": 235159,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.598514556884766
+    },
+    {
+      "frame": 235160,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 97.21150207519531
+    },
+    {
+      "frame": 235161,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.00634002685547
+    },
+    {
+      "frame": 235162,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.46434020996094
+    },
+    {
+      "frame": 235163,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.946828842163086
+    },
+    {
+      "frame": 235164,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.06907653808594
+    },
+    {
+      "frame": 235165,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 101.2928695678711
+    },
+    {
+      "frame": 235166,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.08363723754883
+    },
+    {
+      "frame": 235167,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.893009185791016
+    },
+    {
+      "frame": 235168,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.817853927612305
+    },
+    {
+      "frame": 235169,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 90.06901550292969
+    },
+    {
+      "frame": 235170,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.90258026123047
+    },
+    {
+      "frame": 235171,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 72.73027801513672
+    },
+    {
+      "frame": 235172,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.082828521728516
+    },
+    {
+      "frame": 235173,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 83.56281280517578
+    },
+    {
+      "frame": 235174,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 101.7674560546875
+    },
+    {
+      "frame": 235175,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 90.6532974243164
+    },
+    {
+      "frame": 235176,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.081581115722656
+    },
+    {
+      "frame": 235177,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.81492614746094
+    },
+    {
+      "frame": 235178,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.40662384033203
+    },
+    {
+      "frame": 235179,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 113.74439239501953
+    },
+    {
+      "frame": 235180,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.761253356933594
+    },
+    {
+      "frame": 235181,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.282480239868164
+    },
+    {
+      "frame": 235182,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 105.85599517822266
+    },
+    {
+      "frame": 235183,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.5215950012207
+    },
+    {
+      "frame": 235184,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 74.9414291381836
+    },
+    {
+      "frame": 235185,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.773046493530273
+    },
+    {
+      "frame": 235186,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.30161666870117
+    },
+    {
+      "frame": 235187,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.02890396118164
+    },
+    {
+      "frame": 235188,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.018882751464844
+    },
+    {
+      "frame": 235189,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 81.9097671508789
+    },
+    {
+      "frame": 235190,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.75005340576172
+    },
+    {
+      "frame": 235191,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 97.04878234863281
+    },
+    {
+      "frame": 235192,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.6285629272461
+    },
+    {
+      "frame": 235193,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.30322265625
+    },
+    {
+      "frame": 235194,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 105.4705581665039
+    },
+    {
+      "frame": 235195,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 72.32903289794922
+    },
+    {
+      "frame": 235196,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.44309616088867
+    },
+    {
+      "frame": 235197,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 92.78194427490234
+    },
+    {
+      "frame": 235198,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.022396087646484
+    },
+    {
+      "frame": 235199,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 106.35091400146484
+    },
+    {
+      "frame": 235200,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.4753532409668
+    },
+    {
+      "frame": 235201,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 78.77230072021484
+    },
+    {
+      "frame": 235202,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 94.2589340209961
+    },
+    {
+      "frame": 235203,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.209503173828125
+    },
+    {
+      "frame": 235204,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 112.68490600585938
+    },
+    {
+      "frame": 235205,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.22176361083984
+    },
+    {
+      "frame": 235206,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 85.66226196289062
+    },
+    {
+      "frame": 235207,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.25288772583008
+    },
+    {
+      "frame": 235208,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 78.05859375
+    },
+    {
+      "frame": 235209,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.68738555908203
+    },
+    {
+      "frame": 235210,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 70.36860656738281
+    },
+    {
+      "frame": 235211,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 89.01419830322266
+    },
+    {
+      "frame": 235212,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.98756217956543
+    },
+    {
+      "frame": 235213,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.06108093261719
+    },
+    {
+      "frame": 235214,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.861724853515625
+    },
+    {
+      "frame": 235215,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 71.38114166259766
+    },
+    {
+      "frame": 235216,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 93.96111297607422
+    },
+    {
+      "frame": 235217,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 91.8735122680664
+    },
+    {
+      "frame": 235218,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 71.41433715820312
+    },
+    {
+      "frame": 235219,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.35162925720215
+    },
+    {
+      "frame": 235220,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.416648864746094
+    },
+    {
+      "frame": 235221,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.1602668762207
+    },
+    {
+      "frame": 235222,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.70494842529297
+    },
+    {
+      "frame": 235223,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 71.06267547607422
+    },
+    {
+      "frame": 235224,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 15.530389785766602
+    },
+    {
+      "frame": 235225,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.63930130004883
+    },
+    {
+      "frame": 235226,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.4669246673584
+    },
+    {
+      "frame": 235227,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.55348587036133
+    },
+    {
+      "frame": 235228,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.852359771728516
+    },
+    {
+      "frame": 235229,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 68.4934310913086
+    },
+    {
+      "frame": 235230,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.68743133544922
+    },
+    {
+      "frame": 235231,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 73.74502563476562
+    },
+    {
+      "frame": 235232,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 80.35262298583984
+    },
+    {
+      "frame": 235233,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.76005554199219
+    },
+    {
+      "frame": 235234,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 75.74305725097656
+    },
+    {
+      "frame": 235235,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.295658111572266
+    },
+    {
+      "frame": 235236,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.075767517089844
+    },
+    {
+      "frame": 235237,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 82.04329681396484
+    },
+    {
+      "frame": 235238,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.2188606262207
+    },
+    {
+      "frame": 235239,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.78001403808594
+    },
+    {
+      "frame": 235240,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.10806655883789
+    },
+    {
+      "frame": 235241,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.89484786987305
+    },
+    {
+      "frame": 235242,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.29125213623047
+    },
+    {
+      "frame": 235243,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.49058532714844
+    },
+    {
+      "frame": 235244,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.40901184082031
+    },
+    {
+      "frame": 235245,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 9.543334007263184
+    },
+    {
+      "frame": 235246,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 14.44742488861084
+    },
+    {
+      "frame": 235247,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.7347297668457
+    },
+    {
+      "frame": 235248,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.77949905395508
+    },
+    {
+      "frame": 235249,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.666873931884766
+    },
+    {
+      "frame": 235250,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.07331085205078
+    },
+    {
+      "frame": 235251,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.32624053955078
+    },
+    {
+      "frame": 235252,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.890159606933594
+    },
+    {
+      "frame": 235253,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.356000900268555
+    },
+    {
+      "frame": 235254,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.3492546081543
+    },
+    {
+      "frame": 235255,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.28580093383789
+    },
+    {
+      "frame": 235256,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.877166748046875
+    },
+    {
+      "frame": 235257,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.11125564575195
+    },
+    {
+      "frame": 235258,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 11.351734161376953
+    },
+    {
+      "frame": 235259,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.070119857788086
+    },
+    {
+      "frame": 235260,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.60652542114258
+    },
+    {
+      "frame": 235261,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.03728485107422
+    },
+    {
+      "frame": 235262,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.90422821044922
+    },
+    {
+      "frame": 235263,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.595703125
+    },
+    {
+      "frame": 235264,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.688995361328125
+    },
+    {
+      "frame": 235265,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.67461013793945
+    },
+    {
+      "frame": 235266,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.112693786621094
+    },
+    {
+      "frame": 235267,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.56718826293945
+    },
+    {
+      "frame": 235268,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.378028869628906
+    },
+    {
+      "frame": 235269,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.31361770629883
+    },
+    {
+      "frame": 235270,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.36845016479492
+    },
+    {
+      "frame": 235271,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.82670593261719
+    },
+    {
+      "frame": 235272,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.32014465332031
+    },
+    {
+      "frame": 235273,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.88099670410156
+    },
+    {
+      "frame": 235274,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.270599365234375
+    },
+    {
+      "frame": 235275,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.10911560058594
+    },
+    {
+      "frame": 235276,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.55217742919922
+    },
+    {
+      "frame": 235277,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.1071891784668
+    },
+    {
+      "frame": 235278,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.705352783203125
+    },
+    {
+      "frame": 235279,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.856651306152344
+    },
+    {
+      "frame": 235280,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.25108337402344
+    },
+    {
+      "frame": 235281,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.139976501464844
+    },
+    {
+      "frame": 235282,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 18.254840850830078
+    },
+    {
+      "frame": 235283,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.777870178222656
+    },
+    {
+      "frame": 235284,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.02153015136719
+    },
+    {
+      "frame": 235285,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.040489196777344
+    },
+    {
+      "frame": 235286,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.60106658935547
+    },
+    {
+      "frame": 235287,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.149293899536133
+    },
+    {
+      "frame": 235288,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.39128494262695
+    },
+    {
+      "frame": 235289,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.475868225097656
+    },
+    {
+      "frame": 235290,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.701969146728516
+    },
+    {
+      "frame": 235291,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.07378387451172
+    },
+    {
+      "frame": 235292,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.60700225830078
+    },
+    {
+      "frame": 235293,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.65058135986328
+    },
+    {
+      "frame": 235294,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.39984893798828
+    },
+    {
+      "frame": 235295,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.727840423583984
+    },
+    {
+      "frame": 235296,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.716609954833984
+    },
+    {
+      "frame": 235297,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.05152130126953
+    },
+    {
+      "frame": 235298,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.11936950683594
+    },
+    {
+      "frame": 235299,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.86159896850586
+    },
+    {
+      "frame": 235300,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.434003829956055
+    },
+    {
+      "frame": 235301,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.653587341308594
+    },
+    {
+      "frame": 235302,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 20.380064010620117
+    },
+    {
+      "frame": 235303,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.53807067871094
+    },
+    {
+      "frame": 235304,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.716901779174805
+    },
+    {
+      "frame": 235305,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.13477325439453
+    },
+    {
+      "frame": 235306,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.388797760009766
+    },
+    {
+      "frame": 235307,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.65834617614746
+    },
+    {
+      "frame": 235308,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.74177551269531
+    },
+    {
+      "frame": 235309,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.205453872680664
+    },
+    {
+      "frame": 235310,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.730226516723633
+    },
+    {
+      "frame": 235311,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.36499786376953
+    },
+    {
+      "frame": 235312,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.97126388549805
+    },
+    {
+      "frame": 235313,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.266706466674805
+    },
+    {
+      "frame": 235314,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.42142105102539
+    },
+    {
+      "frame": 235315,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.11114501953125
+    },
+    {
+      "frame": 235316,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.4615478515625
+    },
+    {
+      "frame": 235317,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.86943054199219
+    },
+    {
+      "frame": 235318,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.28645324707031
+    },
+    {
+      "frame": 235319,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.88392639160156
+    },
+    {
+      "frame": 235320,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.210243225097656
+    },
+    {
+      "frame": 235321,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.3856315612793
+    },
+    {
+      "frame": 235322,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.810787200927734
+    },
+    {
+      "frame": 235323,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.757484436035156
+    },
+    {
+      "frame": 235324,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.08740997314453
+    },
+    {
+      "frame": 235325,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.35684585571289
+    },
+    {
+      "frame": 235326,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.87907409667969
+    },
+    {
+      "frame": 235327,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.489051818847656
+    },
+    {
+      "frame": 235328,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.46797561645508
+    },
+    {
+      "frame": 235329,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.847389221191406
+    },
+    {
+      "frame": 235330,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 70.02249908447266
+    },
+    {
+      "frame": 235331,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.69125366210938
+    },
+    {
+      "frame": 235332,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.4843864440918
+    },
+    {
+      "frame": 235333,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.76455307006836
+    },
+    {
+      "frame": 235334,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.58466148376465
+    },
+    {
+      "frame": 235335,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.387109756469727
+    },
+    {
+      "frame": 235336,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.96144104003906
+    },
+    {
+      "frame": 235337,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.6533203125
+    },
+    {
+      "frame": 235338,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.066951751708984
+    },
+    {
+      "frame": 235339,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.737178802490234
+    },
+    {
+      "frame": 235340,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 11.841477394104004
+    },
+    {
+      "frame": 235341,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.06549072265625
+    },
+    {
+      "frame": 235342,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.55162811279297
+    },
+    {
+      "frame": 235343,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.73160934448242
+    },
+    {
+      "frame": 235344,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 73.6421890258789
+    },
+    {
+      "frame": 235345,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.910396575927734
+    },
+    {
+      "frame": 235346,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.3152961730957
+    },
+    {
+      "frame": 235347,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.23216247558594
+    },
+    {
+      "frame": 235348,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.247642517089844
+    },
+    {
+      "frame": 235349,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.09172439575195
+    },
+    {
+      "frame": 235350,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.812889099121094
+    },
+    {
+      "frame": 235351,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.95262908935547
+    },
+    {
+      "frame": 235352,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.690452575683594
+    },
+    {
+      "frame": 235353,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.43457794189453
+    },
+    {
+      "frame": 235354,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.576480865478516
+    },
+    {
+      "frame": 235355,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 68.59991455078125
+    },
+    {
+      "frame": 235356,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.71437454223633
+    },
+    {
+      "frame": 235357,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.822776794433594
+    },
+    {
+      "frame": 235358,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.025869369506836
+    },
+    {
+      "frame": 235359,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.93301391601562
+    },
+    {
+      "frame": 235360,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.94733428955078
+    },
+    {
+      "frame": 235361,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 5.137283802032471
+    },
+    {
+      "frame": 235362,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.789859771728516
+    },
+    {
+      "frame": 235363,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.6135368347168
+    },
+    {
+      "frame": 235364,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.68705749511719
+    },
+    {
+      "frame": 235365,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.169525146484375
+    },
+    {
+      "frame": 235366,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.551212310791016
+    },
+    {
+      "frame": 235367,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.87803268432617
+    },
+    {
+      "frame": 235368,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.8359375
+    },
+    {
+      "frame": 235369,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.147071838378906
+    },
+    {
+      "frame": 235370,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.55947875976562
+    },
+    {
+      "frame": 235371,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.163246154785156
+    },
+    {
+      "frame": 235372,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.4293327331543
+    },
+    {
+      "frame": 235373,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.73500061035156
+    },
+    {
+      "frame": 235374,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.59889221191406
+    },
+    {
+      "frame": 235375,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.122615814208984
+    },
+    {
+      "frame": 235376,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.432586669921875
+    },
+    {
+      "frame": 235377,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.1100959777832
+    },
+    {
+      "frame": 235378,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.47750473022461
+    },
+    {
+      "frame": 235379,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.41104507446289
+    },
+    {
+      "frame": 235380,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.797508239746094
+    },
+    {
+      "frame": 235381,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.33221435546875
+    },
+    {
+      "frame": 235382,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.78840255737305
+    },
+    {
+      "frame": 235383,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.25531768798828
+    },
+    {
+      "frame": 235384,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.51335144042969
+    },
+    {
+      "frame": 235385,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.23566818237305
+    },
+    {
+      "frame": 235386,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.074371337890625
+    },
+    {
+      "frame": 235387,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.901126861572266
+    },
+    {
+      "frame": 235388,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.69497299194336
+    },
+    {
+      "frame": 235389,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.887672424316406
+    },
+    {
+      "frame": 235390,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.26530075073242
+    },
+    {
+      "frame": 235391,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.88982009887695
+    },
+    {
+      "frame": 235392,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.58767700195312
+    },
+    {
+      "frame": 235393,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.81731414794922
+    },
+    {
+      "frame": 235394,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.66925811767578
+    },
+    {
+      "frame": 235395,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.16408920288086
+    },
+    {
+      "frame": 235396,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.978633880615234
+    },
+    {
+      "frame": 235397,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.90047073364258
+    },
+    {
+      "frame": 235398,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.38455963134766
+    },
+    {
+      "frame": 235399,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.68419647216797
+    },
+    {
+      "frame": 235400,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 66.66590118408203
+    },
+    {
+      "frame": 235401,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.608543395996094
+    },
+    {
+      "frame": 235402,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.43954849243164
+    },
+    {
+      "frame": 235403,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.70903778076172
+    },
+    {
+      "frame": 235404,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.427249908447266
+    },
+    {
+      "frame": 235405,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.24083709716797
+    },
+    {
+      "frame": 235406,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.297607421875
+    },
+    {
+      "frame": 235407,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.47226333618164
+    },
+    {
+      "frame": 235408,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.562191009521484
+    },
+    {
+      "frame": 235409,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.57551956176758
+    },
+    {
+      "frame": 235410,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.47760772705078
+    },
+    {
+      "frame": 235411,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.36176681518555
+    },
+    {
+      "frame": 235412,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.097991943359375
+    },
+    {
+      "frame": 235413,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.31089782714844
+    },
+    {
+      "frame": 235414,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.76979064941406
+    },
+    {
+      "frame": 235415,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 2.343773365020752
+    },
+    {
+      "frame": 235416,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.31354522705078
+    },
+    {
+      "frame": 235417,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.46042251586914
+    },
+    {
+      "frame": 235418,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.42380142211914
+    },
+    {
+      "frame": 235419,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.194185256958008
+    },
+    {
+      "frame": 235420,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.75476837158203
+    },
+    {
+      "frame": 235421,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.3218879699707
+    },
+    {
+      "frame": 235422,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.523170471191406
+    },
+    {
+      "frame": 235423,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.377201080322266
+    },
+    {
+      "frame": 235424,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.48747253417969
+    },
+    {
+      "frame": 235425,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.332359313964844
+    },
+    {
+      "frame": 235426,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.47903823852539
+    },
+    {
+      "frame": 235427,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.446441650390625
+    },
+    {
+      "frame": 235428,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.98859405517578
+    },
+    {
+      "frame": 235429,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.59645462036133
+    },
+    {
+      "frame": 235430,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.63907241821289
+    },
+    {
+      "frame": 235431,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.0225830078125
+    },
+    {
+      "frame": 235432,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.71934127807617
+    },
+    {
+      "frame": 235433,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.90321731567383
+    },
+    {
+      "frame": 235434,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.48157501220703
+    },
+    {
+      "frame": 235435,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.29291534423828
+    },
+    {
+      "frame": 235436,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.59008026123047
+    },
+    {
+      "frame": 235437,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.17416000366211
+    },
+    {
+      "frame": 235438,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.25731658935547
+    },
+    {
+      "frame": 235439,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.35869216918945
+    },
+    {
+      "frame": 235440,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.43116760253906
+    },
+    {
+      "frame": 235441,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.33638000488281
+    },
+    {
+      "frame": 235442,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.67985153198242
+    },
+    {
+      "frame": 235443,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.07735061645508
+    },
+    {
+      "frame": 235444,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.846702575683594
+    },
+    {
+      "frame": 235445,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.939208984375
+    },
+    {
+      "frame": 235446,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.08298110961914
+    },
+    {
+      "frame": 235447,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.798484802246094
+    },
+    {
+      "frame": 235448,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.4447021484375
+    },
+    {
+      "frame": 235449,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.28988265991211
+    },
+    {
+      "frame": 235450,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.76096725463867
+    },
+    {
+      "frame": 235451,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.10992431640625
+    },
+    {
+      "frame": 235452,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.70646286010742
+    },
+    {
+      "frame": 235453,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.641868591308594
+    },
+    {
+      "frame": 235454,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.26922607421875
+    },
+    {
+      "frame": 235455,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.504056930541992
+    },
+    {
+      "frame": 235456,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.248374938964844
+    },
+    {
+      "frame": 235457,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.41689682006836
+    },
+    {
+      "frame": 235458,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.35489273071289
+    },
+    {
+      "frame": 235459,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.92144012451172
+    },
+    {
+      "frame": 235460,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.41741371154785
+    },
+    {
+      "frame": 235461,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.60148620605469
+    },
+    {
+      "frame": 235462,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.799869537353516
+    },
+    {
+      "frame": 235463,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.2625732421875
+    },
+    {
+      "frame": 235464,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.40079689025879
+    },
+    {
+      "frame": 235465,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.65769958496094
+    },
+    {
+      "frame": 235466,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.21235275268555
+    },
+    {
+      "frame": 235467,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.62654495239258
+    },
+    {
+      "frame": 235468,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.93994140625
+    },
+    {
+      "frame": 235469,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.47240447998047
+    },
+    {
+      "frame": 235470,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.980972290039062
+    },
+    {
+      "frame": 235471,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.525358200073242
+    },
+    {
+      "frame": 235472,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.81836700439453
+    },
+    {
+      "frame": 235473,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.718130111694336
+    },
+    {
+      "frame": 235474,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.742916107177734
+    },
+    {
+      "frame": 235475,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.60565757751465
+    },
+    {
+      "frame": 235476,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.15098571777344
+    },
+    {
+      "frame": 235477,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.431888580322266
+    },
+    {
+      "frame": 235478,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.080657958984375
+    },
+    {
+      "frame": 235479,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.23491859436035
+    },
+    {
+      "frame": 235480,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.5076789855957
+    },
+    {
+      "frame": 235481,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.039100646972656
+    },
+    {
+      "frame": 235482,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.261131286621094
+    },
+    {
+      "frame": 235483,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.02165222167969
+    },
+    {
+      "frame": 235484,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.27520179748535
+    },
+    {
+      "frame": 235485,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.411258697509766
+    },
+    {
+      "frame": 235486,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.229618072509766
+    },
+    {
+      "frame": 235487,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.83429718017578
+    },
+    {
+      "frame": 235488,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.532991409301758
+    },
+    {
+      "frame": 235489,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.95403480529785
+    },
+    {
+      "frame": 235490,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.57378005981445
+    },
+    {
+      "frame": 235491,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 33.26726531982422
+    },
+    {
+      "frame": 235492,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.728153228759766
+    },
+    {
+      "frame": 235493,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.376556396484375
+    },
+    {
+      "frame": 235494,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.946001052856445
+    },
+    {
+      "frame": 235495,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.069303512573242
+    },
+    {
+      "frame": 235496,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.09775924682617
+    },
+    {
+      "frame": 235497,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.731674194335938
+    },
+    {
+      "frame": 235498,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.5473747253418
+    },
+    {
+      "frame": 235499,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 14.301024436950684
+    },
+    {
+      "frame": 235500,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.01194381713867
+    },
+    {
+      "frame": 235501,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.78945541381836
+    },
+    {
+      "frame": 235502,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.928871154785156
+    },
+    {
+      "frame": 235503,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.6297607421875
+    },
+    {
+      "frame": 235504,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.623050689697266
+    },
+    {
+      "frame": 235505,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.66277313232422
+    },
+    {
+      "frame": 235506,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.671348571777344
+    },
+    {
+      "frame": 235507,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 3.4253740310668945
+    },
+    {
+      "frame": 235508,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.601322174072266
+    },
+    {
+      "frame": 235509,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.92005920410156
+    },
+    {
+      "frame": 235510,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.24182891845703
+    },
+    {
+      "frame": 235511,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.529430389404297
+    },
+    {
+      "frame": 235512,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.4102668762207
+    },
+    {
+      "frame": 235513,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.002044677734375
+    },
+    {
+      "frame": 235514,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 22.09013557434082
+    },
+    {
+      "frame": 235515,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.21247863769531
+    },
+    {
+      "frame": 235516,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.228496551513672
+    },
+    {
+      "frame": 235517,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 15.501615524291992
+    },
+    {
+      "frame": 235518,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 0.8973222970962524
+    },
+    {
+      "frame": 235519,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.151187896728516
+    },
+    {
+      "frame": 235520,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.12110137939453
+    },
+    {
+      "frame": 235521,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.092063903808594
+    },
+    {
+      "frame": 235522,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.74398422241211
+    },
+    {
+      "frame": 235523,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.54393768310547
+    },
+    {
+      "frame": 235524,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.13844108581543
+    },
+    {
+      "frame": 235525,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.953996658325195
+    },
+    {
+      "frame": 235526,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.62728881835938
+    },
+    {
+      "frame": 235527,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.118593215942383
+    },
+    {
+      "frame": 235528,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.39863395690918
+    },
+    {
+      "frame": 235529,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.979976654052734
+    },
+    {
+      "frame": 235530,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.409141540527344
+    },
+    {
+      "frame": 235531,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.601951599121094
+    },
+    {
+      "frame": 235532,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 20.858245849609375
+    },
+    {
+      "frame": 235533,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.97700500488281
+    },
+    {
+      "frame": 235534,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 13.819295883178711
+    },
+    {
+      "frame": 235535,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.595062255859375
+    },
+    {
+      "frame": 235536,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 22.0301513671875
+    },
+    {
+      "frame": 235537,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.80423355102539
+    },
+    {
+      "frame": 235538,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.564964294433594
+    },
+    {
+      "frame": 235539,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 10.0968599319458
+    },
+    {
+      "frame": 235540,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 13.241535186767578
+    },
+    {
+      "frame": 235541,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.213417053222656
+    },
+    {
+      "frame": 235542,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.52241897583008
+    },
+    {
+      "frame": 235543,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.106239318847656
+    },
+    {
+      "frame": 235544,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.43206214904785
+    },
+    {
+      "frame": 235545,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.56497573852539
+    },
+    {
+      "frame": 235546,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.66151428222656
+    },
+    {
+      "frame": 235547,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.08226013183594
+    },
+    {
+      "frame": 235548,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.63922119140625
+    },
+    {
+      "frame": 235549,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.70341110229492
+    },
+    {
+      "frame": 235550,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 9.752741813659668
+    },
+    {
+      "frame": 235551,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 20.537168502807617
+    },
+    {
+      "frame": 235552,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.37981033325195
+    },
+    {
+      "frame": 235553,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 107.52873229980469
+    },
+    {
+      "frame": 235554,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 16.277023315429688
+    },
+    {
+      "frame": 235555,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 10.70650863647461
+    },
+    {
+      "frame": 235556,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.771089553833008
+    },
+    {
+      "frame": 235557,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.66131591796875
+    },
+    {
+      "frame": 235558,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 7.401838779449463
+    },
+    {
+      "frame": 235559,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.89595031738281
+    },
+    {
+      "frame": 235560,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.539756774902344
+    },
+    {
+      "frame": 235561,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.25003433227539
+    },
+    {
+      "frame": 235562,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.173370361328125
+    },
+    {
+      "frame": 235563,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.69868469238281
+    },
+    {
+      "frame": 235564,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.05793762207031
+    },
+    {
+      "frame": 235565,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.124977111816406
+    },
+    {
+      "frame": 235566,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.61614990234375
+    },
+    {
+      "frame": 235567,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.04958724975586
+    },
+    {
+      "frame": 235568,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 16.56863784790039
+    },
+    {
+      "frame": 235569,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.00798797607422
+    },
+    {
+      "frame": 235570,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 22.800416946411133
+    },
+    {
+      "frame": 235571,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.426265716552734
+    },
+    {
+      "frame": 235572,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.582130432128906
+    },
+    {
+      "frame": 235573,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.90488815307617
+    },
+    {
+      "frame": 235574,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.09044647216797
+    },
+    {
+      "frame": 235575,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.23128890991211
+    },
+    {
+      "frame": 235576,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.21150588989258
+    },
+    {
+      "frame": 235577,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.20743942260742
+    },
+    {
+      "frame": 235578,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.24391174316406
+    },
+    {
+      "frame": 235579,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.900638580322266
+    },
+    {
+      "frame": 235580,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.94732666015625
+    },
+    {
+      "frame": 235581,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.366729736328125
+    },
+    {
+      "frame": 235582,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.2379264831543
+    },
+    {
+      "frame": 235583,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.54607391357422
+    },
+    {
+      "frame": 235584,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.00246810913086
+    },
+    {
+      "frame": 235585,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.53559112548828
+    },
+    {
+      "frame": 235586,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.886260986328125
+    },
+    {
+      "frame": 235587,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.44937515258789
+    },
+    {
+      "frame": 235588,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.08074188232422
+    },
+    {
+      "frame": 235589,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.67198944091797
+    },
+    {
+      "frame": 235590,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.257686614990234
+    },
+    {
+      "frame": 235591,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.669071197509766
+    },
+    {
+      "frame": 235592,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.44797134399414
+    },
+    {
+      "frame": 235593,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.206966400146484
+    },
+    {
+      "frame": 235594,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.61412048339844
+    },
+    {
+      "frame": 235595,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.31159210205078
+    },
+    {
+      "frame": 235596,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.16800308227539
+    },
+    {
+      "frame": 235597,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.30571365356445
+    },
+    {
+      "frame": 235598,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.94989013671875
+    },
+    {
+      "frame": 235599,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.945859909057617
+    },
+    {
+      "frame": 235600,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.2504940032959
+    },
+    {
+      "frame": 235601,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.672149658203125
+    },
+    {
+      "frame": 235602,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.355588912963867
+    },
+    {
+      "frame": 235603,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.612977981567383
+    },
+    {
+      "frame": 235604,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.474422454833984
+    },
+    {
+      "frame": 235605,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.713218688964844
+    },
+    {
+      "frame": 235606,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.78738021850586
+    },
+    {
+      "frame": 235607,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.89809799194336
+    },
+    {
+      "frame": 235608,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.10181427001953
+    },
+    {
+      "frame": 235609,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.888275146484375
+    },
+    {
+      "frame": 235610,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.046377182006836
+    },
+    {
+      "frame": 235611,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 10.499181747436523
+    },
+    {
+      "frame": 235612,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.926116943359375
+    },
+    {
+      "frame": 235613,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.678964614868164
+    },
+    {
+      "frame": 235614,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.65244674682617
+    },
+    {
+      "frame": 235615,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 35.55283737182617
+    },
+    {
+      "frame": 235616,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.284481048583984
+    },
+    {
+      "frame": 235617,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 199.70993041992188
+    },
+    {
+      "frame": 235618,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 149.28358459472656
+    },
+    {
+      "frame": 235619,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 139.27125549316406
+    },
+    {
+      "frame": 235620,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 148.6763916015625
+    },
+    {
+      "frame": 235621,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 123.1656494140625
+    },
+    {
+      "frame": 235622,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 122.8648452758789
+    },
+    {
+      "frame": 235623,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 118.76966857910156
+    },
+    {
+      "frame": 235624,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 133.05067443847656
+    },
+    {
+      "frame": 235625,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 141.67535400390625
+    },
+    {
+      "frame": 235626,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 106.13236999511719
+    },
+    {
+      "frame": 235627,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 120.05491638183594
+    },
+    {
+      "frame": 235628,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 120.19466400146484
+    },
+    {
+      "frame": 235629,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 107.29934692382812
+    },
+    {
+      "frame": 235630,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 116.37308502197266
+    },
+    {
+      "frame": 235631,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 121.24456024169922
+    },
+    {
+      "frame": 235632,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 116.72488403320312
+    },
+    {
+      "frame": 235633,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 116.6926498413086
+    },
+    {
+      "frame": 235634,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 87.02922821044922
+    },
+    {
+      "frame": 235635,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 94.36370086669922
+    },
+    {
+      "frame": 235636,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 86.70843505859375
+    },
+    {
+      "frame": 235637,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 103.32553100585938
+    },
+    {
+      "frame": 235638,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 103.37332916259766
+    },
+    {
+      "frame": 235639,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 94.09626007080078
+    },
+    {
+      "frame": 235640,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 93.61138153076172
+    },
+    {
+      "frame": 235641,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 89.2325439453125
+    },
+    {
+      "frame": 235642,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 108.24720764160156
+    },
+    {
+      "frame": 235643,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 106.90736389160156
+    },
+    {
+      "frame": 235644,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 96.58089447021484
+    },
+    {
+      "frame": 235645,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 101.74544525146484
+    },
+    {
+      "frame": 235646,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 88.74070739746094
+    },
+    {
+      "frame": 235647,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 112.82084655761719
+    },
+    {
+      "frame": 235648,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 100.72013854980469
+    },
+    {
+      "frame": 235649,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 109.52748107910156
+    },
+    {
+      "frame": 235650,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 115.77092742919922
+    },
+    {
+      "frame": 235651,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 110.08622741699219
+    },
+    {
+      "frame": 235652,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 106.4574203491211
+    },
+    {
+      "frame": 235653,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 121.3782958984375
+    },
+    {
+      "frame": 235654,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 106.58598327636719
+    },
+    {
+      "frame": 235655,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 123.08783721923828
+    },
+    {
+      "frame": 235656,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 123.32781219482422
+    },
+    {
+      "frame": 235657,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 136.81272888183594
+    },
+    {
+      "frame": 235658,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 123.41621398925781
+    },
+    {
+      "frame": 235659,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 115.1325912475586
+    },
+    {
+      "frame": 235660,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 125.28072357177734
+    },
+    {
+      "frame": 235661,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 120.0003890991211
+    },
+    {
+      "frame": 235662,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 94.72393798828125
+    },
+    {
+      "frame": 235663,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 92.07431030273438
+    },
+    {
+      "frame": 235664,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 112.9119873046875
+    },
+    {
+      "frame": 235665,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 104.15411376953125
+    },
+    {
+      "frame": 235666,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 107.9771957397461
+    },
+    {
+      "frame": 235667,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 100.48727416992188
+    },
+    {
+      "frame": 235668,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 90.40483856201172
+    },
+    {
+      "frame": 235669,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.412748336791992
+    },
+    {
+      "frame": 235670,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 91.58126068115234
+    },
+    {
+      "frame": 235671,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 82.83858489990234
+    },
+    {
+      "frame": 235672,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.13947296142578
+    },
+    {
+      "frame": 235673,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 99.5707778930664
+    },
+    {
+      "frame": 235674,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 90.44715881347656
+    },
+    {
+      "frame": 235675,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 84.81148529052734
+    },
+    {
+      "frame": 235676,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 86.86807250976562
+    },
+    {
+      "frame": 235679,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 125.80118560791016
+    },
+    {
+      "frame": 235680,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 79.85928344726562
+    },
+    {
+      "frame": 235681,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 85.68231964111328
+    },
+    {
+      "frame": 235682,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 72.09811401367188
+    },
+    {
+      "frame": 235683,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 99.61402893066406
+    },
+    {
+      "frame": 235684,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 100.83429718017578
+    },
+    {
+      "frame": 235685,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.071598052978516
+    },
+    {
+      "frame": 235686,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.152488708496094
+    },
+    {
+      "frame": 235687,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 75.97500610351562
+    },
+    {
+      "frame": 235688,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 77.67831420898438
+    },
+    {
+      "frame": 235689,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.627540588378906
+    },
+    {
+      "frame": 235690,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 86.03919219970703
+    },
+    {
+      "frame": 235691,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 85.38008880615234
+    },
+    {
+      "frame": 235692,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.64369583129883
+    },
+    {
+      "frame": 235693,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 88.05152893066406
+    },
+    {
+      "frame": 235694,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 93.79403686523438
+    },
+    {
+      "frame": 235695,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.43400573730469
+    },
+    {
+      "frame": 235696,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.19904708862305
+    },
+    {
+      "frame": 235697,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 84.75733947753906
+    },
+    {
+      "frame": 235698,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 104.28334045410156
+    },
+    {
+      "frame": 235699,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 123.07383728027344
+    },
+    {
+      "frame": 235700,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 100.57764434814453
+    },
+    {
+      "frame": 235701,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 10.00492000579834
+    },
+    {
+      "frame": 235702,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 5.428147792816162
+    },
+    {
+      "frame": 235703,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.280481338500977
+    },
+    {
+      "frame": 235704,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.815811157226562
+    },
+    {
+      "frame": 235705,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.713056564331055
+    },
+    {
+      "frame": 235706,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 66.14308166503906
+    },
+    {
+      "frame": 235710,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.28567504882812
+    },
+    {
+      "frame": 235760,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.609378814697266
+    },
+    {
+      "frame": 235761,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 231.564697265625
+    },
+    {
+      "frame": 235762,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 80.9220962524414
+    },
+    {
+      "frame": 235763,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 119.55264282226562
+    },
+    {
+      "frame": 235764,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 95.85063934326172
+    },
+    {
+      "frame": 235765,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 72.0987319946289
+    },
+    {
+      "frame": 235766,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.78877258300781
+    },
+    {
+      "frame": 235767,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 83.4522933959961
+    },
+    {
+      "frame": 235768,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.1392822265625
+    },
+    {
+      "frame": 235769,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.6708984375
+    },
+    {
+      "frame": 235770,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 87.31438446044922
+    },
+    {
+      "frame": 235771,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.5486946105957
+    },
+    {
+      "frame": 235772,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 88.23774719238281
+    },
+    {
+      "frame": 235773,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.224609375
+    },
+    {
+      "frame": 235774,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.95199203491211
+    },
+    {
+      "frame": 235775,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.6678352355957
+    },
+    {
+      "frame": 235776,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 68.37360382080078
+    },
+    {
+      "frame": 235777,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.61137390136719
+    },
+    {
+      "frame": 235778,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.40464782714844
+    },
+    {
+      "frame": 235779,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.518218994140625
+    },
+    {
+      "frame": 235780,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 16.162105560302734
+    },
+    {
+      "frame": 235781,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.43398666381836
+    },
+    {
+      "frame": 235782,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.738040924072266
+    },
+    {
+      "frame": 235783,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.186222076416016
+    },
+    {
+      "frame": 235784,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.09723663330078
+    },
+    {
+      "frame": 235785,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.67172622680664
+    },
+    {
+      "frame": 235786,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.482030868530273
+    },
+    {
+      "frame": 235787,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.73011016845703
+    },
+    {
+      "frame": 235788,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.40986633300781
+    },
+    {
+      "frame": 235789,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.36448287963867
+    },
+    {
+      "frame": 235790,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 71.0896224975586
+    },
+    {
+      "frame": 235791,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.840404510498047
+    },
+    {
+      "frame": 235792,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.933570861816406
+    },
+    {
+      "frame": 235799,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 412.3490905761719
+    },
+    {
+      "frame": 235800,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 4.219558238983154
+    },
+    {
+      "frame": 235801,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 10.645620346069336
+    },
+    {
+      "frame": 235802,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 6.427045822143555
+    },
+    {
+      "frame": 235803,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.922645568847656
+    },
+    {
+      "frame": 235805,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 1353.1993408203125
+    },
+    {
+      "frame": 235806,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 196.899658203125
+    },
+    {
+      "frame": 235807,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 142.7352294921875
+    },
+    {
+      "frame": 235808,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 124.75608825683594
+    },
+    {
+      "frame": 235809,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 84.4909439086914
+    },
+    {
+      "frame": 235810,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 70.24418640136719
+    },
+    {
+      "frame": 235811,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.199039459228516
+    },
+    {
+      "frame": 235812,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 75.89611053466797
+    },
+    {
+      "frame": 235813,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 78.54186248779297
+    },
+    {
+      "frame": 235814,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 92.68093872070312
+    },
+    {
+      "frame": 235815,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 81.05014038085938
+    },
+    {
+      "frame": 235816,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 97.25482940673828
+    },
+    {
+      "frame": 235817,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 65.06672668457031
+    },
+    {
+      "frame": 235818,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 66.3436050415039
+    },
+    {
+      "frame": 235819,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 76.49654388427734
+    },
+    {
+      "frame": 235820,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 75.38619995117188
+    },
+    {
+      "frame": 235821,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 92.90885925292969
+    },
+    {
+      "frame": 235822,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.73161315917969
+    },
+    {
+      "frame": 235823,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.58644485473633
+    },
+    {
+      "frame": 235824,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.71501159667969
+    },
+    {
+      "frame": 235825,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.68703079223633
+    },
+    {
+      "frame": 235826,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.32097625732422
+    },
+    {
+      "frame": 235827,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.50327682495117
+    },
+    {
+      "frame": 235828,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 62.77231216430664
+    },
+    {
+      "frame": 235829,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.59536743164062
+    },
+    {
+      "frame": 235830,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 86.35629272460938
+    },
+    {
+      "frame": 235831,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 86.50019836425781
+    },
+    {
+      "frame": 235832,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 73.23078918457031
+    },
+    {
+      "frame": 235833,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 70.48164367675781
+    },
+    {
+      "frame": 235834,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.334835052490234
+    },
+    {
+      "frame": 235835,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.742919921875
+    },
+    {
+      "frame": 235836,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.55847930908203
+    },
+    {
+      "frame": 235837,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 72.14315032958984
+    },
+    {
+      "frame": 235838,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 77.86904907226562
+    },
+    {
+      "frame": 235839,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 76.63536071777344
+    },
+    {
+      "frame": 235840,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.23825454711914
+    },
+    {
+      "frame": 235841,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.40260314941406
+    },
+    {
+      "frame": 235842,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.19089889526367
+    },
+    {
+      "frame": 235843,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.890602111816406
+    },
+    {
+      "frame": 235844,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.88848114013672
+    },
+    {
+      "frame": 235845,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.0091667175293
+    },
+    {
+      "frame": 235846,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.972145080566406
+    },
+    {
+      "frame": 235847,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.3202018737793
+    },
+    {
+      "frame": 235848,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.92393112182617
+    },
+    {
+      "frame": 235849,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.143150329589844
+    },
+    {
+      "frame": 235850,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.83679962158203
+    },
+    {
+      "frame": 235851,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 66.37762451171875
+    },
+    {
+      "frame": 235852,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 36.01491928100586
+    },
+    {
+      "frame": 235853,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.985435485839844
+    },
+    {
+      "frame": 235854,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.69196701049805
+    },
+    {
+      "frame": 235855,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.117469787597656
+    },
+    {
+      "frame": 235856,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.82604217529297
+    },
+    {
+      "frame": 235857,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.62501907348633
+    },
+    {
+      "frame": 235858,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.5924186706543
+    },
+    {
+      "frame": 235859,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.1827278137207
+    },
+    {
+      "frame": 235860,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 77.5384521484375
+    },
+    {
+      "frame": 235861,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.831058502197266
+    },
+    {
+      "frame": 235862,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.768924713134766
+    },
+    {
+      "frame": 235863,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 87.30242156982422
+    },
+    {
+      "frame": 235864,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.12623977661133
+    },
+    {
+      "frame": 235865,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.71852684020996
+    },
+    {
+      "frame": 235866,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 61.750999450683594
+    },
+    {
+      "frame": 235867,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 64.02362060546875
+    },
+    {
+      "frame": 235868,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.85078811645508
+    },
+    {
+      "frame": 235869,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.40641784667969
+    },
+    {
+      "frame": 235870,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 14.330394744873047
+    },
+    {
+      "frame": 235871,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.804197311401367
+    },
+    {
+      "frame": 235872,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 22.378620147705078
+    },
+    {
+      "frame": 235873,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 60.694156646728516
+    },
+    {
+      "frame": 235874,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.15507507324219
+    },
+    {
+      "frame": 235875,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.2614631652832
+    },
+    {
+      "frame": 235876,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 52.827247619628906
+    },
+    {
+      "frame": 235877,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 66.65087890625
+    },
+    {
+      "frame": 235878,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 77.87803649902344
+    },
+    {
+      "frame": 235879,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 87.83085632324219
+    },
+    {
+      "frame": 235880,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 89.32292175292969
+    },
+    {
+      "frame": 235881,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.926036834716797
+    },
+    {
+      "frame": 235882,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.72748374938965
+    },
+    {
+      "frame": 235883,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.639163970947266
+    },
+    {
+      "frame": 235884,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 19.116849899291992
+    },
+    {
+      "frame": 235885,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.015182495117188
+    },
+    {
+      "frame": 235886,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.2080020904541
+    },
+    {
+      "frame": 235887,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.96654510498047
+    },
+    {
+      "frame": 235888,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.18205642700195
+    },
+    {
+      "frame": 235889,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.574419021606445
+    },
+    {
+      "frame": 235890,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 69.75955200195312
+    },
+    {
+      "frame": 235891,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.774700164794922
+    },
+    {
+      "frame": 235892,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 0.6550071835517883
+    },
+    {
+      "frame": 235893,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.83970260620117
+    },
+    {
+      "frame": 235894,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.594322204589844
+    },
+    {
+      "frame": 235895,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.17561340332031
+    },
+    {
+      "frame": 235896,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 67.37569427490234
+    },
+    {
+      "frame": 235897,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.523319244384766
+    },
+    {
+      "frame": 235898,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 63.28163528442383
+    },
+    {
+      "frame": 235899,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.707340240478516
+    },
+    {
+      "frame": 235900,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.24125289916992
+    },
+    {
+      "frame": 235901,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.29507827758789
+    },
+    {
+      "frame": 235902,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.8613224029541
+    },
+    {
+      "frame": 235903,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 11.623002052307129
+    },
+    {
+      "frame": 235904,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 3.518004894256592
+    },
+    {
+      "frame": 235905,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 5.369541645050049
+    },
+    {
+      "frame": 235906,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.058528900146484
+    },
+    {
+      "frame": 235907,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.98287582397461
+    },
+    {
+      "frame": 235908,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 11.85187816619873
+    },
+    {
+      "frame": 235909,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 0.5005148649215698
+    },
+    {
+      "frame": 235910,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 20.271181106567383
+    },
+    {
+      "frame": 235911,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.86872673034668
+    },
+    {
+      "frame": 235912,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.34242630004883
+    },
+    {
+      "frame": 235913,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.21585464477539
+    },
+    {
+      "frame": 235914,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 17.804746627807617
+    },
+    {
+      "frame": 235924,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.51267623901367
+    },
+    {
+      "frame": 235925,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 16.79043197631836
+    },
+    {
+      "frame": 235926,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 4.681130409240723
+    },
+    {
+      "frame": 235927,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.24066925048828
+    },
+    {
+      "frame": 235928,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.88188171386719
+    },
+    {
+      "frame": 235929,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.194541931152344
+    },
+    {
+      "frame": 235930,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.646392822265625
+    },
+    {
+      "frame": 235931,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 6.527569770812988
+    },
+    {
+      "frame": 235932,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.46196365356445
+    },
+    {
+      "frame": 235933,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 31.69874382019043
+    },
+    {
+      "frame": 235934,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.99892044067383
+    },
+    {
+      "frame": 235935,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 59.43471145629883
+    },
+    {
+      "frame": 235936,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.613788604736328
+    },
+    {
+      "frame": 235937,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 37.478271484375
+    },
+    {
+      "frame": 235938,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.759132385253906
+    },
+    {
+      "frame": 235939,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 7.284829616546631
+    },
+    {
+      "frame": 235940,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 23.418575286865234
+    },
+    {
+      "frame": 235941,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 12.45880126953125
+    },
+    {
+      "frame": 235943,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 12.907713890075684
+    },
+    {
+      "frame": 235944,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 8.396200180053711
+    },
+    {
+      "frame": 235945,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 14.876623153686523
+    },
+    {
+      "frame": 235946,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.0865421295166
+    },
+    {
+      "frame": 235947,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 42.65027618408203
+    },
+    {
+      "frame": 235948,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 53.60184860229492
+    },
+    {
+      "frame": 235949,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.97690963745117
+    },
+    {
+      "frame": 235950,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.440547943115234
+    },
+    {
+      "frame": 235951,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.58308410644531
+    },
+    {
+      "frame": 235952,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 43.13441848754883
+    },
+    {
+      "frame": 235953,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.365074157714844
+    },
+    {
+      "frame": 235954,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.38956832885742
+    },
+    {
+      "frame": 235955,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.8218994140625
+    },
+    {
+      "frame": 235956,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 45.37995910644531
+    },
+    {
+      "frame": 235957,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 18.347545623779297
+    },
+    {
+      "frame": 235958,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 44.50019454956055
+    },
+    {
+      "frame": 235959,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.744102478027344
+    },
+    {
+      "frame": 235960,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 49.69890213012695
+    },
+    {
+      "frame": 235961,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.60335159301758
+    },
+    {
+      "frame": 235962,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.8318977355957
+    },
+    {
+      "frame": 235963,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.10097885131836
+    },
+    {
+      "frame": 235964,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.098968505859375
+    },
+    {
+      "frame": 235965,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.54473876953125
+    },
+    {
+      "frame": 235966,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 39.14146423339844
+    },
+    {
+      "frame": 235967,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 57.718902587890625
+    },
+    {
+      "frame": 235968,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 50.38763427734375
+    },
+    {
+      "frame": 235969,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.78071212768555
+    },
+    {
+      "frame": 235970,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 56.13395690917969
+    },
+    {
+      "frame": 235971,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 58.57841110229492
+    },
+    {
+      "frame": 235972,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 47.58150863647461
+    },
+    {
+      "frame": 235973,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.730167388916016
+    },
+    {
+      "frame": 235974,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.959083557128906
+    },
+    {
+      "frame": 235975,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.39747619628906
+    },
+    {
+      "frame": 235976,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.263206481933594
+    },
+    {
+      "frame": 235977,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.59714889526367
+    },
+    {
+      "frame": 235978,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 54.099056243896484
+    },
+    {
+      "frame": 235979,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 20.163639068603516
+    },
+    {
+      "frame": 235980,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 29.442209243774414
+    },
+    {
+      "frame": 235981,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.101673126220703
+    },
+    {
+      "frame": 235982,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 28.653900146484375
+    },
+    {
+      "frame": 235983,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.09162712097168
+    },
+    {
+      "frame": 235984,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 51.227516174316406
+    },
+    {
+      "frame": 235985,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 55.05421447753906
+    },
+    {
+      "frame": 235986,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 32.98726272583008
+    },
+    {
+      "frame": 235987,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.188411712646484
+    },
+    {
+      "frame": 235988,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 48.60447692871094
+    },
+    {
+      "frame": 235989,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 46.78144454956055
+    },
+    {
+      "frame": 235990,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.704341888427734
+    },
+    {
+      "frame": 235991,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.23595428466797
+    },
+    {
+      "frame": 235992,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.299646377563477
+    },
+    {
+      "frame": 235993,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 38.08134460449219
+    },
+    {
+      "frame": 235994,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 40.77265548706055
+    },
+    {
+      "frame": 235995,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 30.38189697265625
+    },
+    {
+      "frame": 235996,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 41.328125
+    },
+    {
+      "frame": 235997,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 34.74950408935547
+    },
+    {
+      "frame": 236004,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 66.88407897949219
+    },
+    {
+      "frame": 236005,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 21.952774047851562
+    },
+    {
+      "frame": 236006,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 25.89783477783203
+    },
+    {
+      "frame": 236007,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 27.546781539916992
+    },
+    {
+      "frame": 236008,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 15.808497428894043
+    },
+    {
+      "frame": 236009,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 19.945716857910156
+    },
+    {
+      "frame": 236010,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 20.0228271484375
+    },
+    {
+      "frame": 236011,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 14.240076065063477
+    },
+    {
+      "frame": 236012,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 18.084491729736328
+    },
+    {
+      "frame": 236013,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.473188400268555
+    },
+    {
+      "frame": 236015,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 24.838024139404297
+    },
+    {
+      "frame": 236016,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 26.888092041015625
+    },
+    {
+      "frame": 236017,
+      "other": "vehicle.lincoln.mkz_2020",
+      "impulse": 19.694332122802734
+    }
+  ],
+  "recorder_sha256": "1a2ebee27d21963877fdda7b982e1079db03da5c18c0eecc1a673a7814d1c80d",
+  "scenario_light_sequence_valid": true
+}

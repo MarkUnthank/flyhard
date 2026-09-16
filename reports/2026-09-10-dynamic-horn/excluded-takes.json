@@ -1,0 +1,11 @@
+{
+  "reason": "Observed lamp remained bound to the original light-scene junction, not the current cut-in/rage approach. Reject despite timing-only score passes.",
+  "takes": [
+    "dynamic-cut-in-t-final",
+    "dynamic-cut-in-cross-final",
+    "dynamic-road-rage-final"
+  ],
+  "road_rage_interrupted": true,
+  "replacement_suffix": "signal-fixed",
+  "checkpoint_unchanged": true
+}

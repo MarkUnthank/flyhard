@@ -1,0 +1,70 @@
+{
+  "primary": {
+    "path": "runs/parking-heldout-learned-v1",
+    "pid": 29659,
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ]
+  },
+  "parallel": {
+    "path": "runs/parking-heldout-parallel-v1",
+    "pid": 31896,
+    "indices": [
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ]
+  },
+  "third": {
+    "path": "runs/parking-heldout-third-v1",
+    "indices": [
+      21,
+      22,
+      23,
+      24,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  "selection": "Fixed disjoint numeric partitions before their remaining outcomes. Source allocation only; identical frozen policy, physics and scoring."
+}

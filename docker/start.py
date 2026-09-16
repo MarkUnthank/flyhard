@@ -1,7 +1,7 @@
 """Start a preinstalled Flyhard runtime and publish measured readiness.
 
 No package installation, simulator download or extraction happens here.
-Workspace code is mutable; the Python environment and CARLA are image assets.
+CARLA comes from the image or an explicitly selected manifest on the volume.
 """
 import json
 import os
@@ -12,27 +12,42 @@ import subprocess
 import sys
 import time
 
+from sync_workspace import sync_workspace
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from runtime_manifest import resolve as resolve_runtime
+
 
 def main():
     started = time.time()
     bundled = Path('/opt/flyhard')
     project = Path('/workspace/flyhard')
     project.mkdir(parents=True,exist_ok=True)
-    for name in ['src','scripts','tests','assets','requirements','docker','pyproject.toml',
-                 'README.md','LICENSE','THIRD_PARTY.md']:
-        source,target = bundled/name,project/name
-        if not target.exists():
-            if source.is_dir():shutil.copytree(source,target)
-            else:shutil.copy2(source,target)
+    selected_runtime = None
+    if os.environ.get('FLYHARD_RUNTIME_LAYOUT') == 'network-volume':
+        if not os.environ.get('FLYHARD_NETWORK_VOLUME_ID'):
+            raise RuntimeError('Network runtime requires the durable volume ID from the launcher')
+        candidate = os.environ.get('FLYHARD_RUNTIME_CANDIDATE') == '1'
+        if candidate and int(os.environ['FLYHARD_MAX_RUNTIME_SECONDS']) > 3600:
+            raise ValueError('Candidate runtime validation is capped at one hour')
+    source = sync_workspace(bundled, project, os.environ['FLYHARD_SOURCE_REVISION'])
     environment = project/'.venv'
     if not environment.exists():environment.symlink_to('/opt/flyhard-env',target_is_directory=True)
     if environment.resolve() != Path('/opt/flyhard-env'):
         raise RuntimeError('Workspace .venv differs from the packaged environment; use a fresh workspace.')
+    node_modules = project/'node_modules'
+    if not node_modules.exists():
+        node_modules.symlink_to('/opt/flyhard/node_modules', target_is_directory=True)
+    if node_modules.resolve() != Path('/opt/flyhard/node_modules'):
+        raise RuntimeError('Workspace node_modules differs from the packaged livery environment')
     runtime = project/'work/runtime'; runtime.mkdir(parents=True,exist_ok=True)
     ready = runtime/'ready.json'; ready.unlink(missing_ok=True)
+    selection_path = runtime/'selected-runtime.json'
+    selection_path.unlink(missing_ok=True)
     receipt = {'status':'starting','container_started_epoch':started,
         'source_revision':os.environ['FLYHARD_SOURCE_REVISION'],
-        'installation_at_startup':False,'project':str(project)}
+        'workspace_source': {'locally_modified':source['locally_modified'], 'backup':source['backup']},
+        'installation_at_startup':False,'project':str(project), 'runtime_asset':selected_runtime}
     (runtime/'startup.json').write_text(json.dumps(receipt,indent=2))
     shutil.copy2(bundled/'build-receipt.json',runtime/'build-receipt.json')
     processes,logs = [],[]
@@ -52,9 +67,18 @@ def main():
         if os.environ.get('RUNPOD_POD_ID'):
             spawn([sys.executable,str(bundled/'scripts/pod_deadline.py'),
                 '--deadline',str(started+limit)],'deadline')
+        if os.environ.get('FLYHARD_RUNTIME_LAYOUT') == 'network-volume':
+            # Start the independent deadline before hashing files on network storage.
+            selected_runtime = resolve_runtime(os.environ['FLYHARD_RUNTIME_MANIFEST'],
+                os.environ['FLYHARD_RUNTIME_MANIFEST_SHA256'], allow_candidate=candidate)
+            os.environ['FLYHARD_CARLA_ROOT'] = selected_runtime['root']
+            selection_path.write_text(json.dumps(selected_runtime, indent=2)+'\n')
+            receipt['runtime_asset'] = selected_runtime
+            (runtime/'startup.json').write_text(json.dumps(receipt,indent=2))
         spawn(['bash',str(project/'scripts/start_carla.sh')],'carla')
         health = spawn([sys.executable,str(bundled/'scripts/runtime_health.py'),
-            '--output',str(ready),'--started-epoch',str(started)],'health')
+            '--output',str(ready),'--started-epoch',str(started)] +
+            (['--runtime-selection',str(selection_path)] if selected_runtime else []),'health')
         while health.poll() is None:
             if any(p.poll() is not None for p in processes if p is not health):
                 raise RuntimeError('A required runtime process exited during startup; inspect work/runtime logs.')

@@ -1,0 +1,21 @@
+diff --git a/Engine/Source/Editor/UnrealEd/Private/Fbx/FbxMainImport.cpp b/Engine/Source/Editor/UnrealEd/Private/Fbx/FbxMainImport.cpp
+--- a/Engine/Source/Editor/UnrealEd/Private/Fbx/FbxMainImport.cpp
++++ b/Engine/Source/Editor/UnrealEd/Private/Fbx/FbxMainImport.cpp
+@@ -6,6 +6,7 @@
+ 
+ #include "CoreMinimal.h"
+ #include "Misc/Paths.h"
++#include "Misc/CoreDelegates.h"
+ #include "Misc/FeedbackContext.h"
+ #include "Modules/ModuleManager.h"
+ #include "Widgets/DeclarativeSyntaxSupport.h"
+@@ -559,6 +560,9 @@
+ 	if (!StaticInstance.IsValid())
+ 	{
+ 		StaticInstance = MakeShareable( new FFbxImporter() );
++		// Release the FBX manager while its function registry is still alive.
++		// DSO static destruction happens too late on Linux after an import.
++		FCoreDelegates::OnEnginePreExit.AddStatic(&FFbxImporter::DeleteInstance);
+ 	}
+ 	return StaticInstance.Get();
+ }

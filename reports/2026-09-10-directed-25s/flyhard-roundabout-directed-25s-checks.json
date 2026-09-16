@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "decoded_frames": 500,
+  "duration_seconds": 25,
+  "labelled_slow_motion_frames": 460,
+  "all_source_frames_retained": true,
+  "source_panel_comparisons": {
+    "road": {
+      "max_mean_absolute_error": 1.7007973869301993,
+      "mean_absolute_error": 1.2332014489850427
+    },
+    "neural": {
+      "max_mean_absolute_error": 0.4534002525252525,
+      "mean_absolute_error": 0.33456798232323226
+    },
+    "fly": {
+      "max_mean_absolute_error": 0.569520202020202,
+      "mean_absolute_error": 0.3825237626262627
+    },
+    "steering": {
+      "max_mean_absolute_error": 0.23694948955365622,
+      "mean_absolute_error": 0.16119124673551755
+    },
+    "website": {
+      "max_mean_absolute_error": 0.2703349282296651,
+      "mean_absolute_error": 0.25255263157894736
+    }
+  },
+  "video_sha256": "c7fcc59ddce19288bff77760b55918aa5ae6d9bb463af9443a6072a062b32914"
+}

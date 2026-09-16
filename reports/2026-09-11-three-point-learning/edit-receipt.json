@@ -1,0 +1,92 @@
+{
+  "output": "runs/three-point-final-edit-v2/Flyhard-three-point-turn-Mozart.mp4",
+  "sha256": "3a4cfe93381d733d934521502703d080230e264de52e5fcd360473d92ce4f45e",
+  "duration_seconds": 39.400000000000006,
+  "fps": 60,
+  "learning_seconds": 15.0,
+  "black_seconds": 1.1,
+  "successful_reveal_start": 16.1,
+  "success_playback": "Complete recorded successful attempt at real-time speed; final 3-second still hold.",
+  "artwork": {
+    "revision": 35,
+    "layout": 5
+  },
+  "sources": [
+    {
+      "file": "runs/three-point-render-early/three-point.mp4",
+      "sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a",
+      "result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": false,
+        "time_seconds": 16.55,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 4.610693762130304,
+        "yaw_error_deg": 71.1822280883789,
+        "boundary_clearance_m": -0.012024682524716113,
+        "collision": true,
+        "pose_passed": false
+      },
+      "rate": 2.0
+    },
+    {
+      "file": "runs/three-point-render-middle/three-point.mp4",
+      "sha256": "c61b83a7da18e54fd3bf03fc7df9ed1ee7d9a416c46cf1684811074d2b714d2e",
+      "result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": true,
+        "time_seconds": 19.5,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 0.38165243545432176,
+        "yaw_error_deg": 3.364456892013538,
+        "boundary_clearance_m": 1.3696892280477377,
+        "collision": false,
+        "pose_passed": true
+      },
+      "rate": 1.5
+    },
+    {
+      "file": "runs/three-point-render-success/three-point.mp4",
+      "sha256": "939184ea1b6a94ac97d540dfd9911abb88d8c523285087b0e0354c13853dfb93",
+      "result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": true,
+        "time_seconds": 20.3,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 0.2539899596934283,
+        "yaw_error_deg": 0.7554473280906427,
+        "boundary_clearance_m": 1.6480966960093877,
+        "collision": false,
+        "pose_passed": true
+      },
+      "rate": 1.0
+    }
+  ],
+  "music": {
+    "file": "assets/music/mozart-k525/allegro.ogg",
+    "sha256": "c0bd9e48d7b7c60ead7ebad4d147f8dbe1e1a9f8ba4a89cde97966cc8afd5394",
+    "title": "Mozart K. 525: I. Allegro",
+    "recording": "Musopen European Archive; Wikimedia Commons public-domain recording; see assets/music/mozart-k525/README.md"
+  },
+  "claim": "Scoped learned three-point turn from structured relative geometry. Measured body controls drive CARLA. Presentation interpolates recorded poses to 60 fps; sponsor meshes composited. No invented steering mistakes or neural activity."
+}

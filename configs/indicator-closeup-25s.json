@@ -1,0 +1,140 @@
+{
+  "fps": 60,
+  "credit_seconds": 2,
+  "previews": [
+    60,
+    240,
+    390,
+    450,
+    570,
+    690,
+    990,
+    1200,
+    1350
+  ],
+  "cameras": {
+    "rear_wide": {
+      "position": [
+        -4.5,
+        3.0,
+        2.15
+      ],
+      "target": [
+        -0.25,
+        0,
+        0.85
+      ],
+      "fov": 65
+    },
+    "rear_lamp": {
+      "position": [
+        -3.1,
+        1.0,
+        0.6
+      ],
+      "target": [
+        -2.26,
+        0.59,
+        0.4
+      ],
+      "fov": 40
+    },
+    "rear_left": {
+      "position": [
+        -4.5,
+        -3.0,
+        1.8
+      ],
+      "target": [
+        -0.25,
+        0,
+        0.85
+      ],
+      "fov": 65
+    }
+  },
+  "shots": [
+    {
+      "source_start": 40,
+      "source_end": 64,
+      "seconds": 3,
+      "camera": "rear_left",
+      "title": "Next exit. Watch the indicator.",
+      "body_closeup": false
+    },
+    {
+      "source_start": 64,
+      "source_end": 102,
+      "seconds": 6,
+      "camera": "rear_lamp",
+      "title": "1  The fly moves the stalk",
+      "title_after_signal_on": "2  Right indicator on",
+      "body_closeup": true,
+      "body_camera": {
+        "offset": [
+          0,
+          -0.15,
+          0.1
+        ],
+        "distance": 1.8,
+        "azimuth": -55,
+        "elevation": -10
+      }
+    },
+    {
+      "source_start": 102,
+      "source_end": 165,
+      "seconds": 6,
+      "camera": "rear_lamp",
+      "title": "The right indicator is flashing",
+      "body_closeup": true,
+      "body_camera": {
+        "offset": [
+          0,
+          -0.15,
+          0.1
+        ],
+        "distance": 1.8,
+        "azimuth": -55,
+        "elevation": -10
+      }
+    },
+    {
+      "source_start": 165,
+      "source_end": 209,
+      "seconds": 3,
+      "camera": "rear_wide",
+      "title": "Still steering. Still indicating.",
+      "body_closeup": true,
+      "body_camera": {
+        "offset": [
+          0,
+          -0.15,
+          0.1
+        ],
+        "distance": 1.8,
+        "azimuth": -55,
+        "elevation": -10
+      }
+    },
+    {
+      "source_start": 209,
+      "source_end": 279,
+      "seconds": 5,
+      "camera": "rear_lamp",
+      "title": "3  The stalk returns",
+      "title_after_signal_off": "4  Indicator off",
+      "body_closeup": true,
+      "body_camera": {
+        "offset": [
+          0,
+          -0.15,
+          0.1
+        ],
+        "distance": 1.8,
+        "azimuth": -55,
+        "elevation": -10
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "status": "FBX exported and reimported in Blender; Unreal import and cooking pending",
+  "ready_for_carla_recording": false,
+  "revision": 12,
+  "layout": 4,
+  "model_sha256": "83782dfb56c445df68182e9969b7120092044b7e4fe304a37363f89d50d232a6",
+  "texture_sha256": "503a971738c924793365bb4978712b9924ddfa7617cd2e1bb45977544feea899",
+  "blender": "5.2.0 LTS",
+  "axis_forward": "X",
+  "axis_up": "Z",
+  "units": "metres with FBX unit conversion",
+  "source_car_bounds_metres": [
+    [
+      -2.307602643966675,
+      -1.0926463603973389,
+      0.007451726123690605
+    ],
+    [
+      2.245096445083618,
+      1.0926381349563599,
+      1.7746164798736572
+    ]
+  ],
+  "source_car_center_metres": [
+    -0.03125309944152832,
+    -4.112720489501953e-06,
+    0.8910341029986739
+  ],
+  "exports": [
+    {
+      "file": "SM_TaxiBillboardFrame.fbx",
+      "sha256": "2309db49357ec17f5dc8be73cf65e6004365896a736e7a9efbcc1f8003bbe424",
+      "mesh_count": 17,
+      "bounds_metres": [
+        [
+          -1.0665500164031982,
+          -0.25,
+          1.6393983364105225
+        ],
+        [
+          0.3665499985218048,
+          0.25,
+          2.2632999420166016
+        ]
+      ],
+      "uv_loops": 6528,
+      "roundtrip_bounds_error_metres": 2.9802322387695312e-08
+    },
+    {
+      "file": "SM_TaxiBillboardAd59.fbx",
+      "sha256": "085cce4d21b12bc50108a99a0810d0d2b89b87aab2af8224d7350bf21c03f408",
+      "mesh_count": 1,
+      "bounds_metres": [
+        [
+          -1.0266000032424927,
+          -0.06714999675750732,
+          1.8646498918533325
+        ],
+        [
+          0.32659998536109924,
+          0.06714999675750732,
+          2.2233498096466064
+        ]
+      ],
+      "uv_loops": 8,
+      "roundtrip_bounds_error_metres": 1.6391277313232422e-07
+    }
+  ]
+}

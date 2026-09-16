@@ -1,0 +1,2 @@
+# Training demonstrator only; not imported by the learned driving path.
+rsplan==1.0.10

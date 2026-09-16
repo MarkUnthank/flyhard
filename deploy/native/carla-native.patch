@@ -1,0 +1,449 @@
+diff --git a/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp b/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp
+index d3da868..9b5ccc5 100644
+--- a/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp
++++ b/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp
+@@ -29,6 +29,11 @@ TArray<FActorDefinition> AStaticMeshFactory::GetDefinitions()
+       TEXT("scale"),
+       EActorAttributeType::Float,
+       {"1.0f"}, false});
++  // A rigid visual accessory needs movable geometry without simulated mass.
++  StaticMeshDefinition.Variations.Emplace(FActorVariation{
++      TEXT("movable"),
++      EActorAttributeType::Bool,
++      {"false"}, false});
+   return { StaticMeshDefinition };
+ }
+ 
+@@ -69,7 +74,10 @@ FActorSpawnResult AStaticMeshFactory::SpawnActor(
+       StaticMeshComponent->SetMobility(EComponentMobility::Movable);
+       if (!StaticMeshComponent->SetStaticMesh(Mesh))
+         UE_LOG(LogCarla, Warning, TEXT("Failed to set the mesh"));
+-      StaticMeshComponent->SetMobility(EComponentMobility::Static);
++      const bool bMovable = ABFL::RetrieveActorAttributeToBool(
++          "movable", ActorDescription.Variations, false);
++      StaticMeshComponent->SetMobility(bMovable
++          ? EComponentMobility::Movable : EComponentMobility::Static);
+ 
+       if (ActorDescription.Variations.Contains("mass"))
+       {
+diff --git a/Util/BuildTools/Environment.sh b/Util/BuildTools/Environment.sh
+index fa9cf05..86ce03b 100644
+--- a/Util/BuildTools/Environment.sh
++++ b/Util/BuildTools/Environment.sh
+@@ -54,4 +54,4 @@ function move_if_changed {
+   rm -f $1
+ }
+ 
+-CARLA_BUILD_CONCURRENCY=`nproc --all`
++CARLA_BUILD_CONCURRENCY=${FLYHARD_BUILD_JOBS:-`nproc`}
+diff --git a/Unreal/CarlaUE4/Config/DefaultGame.ini b/Unreal/CarlaUE4/Config/DefaultGame.ini
+--- a/Unreal/CarlaUE4/Config/DefaultGame.ini
++++ b/Unreal/CarlaUE4/Config/DefaultGame.ini
+@@ -66,6 +66,7 @@
+ +MapsToCook=(FilePath="/Carla/PostProcessingMaterials/AnnotationColorLandscape")
+ +DirectoriesToAlwaysCook=(Path="Carla/Static/GenericMaterials/Licenseplates/Textures")
+ +DirectoriesToAlwaysCook=(Path="Carla/Static/Car/4Wheeled/ParkedVehicles")
+++DirectoriesToAlwaysCook=(Path="/Game/Flyhard")
+ +DirectoriesToAlwaysStageAsUFS=(Path="Carla/Maps/OpenDrive")
+ +DirectoriesToAlwaysStageAsUFS=(Path="Carla/Maps/Nav")
+ +DirectoriesToAlwaysStageAsUFS=(Path="Carla/Maps/TM")
+diff --git a/Util/BuildTools/Setup.sh b/Util/BuildTools/Setup.sh
+--- a/Util/BuildTools/Setup.sh
++++ b/Util/BuildTools/Setup.sh
+@@ -144,7 +144,7 @@
+     log "Retrieving boost."
+ 
+     start=$(date +%s)
+-    wget "https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_PACKAGE_BASENAME}.tar.gz" -O ${BOOST_PACKAGE_BASENAME}.tar.gz || true
++    python3 /workspace/flyhard-build/downloads/cache_carla_archive.py "https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_PACKAGE_BASENAME}.tar.gz" || true
+     end=$(date +%s)
+     echo "Elapsed Time downloading from boost webpage: $(($end-$start)) seconds"
+ 
+@@ -153,7 +153,7 @@
+       log "Using boost backup"
+ 
+       start=$(date +%s)
+-      wget "https://carla-releases.s3.us-east-005.backblazeb2.com/Backup/${BOOST_PACKAGE_BASENAME}.tar.gz" -O ${BOOST_PACKAGE_BASENAME}.tar.gz || true
++      python3 /workspace/flyhard-build/downloads/cache_carla_archive.py "https://carla-releases.s3.us-east-005.backblazeb2.com/Backup/${BOOST_PACKAGE_BASENAME}.tar.gz" || true
+       end=$(date +%s)
+       echo "Elapsed Time downloading from boost carla backup in backblaze: $(($end-$start)) seconds"
+ 
+@@ -257,9 +257,9 @@
+       -DCMAKE_INSTALL_PREFIX="../${RPCLIB_BASENAME}-libcxx-install" \
+       ../${RPCLIB_BASENAME}-source
+ 
+-  ninja
+-
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -274,9 +274,9 @@
+       -DCMAKE_INSTALL_PREFIX="../${RPCLIB_BASENAME}-libstdcxx-install" \
+       ../${RPCLIB_BASENAME}-source
+ 
+-  ninja
+-
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -326,9 +326,9 @@
+       -DCMAKE_INSTALL_PREFIX="../${GTEST_BASENAME}-libcxx-install" \
+       ../${GTEST_BASENAME}-source
+ 
+-  ninja
+-
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -343,9 +343,9 @@
+       -DCMAKE_INSTALL_PREFIX="../${GTEST_BASENAME}-libstdcxx-install" \
+       ../${GTEST_BASENAME}-source
+ 
+-  ninja
+-
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -399,9 +399,9 @@
+       -DRECASTNAVIGATION_TEST=False \
+       ../${RECAST_BASENAME}-source
+ 
+-  ninja
+-
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -422,7 +422,7 @@
+ # ==============================================================================
+ 
+ LIBPNG_VERSION=1.6.37
+-LIBPNG_REPO=https://sourceforge.net/projects/libpng/files/libpng16/${LIBPNG_VERSION}/libpng-${LIBPNG_VERSION}.tar.xz
++LIBPNG_REPO=https://downloads.sourceforge.net/project/libpng/libpng16/older-releases/${LIBPNG_VERSION}/libpng-${LIBPNG_VERSION}.tar.xz
+ LIBPNG_BASENAME=libpng-${LIBPNG_VERSION}
+ LIBPNG_INSTALL=${LIBPNG_BASENAME}-install
+ 
+@@ -435,7 +435,8 @@
+   log "Retrieving libpng."
+ 
+   start=$(date +%s)
+-  wget ${LIBPNG_REPO}
++  python3 /workspace/flyhard-build/downloads/cache_carla_archive.py ${LIBPNG_REPO}
++  echo "505e70834d35383537b6491e7ae8641f1a4bed1876dbfe361201fc80868d88ca  libpng-${LIBPNG_VERSION}.tar.xz" | sha256sum -c -
+   end=$(date +%s)
+   echo "Elapsed Time downloading libpng: $(($end-$start)) seconds"
+ 
+@@ -479,14 +480,14 @@
+ else
+   log "Retrieving xerces-c."
+   start=$(date +%s)
+-  wget ${XERCESC_REPO}
++  python3 /workspace/flyhard-build/downloads/cache_carla_archive.py ${XERCESC_REPO}
+   end=$(date +%s)
+   echo "Elapsed Time downloading from xerces repo: $(($end-$start)) seconds"
+   # try to use the backup boost we have in Jenkins
+   if [[ ! -f "${XERCESC_BASENAME}.tar.gz" ]] ; then
+     log "Using xerces backup"
+     start=$(date +%s)
+-    wget "https://carla-releases.s3.us-east-005.backblazeb2.com/Backup/${XERCESC_BASENAME}.tar.gz" || true
++    python3 /workspace/flyhard-build/downloads/cache_carla_archive.py "https://carla-releases.s3.us-east-005.backblazeb2.com/Backup/${XERCESC_BASENAME}.tar.gz" || true
+     end=$(date +%s)
+     echo "Elapsed Time downloading from xerces backup: $(($end-$start)) seconds"
+   fi
+@@ -512,8 +513,8 @@
+       -Dtranscoder=gnuiconv \
+       -Dnetwork=OFF \
+       ..
+-  ninja
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -529,8 +530,8 @@
+       -Dtranscoder=gnuiconv \
+       -Dnetwork=OFF \
+       ..
+-  ninja
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -562,7 +563,7 @@
+     log "Retrieving Eigen."
+ 
+     start=$(date +%s)
+-    wget ${EIGEN_REPO}
++    python3 /workspace/flyhard-build/downloads/cache_carla_archive.py ${EIGEN_REPO}
+     end=$(date +%s)
+     echo "Elapsed Time: $(($end-$start)) seconds"
+ 
+@@ -624,8 +625,8 @@
+       -DBUILD_DEMOS=OFF \
+       -DENABLE_MODULE_VEHICLE=ON \
+       ..
+-    ninja
+-    ninja install
++    ninja -j "${CARLA_BUILD_CONCURRENCY}"
++    ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+     popd >/dev/null
+     if [[ -n "${CHRONO_PATH}" ]] ; then
+       log "Skipping src removal."
+@@ -661,7 +662,7 @@
+   log "Retrieving Sqlite3"
+ 
+   start=$(date +%s)
+-  wget ${SQLITE_REPO}
++  python3 /workspace/flyhard-build/downloads/cache_carla_archive.py ${SQLITE_REPO}
+   end=$(date +%s)
+   echo "Elapsed Time: $(($end-$start)) seconds"
+ 
+@@ -717,7 +718,7 @@
+   log "Retrieving PROJ"
+ 
+   start=$(date +%s)
+-  wget ${PROJ_REPO}
++  python3 /workspace/flyhard-build/downloads/cache_carla_archive.py ${PROJ_REPO}
+   end=$(date +%s)
+   echo "Elapsed Time: $(($end-$start)) seconds"
+ 
+@@ -743,8 +744,8 @@
+       -DBUILD_CCT=OFF -DBUILD_CS2CS=OFF -DBUILD_GEOD=OFF -DBUILD_GIE=OFF \
+       -DBUILD_PROJ=OFF -DBUILD_TESTING=OFF \
+       -DCMAKE_INSTALL_PREFIX=${PROJ_INSTALL_DIR_FULL}
+-  ninja
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -761,8 +762,8 @@
+       -DBUILD_CCT=OFF -DBUILD_CS2CS=OFF -DBUILD_GEOD=OFF -DBUILD_GIE=OFF \
+       -DBUILD_PROJ=OFF -DBUILD_TESTING=OFF \
+       -DCMAKE_INSTALL_PREFIX=${PROJ_INSTALL_SERVER_DIR_FULL}
+-  ninja
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   popd >/dev/null
+ 
+@@ -796,7 +797,7 @@
+   log "Retrieving patchelf"
+ 
+   start=$(date +%s)
+-  wget ${PATCHELF_REPO}
++  python3 /workspace/flyhard-build/downloads/cache_carla_archive.py ${PATCHELF_REPO}
+   end=$(date +%s)
+   echo "Elapsed Time: $(($end-$start)) seconds"
+ 
+@@ -941,8 +942,8 @@
+       -DBUILD_SHARED_LIBS=OFF \
+       -DFOONATHAN_MEMORY_FORCE_VENDORED_BUILD=ON \
+       ..
+-    ninja
+-    ninja install
++    ninja -j "${CARLA_BUILD_CONCURRENCY}"
++    ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+     popd >/dev/null
+     rm -Rf ${FOONATHAN_MEMORY_VENDOR_SOURCE_DIR}
+ 
+@@ -992,8 +993,8 @@
+       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=${FASTDDS_LIB}/libcrypto.a \
+       -DTHIRDPARTY_BOOST_INCLUDE_DIR="${BOOST_INCLUDE};${FAST_DDS_LIB_SOURCE_DIR}/thirdparty/boost/include" \
+       ..
+-    ninja
+-    ninja install
++    ninja -j "${CARLA_BUILD_CONCURRENCY}"
++    ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+     popd >/dev/null
+     rm -Rf ${FAST_DDS_LIB_SOURCE_DIR}
+ 
+diff --git a/Util/BuildTools/BuildOSM2ODR.sh b/Util/BuildTools/BuildOSM2ODR.sh
+--- a/Util/BuildTools/BuildOSM2ODR.sh
++++ b/Util/BuildTools/BuildOSM2ODR.sh
+@@ -82,9 +82,9 @@
+   log "Building OSM2ODR."
+   if [ ! -d ${OSM2ODR_SOURCE_FOLDER} ] ; then
+     cd ${CARLA_BUILD_FOLDER}
+-    curl --retry 5 --retry-max-time 120 -L -o OSM2ODR.zip https://github.com/carla-simulator/sumo/archive/${CURRENT_OSM2ODR_COMMIT}.zip
+-    unzip -qq OSM2ODR.zip
+-    rm -f OSM2ODR.zip
++    python3 /workspace/flyhard-build/downloads/cache_carla_archive.py https://github.com/carla-simulator/sumo/archive/${CURRENT_OSM2ODR_COMMIT}.zip
++    unzip -qq ${CURRENT_OSM2ODR_COMMIT}.zip
++    rm -f ${CURRENT_OSM2ODR_COMMIT}.zip
+     mv sumo-${CURRENT_OSM2ODR_COMMIT} ${OSM2ODR_SOURCE_FOLDER}
+   fi
+ 
+@@ -105,8 +105,8 @@
+       -DXercesC_INCLUDE_DIR=${CARLA_BUILD_FOLDER}/xerces-c-3.2.3-install/include \
+       -DXercesC_LIBRARY=${CARLA_BUILD_FOLDER}/xerces-c-3.2.3-install/lib/libxerces-c.a
+ 
+-  ninja osm2odr
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" osm2odr
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   mkdir -p ${OSM2ODR_SERVER_BUILD_FOLDER}
+   cd ${OSM2ODR_SERVER_BUILD_FOLDER}
+@@ -127,8 +127,8 @@
+       -DXercesC_INCLUDE_DIR=${CARLA_BUILD_FOLDER}/xerces-c-3.2.3-install-server/include \
+       -DXercesC_LIBRARY=${CARLA_BUILD_FOLDER}/xerces-c-3.2.3-install-server/lib/libxerces-c.a
+ 
+-  ninja osm2odr
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" osm2odr
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+   mkdir -p ${OSM2ODR_SERVER_BUILD_FOLDER}
+   cd ${OSM2ODR_SERVER_BUILD_FOLDER}
+@@ -146,8 +146,8 @@
+       -DXercesC_INCLUDE_DIR=${CARLA_BUILD_FOLDER}/xerces-c-3.2.3-install-server/include \
+       -DXercesC_LIBRARY=${CARLA_BUILD_FOLDER}/xerces-c-3.2.3-install-server/lib/libxerces-c.a
+ 
+-  ninja osm2odr
+-  ninja install
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" osm2odr
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install
+ 
+ fi
+ 
+diff --git a/Util/BuildTools/BuildLibCarla.sh b/Util/BuildTools/BuildLibCarla.sh
+--- a/Util/BuildTools/BuildLibCarla.sh
++++ b/Util/BuildTools/BuildLibCarla.sh
+@@ -198,9 +198,9 @@
+ 
+   fi
+ 
+-  ninja
+-
+-  ninja install | grep -v "Up-to-date:"
++  ninja -j "${CARLA_BUILD_CONCURRENCY}"
++
++  ninja -j "${CARLA_BUILD_CONCURRENCY}" install | grep -v "Up-to-date:"
+ 
+   popd >/dev/null
+ }
+diff --git a/Util/BuildTools/BuildUE4Plugins.sh b/Util/BuildTools/BuildUE4Plugins.sh
+--- a/Util/BuildTools/BuildUE4Plugins.sh
++++ b/Util/BuildTools/BuildUE4Plugins.sh
+@@ -82,12 +82,15 @@
+ if ${BUILD_STREETMAP} ; then
+   log "Downloading STREETMAP plugin."
+   if ${GIT_PULL} ; then
+-    if [ ! -d ${CARLAUE4_STREETMAP_FOLDER} ] ; then
+-      git clone -b ${STREETMAP_BRANCH} ${STREETMAP_REPO} ${CARLAUE4_STREETMAP_FOLDER}
++    if [ ! -d ${CARLAUE4_STREETMAP_FOLDER}/.git ] ; then
++      git init ${CARLAUE4_STREETMAP_FOLDER}
++      git -C ${CARLAUE4_STREETMAP_FOLDER} remote add origin ${STREETMAP_REPO}
+     fi
+     cd ${CARLAUE4_STREETMAP_FOLDER}
+-    git fetch
+-    git checkout ${CURRENT_STREETMAP_COMMIT}
++    if ! git cat-file -e ${CURRENT_STREETMAP_COMMIT}^{commit} 2>/dev/null ; then
++      git -c http.version=HTTP/1.1 fetch --depth=1 origin ${CURRENT_STREETMAP_COMMIT}
++    fi
++    git checkout --detach ${CURRENT_STREETMAP_COMMIT}
+   fi
+ fi
+ 
+diff --git a/Util/BuildTools/BuildCarlaUE4.sh b/Util/BuildTools/BuildCarlaUE4.sh
+--- a/Util/BuildTools/BuildCarlaUE4.sh
++++ b/Util/BuildTools/BuildCarlaUE4.sh
+@@ -198,7 +198,7 @@
+     # This command fails sometimes but normally we can continue anyway.
+     set +e
+     log "Generate Unreal project files."
+-    ${UE4_ROOT}/GenerateProjectFiles.sh -project="${PWD}/CarlaUE4.uproject" -game -engine -makefiles
++    ${UE4_ROOT}/GenerateProjectFiles.sh -project="${PWD}/CarlaUE4.uproject" -game -engine -makefiles -NoIntelliSense
+     set -e
+ 
+   fi
+diff --git a/Util/BuildTools/Package.sh b/Util/BuildTools/Package.sh
+--- a/Util/BuildTools/Package.sh
++++ b/Util/BuildTools/Package.sh
+@@ -62,6 +62,7 @@
+ # -- Prepare environment -------------------------------------------------------
+ # ==============================================================================
+ source $(dirname "$0")/Environment.sh
++read -r -a FLYHARD_SHADER_ARGS <<< "${FLYHARD_SHADER_OPTIONS:-}"
+ 
+ if [ ! -d "${UE4_ROOT}" ]; then
+   fatal_error "UE4_ROOT is not defined, or points to a non-existent directory, please set this environment variable."
+@@ -140,7 +141,7 @@
+   fi
+   ${UE4_ROOT}/Engine/Binaries/Linux/UE4Editor "${CARLAUE4_ROOT_FOLDER}/CarlaUE4.uproject" \
+   -run=GenerateTaggedMaterialsRegistry -PackageNames=${CUR_PACKAGES_UE} ${TARGET_ARCHIVE_OPTION} \
+-  -NoShaderCompile
++  -unattended -NullRHI -nosound -nop4 "${FLYHARD_SHADER_ARGS[@]}"
+ 
+   # Construct string for all maps to cook all at once
+   if ${SINGLE_PACKAGE} ; then
+@@ -160,7 +161,8 @@
+   log "Cook TaggedMaterialsRegistries"
+   ${UE4_ROOT}/Engine/Binaries/Linux/UE4Editor "${CARLAUE4_ROOT_FOLDER}/CarlaUE4.uproject" \
+   -run=cook -map="${MAPS_COOKING_STR}" \
+-  -targetplatform="LinuxNoEditor" -OutputDir="${TEMP_BUILD_DIR}" -iterate -cooksinglepackage
++  -targetplatform="LinuxNoEditor" -OutputDir="${TEMP_BUILD_DIR}" -iterate -cooksinglepackage \
++  -unattended -NullRHI -nosound -nop4 "${FLYHARD_SHADER_ARGS[@]}"
+ 
+   # Move/Copy the generated files to the correct packages (zipping happens later on)
+   log "Copy cooked TaggedMaterialsRegistries"
+@@ -254,12 +256,19 @@
+   rm -Rf ${RELEASE_BUILD_FOLDER}
+   mkdir -p ${RELEASE_BUILD_FOLDER}
+ 
++  FLYHARD_COOK_ARGS=()
++  if [[ -n "${FLYHARD_MAPS_TO_COOK:-}" ]]; then
++    FLYHARD_COOK_ARGS+=("-MapsToCook=${FLYHARD_MAPS_TO_COOK}")
++  fi
++
+   ${UE4_ROOT}/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun \
+       -project="${PWD}/CarlaUE4.uproject" \
+       -nocompileeditor -nop4 -cook -stage -archive -package -iterate \
+       -clientconfig=${PACKAGE_CONFIG} -ue4exe=UE4Editor \
+       -prereqs -targetplatform=Linux -build -utf8output \
+-      -archivedirectory="${RELEASE_BUILD_FOLDER}"
++      -archivedirectory="${RELEASE_BUILD_FOLDER}" \
++      -AdditionalCookerOptions="-unattended -NullRHI -nosound -nop4 ${FLYHARD_SHADER_OPTIONS:-}" \
++      "${FLYHARD_COOK_ARGS[@]}"
+ 
+   cook_tagged_materials "Carla"
+ 
+diff --git a/Unreal/CarlaUE4/Config/DefaultEngine.ini b/Unreal/CarlaUE4/Config/DefaultEngine.ini
+--- a/Unreal/CarlaUE4/Config/DefaultEngine.ini
++++ b/Unreal/CarlaUE4/Config/DefaultEngine.ini
+@@ -9,8 +9,8 @@
+ AppliedDefaultGraphicsPerformance=Maximum
+ 
+ [/Script/EngineSettings.GameMapsSettings]
+-EditorStartupMap=/Game/Carla/Maps/Town10HD_Opt.Town10HD_Opt
+-GameDefaultMap=/Game/Carla/Maps/Town10HD_Opt.Town10HD_Opt
++EditorStartupMap=/Game/Carla/Maps/Town03.Town03
++GameDefaultMap=/Game/Carla/Maps/Town03.Town03
+ ServerDefaultMap=/Game/Carla/Maps/Town10HD_Opt.Town10HD_Opt
+ GlobalDefaultGameMode=/Game/Carla/Blueprints/Game/CarlaGameMode.CarlaGameMode_C
+ GameInstanceClass=/Script/Carla.CarlaGameInstance

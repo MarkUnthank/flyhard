@@ -24,6 +24,7 @@ def main():
     parser.add_argument('--preview-only',action='store_true')
     args=parser.parse_args()
     root=Path(args.run)
+    fps=json.loads((root/'config.json').read_text()).get('fps',25)
     frames=json.loads((root/'frames.json').read_text())
     # Materialize once: NpzFile indexing otherwise rereads the full state
     # matrix for every video frame, which is especially costly on Pod NFS.
@@ -35,7 +36,7 @@ def main():
     print(json.dumps({'anatomy_ready_seconds':time.perf_counter()-start,
                      'renderer':view.gpu_capabilities}),flush=True)
     path=root/'cns-layer.mp4'
-    writer=None if args.preview_only else imageio.get_writer(path,fps=25,codec='libx264',
+    writer=None if args.preview_only else imageio.get_writer(path,fps=fps,codec='libx264',
         quality=None,macro_block_size=1,ffmpeg_params=['-crf','14','-preset','fast'])
     wanted={0,min(100,len(frames)-1),min(200,len(frames)-1),min(400,len(frames)-1),len(frames)-1}
     previous=-1
@@ -53,7 +54,7 @@ def main():
         if index % 100 == 0:print(json.dumps({'cns_frame':index}),flush=True)
     if writer is not None:writer.close()
     result={'status':'previewed' if args.preview_only else 'rendered',
-        'frames':len(frame_map),'fps':25,'width':600,'height':440,
+        'frames':len(frame_map),'fps':fps,'width':600,'height':440,
         'geometry_sha256':sha(args.geometry),'neural_trace_sha256':sha(root/'neural-trace.npz'),
         'frames_sha256':sha(root/'frames.json'),'surface_sha256':view.surface_sha256,
         'model_rate_color_scale':view.scale,'vtk_window':view.renderer_name,

@@ -20,6 +20,8 @@ def main():
     p.add_argument('--out', default='data/cns-geometry-v1')
     p.add_argument('--selection-trace', default='runs/carla-cockpit-v1/neural-trace.npz')
     p.add_argument('--selection-strength', help='Precomputed maximum absolute states plus original trace SHA; avoids transferring the full trace')
+    p.add_argument('--selection-indices', help='Restore the exact previously exported neuron selection')
+    p.add_argument('--selection-trace-sha', help='Original selection trace SHA for restored selections')
     args = p.parse_args()
     out = Path(args.out)
     cache = out/'raw'
@@ -40,7 +42,11 @@ def main():
     nodes = feather.read_table('data/graph-traced-v1/nodes.feather')
     body_ids = np.asarray(nodes['bodyId'])
     classes = np.asarray(nodes['superclass'].fill_null('').to_pylist())
-    if args.selection_strength:
+    if args.selection_indices:
+        assert args.selection_trace_sha and len(args.selection_trace_sha) == 64
+        strength = np.zeros(len(body_ids))
+        selection_sha = args.selection_trace_sha
+    elif args.selection_strength:
         selection = np.load(args.selection_strength)
         strength = selection['max_abs_state']
         selection_sha = str(selection['trace_sha256'])
@@ -61,6 +67,10 @@ def main():
         chosen = np.r_[top,rng.choice(remainder,count-len(top),replace=False)]
         selected.extend(chosen.tolist())
     selected = np.asarray(sorted(set(selected)),dtype=np.int64)
+    if args.selection_indices:
+        selected = np.load(args.selection_indices)
+        assert selected.ndim == 1 and len(selected) == 512
+        assert np.all(np.diff(selected) > 0) and selected.min() >= 0 and selected.max() < len(body_ids)
     skel_root = BASE+'/v1.0/segmentation/skeletons-malecns/skeletons-precomputed/'
     info = json.loads(fetch(skel_root+'info'))
 

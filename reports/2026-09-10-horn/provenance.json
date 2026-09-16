@@ -1,0 +1,10 @@
+{
+  "checkpoint_sha256": "4545700c58f5230a2f9719d14b66a706f1a2794a3287be72a84a5be67cf31bf2",
+  "graph_sha256": "eff4093bf53c4dd17d7ee4f2f838f6ae5ede70570f9a91317dd8824cca5c771d",
+  "final_evaluation_archive_sha256": "a09d9a5630418aa1ceac5e0e71fa9053c4c8fb7cbb0423d16405f3092a6832d2",
+  "raw_scope": "Both invalid first captures and corrected final captures; all three final episodes, checkpoint and first benchmark retained. Large archives remain outside Git.",
+  "held_out_scope": "180 structured-state cases, three conditions, 10 seconds each, 60 Hz measurements; not 540 CARLA scenes.",
+  "raw_capture_archive_sha256": "51bd758217c718610d66428c4c181be3ca3399c0ef9798692bac6f2cff8b5425",
+  "raw_capture_archive_bytes": 2496256000,
+  "raw_capture_archive_verified_locally": true
+}

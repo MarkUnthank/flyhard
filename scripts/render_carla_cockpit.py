@@ -14,6 +14,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from flyhard.cockpit import WheelRig
+from flyhard.steering_hud import draw_steering_readout
 
 
 WIDTH, HEIGHT = 1920,1080
@@ -38,6 +39,7 @@ def main():
         body = {name:archive[name] for name in archive.files}
     with np.load(root/'neural-trace.npz') as archive:
         neural_time = archive['time']
+        requested_angles = archive['requested_angle']
     # VTK and MuJoCo manage EGL display lifetime differently. Give each its
     # own process, while keeping both layers indexed to the same saved frames.
     command=[sys.executable,'scripts/render_cns.py','--run',str(root),'--geometry',args.geometry]
@@ -103,6 +105,8 @@ def main():
         draw.text((CAR_X+CAR_W,24),f'{record["speed_m_s"]*3.6:.0f} km/h',anchor='ra',font=font[28],fill='white')
         draw.text((RIGHT_X,24),'Neural activity',font=font[24],fill='#eeeeee')
         draw.text((RIGHT_X,544),'Fly',font=font[24],fill='#eeeeee')
+        draw_steering_readout(canvas,requested_angle=requested_angles[ni],
+            wheel_angle=record['wheel_angle'],applied_steer=record['applied_steer'])
         if writer is not None:
             writer.append_data(np.asarray(canvas))
         written += 1
@@ -125,6 +129,8 @@ def main():
         'geometry_sha256':hashlib.sha256(Path(args.geometry).read_bytes()).hexdigest(),
         'renderer_script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'cns_renderer_sha256':hashlib.sha256(Path('src/flyhard/cns_view.py').read_bytes()).hexdigest(),
+        'steering_hud_sha256':hashlib.sha256(Path('src/flyhard/steering_hud.py').read_bytes()).hexdigest(),
+        'steering_readout':'Left/right request and target from the recorded neural decision; measured wheel angle and applied CARLA steer from the same camera-frame record.',
         'render_wall_seconds':time.perf_counter()-start}
     if not args.preview_only:
         assert written == len(frames)

@@ -1,0 +1,86 @@
+{
+  "date": "2026-09-10",
+  "lamp_check": {
+    "status": "passed",
+    "scope": "Native parked Mini lamp actuation, blink cycle, cancellation, synchronized cameras. No learned policy.",
+    "video_sha256": "0f3e2bb51c86800e89c449368624547c702a13e730583965fe05a8f706a0d935",
+    "frames": 240,
+    "fps": 20,
+    "checks": {
+      "off": {
+        "left_on_frames": 0,
+        "right_on_frames": 0,
+        "left_transitions": 0,
+        "right_transitions": 0
+      },
+      "left": {
+        "left_on_frames": 27,
+        "right_on_frames": 0,
+        "left_transitions": 6,
+        "right_transitions": 0
+      },
+      "right": {
+        "left_on_frames": 0,
+        "right_on_frames": 26,
+        "left_transitions": 0,
+        "right_transitions": 6
+      },
+      "cancelled": {
+        "left_on_frames": 0,
+        "right_on_frames": 0,
+        "left_transitions": 0,
+        "right_transitions": 0
+      }
+    },
+    "analysis": "Rear bumper lamp ROIs selected after visual inspection; mean RGB > 56 in the fixed preflight camera. Left/right previews also visually show the corresponding front lamps.",
+    "rear_rois_xyxy": {
+      "left": [
+        208,
+        494,
+        241,
+        514
+      ],
+      "right": [
+        400,
+        494,
+        432,
+        514
+      ]
+    }
+  },
+  "stalk_check": {
+    "stage": "I00",
+    "claim": "Diagnostic joint commands; no trained indicator policy.",
+    "coupling": "Engineered point-grip constraint; removal is tested.",
+    "mechanism": "Counterbalanced spring-centred passive hinge; three measured zones; no latch.",
+    "integrated_steering_wheel": false,
+    "stalk_has_actuator": false,
+    "cycles": 20,
+    "target_radians": 0.35,
+    "hold_error_limit_rad": 0.08,
+    "disabled_motion_limit_rad": 0.02,
+    "ik_max_error_mm": 1.878835483424814e-06,
+    "source_sha256": {
+      "/workspace/flyhard/scripts/indicator_experiment.py": "383d39c031bc19b1a14ad1ea5caf14fd601a97aedc02c9c0da0e83fc259ad4b8",
+      "src/flyhard/indicator_rig.py": "31fb48027172a9c4873cd58f6cfb2cb2ea64faa12acb7365177ee9994203ece4"
+    },
+    "enabled_passed": 80,
+    "disabled_passed": 80,
+    "transitions_per_condition": 80,
+    "gpu_renderer": "NVIDIA A40/PCIe/SSE2",
+    "status": "passed",
+    "wall_seconds": 102.69581712037325
+  },
+  "max_stalk_hold_error_deg": 1.3512772569599996,
+  "disabled_max_motion_rad": 0.0,
+  "limits": [
+    "No learned indicator policy has been trained.",
+    "Stalk is isolated from the steering wheel.",
+    "Lamp and stalk tests are separate runs, not a combined learned-control episode.",
+    "Sponsor surfaces are not integrated into the native CARLA vehicle.",
+    "CARLA crashed once during scouting camera changes; container restarted. The isolated stalk run completed after retry."
+  ],
+  "startup_seconds": 345.45275807380676,
+  "export_files": 25,
+  "export_bytes": 15783406
+}

@@ -1,0 +1,28 @@
+diff --git a/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp b/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp
+index d3da868..9b5ccc5 100644
+--- a/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp
++++ b/Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Actor/StaticMeshFactory.cpp
+@@ -29,6 +29,11 @@ TArray<FActorDefinition> AStaticMeshFactory::GetDefinitions()
+       TEXT("scale"),
+       EActorAttributeType::Float,
+       {"1.0f"}, false});
++  // A rigid visual accessory needs movable geometry without simulated mass.
++  StaticMeshDefinition.Variations.Emplace(FActorVariation{
++      TEXT("movable"),
++      EActorAttributeType::Bool,
++      {"false"}, false});
+   return { StaticMeshDefinition };
+ }
+ 
+@@ -69,7 +74,10 @@ FActorSpawnResult AStaticMeshFactory::SpawnActor(
+       StaticMeshComponent->SetMobility(EComponentMobility::Movable);
+       if (!StaticMeshComponent->SetStaticMesh(Mesh))
+         UE_LOG(LogCarla, Warning, TEXT("Failed to set the mesh"));
+-      StaticMeshComponent->SetMobility(EComponentMobility::Static);
++      const bool bMovable = ABFL::RetrieveActorAttributeToBool(
++          "movable", ActorDescription.Variations, false);
++      StaticMeshComponent->SetMobility(bMovable
++          ? EComponentMobility::Movable : EComponentMobility::Static);
+ 
+       if (ActorDescription.Variations.Contains("mass"))
+       {

@@ -1,0 +1,53 @@
+{
+  "output": "work/three-point-local-edit/single-export/Flyhard-good-attempt-Boccherini.mp4",
+  "sha256": "6c831de1e73741ab089b1e057407c3b73cdba0e4a9c2de0c781ad46cb337a6d5",
+  "duration_seconds": 22.8,
+  "attempt_seconds": 20.3,
+  "final_still_seconds": 2.5,
+  "fps": 60,
+  "edit_environment": {
+    "os": "Darwin",
+    "architecture": "arm64",
+    "ffmpeg": "/opt/homebrew/bin/ffmpeg"
+  },
+  "source": "work/three-point-local-edit/parts/success/three-point.mp4",
+  "source_sha256": "939184ea1b6a94ac97d540dfd9911abb88d8c523285087b0e0354c13853dfb93",
+  "actual_result": {
+    "seed": 61000,
+    "split": "validation",
+    "success": true,
+    "time_seconds": 20.3,
+    "direction_changes": 2,
+    "directions": [
+      1,
+      -1,
+      1
+    ],
+    "native_collision_events": [],
+    "position_error_m": 0.2539899596934283,
+    "yaw_error_deg": 0.7554473280906427,
+    "boundary_clearance_m": 1.6480966960093877,
+    "collision": false,
+    "pose_passed": true
+  },
+  "recorded_states_included": 406,
+  "source_first_state": 0,
+  "source_last_state": 405,
+  "artwork": {
+    "revision": 35,
+    "layout": 5
+  },
+  "music": {
+    "file": "assets/music/boccherini-g275/minuet-trio.ogg",
+    "sha256": "cc1008f7d53b9c641362f6dd4375ff3d05e9c445e2d8cde615735323c0f34ff7",
+    "title": "Boccherini: Minuet and Trio, String Quintet in E major, Op. 11 No. 5, G. 275",
+    "credit_title": "Boccherini \u00b7 Minuet and Trio, G. 275",
+    "credit_recording": "Rafael Krux \u00b7 CC0 recording",
+    "source": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "start_seconds": 0.5
+  },
+  "editor_sha256": "4d87409878f6efe4fd11d805e399060a0e8736d04a92c026859a95cab74ce806",
+  "plan_sha256": "0bff0eb95fac0eb35413bb033ecb1ce65fe2951ec8cd9716ece0ddd0cbffdd1a",
+  "claim": "One complete successful recorded attempt at normal speed. No montage, teaser, time cuts, extra steering corrections or new driving run. The full original source plays once; a final still remains after the attempt is over."
+}

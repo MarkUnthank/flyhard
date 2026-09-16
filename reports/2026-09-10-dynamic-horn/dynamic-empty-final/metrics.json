@@ -1,0 +1,27 @@
+{
+  "status": "capture_complete",
+  "frames": 600,
+  "native_fps": 60,
+  "wall_seconds": 96.67011416703463,
+  "max_clock_error_seconds": 5.21535078235047e-07,
+  "actual_green_seconds": 4.866666920483112,
+  "score": {
+    "kind": "empty",
+    "beep_count": 1,
+    "beep_onsets_seconds": [
+      5.033333595842123
+    ],
+    "pressed_seconds": 0.08333333333333333,
+    "distance_m": 40.37875861735856,
+    "peak_speed_m_s": 6.038787841796875,
+    "longest_hold_seconds": 0.08333333333333333,
+    "red_stop_frames": 50,
+    "green_time": 4.866666920483112,
+    "moving_after_green": true,
+    "collision_free_claim": false,
+    "passed": false
+  },
+  "collisions": [],
+  "recorder_sha256": "cecba5c218d909a854c21b843cb1f328096c27f6c4598c298550e1299d875292",
+  "scenario_light_sequence_valid": true
+}

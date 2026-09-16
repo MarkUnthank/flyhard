@@ -1,0 +1,139 @@
+[
+  {
+    "episode": "no-car",
+    "metrics": {
+      "status": "capture_complete",
+      "frames": 360,
+      "native_fps": 60,
+      "wall_seconds": 43.101128563284874,
+      "max_clock_error_seconds": 3.129450254490962e-07,
+      "actual_green_seconds": 3.616666855290532,
+      "score": {
+        "seed": 140001,
+        "kind": "no_car",
+        "expected_beep": false,
+        "beep_count": 0,
+        "beep_onsets_seconds": [],
+        "reaction_seconds": null,
+        "false_beep": false,
+        "pressed_seconds": 0.0,
+        "passed": true
+      },
+      "recorder_sha256": "b420b3867084ea55e7d725b8920f10e5183c86132e83cdcc321322c85f0d2fe5",
+      "scenario_light_sequence_valid": true
+    },
+    "configuration": {
+      "kind": "no_car",
+      "seconds": 6.0,
+      "fps": 60,
+      "width": 1248,
+      "height": 960,
+      "vehicle_blueprint": "vehicle.mini.cooper_s_2021",
+      "vehicle_color": "48,84,43",
+      "checkpoint_sha256": "4545700c58f5230a2f9719d14b66a706f1a2794a3287be72a84a5be67cf31bf2",
+      "checkpoint_step": 900,
+      "livery_revision": 21,
+      "livery_layout": 5,
+      "claim": "Learned horn from structured light/car history. Car approach/braking and zero steering request are conventional controls.",
+      "clock": "10 Hz neural decisions command seven fly joints at 300 Hz. Physics and CARLA advance 1/60 s together. Sound follows measured button state at displayed frame times.",
+      "source_sha256": {
+        "/workspace/flyhard/scripts/capture_horn.py": "42dad6082276cd3954ed369dc2f176066769550559a5a2a43c885ba3b3551d62",
+        "src/flyhard/horn.py": "2496acb2929b156b34edb779e04f118ed37341a919181b3d61b56081ba778fe2",
+        "src/flyhard/horn_rig.py": "17168be6d8394b4e1f9e502d2e6848ecfa56055bd863076c0569fa5683e22eaf",
+        "src/flyhard/horn_world.py": "670ed55da4a1092d497536c57f9a9c1eb5e5ddaee7811077dea6ca7bd7bc5297"
+      }
+    }
+  },
+  {
+    "episode": "arrive-green",
+    "metrics": {
+      "status": "capture_complete",
+      "frames": 420,
+      "native_fps": 60,
+      "wall_seconds": 50.91296576708555,
+      "max_clock_error_seconds": 3.651191837761303e-07,
+      "actual_green_seconds": 0.01666666753590107,
+      "score": {
+        "seed": 140001,
+        "kind": "arrive_green",
+        "expected_beep": false,
+        "beep_count": 0,
+        "beep_onsets_seconds": [],
+        "reaction_seconds": null,
+        "false_beep": false,
+        "pressed_seconds": 0.0,
+        "passed": true
+      },
+      "recorder_sha256": "fdc8b41add1aa46feb0f6c21e0f8f7ee949953d38d739cec7052039a1685a779",
+      "scenario_light_sequence_valid": true
+    },
+    "configuration": {
+      "kind": "arrive_green",
+      "seconds": 7.0,
+      "fps": 60,
+      "width": 1248,
+      "height": 960,
+      "vehicle_blueprint": "vehicle.mini.cooper_s_2021",
+      "vehicle_color": "48,84,43",
+      "checkpoint_sha256": "4545700c58f5230a2f9719d14b66a706f1a2794a3287be72a84a5be67cf31bf2",
+      "checkpoint_step": 900,
+      "livery_revision": 21,
+      "livery_layout": 5,
+      "claim": "Learned horn from structured light/car history. Car approach/braking and zero steering request are conventional controls.",
+      "clock": "10 Hz neural decisions command seven fly joints at 300 Hz. Physics and CARLA advance 1/60 s together. Sound follows measured button state at displayed frame times.",
+      "source_sha256": {
+        "/workspace/flyhard/scripts/capture_horn.py": "42dad6082276cd3954ed369dc2f176066769550559a5a2a43c885ba3b3551d62",
+        "src/flyhard/horn.py": "2496acb2929b156b34edb779e04f118ed37341a919181b3d61b56081ba778fe2",
+        "src/flyhard/horn_rig.py": "17168be6d8394b4e1f9e502d2e6848ecfa56055bd863076c0569fa5683e22eaf",
+        "src/flyhard/horn_world.py": "670ed55da4a1092d497536c57f9a9c1eb5e5ddaee7811077dea6ca7bd7bc5297"
+      }
+    }
+  },
+  {
+    "episode": "wait-green",
+    "metrics": {
+      "status": "capture_complete",
+      "frames": 600,
+      "native_fps": 60,
+      "wall_seconds": 74.24399846792221,
+      "max_clock_error_seconds": 5.21535078235047e-07,
+      "actual_green_seconds": 3.616666855290532,
+      "score": {
+        "seed": 140001,
+        "kind": "wait_then_green",
+        "expected_beep": true,
+        "beep_count": 1,
+        "beep_onsets_seconds": [
+          3.7666668631136417
+        ],
+        "reaction_seconds": 0.15000000782310963,
+        "false_beep": false,
+        "pressed_seconds": 0.6500000339001417,
+        "passed": true
+      },
+      "recorder_sha256": "dbf12d0f9fdebf3b05900ac21bb42612cb2ba7465def9bb08959747e4dd5730b",
+      "scenario_light_sequence_valid": true
+    },
+    "configuration": {
+      "kind": "wait_then_green",
+      "seconds": 10.0,
+      "fps": 60,
+      "width": 1248,
+      "height": 960,
+      "vehicle_blueprint": "vehicle.mini.cooper_s_2021",
+      "vehicle_color": "48,84,43",
+      "checkpoint_sha256": "4545700c58f5230a2f9719d14b66a706f1a2794a3287be72a84a5be67cf31bf2",
+      "checkpoint_step": 900,
+      "livery_revision": 21,
+      "livery_layout": 5,
+      "claim": "Learned horn from structured light/car history. Car approach/braking and zero steering request are conventional controls.",
+      "clock": "10 Hz neural decisions command seven fly joints at 300 Hz. Physics and CARLA advance 1/60 s together. Sound follows measured button state at displayed frame times.",
+      "source_sha256": {
+        "/workspace/flyhard/scripts/capture_horn.py": "42dad6082276cd3954ed369dc2f176066769550559a5a2a43c885ba3b3551d62",
+        "src/flyhard/horn.py": "2496acb2929b156b34edb779e04f118ed37341a919181b3d61b56081ba778fe2",
+        "src/flyhard/horn_rig.py": "17168be6d8394b4e1f9e502d2e6848ecfa56055bd863076c0569fa5683e22eaf",
+        "src/flyhard/horn_world.py": "670ed55da4a1092d497536c57f9a9c1eb5e5ddaee7811077dea6ca7bd7bc5297"
+      }
+    }
+  }
+]

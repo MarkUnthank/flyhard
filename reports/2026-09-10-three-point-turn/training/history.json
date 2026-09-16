@@ -1,0 +1,32 @@
+[
+  {
+    "step": 1,
+    "training_loss": 3.3135898113250732,
+    "validation_loss": 3.5214585860570273,
+    "seconds": 0.8575746566057205
+  },
+  {
+    "step": 100,
+    "training_loss": 0.7117976546287537,
+    "validation_loss": 0.50471098224322,
+    "seconds": 34.45951850712299
+  },
+  {
+    "step": 200,
+    "training_loss": 0.2816619277000427,
+    "validation_loss": 0.42088357359170914,
+    "seconds": 68.29852396249771
+  },
+  {
+    "step": 300,
+    "training_loss": 0.19797877967357635,
+    "validation_loss": 0.3696659716467063,
+    "seconds": 102.1859759092331
+  },
+  {
+    "step": 400,
+    "training_loss": 0.41334256529808044,
+    "validation_loss": 0.3577296858032544,
+    "seconds": 136.1172649934888
+  }
+]

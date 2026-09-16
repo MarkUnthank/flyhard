@@ -1,5 +1,6 @@
 """GPU rendering of measured MaleCNS anatomy with recorded model states."""
 import hashlib
+import os
 from pathlib import Path
 import numpy as np
 import pyvista as pv
@@ -22,6 +23,8 @@ class CNSView:
                       'floor':1e-5,'minimum':float(peaks.min()),'maximum':float(peaks.max()),
                       'comparable_between_neurons':False}
         self.plotter = pv.Plotter(off_screen=True, window_size=(width,height), lighting='three lights')
+        if 'FLYHARD_EGL_DEVICE_INDEX' in os.environ:
+            self.plotter.render_window.SetDeviceIndex(int(os.environ['FLYHARD_EGL_DEVICE_INDEX']))
         self.plotter.set_background('#000000')
         self.plotter.enable_anti_aliasing('ssaa')
         geometry = Path(geometry_path)

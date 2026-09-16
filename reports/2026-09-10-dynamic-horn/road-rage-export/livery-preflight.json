@@ -1,0 +1,20 @@
+{
+  "source": "https://thedrivingfly.com",
+  "checked_epoch": 1789076124.6710484,
+  "revision": 21,
+  "layout": 5,
+  "sponsor_count": 7,
+  "snapshot_exported_at": "2026-09-10T21:35:08.486Z",
+  "verified_files": {
+    "manifest.json": "7178cb5d0236c52ced56a646cfb6af8610f75a841eeefdf0ad036537c690fb79",
+    "textures/ad-54.png": "3b767414aaab98f664745cab9c5101024f6b298813105c1e5cf60adc959ee371",
+    "textures/ad-01.png": "81fc60c8718498c2ede26060dde6e2eab091304099216951b87145da05bb7400",
+    "textures/ad-53.png": "dcaa8aafe0bd6352e1f857b9b144c6938319446b9177d947c70982af6cecef03",
+    "textures/ad-59.png": "a9b5f519bfc57c2e2bdc7cd5813389f70a5c3915963a77813bd51a69f24bd64b",
+    "textures/ad-57.png": "10bd0371bcb1a08e2bfa98e98f5870bdf2cf64847cb9374a21860176bd2b56dd",
+    "textures/ad-56.png": "533938a7372c609362b74e58fce508c1cf3e7baf50436e9a275433a2619768b7",
+    "textures/ad-10.png": "02e825c58aa9097f484c01d16617362338728fa8dbb489f07dcd88d19f691b19",
+    "render-panels.npz": "2d9c775a83eb05238a3e4a25fe93a24913a49e879fab4572cefba5c5b963d9e3"
+  },
+  "status": "current"
+}

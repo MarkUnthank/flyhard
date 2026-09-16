@@ -1,0 +1,50 @@
+[
+  {
+    "name": "boost_1_84_0.tar.gz",
+    "url": "https://archives.boost.io/release/1.84.0/source/boost_1_84_0.tar.gz",
+    "sha256": "a5800f405508f5df8114558ca9855d2640a2de8f0445f051fa1c7c3383045724",
+    "bytes": 145151722
+  },
+  {
+    "name": "libpng-1.6.37.tar.xz",
+    "url": "https://downloads.sourceforge.net/project/libpng/libpng16/older-releases/1.6.37/libpng-1.6.37.tar.xz",
+    "sha256": "505e70834d35383537b6491e7ae8641f1a4bed1876dbfe361201fc80868d88ca",
+    "bytes": 1012272
+  },
+  {
+    "name": "xerces-c-3.2.3.tar.gz",
+    "url": "https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.2.3.tar.gz",
+    "sha256": "fb96fc49b1fb892d1e64e53a6ada8accf6f0e6d30ce0937956ec68d39bd72c7e",
+    "bytes": 7120270
+  },
+  {
+    "name": "eigen-3.3.7.tar.gz",
+    "url": "https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz",
+    "sha256": "d56fbad95abf993f8af608484729e3d87ef611dd85b3380a8bad1d5cbc373a57",
+    "bytes": 2133662
+  },
+  {
+    "name": "sqlite-autoconf-3340100.tar.gz",
+    "url": "https://www.sqlite.org/2021/sqlite-autoconf-3340100.tar.gz",
+    "sha256": "2a3bca581117b3b88e5361d0ef3803ba6d8da604b1c1a47d902ef785c1b53e89",
+    "bytes": 2930089
+  },
+  {
+    "name": "proj-7.2.1.tar.gz",
+    "url": "https://download.osgeo.org/proj/proj-7.2.1.tar.gz",
+    "sha256": "b384f42e5fb9c6d01fe5fa4d31da2e91329668863a684f97be5d4760dbbf0a14",
+    "bytes": 5714666
+  },
+  {
+    "name": "0.12.tar.gz",
+    "url": "https://github.com/NixOS/patchelf/archive/0.12.tar.gz",
+    "sha256": "3dca33fb862213b3541350e1da262249959595903f559eae0fbc68966e9c3f56",
+    "bytes": 103075
+  },
+  {
+    "name": "1da3c07e39f3e2e0d97f8f709a7255a0df8c6200.zip",
+    "url": "https://github.com/carla-simulator/sumo/archive/1da3c07e39f3e2e0d97f8f709a7255a0df8c6200.zip",
+    "sha256": "7347d0158dd6cecf2f3e443b69b1479b396df70b971b3cde5770539f7c9e9f53",
+    "bytes": 206531679
+  }
+]

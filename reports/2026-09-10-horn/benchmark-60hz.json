@@ -1,0 +1,167 @@
+{
+  "results": {
+    "learned": {
+      "by_kind": {
+        "arrive_green": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "car_in_other_lane": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "car_leaves_on_red": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "no_car": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "stays_red": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "wait_then_green": {
+          "trials": 30,
+          "passed": 28,
+          "false_beeps": 0,
+          "quiet": 0,
+          "mean_reaction_seconds": 0.11855713298772512,
+          "max_reaction_seconds": 0.16118334968086234
+        }
+      },
+      "gate_passed": true,
+      "all_quiet": false
+    },
+    "reset_core": {
+      "by_kind": {
+        "arrive_green": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "car_in_other_lane": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "car_leaves_on_red": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "no_car": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "stays_red": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "wait_then_green": {
+          "trials": 30,
+          "passed": 0,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        }
+      },
+      "gate_passed": false,
+      "all_quiet": true
+    },
+    "disconnected": {
+      "by_kind": {
+        "arrive_green": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "car_in_other_lane": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "car_leaves_on_red": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "no_car": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "stays_red": {
+          "trials": 30,
+          "passed": 30,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        },
+        "wait_then_green": {
+          "trials": 30,
+          "passed": 0,
+          "false_beeps": 0,
+          "quiet": 30,
+          "mean_reaction_seconds": null,
+          "max_reaction_seconds": null
+        }
+      },
+      "gate_passed": false,
+      "all_quiet": true
+    }
+  },
+  "wall_seconds": 1325.1518056467175
+}

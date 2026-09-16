@@ -1,0 +1,189 @@
+{
+  "output": "runs/three-point-boccherini-45s-final/Flyhard-three-point-turn-Boccherini-45s.mp4",
+  "sha256": "df8a49f9350643e1f2960ec90ced345c341f9b6476d40845728eac028c5d7515",
+  "duration_seconds": 45.0,
+  "fps": 60,
+  "encoder": "libx264",
+  "learning_seconds": 22.0,
+  "black_seconds": 0.9,
+  "successful_reveal_start": 22.9,
+  "success_playback": "Complete successful take at real-time speed, then a final still hold.",
+  "success_result": {
+    "seed": 61000,
+    "split": "validation",
+    "success": true,
+    "time_seconds": 20.3,
+    "direction_changes": 2,
+    "directions": [
+      1,
+      -1,
+      1
+    ],
+    "native_collision_events": [],
+    "position_error_m": 0.2539899596934283,
+    "yaw_error_deg": 0.7554473280906427,
+    "boundary_clearance_m": 1.6480966960093877,
+    "collision": false,
+    "pose_passed": true
+  },
+  "timeline": [
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 0,
+      "end": 2.3,
+      "duration": 3.5,
+      "zoom": 1,
+      "edit_start": 0.0,
+      "edit_end": 3.5,
+      "simulation_playback_rate": 1.3142857142857143,
+      "source_sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a"
+    },
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 2.3,
+      "end": 4.4,
+      "duration": 3,
+      "zoom": 1.18,
+      "edit_start": 3.5,
+      "edit_end": 6.5,
+      "simulation_playback_rate": 1.4000000000000004,
+      "source_sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a"
+    },
+    {
+      "source": "early",
+      "stage": "Early training",
+      "start": 4.4,
+      "end": 8.3,
+      "duration": 4.5,
+      "zoom": 1,
+      "edit_start": 6.5,
+      "edit_end": 11.0,
+      "simulation_playback_rate": 1.7333333333333334,
+      "source_sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a"
+    },
+    {
+      "source": "middle",
+      "stage": "More training",
+      "start": 0,
+      "end": 2.7,
+      "duration": 4,
+      "zoom": 1.18,
+      "edit_start": 11.0,
+      "edit_end": 15.0,
+      "simulation_playback_rate": 1.0125000000000002,
+      "source_sha256": "c61b83a7da18e54fd3bf03fc7df9ed1ee7d9a416c46cf1684811074d2b714d2e"
+    },
+    {
+      "source": "middle",
+      "stage": "More training",
+      "start": 2.7,
+      "end": 4.8,
+      "duration": 3.6,
+      "zoom": 1.18,
+      "edit_start": 15.0,
+      "edit_end": 18.6,
+      "simulation_playback_rate": 0.8749999999999999,
+      "source_sha256": "c61b83a7da18e54fd3bf03fc7df9ed1ee7d9a416c46cf1684811074d2b714d2e"
+    },
+    {
+      "source": "success",
+      "stage": "Final checkpoint",
+      "start": 16.0,
+      "end": 19.0,
+      "duration": 3.4,
+      "zoom": 1.22,
+      "edit_start": 18.6,
+      "edit_end": 22.0,
+      "simulation_playback_rate": 0.8823529411764706,
+      "source_sha256": "939184ea1b6a94ac97d540dfd9911abb88d8c523285087b0e0354c13853dfb93"
+    }
+  ],
+  "sources": {
+    "early": {
+      "file": "runs/three-point-render-early/three-point.mp4",
+      "sha256": "1a9ee970936f3b0d5231638b28bd82b3f097a992e5b3f41d7ffb430736ea593a",
+      "actual_result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": false,
+        "time_seconds": 16.55,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 4.610693762130304,
+        "yaw_error_deg": 71.1822280883789,
+        "boundary_clearance_m": -0.012024682524716113,
+        "collision": true,
+        "pose_passed": false
+      }
+    },
+    "middle": {
+      "file": "runs/three-point-render-middle/three-point.mp4",
+      "sha256": "c61b83a7da18e54fd3bf03fc7df9ed1ee7d9a416c46cf1684811074d2b714d2e",
+      "actual_result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": true,
+        "time_seconds": 19.5,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 0.38165243545432176,
+        "yaw_error_deg": 3.364456892013538,
+        "boundary_clearance_m": 1.3696892280477377,
+        "collision": false,
+        "pose_passed": true
+      }
+    },
+    "success": {
+      "file": "runs/three-point-render-success/three-point.mp4",
+      "sha256": "939184ea1b6a94ac97d540dfd9911abb88d8c523285087b0e0354c13853dfb93",
+      "actual_result": {
+        "seed": 61000,
+        "split": "validation",
+        "success": true,
+        "time_seconds": 20.3,
+        "direction_changes": 2,
+        "directions": [
+          1,
+          -1,
+          1
+        ],
+        "native_collision_events": [],
+        "position_error_m": 0.2539899596934283,
+        "yaw_error_deg": 0.7554473280906427,
+        "boundary_clearance_m": 1.6480966960093877,
+        "collision": false,
+        "pose_passed": true
+      }
+    }
+  },
+  "artwork": {
+    "revision": 35,
+    "layout": 5
+  },
+  "music": {
+    "file": "assets/music/boccherini-g275/minuet-trio.ogg",
+    "sha256": "cc1008f7d53b9c641362f6dd4375ff3d05e9c445e2d8cde615735323c0f34ff7",
+    "title": "Boccherini: Minuet and Trio, String Quintet in E major, Op. 11 No. 5, G. 275",
+    "credit_title": "Boccherini \u00b7 Minuet and Trio, G. 275",
+    "credit_recording": "Rafael Krux \u00b7 CC0 recording",
+    "source": "https://commons.wikimedia.org/wiki/File:Boccerini_Op11_n%C2%B05_G275_Satz3_Minuett.ogg",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "start_seconds": 0.5,
+    "reveal_start_seconds": 0.5
+  },
+  "plan_sha256": "22037e243ad2f2207087a467f6c9f4b0db263b7512af9f91187e1db90fce3a92",
+  "editor_sha256": "b647e196b59905b9f2d1b83110dd5e90b23a6371901a80e1c1d9168111b8b2eb",
+  "claim": "Earlier and intermediate checkpoint footage cut chronologically within each trial. Six edit beats are not six training attempts. The intermediate checkpoint also passed its complete trial; its finish is withheld here. The final pre-blackout beat teases the selected successful take before its stop; that same take is then shown in full after the blackout. No invented mistakes, extra training or changed controller actions. Only edit timing and modest road-view crops change."
+}
