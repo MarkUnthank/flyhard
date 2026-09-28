@@ -21,14 +21,12 @@ export default function SiteHeader({
         <a href={`${home}#live-auction`}>Live auction</a>
         <a href={`${home}#custom-wrap`}>Custom wrap</a>
         <a href={`${home}#leaderboard`}>Supporters</a>
-        <a href={`${home}#how-it-works`}>How it works</a>
         <a
           href="/media"
           aria-current={currentPage === "media" ? "page" : undefined}
         >
           Videos &amp; data
         </a>
-        <a href={`${home}#the-experiment`}>The experiment</a>
         <a
           href="/press"
           aria-current={currentPage === "press" ? "page" : undefined}
